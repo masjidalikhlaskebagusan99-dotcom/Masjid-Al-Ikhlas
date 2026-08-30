@@ -1481,7 +1481,60 @@ btn.disabled = false;
 btn.innerText = '✅ KIRIM KONFIRMASI';
 });
 }
-
+// ===== NAVIGASI SCROLL KE SECTION =====
+(function() {
+  var navHeight = 80; // Tinggi navbar
+  
+  // Fungsi scroll ke section
+  function scrollToSection(targetId) {
+    var target = document.getElementById(targetId);
+    if (!target) return;
+    
+    var targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+    var offsetPosition = targetPosition - navHeight;
+    
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'auto' // Langsung, tanpa animasi
+    });
+  }
+  
+  // Intercept semua klik link anchor
+  document.addEventListener('click', function(e) {
+    var link = e.target.closest('a[href^="#"]');
+    if (!link) return;
+    
+    var targetId = link.getAttribute('href').substring(1);
+    if (!targetId) return;
+    
+    // Cek apakah target adalah section
+    var targetSection = document.getElementById(targetId);
+    if (targetSection && targetSection.tagName === 'SECTION') {
+      e.preventDefault();
+      scrollToSection(targetId);
+      
+      // Update URL tanpa reload
+      history.pushState(null, null, '#' + targetId);
+    }
+  });
+  
+  // Handle tombol "Lihat Kegiatan Kami" di hero
+  var btnHero = document.querySelector('.btn-hero[href="#profil"]');
+  if (btnHero) {
+    btnHero.addEventListener('click', function(e) {
+      e.preventDefault();
+      scrollToSection('profil');
+    });
+  }
+  
+  // Handle scroll saat halaman dimuat dengan hash
+  if (window.location.hash) {
+    var hash = window.location.hash.substring(1);
+    setTimeout(function() {
+      scrollToSection(hash);
+    }, 100);
+  }
+})();
 // ===== ANTI-ZOOM RUNTIME =====
 (function() {
     var inputs = document.querySelectorAll('input, textarea, select, button');
