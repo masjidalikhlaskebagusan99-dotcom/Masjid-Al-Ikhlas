@@ -888,37 +888,44 @@ input:focus, select:focus, textarea:focus {
 </div>
 </section>
 
-<!-- ===== MODAL DONASI ===== -->
+<!-- ===== MODAL DONASI (ANTI-ZOOM) ===== -->
 <div id="modalDonasi" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:2000;overflow-y:auto;padding:20px;">
-<div style="max-width:500px;margin:40px auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
-<div style="background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;padding:20px;display:flex;justify-content:space-between;align-items:center;">
-<h3 style="margin:0;font-size:1.2rem;">💝 Konfirmasi Donasi</h3>
-<button onclick="tutupModalDonasi()" style="background:transparent;border:none;color:#fff;font-size:1.5rem;cursor:pointer;">✕</button>
-</div>
-<form id="formDonasi" onsubmit="kirimDonasi(event)" style="padding:25px;">
-<div id="alertDonasi" style="display:none;padding:12px;border-radius:6px;margin-bottom:15px;font-weight:bold;"></div>
-<label style="display:block;margin-bottom:5px;font-weight:bold;font-size:0.9rem;">Metode Pembayaran</label>
-<input type="text" id="donasi_metode" readonly style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;background:#f4f4f4;margin-bottom:15px;font-weight:bold;color:var(--primary);">
-<label style="display:block;margin-bottom:5px;font-weight:bold;font-size:0.9rem;">Nama Donatur <span style="color:#999;font-weight:normal;">(boleh "Hamba Allah")</span></label>
-<input type="text" id="donasi_nama" required placeholder="Nama lengkap / Hamba Allah" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-bottom:15px;font-size:16px !important;">
-<label style="display:block;margin-bottom:5px;font-weight:bold;font-size:0.9rem;">Nominal (Rp) *</label>
-<input type="text" id="donasi_nominal" required inputmode="numeric" pattern="[0-9]*" placeholder="Contoh: 100000" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-bottom:15px;font-size:16px !important;font-weight:bold;">
-<label style="display:block;margin-bottom:5px;font-weight:bold;font-size:0.9rem;">Kategori Donasi</label>
-<select id="donasi_kategori" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-bottom:15px;font-size:16px !important;">
-<option value="Infaq Jumat">Infaq Jumat</option>
-<option value="Donasi Umum" selected>Donasi Umum</option>
-<option value="Zakat Maal">Zakat Maal</option>
-<option value="Shodaqoh">Shodaqoh</option>
-<option value="Wakaf Uang">Wakaf Uang</option>
-<option value="Santunan Yatim">Santunan Yatim</option>
-<option value="Pembangunan">Pembangunan Masjid</option>
-</select>
-<label style="display:block;margin-bottom:5px;font-weight:bold;font-size:0.9rem;">Keterangan <span style="color:#999;font-weight:normal;">(opsional)</span></label>
-<textarea id="donasi_keterangan" rows="2" placeholder="Contoh: Donasi untuk pembangunan mihrab" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-bottom:15px;resize:vertical;font-size:16px !important;"></textarea>
-<button type="submit" id="btnDonasi" style="width:100%;background:var(--primary);color:#fff;padding:14px;border:none;border-radius:6px;font-weight:bold;font-size:16px !important;cursor:pointer;">✅ KIRIM KONFIRMASI</button>
-<p style="font-size:0.78rem;color:var(--muted);text-align:center;margin-top:12px;">🔒 Data Anda aman & tercatat di Buku Kas Digital masjid</p>
-</form>
-</div>
+  <div style="max-width:500px;margin:40px auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+    <div style="background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;padding:20px;display:flex;justify-content:space-between;align-items:center;">
+      <h3 style="margin:0;font-size:1.2rem;">💝 Konfirmasi Donasi</h3>
+      <button onclick="tutupModalDonasi()" style="background:transparent;border:none;color:#fff;font-size:1.5rem;cursor:pointer;">✕</button>
+    </div>
+    <form id="formDonasi" onsubmit="kirimDonasi(event)" style="padding:25px;">
+      <div id="alertDonasi" style="display:none;padding:12px;border-radius:6px;margin-bottom:15px;font-weight:bold;"></div>
+      
+      <label style="display:block;margin-bottom:5px;font-weight:bold;font-size:0.9rem;">Metode Pembayaran</label>
+      <input type="text" id="donasi_metode" readonly style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;background:#f4f4f4;margin-bottom:15px;font-weight:bold;color:var(--primary);font-size:16px !important;">
+      
+      <label style="display:block;margin-bottom:5px;font-weight:bold;font-size:0.9rem;">Nama Donatur <span style="color:#999;font-weight:normal;">(boleh "Hamba Allah")</span></label>
+      <input type="text" id="donasi_nama" required placeholder="Nama lengkap / Hamba Allah" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-bottom:15px;font-size:16px !important;">
+      
+      <label style="display:block;margin-bottom:5px;font-weight:bold;font-size:0.9rem;">Nominal (Rp) *</label>
+      <!-- PERUBAHAN PENTING: type="text" dan inputmode="numeric" -->
+      <input type="text" id="donasi_nominal" required inputmode="numeric" pattern="[0-9]*" placeholder="Contoh: 100000" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-bottom:15px;font-size:16px !important;font-weight:bold;">
+      
+      <label style="display:block;margin-bottom:5px;font-weight:bold;font-size:0.9rem;">Kategori Donasi</label>
+      <select id="donasi_kategori" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-bottom:15px;font-size:16px !important;">
+        <option value="Infaq Jumat">Infaq Jumat</option>
+        <option value="Donasi Umum" selected>Donasi Umum</option>
+        <option value="Zakat Maal">Zakat Maal</option>
+        <option value="Shodaqoh">Shodaqoh</option>
+        <option value="Wakaf Uang">Wakaf Uang</option>
+        <option value="Santunan Yatim">Santunan Yatim</option>
+        <option value="Pembangunan">Pembangunan Masjid</option>
+      </select>
+      
+      <label style="display:block;margin-bottom:5px;font-weight:bold;font-size:0.9rem;">Keterangan <span style="color:#999;font-weight:normal;">(opsional)</span></label>
+      <textarea id="donasi_keterangan" rows="2" placeholder="Contoh: Donasi untuk pembangunan mihrab" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-bottom:15px;resize:vertical;font-size:16px !important;"></textarea>
+      
+      <button type="submit" id="btnDonasi" style="width:100%;background:var(--primary);color:#fff;padding:14px;border:none;border-radius:6px;font-weight:bold;font-size:16px !important;cursor:pointer;">✅ KIRIM KONFIRMASI</button>
+      <p style="font-size:0.78rem;color:var(--muted);text-align:center;margin-top:12px;">🔒 Data Anda aman & tercatat di Buku Kas Digital masjid</p>
+    </form>
+  </div>
 </div>
 
 <!-- ===== FLOATING SHARE ===== -->
@@ -1522,6 +1529,55 @@ btn.innerText = '✅ KIRIM KONFIRMASI';
   }
   
   // 4. Cegah pinch zoom di seluruh halaman
+  document.addEventListener('touchstart', function(e) {
+    if (e.touches.length > 1) e.preventDefault();
+  }, { passive: false });
+  
+  document.addEventListener('gesturestart', function(e) {
+    e.preventDefault();
+  });
+})();
+// ===== FIX ZOOM OTOMATIS (DITAMBAHKAN DI PALING BAWAH) =====
+(function() {
+  // 1. Fix viewport meta tag
+  var viewport = document.querySelector('meta[name="viewport"]');
+  if (viewport) {
+    viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+  }
+  
+  // 2. Paksa font-size 16px untuk SEMUA input di halaman
+  var allInputs = document.querySelectorAll('input, select, textarea, button');
+  for (var i = 0; i < allInputs.length; i++) {
+    allInputs[i].style.fontSize = '16px';
+  }
+  
+  // 3. Ubah SEMUA type="number" jadi type="text" dengan inputmode
+  var numberInputs = document.querySelectorAll('input[type="number"]');
+  for (var i = 0; i < numberInputs.length; i++) {
+    numberInputs[i].setAttribute('type', 'text');
+    numberInputs[i].setAttribute('inputmode', 'numeric');
+    numberInputs[i].setAttribute('pattern', '[0-9]*');
+    numberInputs[i].removeAttribute('min');
+    numberInputs[i].removeAttribute('step');
+  }
+  
+  // 4. Cegah zoom saat input difokuskan
+  function preventZoom() {
+    if (window.visualViewport) {
+      window.visualViewport.scale = 1;
+    }
+  }
+  
+  var inputs = document.querySelectorAll('input, textarea');
+  for (var i = 0; i < inputs.length; i++) {
+    inputs[i].addEventListener('focus', function() {
+      preventZoom();
+      setTimeout(preventZoom, 100);
+      setTimeout(preventZoom, 300);
+    });
+  }
+  
+  // 5. Cegah pinch zoom
   document.addEventListener('touchstart', function(e) {
     if (e.touches.length > 1) e.preventDefault();
   }, { passive: false });
