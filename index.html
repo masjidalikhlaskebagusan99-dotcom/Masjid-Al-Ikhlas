@@ -557,6 +557,16 @@ html { -webkit-text-size-adjust: 100%; touch-action: manipulation; }
 body { touch-action: manipulation; }
 input, select, textarea, button { font-size: 16px !important; touch-action: manipulation; }
 input:focus, select:focus, textarea:focus { transform: scale(1); }
+/* ===== ANTI-ZOOM GLOBAL ===== */
+html { -webkit-text-size-adjust: 100%; touch-action: manipulation; }
+body { touch-action: manipulation; }
+input, select, textarea, button { 
+  font-size: 16px !important; 
+  touch-action: manipulation; 
+}
+input:focus, select:focus, textarea:focus { 
+  transform: scale(1); 
+}
 </style>
 </head>
 <body>
@@ -1477,6 +1487,49 @@ btn.disabled = false;
 btn.innerText = '✅ KIRIM KONFIRMASI';
 });
 }
+// ===== ANTI-ZOOM GLOBAL =====
+(function() {
+  // 1. Paksa font-size 16px untuk SEMUA input di halaman
+  var allInputs = document.querySelectorAll('input, select, textarea, button');
+  for (var i = 0; i < allInputs.length; i++) {
+    allInputs[i].style.fontSize = '16px';
+  }
+  
+  // 2. Ubah SEMUA type="number" jadi type="text" dengan inputmode
+  var numberInputs = document.querySelectorAll('input[type="number"]');
+  for (var i = 0; i < numberInputs.length; i++) {
+    numberInputs[i].setAttribute('type', 'text');
+    numberInputs[i].setAttribute('inputmode', 'numeric');
+    numberInputs[i].setAttribute('pattern', '[0-9]*');
+    numberInputs[i].removeAttribute('min');
+    numberInputs[i].removeAttribute('step');
+  }
+  
+  // 3. Cegah zoom saat SEMUA input difokuskan
+  function forceNoZoom() {
+    if (window.visualViewport) {
+      window.visualViewport.scale = 1;
+    }
+  }
+  
+  var inputs = document.querySelectorAll('input, textarea');
+  for (var i = 0; i < inputs.length; i++) {
+    inputs[i].addEventListener('focus', function() {
+      forceNoZoom();
+      setTimeout(forceNoZoom, 100);
+      setTimeout(forceNoZoom, 300);
+    });
+  }
+  
+  // 4. Cegah pinch zoom di seluruh halaman
+  document.addEventListener('touchstart', function(e) {
+    if (e.touches.length > 1) e.preventDefault();
+  }, { passive: false });
+  
+  document.addEventListener('gesturestart', function(e) {
+    e.preventDefault();
+  });
+})();
 </script>
 // ===== ️ ANTI-ZOOM PAKSA =====
 (function() {
