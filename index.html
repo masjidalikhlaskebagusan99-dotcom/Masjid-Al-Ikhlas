@@ -245,9 +245,9 @@ box-shadow: 0 4px 15px rgba(201,162,39,0.4);
 section {
 padding: 50px 0;
 border-bottom: 1px solid var(--border);
-scroll-margin-top: 80px;
+scroll-margin-top: 100px;
 }
-section[id] { scroll-margin-top: 80px; }
+section[id] { scroll-margin-top: 100px; }
 section h2.section-title {
 font-size: 1.8rem;
 color: #ffffff;
@@ -1481,21 +1481,21 @@ btn.disabled = false;
 btn.innerText = '✅ KIRIM KONFIRMASI';
 });
 }
-// ===== NAVIGASI SCROLL KE SECTION =====
+// ===== NAVIGASI SCROLL LANGSUNG KE SECTION =====
 (function() {
-  var navHeight = 80; // Tinggi navbar
+  var NAV_HEIGHT = 60; // Tinggi navbar sticky
+  var EXTRA_OFFSET = 20; // Jarak tambahan dari atas section
   
-  // Fungsi scroll ke section
-  function scrollToSection(targetId) {
+  function scrollToTarget(targetId) {
     var target = document.getElementById(targetId);
     if (!target) return;
     
     var targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
-    var offsetPosition = targetPosition - navHeight;
+    var offsetPosition = targetPosition - NAV_HEIGHT - EXTRA_OFFSET;
     
     window.scrollTo({
       top: offsetPosition,
-      behavior: 'auto' // Langsung, tanpa animasi
+      behavior: 'auto'
     });
   }
   
@@ -1507,23 +1507,35 @@ btn.innerText = '✅ KIRIM KONFIRMASI';
     var targetId = link.getAttribute('href').substring(1);
     if (!targetId) return;
     
-    // Cek apakah target adalah section
+    // Jangan intercept untuk link kosong atau '#'
+    if (targetId === '') return;
+    
     var targetSection = document.getElementById(targetId);
     if (targetSection && targetSection.tagName === 'SECTION') {
       e.preventDefault();
-      scrollToSection(targetId);
+      scrollToTarget(targetId);
       
-      // Update URL tanpa reload
+      // Update URL
       history.pushState(null, null, '#' + targetId);
+      
+      // Tutup dropdown menu mobile jika terbuka
+      var navList = document.getElementById('navList');
+      if (navList) navList.classList.remove('open');
+      
+      // Tutup semua dropdown
+      var allDropdowns = document.querySelectorAll('.dropdown.open');
+      for (var i = 0; i < allDropdowns.length; i++) {
+        allDropdowns[i].classList.remove('open');
+      }
     }
   });
   
-  // Handle tombol "Lihat Kegiatan Kami" di hero
+  // Handle tombol "Lihat Kegiatan Kami"
   var btnHero = document.querySelector('.btn-hero[href="#profil"]');
   if (btnHero) {
     btnHero.addEventListener('click', function(e) {
       e.preventDefault();
-      scrollToSection('profil');
+      scrollToTarget('profil');
     });
   }
   
@@ -1531,8 +1543,8 @@ btn.innerText = '✅ KIRIM KONFIRMASI';
   if (window.location.hash) {
     var hash = window.location.hash.substring(1);
     setTimeout(function() {
-      scrollToSection(hash);
-    }, 100);
+      scrollToTarget(hash);
+    }, 300);
   }
 })();
 // ===== ANTI-ZOOM RUNTIME =====
