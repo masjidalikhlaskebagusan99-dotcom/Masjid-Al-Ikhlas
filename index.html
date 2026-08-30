@@ -1478,5 +1478,44 @@ btn.innerText = '✅ KIRIM KONFIRMASI';
 });
 }
 </script>
+// ===== ️ ANTI-ZOOM PAKSA =====
+(function() {
+  // 1. Paksa font-size 16px untuk SEMUA input di modal
+  var allInputs = document.querySelectorAll('#modalDonasi input, #modalDonasi select, #modalDonasi textarea, #modalDonasi button');
+  for (var i = 0; i < allInputs.length; i++) {
+    allInputs[i].style.fontSize = '16px';
+  }
+  
+  // 2. Ubah type="number" jadi type="text" dengan inputmode
+  var numberInputs = document.querySelectorAll('#modalDonasi input[type="number"]');
+  for (var i = 0; i < numberInputs.length; i++) {
+    numberInputs[i].setAttribute('type', 'text');
+    numberInputs[i].setAttribute('inputmode', 'numeric');
+    numberInputs[i].setAttribute('pattern', '[0-9]*');
+    numberInputs[i].removeAttribute('min');
+    numberInputs[i].removeAttribute('step');
+  }
+  
+  // 3. Cegah zoom saat input difokuskan
+  function forceNoZoom() {
+    if (window.visualViewport) {
+      window.visualViewport.scale = 1;
+    }
+  }
+  
+  var inputs = document.querySelectorAll('#modalDonasi input, #modalDonasi textarea');
+  for (var i = 0; i < inputs.length; i++) {
+    inputs[i].addEventListener('focus', function() {
+      forceNoZoom();
+      setTimeout(forceNoZoom, 100);
+      setTimeout(forceNoZoom, 300);
+    });
+  }
+  
+  // 4. Cegah pinch zoom
+  document.addEventListener('touchstart', function(e) {
+    if (e.touches.length > 1) e.preventDefault();
+  }, { passive: false });
+})();
 </body>
 </html>
