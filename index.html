@@ -593,9 +593,69 @@ transform: translateX(-50%) translateY(0);
 .share-icon { width: 34px; height: 34px; font-size: 1rem; }
 .share-inline-btn { padding: 10px 16px; font-size: 0.85rem; }
 }
+/* ===== SINGLE VIEW MODE ===== */
+.section-hidden { display: none !important; }
+.section-visible { display: block !important; }
+
+/* Tombol Tampilkan Semua */
+.show-all-btn {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 1600;
+  background: linear-gradient(135deg, var(--accent), #a07d1c);
+  color: var(--primary-dark);
+  padding: 10px 18px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.85rem;
+  box-shadow: 0 4px 15px rgba(201,162,39,0.5);
+  display: none;
+  align-items: center;
+  gap: 6px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.show-all-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(201,162,39,0.7);
+}
+.show-all-btn.active { display: inline-flex; }
+
+/* Info label section aktif */
+.active-section-label {
+  display: none;
+  background: var(--primary);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin: 20px auto;
+  max-width: 1200px;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(13,110,63,0.3);
+}
+.active-section-label.active { display: block; }
+
+@media (max-width: 600px) {
+  .show-all-btn {
+    top: 70px;
+    right: 10px;
+    padding: 8px 14px;
+    font-size: 0.78rem;
+  }
+}
 </style>
 </head>
 <body>
+<!-- Tombol Tampilkan Semua Section -->
+<button class="show-all-btn" id="showAllBtn" onclick="tampilkanSemua()">
+  🏠 Tampilkan Semua
+</button>
+
+<!-- Label Section Aktif -->
+<div class="active-section-label" id="activeLabel"></div>
 <div class="topbar">
 <div class="container">
 📍 Jl. Ikhlas IV No. 22, Kebagusan, Pasar Minggu, Jakarta Selatan 12520 | 📞 (021) 7884-0000 | ️ email:masjidalikhlas.kebagusan99@gmail.com
@@ -1436,6 +1496,96 @@ btn.innerText = '✅ KIRIM KONFIRMASI';
         if (e.touches.length > 1) e.preventDefault();
     }, { passive: false });
     document.addEventListener('gesturestart', function(e) { e.preventDefault(); });
+})();
+// ===== SISTEM SINGLE VIEW MODE =====
+(function() {
+  var semuaSection = document.querySelectorAll('section');
+  var showAllBtn = document.getElementById('showAllBtn');
+  var activeLabel = document.getElementById('activeLabel');
+  
+  // Peta nama menu untuk label yang ramah
+  var namaSection = {
+    'beranda': 'Beranda',
+    'profil': 'Profil Masjid',
+    'majlis-talim': 'Majlis Ta\'lim',
+    'majlis-dzikir': 'Majlis Dzikir',
+    'petugas-jumat': 'Petugas Jumat',
+    'petugas-rawatib': 'Petugas Rawatib',
+    'badan-pengembangan': 'Badan Pengembangan Masjid',
+    'bidang-ibadah': 'Bidang Ibadah',
+    'bidang-pendidikan': 'Bidang Pendidikan Anak',
+    'bmt': 'Baitul Mal Wa Tanwil',
+    'phbi': 'Panitia PHBI',
+    'kesejahteraan': 'Kesejahteraan Masjid',
+    'buku-kas': 'Buku Kas Digital',
+    'anggaran': 'Anggaran & Proposal',
+    'kontak': 'Kontak & Lokasi',
+    'donasi': 'Donasi Digital',
+    'share': 'Bagikan Website'
+  };
+  
+  // Fungsi untuk menampilkan hanya 1 section
+  window.tampilkanSatu = function(idSection) {
+    for (var i = 0; i < semuaSection.length; i++) {
+      if (semuaSection[i].id === idSection) {
+        semuaSection[i].classList.remove('section-hidden');
+        semuaSection[i].classList.add('section-visible');
+      } else {
+        semuaSection[i].classList.add('section-hidden');
+        semuaSection[i].classList.remove('section-visible');
+      }
+    }
+    // Tampilkan tombol "Tampilkan Semua"
+    showAllBtn.classList.add('active');
+    // Tampilkan label
+    var nama = namaSection[idSection] || idSection;
+    activeLabel.innerHTML = '📌 Sedang menampilkan: <strong>' + nama + '</strong>';
+    activeLabel.classList.add('active');
+    // Scroll ke atas
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  };
+  
+  // Fungsi untuk menampilkan semua section
+  window.tampilkanSemua = function() {
+    for (var i = 0; i < semuaSection.length; i++) {
+      semuaSection[i].classList.remove('section-hidden');
+      semuaSection[i].classList.add('section-visible');
+    }
+    showAllBtn.classList.remove('active');
+    activeLabel.classList.remove('active');
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  };
+  
+  // Intercept semua klik link anchor (#id)
+  document.addEventListener('click', function(e) {
+    var link = e.target.closest('a[href^="#"]');
+    if (!link) return;
+    
+    var targetId = link.getAttribute('href').substring(1);
+    if (!targetId) return;
+    
+    // Jika target adalah 'beranda' atau 'share' → tampilkan semua
+    if (targetId === 'beranda' || targetId === 'share') {
+      window.tampilkanSemua();
+      return;
+    }
+    
+    // Cek apakah section dengan id tersebut ada
+    var targetSection = document.getElementById(targetId);
+    if (targetSection && targetSection.tagName === 'SECTION') {
+      e.preventDefault();
+      window.tampilkanSatu(targetId);
+    }
+  });
+  
+  // Handle klik tombol "Lihat Kegiatan Kami" di hero
+  var btnHero = document.querySelector('.btn-hero[href="#profil"]');
+  if (btnHero) {
+    btnHero.addEventListener('click', function(e) {
+      e.preventDefault();
+      window.tampilkanSatu('profil');
+    });
+  }
 })();
 </script>
 </body>
