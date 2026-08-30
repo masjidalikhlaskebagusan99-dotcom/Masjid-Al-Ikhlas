@@ -4,19 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Masjid Jami' Al-Ikhlas Kebagusan | Pasar Minggu Jakarta Selatan</title>
-<meta name="description" content="Website resmi Masjid Jam'i Al-Ikhlas Kebagusan, Pasar Minggu, Jakarta Selatan. Pusat dakwah, pendidikan, dan pelayanan umat dengan standar nasional & internasional.">
-<!-- Open Graph untuk Share Medsos -->
-<meta property="og:title" content="Masjid Jam'i Al-Ikhlas Kebagusan">
+<meta name="description" content="Website resmi Masjid Jami' Al-Ikhlas Kebagusan, Pasar Minggu, Jakarta Selatan. Pusat dakwah, pendidikan, dan pelayanan umat dengan standar nasional & internasional.">
+<meta property="og:title" content="Masjid Jami' Al-Ikhlas Kebagusan">
 <meta property="og:description" content="Pusat Dakwah, Pendidikan & Pelayanan Umat — Standar Nasional & Internasional">
 <meta property="og:type" content="website">
 <meta property="og:url" content="">
-<!-- Font Kaligrafi Arab -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <style>
-/* ===== FONT IMPORT FALLBACK ===== */
 @import url('https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Amiri:wght@400;700&display=swap');
+
+/* ===== ANTI-ZOOM GLOBAL ===== */
+html, body { touch-action: manipulation; -webkit-text-size-adjust: 100%; }
+input, select, textarea, button { font-size: 16px !important; touch-action: manipulation; }
+
 :root {
 --primary: #0d6e3f;
 --primary-dark: #084a2a;
@@ -44,14 +46,22 @@ padding: 8px 0;
 font-size: 0.85rem;
 text-align: center;
 }
+
+/* ===== PERUBAHAN: HEADER DENGAN BACKGROUND GAMBAR 6.jpg ===== */
 header {
-background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+background:
+  linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
+  url('6-removebg-preview.png');
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
 color: #fff;
-padding: 35px 0;
+padding: 45px 0;
 text-align: center;
 position: relative;
 z-index: 1;
 }
+
 .logo-circle {
 width: 70px;
 height: 70px;
@@ -64,26 +74,32 @@ font-size: 1.6rem;
 font-weight: bold;
 margin-bottom: 12px;
 color: var(--primary-dark);
-box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+box-shadow: 0 3px 10px rgba(0,0,0,0.5);
 }
+
+/* ===== PERUBAHAN: KALIGRAFI ARAB DENGAN EFEK EMBOSS ===== */
 .kaligrafi-arab {
 font-family: 'Aref Ruqaa', 'Amiri', 'Traditional Arabic', serif;
 font-size: 3.2rem;
 font-weight: 700;
-background: linear-gradient(180deg, #f5d76e 0%, #c9a227 50%, #a07d1c 100%);
--webkit-background-clip: text;
-background-clip: text;
--webkit-text-fill-color: transparent;
-filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.4));
+color: #f5d76e;
+text-shadow:
+  0 1px 0 rgba(255,255,255,0.4),
+  0 2px 0 rgba(200,200,200,0.3),
+  0 3px 0 rgba(150,150,150,0.2),
+  0 4px 0 rgba(100,100,100,0.1),
+  0 5px 10px rgba(0,0,0,0.8);
 margin-bottom: 8px;
 direction: rtl;
 line-height: 1.5;
 animation: kilau 3s ease-in-out infinite;
 }
+
 @keyframes kilau {
-0%, 100% { filter: drop-shadow(0 3px 6px rgba(0,0,0,0.4)) brightness(1); }
-50% { filter: drop-shadow(0 3px 12px rgba(201,162,39,0.6)) brightness(1.15); }
+0%, 100% { filter: brightness(1); }
+50% { filter: brightness(1.15); }
 }
+
 .kaligrafi-divider {
 display: flex;
 align-items: center;
@@ -103,12 +119,32 @@ background: linear-gradient(90deg, transparent, var(--accent), transparent);
 color: var(--accent);
 font-size: 1.2rem;
 }
-header h1 {
-font-size: 2rem;
-margin-bottom: 6px;
-text-shadow: 1px 2px 4px rgba(0,0,0,0.3);
+
+/* ===== PERUBAHAN: JUDUL DENGAN EFEK EMBOSS ===== */
+header {
+background:
+  linear-gradient(rgba(0, 0, 0, 0.40), rgba(0, 0, 0, 0.40)),
+  url('6-removebg-preview.png');
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+color: #fff;
+padding: 45px 0;
+text-align: center;
+position: relative;
+z-index: 1;
 }
-header .tagline { opacity: 0.92; font-size: 1.02rem; }
+
+header .tagline {
+opacity: 1;
+font-size: 1.02rem;
+color: #f0f0f0;
+text-shadow:
+  0 1px 0 rgba(255,255,255,0.3),
+  0 2px 5px rgba(0,0,0,0.8);
+font-weight: 500;
+}
+
 nav.main-nav {
 background: var(--primary);
 position: sticky;
@@ -342,6 +378,7 @@ header h1 { font-size: 1.5rem; }
 .hero h2 { font-size: 1.5rem; }
 .hero p { font-size: 0.95rem; }
 .kaligrafi-arab { font-size: 2.2rem; }
+header { padding: 35px 0; }
 }
 .ringkasan .card:has(#totalMasuk) {
 background: linear-gradient(135deg, #00E676 0%, #00C853 100%);
@@ -352,10 +389,7 @@ text-shadow: 0 1px 2px rgba(0, 70, 25, 0.4);
 }
 .ringkasan .card:has(#totalMasuk) .value {
 color: #ffffff;
-text-shadow:
-0 -1px 0 rgba(0, 70, 25, 0.35),
-0 1px 0 rgba(255, 255, 255, 0.35),
-0 3px 5px rgba(0, 70, 25, 0.45);
+text-shadow: 0 -1px 0 rgba(0, 70, 25, 0.35), 0 1px 0 rgba(255, 255, 255, 0.35), 0 3px 5px rgba(0, 70, 25, 0.45);
 }
 .ringkasan .card:has(#totalKeluar) {
 background: linear-gradient(135deg, #A89028 0%, #7D6B1A 100%);
@@ -366,10 +400,7 @@ text-shadow: 0 1px 2px rgba(70, 55, 0, 0.5);
 }
 .ringkasan .card:has(#totalKeluar) .value {
 color: #ffffff;
-text-shadow:
-0 -1px 0 rgba(70, 55, 0, 0.4),
-0 1px 0 rgba(255, 255, 255, 0.35),
-0 3px 5px rgba(70, 55, 0, 0.5);
+text-shadow: 0 -1px 0 rgba(70, 55, 0, 0.4), 0 1px 0 rgba(255, 255, 255, 0.35), 0 3px 5px rgba(70, 55, 0, 0.5);
 }
 .ringkasan .card:has(#saldoAkhir) {
 background: linear-gradient(135deg, #2979FF 0%, #0056D6 100%);
@@ -380,18 +411,11 @@ text-shadow: 0 1px 2px rgba(0, 30, 80, 0.45);
 }
 .ringkasan .card:has(#saldoAkhir) .value {
 color: #ffffff;
-text-shadow:
-0 -1px 0 rgba(0, 30, 80, 0.35),
-0 1px 0 rgba(255, 255, 255, 0.35),
-0 3px 5px rgba(0, 30, 80, 0.45);
+text-shadow: 0 -1px 0 rgba(0, 30, 80, 0.35), 0 1px 0 rgba(255, 255, 255, 0.35), 0 3px 5px rgba(0, 30, 80, 0.45);
 }
 .live-badge { display:inline-flex; align-items:center; gap:5px; font-size:0.75rem; color:#0d6e3f; font-weight:bold; background:rgba(13,110,63,0.08); padding:2px 10px; border-radius:12px; margin-left:6px; }
 .live-dot { width:8px; height:8px; border-radius:50%; background:#e53935; animation:pulse 1.2s infinite; }
 @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
-
-/* ============================================================
-🔗 TOMBOL SHARE FLOATING
-============================================================ */
 .share-fab {
 position: fixed;
 bottom: 25px;
@@ -475,7 +499,6 @@ flex-shrink: 0;
 .share-icon.ig { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
 .share-icon.em { background: #EA4335; }
 .share-icon.cp { background: #6c757d; }
-
 .share-section {
 background: linear-gradient(135deg, rgba(13,110,63,0.05), rgba(201,162,39,0.08));
 padding: 40px 0;
@@ -522,7 +545,6 @@ box-shadow: 0 6px 18px rgba(0,0,0,0.25);
 .share-inline-btn.ig { background: linear-gradient(45deg, #f09433, #dc2743, #bc1888); }
 .share-inline-btn.em { background: #EA4335; }
 .share-inline-btn.cp { background: #6c757d; }
-
 .toast {
 position: fixed;
 bottom: 100px;
@@ -544,7 +566,6 @@ pointer-events: none;
 opacity: 1;
 transform: translateX(-50%) translateY(0);
 }
-
 @media (max-width: 600px) {
 .share-fab { bottom: 15px; right: 15px; }
 .share-fab-btn { width: 52px; height: 52px; font-size: 1.3rem; }
@@ -552,41 +573,23 @@ transform: translateX(-50%) translateY(0);
 .share-icon { width: 34px; height: 34px; font-size: 1rem; }
 .share-inline-btn { padding: 10px 16px; font-size: 0.85rem; }
 }
-/* ===== ANTI-ZOOM ===== */
-html { -webkit-text-size-adjust: 100%; touch-action: manipulation; }
-body { touch-action: manipulation; }
-input, select, textarea, button { font-size: 16px !important; touch-action: manipulation; }
-input:focus, select:focus, textarea:focus { transform: scale(1); }
-/* ===== ANTI-ZOOM GLOBAL ===== */
-html { -webkit-text-size-adjust: 100%; touch-action: manipulation; }
-body { touch-action: manipulation; }
-input, select, textarea, button { 
-  font-size: 16px !important; 
-  touch-action: manipulation; 
-}
-input:focus, select:focus, textarea:focus { 
-  transform: scale(1); 
-}
 </style>
 </head>
 <body>
-<!-- ===== TOPBAR ===== -->
 <div class="topbar">
 <div class="container">
-📍 Jl. Ikhlas IV No. 22, Kebagusan, Pasar Minggu, Jakarta Selatan 12520 | 📞 (021) 7884-0000 | ✉️ email:masjidalikhlas.kebagusan99@gmail.com
+📍 Jl. Ikhlas IV No. 22, Kebagusan, Pasar Minggu, Jakarta Selatan 12520 | 📞 (021) 7884-0000 | ️ email:masjidalikhlas.kebagusan99@gmail.com
 </div>
 </div>
-<!-- ===== HEADER ===== -->
 <header>
 <div class="container">
 <div class="logo-circle">MAI</div>
 <div class="kaligrafi-arab">مَسْجِدُ الْجَامِعِ الْإِخْلَاصِ</div>
 <div class="kaligrafi-divider"><span>۞</span></div>
-<h1>Masjid Jam'i Al-Ikhlas Kebagusan</h1>
+<h1>Masjid Jami' Al-Ikhlas Kebagusan</h1>
 <p class="tagline">Pusat Dakwah, Pendidikan & Pelayanan Umat — Standar Nasional & Internasional</p>
 </div>
 </header>
-<!-- ===== NAVIGASI ===== -->
 <nav class="main-nav">
 <div class="container nav-inner">
 <button class="menu-toggle" id="menuToggle">☰ Menu</button>
@@ -594,7 +597,7 @@ input:focus, select:focus, textarea:focus {
 <li><a href="#beranda">Beranda</a></li>
 <li><a href="#profil">Profil Masjid</a></li>
 <li class="has-dropdown">
-<a href="javascript:void(0)" class="dropdown-toggle">Kegiatan ▾</a>
+<a href="javascript:void(0)" class="dropdown-toggle">Kegiatan </a>
 <ul class="dropdown">
 <li><a href="#majlis-talim">Majlis Ta'lim</a></li>
 <li><a href="#majlis-dzikir">Majlis Dzikir</a></li>
@@ -615,33 +618,29 @@ input:focus, select:focus, textarea:focus {
 </li>
 <li><a href="#anggaran">Anggaran & Proposal</a></li>
 <li><a href="#kontak">Kontak</a></li>
-<li><a href="https://script.google.com/macros/s/AKfycbzzXV6zS4EPUp6ShBEKcL-_DpUu7OsX_0_mUPPe1VNjTzZUqUIHHtcwsrANBKi74o1Wkg/exec?view=input" target="_blank">📊 Dashboard Input</a></li>
 <li><a href="#share">📤 Bagikan</a></li>
 </ul>
 </div>
 </nav>
-<!-- ===== HERO ===== -->
 <section class="hero" id="beranda">
 <div class="container">
-<h2>Selamat Datang di Masjid Jam'i Al-Ikhlas Kebagusan</h2>
+<h2>Selamat Datang di Masjid Jami' Al-Ikhlas Kebagusan</h2>
 <p>"Membangun Umat yang Ikhlas, Berilmu, dan Beramal Shalih" — Masjid kebanggaan warga Kebagusan, Pasar Minggu, Jakarta Selatan dengan standar nasional & internasional.</p>
 <a href="#profil" class="btn-hero">Lihat Kegiatan Kami</a>
 </div>
 </section>
-<!-- ===== PROFIL ===== -->
 <section id="profil">
 <div class="container">
 <h2 class="section-title">Profil Masjid</h2>
-<p class="subtitle">Sekilas tentang Masjid Jam'i Al-Ikhlas Kebagusan</p>
+<p class="subtitle">Sekilas tentang Masjid Jami' Al-Ikhlas Kebagusan</p>
 <div class="grid">
 <div class="card"><span class="icon">🕌</span><h3>Visi</h3><p>Menjadi masjid percontohan bertaraf nasional dan internasional yang menjadi pusat peradaban Islam, dakwah, pendidikan, serta pemberdayaan umat di wilayah Kebagusan dan sekitarnya.</p></div>
-<div class="card"><span class="icon">🎯</span><h3>Misi</h3><p>1. Memakmurkan masjid dengan sholat berjamaah 5 waktu & sholat Jumat.<br>2. Menyelenggarakan Majlis Ta'lim & Dzikir rutin.<br>3. Mengembangkan pendidikan anak usia dini & remaja Islam.<br>4. Mengelola Baitul Mal untuk kemaslahatan umat.<br>5. Menyediakan fasilitas ramah difabel, lansia, dan anak.</p></div>
+<div class="card"><span class="icon"></span><h3>Misi</h3><p>1. Memakmurkan masjid dengan sholat berjamaah 5 waktu & sholat Jumat.<br>2. Menyelenggarakan Majlis Ta'lim & Dzikir rutin.<br>3. Mengembangkan pendidikan anak usia dini & remaja Islam.<br>4. Mengelola Baitul Mal untuk kemaslahatan umat.<br>5. Menyediakan fasilitas ramah difabel, lansia, dan anak.</p></div>
 <div class="card"><span class="icon">🌿</span><h3>Standar Masjid</h3><p>Mengacu pada Permen Agama No. 2 Tahun 2019 tentang Standar Masjid Nasional & standar Islamic Affairs & Charitable Activities Department (IACAD) untuk masjid ramah lingkungan, aksesibel, dan berkelas internasional.</p></div>
 <div class="card"><span class="icon">📋</span><h3>Data Teknis</h3><p><strong>Luas Tanah:</strong> ± 210 m²<br><strong>Kapasitas Jamaah:</strong> ± 1.500 orang<br><strong>Arah Kiblat:</strong> 293° (Azimut)<br><strong>Status:</strong> Wakaf / Milik Umat<br><strong>Afiliasi:</strong> Kemenag Jaksel & MUI</p></div>
 </div>
 </div>
 </section>
-<!-- ===== MAJLIS TA'LIM ===== -->
 <section id="majlis-talim">
 <div class="container">
 <h2 class="section-title">Majlis Ta'lim</h2>
@@ -652,11 +651,10 @@ input:focus, select:focus, textarea:focus {
 <div class="card"><span class="icon">👩</span><h3>Kajian Ibu-ibu (Selasa)</h3><p><strong>Waktu:</strong> 09.00 - 11.00 WIB</p><p><strong>Materi:</strong> Fiqh Wanita, Parenting Islami, Rumah Tangga Sakinah</p><p><strong>Pemateri:</strong> Belum ada Kegiatan & Nara Sumber</p></div>
 <div class="card"><span class="icon">👨</span><h3>Kajian Bapak-bapak (Ahad Pagi)</h3><p><strong>Waktu:</strong> 06.30 - 08.00 WIB</p><p><strong>Materi:</strong> Fiqh Muamalah, Ekonomi Syariah, Kepemimpinan</p><p><strong>Pemateri:</strong> Belum ada Kegiatan & Nara Sumber</p></div>
 <div class="card"><span class="icon">🎓</span><h3>Kajian Pemuda / Remaja (Sabtu Malam)</h3><p><strong>Waktu:</strong> 20.00 - 21.30 WIB</p><p><strong>Materi:</strong> Islam & Modernitas, Karir, Pernikahan Muda</p><p><strong>Pemateri:</strong> Belum ada Kegiatan & Nara Sumber</p></div>
-<div class="card"><span class="icon">🌙</span><h3>Kajian Bulanan Akbar</h3><p><strong>Waktu:</strong> Ahad pertama tiap bulan, ba'da Subuh</p><p><strong>Pemateri:</strong> Ulama nasional & dai internasional</p><p><strong>Live streaming:</strong> YouTube & Facebook resmi masjid</p></div>
+<div class="card"><span class="icon"></span><h3>Kajian Bulanan Akbar</h3><p><strong>Waktu:</strong> Ahad pertama tiap bulan, ba'da Subuh</p><p><strong>Pemateri:</strong> Ulama nasional & dai internasional</p><p><strong>Live streaming:</strong> YouTube & Facebook resmi masjid</p></div>
 </div>
 </div>
 </section>
-<!-- ===== MAJLIS DZIKIR ===== -->
 <section id="majlis-dzikir">
 <div class="container">
 <h2 class="section-title">Majlis Dzikir</h2>
@@ -672,7 +670,6 @@ input:focus, select:focus, textarea:focus {
 </div>
 </div>
 </section>
-<!-- ===== PETUGAS JUMAT ===== -->
 <section id="petugas-jumat">
 <div class="container">
 <h2 class="section-title">Petugas Sholat Jumat</h2>
@@ -685,7 +682,6 @@ input:focus, select:focus, textarea:focus {
 </div>
 </div>
 </section>
-<!-- ===== PETUGAS RAWATIB ===== -->
 <section id="petugas-rawatib">
 <div class="container">
 <h2 class="section-title">Petugas Sholat Rawatib 5 Waktu</h2>
@@ -698,7 +694,6 @@ input:focus, select:focus, textarea:focus {
 </div>
 </div>
 </section>
-<!-- ===== BADAN PENGEMBANGAN ===== -->
 <section id="badan-pengembangan">
 <div class="container">
 <h2 class="section-title">Badan Pengembangan Masjid</h2>
@@ -713,7 +708,6 @@ input:focus, select:focus, textarea:focus {
 </div>
 </div>
 </section>
-<!-- ===== BIDANG IBADAH ===== -->
 <section id="bidang-ibadah">
 <div class="container">
 <h2 class="section-title">Bidang Ibadah</h2>
@@ -728,7 +722,6 @@ input:focus, select:focus, textarea:focus {
 </div>
 </div>
 </section>
-<!-- ===== BIDANG PENDIDIKAN ===== -->
 <section id="bidang-pendidikan">
 <div class="container">
 <h2 class="section-title">Bidang Pendidikan Anak</h2>
@@ -736,7 +729,6 @@ input:focus, select:focus, textarea:focus {
 <div class="grid" id="gridPendidikan"><div class="loading">⏳ Memuat data...</div></div>
 </div>
 </section>
-<!-- ===== BAITUL MAL ===== -->
 <section id="bmt">
 <div class="container">
 <h2 class="section-title">Baitul Mal Wa Tanwil (BMT)</h2>
@@ -750,11 +742,10 @@ input:focus, select:focus, textarea:focus {
 <div class="card"><span class="icon">📊</span><h3>Laporan Publik</h3><p>Laporan keuangan dipublikasikan setiap bulan di mading & website.</p></div>
 </div>
 <div class="info-box">
-<strong>Rekening Resmi:</strong> Bank Syariah Indonesia (BSI) — 700-123-4567 a.n. DKM Masjid Jam'i Al-Ikhlas. Seluruh dana dikelola sesuai fatwa DSN-MUI.
+<strong>Rekening Resmi:</strong> Bank Syariah Indonesia (BSI) — 700-123-4567 a.n. DKM Masjid Jami' Al-Ikhlas. Seluruh dana dikelola sesuai fatwa DSN-MUI.
 </div>
 </div>
 </section>
-<!-- ===== PANITIA PHBI ===== -->
 <section id="phbi">
 <div class="container">
 <h2 class="section-title">Susunan Panitia PHBI</h2>
@@ -767,7 +758,6 @@ input:focus, select:focus, textarea:focus {
 </div>
 </div>
 </section>
-<!-- ===== KESEJAHTERAAN ===== -->
 <section id="kesejahteraan">
 <div class="container">
 <h2 class="section-title">Bidang Kesejahteraan Masjid</h2>
@@ -775,14 +765,13 @@ input:focus, select:focus, textarea:focus {
 <div class="grid">
 <div class="card"><span class="icon">👳</span><h3>Honor Imam & Muadzin</h3><p>Tunjangan bulanan sesuai standar Kemenag & kemampuan masjid.</p></div>
 <div class="card"><span class="icon">🧹</span><h3>Marbot & Kebersihan</h3><p>10 petugas kebersihan & 4 marbot dengan gaji tetap + BPJS Ketenagakerjaan.</p></div>
-<div class="card"><span class="icon">🛡️</span><h3>Keamanan</h3><p>Tim security 24 jam, CCTV 16 titik, parkir tertib.</p></div>
+<div class="card"><span class="icon">️</span><h3>Keamanan</h3><p>Tim security 24 jam, CCTV 16 titik, parkir tertib.</p></div>
 <div class="card"><span class="icon">♿</span><h3>Ramah Difabel</h3><p>Ramp, toilet difabel, guiding block, tempat wudhu khusus lansia & difabel.</p></div>
 <div class="card"><span class="icon">🌿</span><h3>Masjid Hijau</h3><p>Panel surya, sumur resapan, taman, manajemen sampah 3R.</p></div>
 <div class="card"><span class="icon">🚻</span><h3>Fasilitas Jamaah</h3><p>Tempat wudhu pria/wanita terpisah, musala, perpustakaan, ruang laktasi.</p></div>
 </div>
 </div>
 </section>
-<!-- ===== BUKU KAS (DIPERBAIKI) ===== -->
 <section id="buku-kas">
 <div class="container">
 <h2 class="section-title">📒 Buku Kas Digital</h2>
@@ -799,11 +788,10 @@ input:focus, select:focus, textarea:focus {
 </table>
 </div>
 <div class="info-box" style="margin-top:20px;">
-<strong>📌 Catatan Akuntansi:</strong> Saldo dihitung otomatis di frontend sebagai <strong>kumulatif (Pemasukan − Pengeluaran)</strong> dari data transaksi aktual untuk menjamin akurasi sesuai prinsip pembukuan standar.
+<strong> Catatan Akuntansi:</strong> Saldo dihitung otomatis di frontend sebagai <strong>kumulatif (Pemasukan − Pengeluaran)</strong> dari data transaksi aktual untuk menjamin akurasi sesuai prinsip pembukuan standar.
 </div>
 </div>
 </section>
-<!-- ===== PROPOSAL ===== -->
 <section id="anggaran">
 <div class="container">
 <h2 class="section-title">Anggaran & Proposal</h2>
@@ -811,7 +799,6 @@ input:focus, select:focus, textarea:focus {
 <div class="grid" id="gridProposal"><div class="loading">⏳ Memuat data...</div></div>
 </div>
 </section>
-<!-- ===== KONTAK ===== -->
 <section id="kontak">
 <div class="container">
 <h2 class="section-title">Kontak & Lokasi</h2>
@@ -819,12 +806,11 @@ input:focus, select:focus, textarea:focus {
 <div class="grid">
 <div class="card"><span class="icon">📍</span><h3>Alamat</h3><p>Jl. Ikhlas IV No. 22<br>Kel. Kebagusan, Kec. Pasar Minggu<br>Jakarta Selatan, DKI Jakarta 12520</p></div>
 <div class="card"><span class="icon">📞</span><h3>Kontak</h3><p>Telepon: (021) 7884-0000<br>WhatsApp: 0812-XXXX-XXXX<br>Email: info@masjidalikhlaskebagusan.or.id</p></div>
-<div class="card"><span class="icon">🌐</span><h3>Media Sosial</h3><p><a href="#">Facebook</a> · <a href="#">Instagram</a> · <a href="#">YouTube</a></p></div>
+<div class="card"><span class="icon"></span><h3>Media Sosial</h3><p><a href="#">Facebook</a> · <a href="#">Instagram</a> · <a href="#">YouTube</a></p></div>
 <div class="card"><span class="icon">🕐</span><h3>Jam Operasional</h3><p>Setiap hari: 04.00 - 22.00 WIB<br>Sekretariat DKM: 09.00 - 16.00 (Senin-Sabtu)</p></div>
 </div>
 </div>
 </section>
-<!-- ===== DONASI ===== -->
 <section id="donasi">
 <div class="container">
 <h2 class="section-title">💝 Donasi Digital / Amal Online</h2>
@@ -861,7 +847,7 @@ input:focus, select:focus, textarea:focus {
 <div style="background:#fff;padding:20px;border-radius:10px;margin:15px 0;border:2px solid var(--primary);">
 <p style="font-size:0.85rem;color:var(--muted);margin-bottom:5px;">No. Rekening:</p>
 <p style="font-size:1.4rem;font-weight:bold;color:var(--primary);letter-spacing:1px;">700-123-4567</p>
-<p style="font-size:0.85rem;color:var(--muted);margin-top:5px;">a.n. <strong>DKM Masjid Jam'i Al-Ikhlas</strong></p>
+<p style="font-size:0.85rem;color:var(--muted);margin-top:5px;">a.n. <strong>DKM Masjid Jami' Al-Ikhlas</strong></p>
 <p style="font-size:0.75rem;color:var(--muted);margin-top:8px;">Bank Syariah Indonesia (BSI)</p>
 </div>
 <button class="btn-hero" style="font-size:0.9rem;padding:10px 20px;" onclick="bukaModalDonasi('Transfer Bank')">🏦 Konfirmasi Transfer Bank</button>
@@ -872,12 +858,10 @@ input:focus, select:focus, textarea:focus {
 </div>
 </div>
 </section>
-
-<!-- ===== 📤 SECTION SHARE ===== -->
 <section class="share-section" id="share">
 <div class="container">
 <h3>📤 Bagikan Website Ini</h3>
-<p>Sebarkan kebaikan dengan membagikan website Masjid Jam'i Al-Ikhlas kepada keluarga, teman, dan kerabat</p>
+<p>Sebarkan kebaikan dengan membagikan website Masjid Jami' Al-Ikhlas kepada keluarga, teman, dan kerabat</p>
 <div class="share-inline-buttons">
 <button class="share-inline-btn wa" onclick="shareTo('whatsapp')"><span>💬</span> WhatsApp</button>
 <button class="share-inline-btn fb" onclick="shareTo('facebook')"><span>📘</span> Facebook</button>
@@ -887,48 +871,37 @@ input:focus, select:focus, textarea:focus {
 </div>
 </div>
 </section>
-
-<!-- ===== MODAL DONASI (ANTI-ZOOM) ===== -->
 <div id="modalDonasi" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:2000;overflow-y:auto;padding:20px;">
-  <div style="max-width:500px;margin:40px auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
-    <div style="background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;padding:20px;display:flex;justify-content:space-between;align-items:center;">
-      <h3 style="margin:0;font-size:1.2rem;">💝 Konfirmasi Donasi</h3>
-      <button onclick="tutupModalDonasi()" style="background:transparent;border:none;color:#fff;font-size:1.5rem;cursor:pointer;">✕</button>
-    </div>
-    <form id="formDonasi" onsubmit="kirimDonasi(event)" style="padding:25px;">
-      <div id="alertDonasi" style="display:none;padding:12px;border-radius:6px;margin-bottom:15px;font-weight:bold;"></div>
-      
-      <label style="display:block;margin-bottom:5px;font-weight:bold;font-size:0.9rem;">Metode Pembayaran</label>
-      <input type="text" id="donasi_metode" readonly style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;background:#f4f4f4;margin-bottom:15px;font-weight:bold;color:var(--primary);font-size:16px !important;">
-      
-      <label style="display:block;margin-bottom:5px;font-weight:bold;font-size:0.9rem;">Nama Donatur <span style="color:#999;font-weight:normal;">(boleh "Hamba Allah")</span></label>
-      <input type="text" id="donasi_nama" required placeholder="Nama lengkap / Hamba Allah" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-bottom:15px;font-size:16px !important;">
-      
-      <label style="display:block;margin-bottom:5px;font-weight:bold;font-size:0.9rem;">Nominal (Rp) *</label>
-      <!-- PERUBAHAN PENTING: type="text" dan inputmode="numeric" -->
-      <input type="text" id="donasi_nominal" required inputmode="numeric" pattern="[0-9]*" placeholder="Contoh: 100000" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-bottom:15px;font-size:16px !important;font-weight:bold;">
-      
-      <label style="display:block;margin-bottom:5px;font-weight:bold;font-size:0.9rem;">Kategori Donasi</label>
-      <select id="donasi_kategori" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-bottom:15px;font-size:16px !important;">
-        <option value="Infaq Jumat">Infaq Jumat</option>
-        <option value="Donasi Umum" selected>Donasi Umum</option>
-        <option value="Zakat Maal">Zakat Maal</option>
-        <option value="Shodaqoh">Shodaqoh</option>
-        <option value="Wakaf Uang">Wakaf Uang</option>
-        <option value="Santunan Yatim">Santunan Yatim</option>
-        <option value="Pembangunan">Pembangunan Masjid</option>
-      </select>
-      
-      <label style="display:block;margin-bottom:5px;font-weight:bold;font-size:0.9rem;">Keterangan <span style="color:#999;font-weight:normal;">(opsional)</span></label>
-      <textarea id="donasi_keterangan" rows="2" placeholder="Contoh: Donasi untuk pembangunan mihrab" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-bottom:15px;resize:vertical;font-size:16px !important;"></textarea>
-      
-      <button type="submit" id="btnDonasi" style="width:100%;background:var(--primary);color:#fff;padding:14px;border:none;border-radius:6px;font-weight:bold;font-size:16px !important;cursor:pointer;">✅ KIRIM KONFIRMASI</button>
-      <p style="font-size:0.78rem;color:var(--muted);text-align:center;margin-top:12px;">🔒 Data Anda aman & tercatat di Buku Kas Digital masjid</p>
-    </form>
-  </div>
+<div style="max-width:500px;margin:40px auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+<div style="background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;padding:20px;display:flex;justify-content:space-between;align-items:center;">
+<h3 style="margin:0;font-size:1.2rem;">💝 Konfirmasi Donasi</h3>
+<button onclick="tutupModalDonasi()" style="background:transparent;border:none;color:#fff;font-size:1.5rem;cursor:pointer;">✕</button>
 </div>
-
-<!-- ===== FLOATING SHARE ===== -->
+<form id="formDonasi" onsubmit="kirimDonasi(event)" style="padding:25px;">
+<div id="alertDonasi" style="display:none;padding:12px;border-radius:6px;margin-bottom:15px;font-weight:bold;"></div>
+<label style="display:block;margin-bottom:5px;font-weight:bold;font-size:0.9rem;">Metode Pembayaran</label>
+<input type="text" id="donasi_metode" readonly style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;background:#f4f4f4;margin-bottom:15px;font-weight:bold;color:var(--primary);">
+<label style="display:block;margin-bottom:5px;font-weight:bold;font-size:0.9rem;">Nama Donatur <span style="color:#999;font-weight:normal;">(boleh "Hamba Allah")</span></label>
+<input type="text" id="donasi_nama" required placeholder="Nama lengkap / Hamba Allah" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-bottom:15px;">
+<label style="display:block;margin-bottom:5px;font-weight:bold;font-size:0.9rem;">Nominal (Rp) *</label>
+<input type="text" id="donasi_nominal" required inputmode="numeric" pattern="[0-9]*" placeholder="Contoh: 100000" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-bottom:15px;font-size:16px !important;font-weight:bold;">
+<label style="display:block;margin-bottom:5px;font-weight:bold;font-size:0.9rem;">Kategori Donasi</label>
+<select id="donasi_kategori" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-bottom:15px;">
+<option value="Infaq Jumat">Infaq Jumat</option>
+<option value="Donasi Umum" selected>Donasi Umum</option>
+<option value="Zakat Maal">Zakat Maal</option>
+<option value="Shodaqoh">Shodaqoh</option>
+<option value="Wakaf Uang">Wakaf Uang</option>
+<option value="Santunan Yatim">Santunan Yatim</option>
+<option value="Pembangunan">Pembangunan Masjid</option>
+</select>
+<label style="display:block;margin-bottom:5px;font-weight:bold;font-size:0.9rem;">Keterangan <span style="color:#999;font-weight:normal;">(opsional)</span></label>
+<textarea id="donasi_keterangan" rows="2" placeholder="Contoh: Donasi untuk pembangunan mihrab" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-bottom:15px;resize:vertical;"></textarea>
+<button type="submit" id="btnDonasi" style="width:100%;background:var(--primary);color:#fff;padding:14px;border:none;border-radius:6px;font-weight:bold;font-size:1rem;cursor:pointer;">✅ KIRIM KONFIRMASI</button>
+<p style="font-size:0.78rem;color:var(--muted);text-align:center;margin-top:12px;">🔒 Data Anda aman & tercatat di Buku Kas Digital masjid</p>
+</form>
+</div>
+</div>
 <div class="share-fab" id="shareFab">
 <div class="share-options" id="shareOptions">
 <a href="javascript:void(0)" class="share-item" onclick="shareTo('whatsapp')"><span class="share-icon wa">💬</span><span>WhatsApp</span></a>
@@ -939,15 +912,12 @@ input:focus, select:focus, textarea:focus {
 </div>
 <button class="share-fab-btn" id="shareFabBtn" onclick="toggleShareFab()" title="Bagikan website">📤</button>
 </div>
-
 <div class="toast" id="toast"></div>
-
-<!-- ===== FOOTER ===== -->
 <footer>
 <div class="container">
 <div class="footer-grid">
 <div>
-<h4>Masjid Jam'i Al-Ikhlas</h4>
+<h4>Masjid Jami' Al-Ikhlas</h4>
 <p>Pusat dakwah, pendidikan, dan pelayanan umat di Kebagusan, Pasar Minggu, Jakarta Selatan. Berdiri sejak 1975, terus berkhidmat untuk umat dengan standar nasional & internasional.</p>
 </div>
 <div>
@@ -969,37 +939,28 @@ input:focus, select:focus, textarea:focus {
 </div>
 <div>
 <h4>Rekening Donasi</h4>
-<p><strong>Bank Syariah Indonesia (BSI)</strong><br>No. Rek: 700-123-4567<br>a.n. DKM Masjid Jam'i Al-Ikhlas</p>
+<p><strong>Bank Syariah Indonesia (BSI)</strong><br>No. Rek: 700-123-4567<br>a.n. DKM Masjid Jami' Al-Ikhlas</p>
 <p style="font-size:0.85rem; color:#aaa; margin-top:8px;">Syariah · Transparan · Akuntabel</p>
 </div>
 </div>
 <div class="copyright">
-&copy; 2026 Masjid Jam'i Al-Ikhlas Kebagusan, Pasar Minggu, Jakarta Selatan. All Rights Reserved. | Dibangun dengan ❤️ untuk umat.
+&copy; 2026 Masjid Jami' Al-Ikhlas Kebagusan, Pasar Minggu, Jakarta Selatan. All Rights Reserved. | Dibangun dengan ❤️ untuk umat.
 </div>
 </div>
 </footer>
 <div class="footer-bar">
 📍 Jl. Ikhlas IV No. 22, Kebagusan, Pasar Minggu, Jakarta Selatan 12520 | 📞 (021) 7884-0000 | ✉️ info@masjidaliklaskebagusan.or.id
 </div>
-
 <script>
-// ============================================================
-// URL API
-// ============================================================
 var API_URL = 'https://script.google.com/macros/s/AKfycbzzXV6zS4EPUp6ShBEKcL-_DpUu7OsX_0_mUPPe1VNjTzZUqUIHHtcwsrANBKi74o1Wkg/exec?type=all';
 var DATA_CACHE = {};
-
-// ============================================================
-// 📤 SHARE CONFIG
-// ============================================================
 var SHARE_CONFIG = {
 title: 'Masjid Jam\'i Al-Ikhlas Kebagusan',
-text: 'Assalamu\'alaikum 🕌\n\nMari kunjungi website resmi Masjid Jam\'i Al-Ikhlas Kebagusan, Pasar Minggu, Jakarta Selatan.\n\nPusat Dakwah, Pendidikan & Pelayanan Umat — Standar Nasional & Internasional.\n\nJazakumullah khairan 🤲',
+text: 'Assalamu\'alaikum 🕌\nMari kunjungi website resmi Masjid Jam\'i Al-Ikhlas Kebagusan, Pasar Minggu, Jakarta Selatan.\nPusat Dakwah, Pendidikan & Pelayanan Umat — Standar Nasional & Internasional.\nJazakumullah khairan 🤲',
 get url() {
 return window.location.href.split('#')[0] || 'https://masjidalikhlaskebagusan.or.id';
 }
 };
-
 function shareTo(platform) {
 var text = encodeURIComponent(SHARE_CONFIG.text);
 var title = encodeURIComponent(SHARE_CONFIG.title);
@@ -1022,7 +983,7 @@ showToast('📸 Link tersalin! Buka aplikasi Instagram → Buat Story / DM → T
 break;
 case 'email':
 var subject = title;
-var body = SHARE_CONFIG.text + '\n\n' + SHARE_CONFIG.url;
+var body = SHARE_CONFIG.text + '\n' + SHARE_CONFIG.url;
 link = 'mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
 window.location.href = link;
 break;
@@ -1032,7 +993,6 @@ var btn = document.getElementById('shareFabBtn');
 if (opts) opts.classList.remove('open');
 if (btn) btn.classList.remove('active');
 }
-
 function copyLink() {
 var url = SHARE_CONFIG.url;
 if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -1080,33 +1040,18 @@ if (opts) opts.classList.remove('open');
 if (btn) btn.classList.remove('active');
 }
 });
-
-// ============================================================
-// 💰 FORMAT RUPIAH — SELALU BULAT TANPA DESIMAL
-// ============================================================
 function formatRp(n) {
 var angka = Number(n) || 0;
-// BULATKAN ke integer terdekat untuk hindari floating-point error
 angka = Math.round(angka);
 return 'Rp ' + angka.toLocaleString('id-ID');
 }
-
-// ============================================================
-// 🔢 KONVERSI AMAN — PASTIKAN ANGKA JADI NUMBER BULAT
-// ============================================================
 function toNumber(v) {
 if (v === null || v === undefined || v === '') return 0;
-// Hapus karakter non-numerik kecuali minus, titik, koma
 var s = String(v).replace(/[^\d\.\-,]/g, '').replace(/,/g, '');
 var n = parseFloat(s);
 if (isNaN(n)) return 0;
-// BULATKAN untuk hindari 1750000.0000000002
 return Math.round(n);
 }
-
-// ============================================================
-// DROPDOWN
-// ============================================================
 (function() {
 var toggles = document.querySelectorAll('.dropdown-toggle');
 for (var i = 0; i < toggles.length; i++) {
@@ -1145,10 +1090,6 @@ for (var m = 0; m < navLinks.length; m++) {
 navLinks[m].addEventListener('click', function() { navList.classList.remove('open'); });
 }
 })();
-
-// ============================================================
-// LOAD DATA
-// ============================================================
 var JUMLAH_RETRY = 0;
 function loadAllData() {
 fetch(API_URL + '&_=' + Date.now(), { method: 'GET', redirect: 'follow' })
@@ -1194,15 +1135,9 @@ renderPanitia();
 renderPendidikan();
 renderProposal();
 }
-
-// ============================================================
-// ✅ 1. BUKU KAS — DIPERBAIKI: SALDO DIHITUNG KUMULATIF DI FRONTEND
-// ============================================================
 function renderTransaksi() {
 var d = DATA_CACHE.transaksi || {ringkasan:{masuk:0,keluar:0,saldo:0}, data:[]};
 var listData = d.data || [];
-
-// ===== LANGKAH 1: Hitung TOTAL PEMASUKAN & PENGELUARAN dari data aktual =====
 var totalMasuk = 0;
 var totalKeluar = 0;
 for (var i = 0; i < listData.length; i++) {
@@ -1214,23 +1149,17 @@ totalMasuk += jumlah;
 totalKeluar += jumlah;
 }
 }
-// Bulatkan total untuk hindari floating-point
 totalMasuk = Math.round(totalMasuk);
 totalKeluar = Math.round(totalKeluar);
 var saldoAkhir = totalMasuk - totalKeluar;
-
-// ===== LANGKAH 2: Tampilkan ringkasan (SELALU dari perhitungan frontend) =====
 document.getElementById('totalMasuk').textContent = formatRp(totalMasuk);
 document.getElementById('totalKeluar').textContent = formatRp(totalKeluar);
 document.getElementById('saldoAkhir').textContent = formatRp(saldoAkhir);
-
-// ===== LANGKAH 3: Render tabel dengan saldo kumulatif =====
 var tbody = document.getElementById('bodyTransaksi');
 if (listData.length === 0) {
 tbody.innerHTML = '<tr><td colspan="8" class="empty-msg">Belum ada data transaksi</td></tr>';
 return;
 }
-
 var saldoKumulatif = 0;
 var html = '';
 for (var i = 0; i < listData.length; i++) {
@@ -1239,18 +1168,14 @@ var jumlah = toNumber(r.jumlah);
 var jenis = String(r.jenis || '').trim();
 var jenisLower = jenis.toLowerCase();
 var isMasuk = (jenisLower === 'pemasukan' || jenisLower === 'masuk' || jenisLower === 'in');
-
-// Update saldo kumulatif
 if (isMasuk) {
 saldoKumulatif += jumlah;
 } else {
 saldoKumulatif -= jumlah;
 }
 saldoKumulatif = Math.round(saldoKumulatif);
-
 var cls = isMasuk ? 'status-in' : 'status-out';
 var tanda = isMasuk ? '+' : '-';
-
 html += '<tr>';
 html += '<td>' + (i + 1) + '</td>';
 html += '<td>' + (r.tanggal || '-') + '</td>';
@@ -1264,8 +1189,6 @@ html += '</tr>';
 }
 tbody.innerHTML = html;
 }
-
-// ===== 2. PETUGAS JUMAT =====
 function renderJumat() {
 var data = DATA_CACHE.jumat || [];
 var tbody = document.getElementById('bodyJumat');
@@ -1287,7 +1210,6 @@ html += '</tr>';
 }
 tbody.innerHTML = html;
 }
-// ===== 3. PETUGAS RAWATIB =====
 function renderRawatib() {
 var data = DATA_CACHE.rawatib || [];
 var tbody = document.getElementById('bodyRawatib');
@@ -1308,7 +1230,6 @@ html += '</tr>';
 }
 tbody.innerHTML = html;
 }
-// ===== 4. MAJLIS DZIKIR =====
 function renderDzikir() {
 var data = DATA_CACHE.dzikir || [];
 var tbody = document.getElementById('bodyDzikir');
@@ -1328,7 +1249,6 @@ html += '</tr>';
 }
 tbody.innerHTML = html;
 }
-// ===== 5. PANITIA PHBI =====
 function renderPanitia() {
 var data = DATA_CACHE.panitia || [];
 var tbody = document.getElementById('bodyPanitia');
@@ -1347,7 +1267,6 @@ html += '</tr>';
 }
 tbody.innerHTML = html;
 }
-// ===== 6. PENDIDIKAN =====
 function renderPendidikan() {
 var data = DATA_CACHE.pendidikan || [];
 var grid = document.getElementById('gridPendidikan');
@@ -1370,7 +1289,6 @@ html += '</div>';
 }
 grid.innerHTML = html;
 }
-// ===== 7. PROPOSAL =====
 function renderProposal() {
 var data = DATA_CACHE.proposal || [];
 var grid = document.getElementById('gridProposal');
@@ -1398,10 +1316,6 @@ html += '</div>';
 }
 grid.innerHTML = html;
 }
-
-// ============================================================
-// AUTO-UPDATE
-// ============================================================
 var IS_LOADING_2 = false;
 function sinkronisasi() {
 if (IS_LOADING_2) return;
@@ -1423,10 +1337,6 @@ setInterval(function() {
 if (!document.hidden) sinkronisasi();
 }, 3000);
 setInterval(loadAllData, 2 * 60 * 1000);
-
-// ============================================================
-// MODAL DONASI
-// ============================================================
 function bukaModalDonasi(metode) {
 document.getElementById('modalDonasi').style.display = 'block';
 document.getElementById('donasi_metode').value = metode;
@@ -1443,20 +1353,17 @@ document.getElementById('modalDonasi').addEventListener('click', function(e) {
 if (e.target === this) tutupModalDonasi();
 });
 function kirimDonasi(e) {
-  e.preventDefault();
-  var btn = document.getElementById('btnDonasi');
-  var alertBox = document.getElementById('alertDonasi');
-  var nominalRaw = document.getElementById('donasi_nominal').value;
-  // Hapus semua karakter non-angka
-  var nominalClean = String(nominalRaw).replace(/[^0-9]/g, '');
-  var payload = {
-    nama: document.getElementById('donasi_nama').value.trim(),
-    nominal: nominalClean,
-    metode: document.getElementById('donasi_metode').value,
-    kategori: document.getElementById('donasi_kategori').value,
-    keterangan: document.getElementById('donasi_keterangan').value.trim()
-  };
-  if (!payload.nominal || Number(payload.nominal) <= 0) {
+e.preventDefault();
+var btn = document.getElementById('btnDonasi');
+var alertBox = document.getElementById('alertDonasi');
+var payload = {
+nama: document.getElementById('donasi_nama').value.trim(),
+nominal: document.getElementById('donasi_nominal').value,
+metode: document.getElementById('donasi_metode').value,
+kategori: document.getElementById('donasi_kategori').value,
+keterangan: document.getElementById('donasi_keterangan').value.trim()
+};
+if (!payload.nominal || Number(payload.nominal) <= 0) {
 alertBox.style.display = 'block';
 alertBox.style.background = '#f8d7da';
 alertBox.style.color = '#721c24';
@@ -1494,137 +1401,22 @@ btn.disabled = false;
 btn.innerText = '✅ KIRIM KONFIRMASI';
 });
 }
-// ===== ANTI-ZOOM GLOBAL =====
+
+// ===== ANTI-ZOOM RUNTIME =====
 (function() {
-  // 1. Paksa font-size 16px untuk SEMUA input di halaman
-  var allInputs = document.querySelectorAll('input, select, textarea, button');
-  for (var i = 0; i < allInputs.length; i++) {
-    allInputs[i].style.fontSize = '16px';
-  }
-  
-  // 2. Ubah SEMUA type="number" jadi type="text" dengan inputmode
-  var numberInputs = document.querySelectorAll('input[type="number"]');
-  for (var i = 0; i < numberInputs.length; i++) {
-    numberInputs[i].setAttribute('type', 'text');
-    numberInputs[i].setAttribute('inputmode', 'numeric');
-    numberInputs[i].setAttribute('pattern', '[0-9]*');
-    numberInputs[i].removeAttribute('min');
-    numberInputs[i].removeAttribute('step');
-  }
-  
-  // 3. Cegah zoom saat SEMUA input difokuskan
-  function forceNoZoom() {
-    if (window.visualViewport) {
-      window.visualViewport.scale = 1;
+    var inputs = document.querySelectorAll('input, textarea, select, button');
+    for (var i = 0; i < inputs.length; i++) {
+        inputs[i].style.fontSize = '16px';
+        if (inputs[i].type === 'number') {
+            inputs[i].type = 'text';
+            inputs[i].setAttribute('inputmode', 'numeric');
+        }
     }
-  }
-  
-  var inputs = document.querySelectorAll('input, textarea');
-  for (var i = 0; i < inputs.length; i++) {
-    inputs[i].addEventListener('focus', function() {
-      forceNoZoom();
-      setTimeout(forceNoZoom, 100);
-      setTimeout(forceNoZoom, 300);
-    });
-  }
-  
-  // 4. Cegah pinch zoom di seluruh halaman
-  document.addEventListener('touchstart', function(e) {
-    if (e.touches.length > 1) e.preventDefault();
-  }, { passive: false });
-  
-  document.addEventListener('gesturestart', function(e) {
-    e.preventDefault();
-  });
-})();
-// ===== FIX ZOOM OTOMATIS (DITAMBAHKAN DI PALING BAWAH) =====
-(function() {
-  // 1. Fix viewport meta tag
-  var viewport = document.querySelector('meta[name="viewport"]');
-  if (viewport) {
-    viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
-  }
-  
-  // 2. Paksa font-size 16px untuk SEMUA input di halaman
-  var allInputs = document.querySelectorAll('input, select, textarea, button');
-  for (var i = 0; i < allInputs.length; i++) {
-    allInputs[i].style.fontSize = '16px';
-  }
-  
-  // 3. Ubah SEMUA type="number" jadi type="text" dengan inputmode
-  var numberInputs = document.querySelectorAll('input[type="number"]');
-  for (var i = 0; i < numberInputs.length; i++) {
-    numberInputs[i].setAttribute('type', 'text');
-    numberInputs[i].setAttribute('inputmode', 'numeric');
-    numberInputs[i].setAttribute('pattern', '[0-9]*');
-    numberInputs[i].removeAttribute('min');
-    numberInputs[i].removeAttribute('step');
-  }
-  
-  // 4. Cegah zoom saat input difokuskan
-  function preventZoom() {
-    if (window.visualViewport) {
-      window.visualViewport.scale = 1;
-    }
-  }
-  
-  var inputs = document.querySelectorAll('input, textarea');
-  for (var i = 0; i < inputs.length; i++) {
-    inputs[i].addEventListener('focus', function() {
-      preventZoom();
-      setTimeout(preventZoom, 100);
-      setTimeout(preventZoom, 300);
-    });
-  }
-  
-  // 5. Cegah pinch zoom
-  document.addEventListener('touchstart', function(e) {
-    if (e.touches.length > 1) e.preventDefault();
-  }, { passive: false });
-  
-  document.addEventListener('gesturestart', function(e) {
-    e.preventDefault();
-  });
+    document.addEventListener('touchstart', function(e) {
+        if (e.touches.length > 1) e.preventDefault();
+    }, { passive: false });
+    document.addEventListener('gesturestart', function(e) { e.preventDefault(); });
 })();
 </script>
-// ===== ️ ANTI-ZOOM PAKSA =====
-(function() {
-  // 1. Paksa font-size 16px untuk SEMUA input di modal
-  var allInputs = document.querySelectorAll('#modalDonasi input, #modalDonasi select, #modalDonasi textarea, #modalDonasi button');
-  for (var i = 0; i < allInputs.length; i++) {
-    allInputs[i].style.fontSize = '16px';
-  }
-  
-  // 2. Ubah type="number" jadi type="text" dengan inputmode
-  var numberInputs = document.querySelectorAll('#modalDonasi input[type="number"]');
-  for (var i = 0; i < numberInputs.length; i++) {
-    numberInputs[i].setAttribute('type', 'text');
-    numberInputs[i].setAttribute('inputmode', 'numeric');
-    numberInputs[i].setAttribute('pattern', '[0-9]*');
-    numberInputs[i].removeAttribute('min');
-    numberInputs[i].removeAttribute('step');
-  }
-  
-  // 3. Cegah zoom saat input difokuskan
-  function forceNoZoom() {
-    if (window.visualViewport) {
-      window.visualViewport.scale = 1;
-    }
-  }
-  
-  var inputs = document.querySelectorAll('#modalDonasi input, #modalDonasi textarea');
-  for (var i = 0; i < inputs.length; i++) {
-    inputs[i].addEventListener('focus', function() {
-      forceNoZoom();
-      setTimeout(forceNoZoom, 100);
-      setTimeout(forceNoZoom, 300);
-    });
-  }
-  
-  // 4. Cegah pinch zoom
-  document.addEventListener('touchstart', function(e) {
-    if (e.touches.length > 1) e.preventDefault();
-  }, { passive: false });
-})();
 </body>
 </html>
