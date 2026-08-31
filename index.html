@@ -14,11 +14,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Amiri:wght@400;700&display=swap');
-
 /* ===== ANTI-ZOOM GLOBAL ===== */
 html, body { touch-action: manipulation; -webkit-text-size-adjust: 100%; }
 input, select, textarea, button { font-size: 16px !important; touch-action: manipulation; }
-
 :root {
 --primary: #0d6e3f;
 --primary-dark: #084a2a;
@@ -29,6 +27,9 @@ input, select, textarea, button { font-size: 16px !important; touch-action: mani
 --card: #ffffff;
 --border: #A8E6A3;
 --shadow: 0 4px 18px rgba(0, 230, 118, .2);
+--phbi-primary: #7b1fa2;
+--phbi-dark: #4a148c;
+--phbi-accent: #ff6f00;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: auto; }
@@ -46,12 +47,10 @@ padding: 8px 0;
 font-size: 0.85rem;
 text-align: center;
 }
-
-/* ===== PERUBAHAN: HEADER DENGAN BACKGROUND GAMBAR 6.jpg ===== */
 header {
 background:
-  linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
-  url('6-removebg-preview.png');
+linear-gradient(rgba(0, 0, 0, 0.40), rgba(0, 0, 0, 0.40)),
+url('6-removebg-preview.png');
 background-size: cover;
 background-position: center;
 background-repeat: no-repeat;
@@ -61,7 +60,6 @@ text-align: center;
 position: relative;
 z-index: 1;
 }
-
 .logo-circle {
 width: 70px;
 height: 70px;
@@ -76,30 +74,26 @@ margin-bottom: 12px;
 color: var(--primary-dark);
 box-shadow: 0 3px 10px rgba(0,0,0,0.5);
 }
-
-/* ===== PERUBAHAN: KALIGRAFI ARAB DENGAN EFEK EMBOSS ===== */
 .kaligrafi-arab {
 font-family: 'Aref Ruqaa', 'Amiri', 'Traditional Arabic', serif;
 font-size: 3.2rem;
 font-weight: 700;
 color: #f5d76e;
 text-shadow:
-  0 1px 0 rgba(255,255,255,0.4),
-  0 2px 0 rgba(200,200,200,0.3),
-  0 3px 0 rgba(150,150,150,0.2),
-  0 4px 0 rgba(100,100,100,0.1),
-  0 5px 10px rgba(0,0,0,0.8);
+0 1px 0 rgba(255,255,255,0.4),
+0 2px 0 rgba(200,200,200,0.3),
+0 3px 0 rgba(150,150,150,0.2),
+0 4px 0 rgba(100,100,100,0.1),
+0 5px 10px rgba(0,0,0,0.8);
 margin-bottom: 8px;
 direction: rtl;
 line-height: 1.5;
 animation: kilau 3s ease-in-out infinite;
 }
-
 @keyframes kilau {
 0%, 100% { filter: brightness(1); }
 50% { filter: brightness(1.15); }
 }
-
 .kaligrafi-divider {
 display: flex;
 align-items: center;
@@ -119,32 +113,15 @@ background: linear-gradient(90deg, transparent, var(--accent), transparent);
 color: var(--accent);
 font-size: 1.2rem;
 }
-
-/* ===== PERUBAHAN: JUDUL DENGAN EFEK EMBOSS ===== */
-header {
-background:
-  linear-gradient(rgba(0, 0, 0, 0.40), rgba(0, 0, 0, 0.40)),
-  url('6-removebg-preview.png');
-background-size: cover;
-background-position: center;
-background-repeat: no-repeat;
-color: #fff;
-padding: 45px 0;
-text-align: center;
-position: relative;
-z-index: 1;
-}
-
 header .tagline {
 opacity: 1;
 font-size: 1.02rem;
 color: #f0f0f0;
 text-shadow:
-  0 1px 0 rgba(255,255,255,0.3),
-  0 2px 5px rgba(0,0,0,0.8);
+0 1px 0 rgba(255,255,255,0.3),
+0 2px 5px rgba(0,0,0,0.8);
 font-weight: 500;
 }
-
 nav.main-nav {
 background: var(--primary);
 position: sticky;
@@ -255,26 +232,26 @@ margin-bottom: 8px;
 border-left: 5px solid var(--accent);
 padding-left: 12px;
 text-shadow:
-  0 1px 0 rgba(255,255,255,0.5),
-  0 2px 0 rgba(200,200,200,0.4),
-  0 3px 0 rgba(150,150,150,0.3),
-  0 4px 0 rgba(100,100,100,0.2),
-  0 5px 15px rgba(0,0,0,0.8);
+0 1px 0 rgba(255,255,255,0.5),
+0 2px 0 rgba(200,200,200,0.4),
+0 3px 0 rgba(150,150,150,0.3),
+0 4px 0 rgba(100,100,100,0.2),
+0 5px 15px rgba(0,0,0,0.8);
 font-weight: 700;
 letter-spacing: 0.5px;
 }
 .subtitle {
-  color: #FAFAD2;
-  margin-bottom: 25px;
-  font-size: 1rem;
-  font-weight: 600;
-  text-shadow:
-    0 1px 0 rgba(255,255,255,0.6),
-    0 2px 0 rgba(245,222,179,0.5),
-    0 3px 0 rgba(210,180,140,0.4),
-    0 4px 0 rgba(180,150,100,0.3),
-    0 5px 12px rgba(0,0,0,0.7);
-  letter-spacing: 0.3px;
+color: #FAFAD2;
+margin-bottom: 25px;
+font-size: 1rem;
+font-weight: 600;
+text-shadow:
+0 1px 0 rgba(255,255,255,0.6),
+0 2px 0 rgba(245,222,179,0.5),
+0 3px 0 rgba(210,180,140,0.4),
+0 4px 0 rgba(180,150,100,0.3),
+0 5px 12px rgba(0,0,0,0.7);
+letter-spacing: 0.3px;
 }
 .grid {
 display: grid;
@@ -299,6 +276,9 @@ table th { padding: 13px 12px; text-align: left; font-size: 0.9rem; font-weight:
 table td { padding: 11px 12px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
 table tbody tr:hover { background: rgba(13,110,63,0.04); }
 table tbody tr:last-child td { border-bottom: none; }
+/* ===== TABEL KHUSUS PHBI (UNGU) ===== */
+table.phbi-table thead { background: linear-gradient(135deg, var(--phbi-primary), var(--phbi-dark)); }
+table.phbi-table tbody tr:hover { background: rgba(123,31,162,0.05); }
 .ringkasan {
 display: grid;
 grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -327,6 +307,12 @@ margin-top: 20px;
 font-size: 0.92rem;
 }
 .info-box strong { color: var(--primary); }
+/* Info box khusus PHBI */
+.info-box.phbi {
+background: rgba(123,31,162,0.06);
+border-left-color: var(--phbi-primary);
+}
+.info-box.phbi strong { color: var(--phbi-primary); }
 .status-badge {
 display: inline-block;
 padding: 3px 10px;
@@ -337,6 +323,10 @@ font-weight: 500;
 }
 .status-in { background: var(--primary); }
 .status-out { background: #c0392b; }
+/* Badge kategori PHBI */
+.status-donatur { background: var(--phbi-primary); }
+.status-infaq { background: var(--phbi-accent); }
+.status-sodaqoh { background: #00897b; }
 .progress-bar {
 background: #e8e4d9;
 border-radius: 10px;
@@ -433,7 +423,33 @@ text-shadow: 0 1px 2px rgba(0, 30, 80, 0.45);
 color: #ffffff;
 text-shadow: 0 -1px 0 rgba(0, 30, 80, 0.35), 0 1px 0 rgba(255, 255, 255, 0.35), 0 3px 5px rgba(0, 30, 80, 0.45);
 }
+/* ===== RINGKASAN KHUSUS PHBI (TEMA UNGU) ===== */
+.ringkasan.phbi .card:has(#phbiTotalMasuk) {
+background: linear-gradient(135deg, #ab47bc 0%, #7b1fa2 100%);
+}
+.ringkasan.phbi .card:has(#phbiTotalMasuk) h3,
+.ringkasan.phbi .card:has(#phbiTotalMasuk) .value {
+color: #fff;
+text-shadow: 0 2px 6px rgba(74,20,140,0.5);
+}
+.ringkasan.phbi .card:has(#phbiTotalKeluar) {
+background: linear-gradient(135deg, #ff8f00 0%, #e65100 100%);
+}
+.ringkasan.phbi .card:has(#phbiTotalKeluar) h3,
+.ringkasan.phbi .card:has(#phbiTotalKeluar) .value {
+color: #fff;
+text-shadow: 0 2px 6px rgba(142,57,0,0.5);
+}
+.ringkasan.phbi .card:has(#phbiSaldoAkhir) {
+background: linear-gradient(135deg, #4a148c 0%, #311b92 100%);
+}
+.ringkasan.phbi .card:has(#phbiSaldoAkhir) h3,
+.ringkasan.phbi .card:has(#phbiSaldoAkhir) .value {
+color: #fff;
+text-shadow: 0 2px 6px rgba(49,27,146,0.5);
+}
 .live-badge { display:inline-flex; align-items:center; gap:5px; font-size:0.75rem; color:#0d6e3f; font-weight:bold; background:rgba(13,110,63,0.08); padding:2px 10px; border-radius:12px; margin-left:6px; }
+.live-badge.phbi { color: var(--phbi-primary); background: rgba(123,31,162,0.08); }
 .live-dot { width:8px; height:8px; border-radius:50%; background:#e53935; animation:pulse 1.2s infinite; }
 @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
 .share-fab {
@@ -596,65 +612,78 @@ transform: translateX(-50%) translateY(0);
 /* ===== SINGLE VIEW MODE ===== */
 .section-hidden { display: none !important; }
 .section-visible { display: block !important; }
-
-/* Tombol Tampilkan Semua */
 .show-all-btn {
-  position: fixed;
-  top: 80px;
-  right: 20px;
-  z-index: 1600;
-  background: linear-gradient(135deg, var(--accent), #a07d1c);
-  color: var(--primary-dark);
-  padding: 10px 18px;
-  border-radius: 30px;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 0.85rem;
-  box-shadow: 0 4px 15px rgba(201,162,39,0.5);
-  display: none;
-  align-items: center;
-  gap: 6px;
-  transition: transform 0.2s, box-shadow 0.2s;
+position: fixed;
+top: 80px;
+right: 20px;
+z-index: 1600;
+background: linear-gradient(135deg, var(--accent), #a07d1c);
+color: var(--primary-dark);
+padding: 10px 18px;
+border-radius: 30px;
+border: none;
+cursor: pointer;
+font-weight: bold;
+font-size: 0.85rem;
+box-shadow: 0 4px 15px rgba(201,162,39,0.5);
+display: none;
+align-items: center;
+gap: 6px;
+transition: transform 0.2s, box-shadow 0.2s;
 }
 .show-all-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(201,162,39,0.7);
+transform: translateY(-2px);
+box-shadow: 0 6px 20px rgba(201,162,39,0.7);
 }
 .show-all-btn.active { display: inline-flex; }
-
-/* Info label section aktif */
 .active-section-label {
-  display: none;
-  background: var(--primary);
-  color: #fff;
-  padding: 12px 20px;
-  border-radius: 8px;
-  margin: 20px auto;
-  max-width: 1200px;
-  font-weight: bold;
-  text-align: center;
-  box-shadow: 0 4px 15px rgba(13,110,63,0.3);
+display: none;
+background: var(--primary);
+color: #fff;
+padding: 12px 20px;
+border-radius: 8px;
+margin: 20px auto;
+max-width: 1200px;
+font-weight: bold;
+text-align: center;
+box-shadow: 0 4px 15px rgba(13,110,63,0.3);
 }
 .active-section-label.active { display: block; }
-
 @media (max-width: 600px) {
-  .show-all-btn {
-    top: 70px;
-    right: 10px;
-    padding: 8px 14px;
-    font-size: 0.78rem;
-  }
+.show-all-btn {
+top: 70px;
+right: 10px;
+padding: 8px 14px;
+font-size: 0.78rem;
+}
+}
+/* ===== TOMBOL INPUT INFAK PHBI ===== */
+.btn-input-phbi {
+display: inline-flex;
+align-items: center;
+gap: 8px;
+background: linear-gradient(135deg, var(--phbi-primary), var(--phbi-dark));
+color: #fff;
+padding: 12px 24px;
+border-radius: 30px;
+border: none;
+cursor: pointer;
+font-weight: bold;
+font-size: 0.95rem;
+box-shadow: 0 4px 15px rgba(123,31,162,0.4);
+transition: transform 0.2s, box-shadow 0.2s;
+margin-top: 10px;
+}
+.btn-input-phbi:hover {
+transform: translateY(-2px);
+box-shadow: 0 6px 20px rgba(123,31,162,0.55);
 }
 </style>
 </head>
 <body>
-<!-- Tombol Tampilkan Semua Section -->
 <button class="show-all-btn" id="showAllBtn" onclick="tampilkanSemua()">
-  🏠 Tampilkan Semua
+🏠 Tampilkan Semua
 </button>
-
-<!-- Label Section Aktif -->
 <div class="active-section-label" id="activeLabel"></div>
 <div class="topbar">
 <div class="container">
@@ -693,7 +722,8 @@ transform: translateX(-50%) translateY(0);
 <li><a href="#bmt">Bidang Baitul Mal Wa Tanwil</a></li>
 <li><a href="#phbi">Pelaksanaan PHBI</a></li>
 <li><a href="#kesejahteraan">Bidang Kesejahteraan Masjid</a></li>
-<li><a href="#buku-kas">Bidang Buku Kas Masjid</a></li>
+<li><a href="#buku-kas">Buku Kas Masjid</a></li>
+<li><a href="#buku-kas-phbi">📗 Buku Kas PHBI</a></li>
 </ul>
 </li>
 <li><a href="#anggaran">Anggaran & Proposal</a></li>
@@ -852,9 +882,10 @@ transform: translateX(-50%) translateY(0);
 </div>
 </div>
 </section>
+<!-- ===== BUKU KAS MASJID (UTAMA) ===== -->
 <section id="buku-kas">
 <div class="container">
-<h2 class="section-title">📒 Buku Kas Digital</h2>
+<h2 class="section-title">📒 Buku Kas Digital Masjid</h2>
 <p class="subtitle">Data real-time dari Dashboard Input Masjid <span class="live-badge"><span class="live-dot"></span>LIVE <span id="liveTime"></span></span></p>
 <div class="ringkasan">
 <div class="card"><h3>💰 Total Pemasukan</h3><div class="value" id="totalMasuk">Rp 0</div></div>
@@ -869,6 +900,42 @@ transform: translateX(-50%) translateY(0);
 </div>
 <div class="info-box" style="margin-top:20px;">
 <strong> Catatan Akuntansi:</strong> Saldo dihitung otomatis di frontend sebagai <strong>kumulatif (Pemasukan − Pengeluaran)</strong> dari data transaksi aktual untuk menjamin akurasi sesuai prinsip pembukuan standar.
+</div>
+</div>
+</section>
+<!-- ===== BUKU KAS DIGITAL PHBI (BARU - TERPISAH) ===== -->
+<section id="buku-kas-phbi">
+<div class="container">
+<h2 class="section-title" style="border-left-color: var(--phbi-accent);">📗 Buku Kas Digital PHBI</h2>
+<p class="subtitle">Pembukuan khusus Pemasukan & Pengeluaran Hari Besar Islam (Maulid, Isra Mi'raj, Idul Fitri, Idul Adha, Muharram, dll) — <strong>terpisah dari Buku Kas Masjid</strong> <span class="live-badge phbi"><span class="live-dot"></span>LIVE <span id="liveTimePHBI"></span></span></p>
+
+<div class="ringkasan phbi">
+<div class="card"><h3>💜 Total Pemasukan PHBI</h3><div class="value" id="phbiTotalMasuk">Rp 0</div></div>
+<div class="card"><h3>🧡 Total Pengeluaran PHBI</h3><div class="value" id="phbiTotalKeluar">Rp 0</div></div>
+<div class="card"><h3>💎 Saldo Kas PHBI</h3><div class="value" id="phbiSaldoAkhir">Rp 0</div></div>
+</div>
+
+<div style="display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; align-items:center; margin-bottom:15px;">
+<div style="color:#fff; font-size:0.9rem;">
+<strong>Kategori Pemasukan:</strong>
+<span class="status-badge status-donatur">Donatur</span>
+<span class="status-badge status-infaq">Infaq</span>
+<span class="status-badge status-sodaqoh">Sodaqoh</span>
+</div>
+<button class="btn-input-phbi" onclick="bukaModalInfaqPHBI()">
+📝 Input Infaq PHBI
+</button>
+</div>
+
+<div class="table-wrapper">
+<table class="phbi-table">
+<thead><tr><th>No</th><th>Tanggal</th><th>No. Bukti</th><th>Jenis</th><th>Kategori</th><th>Nama Donatur</th><th>Uraian</th><th>Jumlah</th><th>Saldo</th></tr></thead>
+<tbody id="bodyTransaksiPHBI"><tr><td colspan="9" class="loading">⏳ Memuat data PHBI...</td></tr></tbody>
+</table>
+</div>
+
+<div class="info-box phbi" style="margin-top:20px;">
+<strong>📌 Catatan Penting:</strong> Buku Kas PHBI dikelola <strong>terpisah</strong> dari Buku Kas Masjid. Seluruh pemasukan (Donatur/Infaq/Sodaqoh) dan pengeluaran kegiatan Hari Besar Islam tercatat transparan di sini. Dana PHBI yang bersaldo akhir akan dilaporkan ke Bendahara Masjid secara berkala.
 </div>
 </div>
 </section>
@@ -951,6 +1018,7 @@ transform: translateX(-50%) translateY(0);
 </div>
 </div>
 </section>
+<!-- ===== MODAL DONASI UMUM (MASJID) ===== -->
 <div id="modalDonasi" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:2000;overflow-y:auto;padding:20px;">
 <div style="max-width:500px;margin:40px auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
 <div style="background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;padding:20px;display:flex;justify-content:space-between;align-items:center;">
@@ -982,6 +1050,63 @@ transform: translateX(-50%) translateY(0);
 </form>
 </div>
 </div>
+<!-- ===== MODAL INPUT INFAK PHBI (BARU) ===== -->
+<div id="modalInfaqPHBI" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:2000;overflow-y:auto;padding:20px;">
+<div style="max-width:500px;margin:40px auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+<div style="background:linear-gradient(135deg,var(--phbi-primary),var(--phbi-dark));color:#fff;padding:20px;display:flex;justify-content:space-between;align-items:center;">
+<h3 style="margin:0;font-size:1.2rem;">📗 Input Infaq PHBI</h3>
+<button onclick="tutupModalInfaqPHBI()" style="background:transparent;border:none;color:#fff;font-size:1.5rem;cursor:pointer;">✕</button>
+</div>
+<form id="formInfaqPHBI" onsubmit="kirimInfaqPHBI(event)" style="padding:25px;">
+<div id="alertInfaqPHBI" style="display:none;padding:12px;border-radius:6px;margin-bottom:15px;font-weight:bold;"></div>
+
+<label style="display:block;margin-bottom:5px;font-weight:bold;font-size:0.9rem;">Jenis Transaksi PHBI</label>
+<select id="phbi_jenis" onchange="updateFieldPHBI()" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-bottom:15px;font-weight:bold;color:var(--phbi-primary);">
+<option value="Pemasukan">💰 Pemasukan (Infaq PHBI)</option>
+<option value="Pengeluaran">💸 Pengeluaran Kegiatan PHBI</option>
+</select>
+
+<label style="display:block;margin-bottom:5px;font-weight:bold;font-size:0.9rem;">Kategori <span id="phbi_kategori_hint" style="color:#999;font-weight:normal;">(Donatur / Infaq / Sodaqoh)</span></label>
+<select id="phbi_kategori" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-bottom:15px;">
+<option value="Donatur">Donatur</option>
+<option value="Infaq" selected>Infaq</option>
+<option value="Sodaqoh">Sodaqoh</option>
+</select>
+
+<label style="display:block;margin-bottom:5px;font-weight:bold;font-size:0.9rem;">Nama Acara PHBI</label>
+<select id="phbi_acara" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-bottom:15px;">
+<option value="Maulid Nabi">Maulid Nabi Muhammad SAW</option>
+<option value="Isra Mi'raj">Isra Mi'raj</option>
+<option value="Nuzulul Quran">Nuzulul Quran</option>
+<option value="Ramadhan">Ramadhan</option>
+<option value="Idul Fitri">Idul Fitri</option>
+<option value="Idul Adha">Idul Adha</option>
+<option value="Tahun Baru Islam">Tahun Baru Islam (Muharram)</option>
+<option value="Imlek / Cap Go Meh">Imlek / Cap Go Meh</option>
+<option value="Agenda Lainnya">Agenda PHBI Lainnya</option>
+</select>
+
+<label style="display:block;margin-bottom:5px;font-weight:bold;font-size:0.9rem;" id="labelNamaDonatur">Nama Donatur <span style="color:#999;font-weight:normal;">(boleh "Hamba Allah")</span></label>
+<input type="text" id="phbi_nama" placeholder="Nama donatur / Hamba Allah" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-bottom:15px;">
+
+<label style="display:block;margin-bottom:5px;font-weight:bold;font-size:0.9rem;">Nominal (Rp) *</label>
+<input type="text" id="phbi_nominal" required inputmode="numeric" pattern="[0-9]*" placeholder="Contoh: 100000" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-bottom:15px;font-size:16px !important;font-weight:bold;">
+
+<label style="display:block;margin-bottom:5px;font-weight:bold;font-size:0.9rem;">Metode</label>
+<select id="phbi_metode" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-bottom:15px;">
+<option value="Tunai">Tunai (Kotak Infaq PHBI)</option>
+<option value="Transfer">Transfer Bank</option>
+<option value="QRIS">QRIS</option>
+</select>
+
+<label style="display:block;margin-bottom:5px;font-weight:bold;font-size:0.9rem;">Uraian / Keterangan <span style="color:#999;font-weight:normal;">(opsional)</span></label>
+<textarea id="phbi_uraian" rows="2" placeholder="Contoh: Infaq acara Maulid Nabi 12 Rabiul Awal" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-bottom:15px;resize:vertical;"></textarea>
+
+<button type="submit" id="btnInfaqPHBI" style="width:100%;background:linear-gradient(135deg,var(--phbi-primary),var(--phbi-dark));color:#fff;padding:14px;border:none;border-radius:6px;font-weight:bold;font-size:1rem;cursor:pointer;">✅ SIMPAN INFAK PHBI</button>
+<p style="font-size:0.78rem;color:var(--muted);text-align:center;margin-top:12px;">🔒 Data tercatat di 📗 Buku Kas Digital PHBI (terpisah dari Buku Kas Masjid)</p>
+</form>
+</div>
+</div>
 <div class="share-fab" id="shareFab">
 <div class="share-options" id="shareOptions">
 <a href="javascript:void(0)" class="share-item" onclick="shareTo('whatsapp')"><span class="share-icon wa">💬</span><span>WhatsApp</span></a>
@@ -1006,6 +1131,8 @@ transform: translateX(-50%) translateY(0);
 <p><a href="#profil">Profil Masjid</a></p>
 <p><a href="#majlis-talim">Kegiatan Rutin</a></p>
 <p><a href="#badan-pengembangan">Badan Pengembangan</a></p>
+<p><a href="#buku-kas">Buku Kas Masjid</a></p>
+<p><a href="#buku-kas-phbi">Buku Kas PHBI</a></p>
 <p><a href="#anggaran">Anggaran & Proposal</a></p>
 <p><a href="#kontak">Kontak Kami</a></p>
 </div>
@@ -1194,7 +1321,7 @@ JUMLAH_RETRY = 0;
 });
 }
 function tampilkanError(pesan) {
-var ids = ['bodyTransaksi', 'bodyJumat', 'bodyRawatib', 'bodyDzikir', 'bodyPanitia', 'gridPendidikan', 'gridProposal'];
+var ids = ['bodyTransaksi','bodyTransaksiPHBI','bodyJumat','bodyRawatib','bodyDzikir','bodyPanitia','gridPendidikan','gridProposal'];
 for (var i = 0; i < ids.length; i++) {
 var el = document.getElementById(ids[i]);
 if (!el) continue;
@@ -1208,6 +1335,7 @@ el.innerHTML = '<div class="error-msg">Gagal memuat: ' + pesan + '</div>';
 }
 function renderSemua() {
 renderTransaksi();
+renderTransaksiPHBI();
 renderJumat();
 renderRawatib();
 renderDzikir();
@@ -1262,6 +1390,62 @@ html += '<td>' + (r.tanggal || '-') + '</td>';
 html += '<td><code>' + (r.bukti || '-') + '</code></td>';
 html += '<td><span class="status-badge ' + cls + '">' + (jenis || '-') + '</span></td>';
 html += '<td>' + (r.kategori || '-') + '</td>';
+html += '<td>' + (r.uraian || '-') + '</td>';
+html += '<td><strong>' + tanda + ' ' + formatRp(jumlah) + '</strong></td>';
+html += '<td><strong>' + formatRp(saldoKumulatif) + '</strong></td>';
+html += '</tr>';
+}
+tbody.innerHTML = html;
+}
+/* ===== RENDER BUKU KAS PHBI (TERPISAH) ===== */
+function renderTransaksiPHBI() {
+var d = DATA_CACHE.transaksi_phbi || {ringkasan:{masuk:0,keluar:0,saldo:0}, data:[]};
+var listData = d.data || [];
+var totalMasuk = 0;
+var totalKeluar = 0;
+for (var i = 0; i < listData.length; i++) {
+var jumlah = toNumber(listData[i].jumlah);
+var jenis = String(listData[i].jenis || '').trim().toLowerCase();
+if (jenis === 'pemasukan' || jenis === 'masuk') totalMasuk += jumlah;
+else if (jenis === 'pengeluaran' || jenis === 'keluar') totalKeluar += jumlah;
+}
+totalMasuk = Math.round(totalMasuk);
+totalKeluar = Math.round(totalKeluar);
+var saldoAkhir = totalMasuk - totalKeluar;
+document.getElementById('phbiTotalMasuk').textContent = formatRp(totalMasuk);
+document.getElementById('phbiTotalKeluar').textContent = formatRp(totalKeluar);
+document.getElementById('phbiSaldoAkhir').textContent = formatRp(saldoAkhir);
+var tbody = document.getElementById('bodyTransaksiPHBI');
+if (listData.length === 0) {
+tbody.innerHTML = '<tr><td colspan="9" class="empty-msg">Belum ada data transaksi PHBI</td></tr>';
+return;
+}
+var saldoKumulatif = 0;
+var html = '';
+for (var i = 0; i < listData.length; i++) {
+var r = listData[i];
+var jumlah = toNumber(r.jumlah);
+var jenis = String(r.jenis || '').trim();
+var jenisLower = jenis.toLowerCase();
+var isMasuk = (jenisLower === 'pemasukan' || jenisLower === 'masuk');
+if (isMasuk) saldoKumulatif += jumlah;
+else saldoKumulatif -= jumlah;
+saldoKumulatif = Math.round(saldoKumulatif);
+var kategori = String(r.kategori || '').trim();
+var kategoriLower = kategori.toLowerCase();
+var badgeClass = 'status-in';
+if (kategoriLower === 'donatur') badgeClass = 'status-donatur';
+else if (kategoriLower === 'infaq') badgeClass = 'status-infaq';
+else if (kategoriLower === 'sodaqoh' || kategoriLower === 'shodaqoh') badgeClass = 'status-sodaqoh';
+else if (jenisLower === 'pengeluaran' || jenisLower === 'keluar') badgeClass = 'status-out';
+var tanda = isMasuk ? '+' : '-';
+html += '<tr>';
+html += '<td>' + (i + 1) + '</td>';
+html += '<td>' + (r.tanggal || '-') + '</td>';
+html += '<td><code>' + (r.bukti || '-') + '</code></td>';
+html += '<td><span class="status-badge ' + (isMasuk ? 'status-in' : 'status-out') + '">' + (jenis || '-') + '</span></td>';
+html += '<td><span class="status-badge ' + badgeClass + '">' + (kategori || '-') + '</span></td>';
+html += '<td>' + (r.donatur || '-') + '</td>';
 html += '<td>' + (r.uraian || '-') + '</td>';
 html += '<td><strong>' + tanda + ' ' + formatRp(jumlah) + '</strong></td>';
 html += '<td><strong>' + formatRp(saldoKumulatif) + '</strong></td>';
@@ -1408,6 +1592,8 @@ DATA_CACHE = json;
 renderSemua();
 var el = document.getElementById('liveTime');
 if (el) el.textContent = 'Update: ' + new Date().toLocaleTimeString('id-ID');
+var elPHBI = document.getElementById('liveTimePHBI');
+if (elPHBI) elPHBI.textContent = 'Update: ' + new Date().toLocaleTimeString('id-ID');
 })
 .catch(function(err) { console.log('Gagal memuat...'); })
 .finally(function() { IS_LOADING_2 = false; });
@@ -1417,6 +1603,7 @@ setInterval(function() {
 if (!document.hidden) sinkronisasi();
 }, 3000);
 setInterval(loadAllData, 2 * 60 * 1000);
+/* ===== MODAL DONASI UMUM ===== */
 function bukaModalDonasi(metode) {
 document.getElementById('modalDonasi').style.display = 'block';
 document.getElementById('donasi_metode').value = metode;
@@ -1481,176 +1668,229 @@ btn.disabled = false;
 btn.innerText = '✅ KIRIM KONFIRMASI';
 });
 }
-// ===== NAVIGASI SCROLL LANGSUNG KE SECTION =====
+/* ===== MODAL INFAK PHBI (BARU) ===== */
+function bukaModalInfaqPHBI() {
+document.getElementById('modalInfaqPHBI').style.display = 'block';
+document.getElementById('formInfaqPHBI').reset();
+document.getElementById('alertInfaqPHBI').style.display = 'none';
+document.getElementById('phbi_jenis').value = 'Pemasukan';
+document.getElementById('phbi_kategori').value = 'Infaq';
+updateFieldPHBI();
+document.body.style.overflow = 'hidden';
+}
+function tutupModalInfaqPHBI() {
+document.getElementById('modalInfaqPHBI').style.display = 'none';
+document.body.style.overflow = '';
+}
+document.getElementById('modalInfaqPHBI').addEventListener('click', function(e) {
+if (e.target === this) tutupModalInfaqPHBI();
+});
+function updateFieldPHBI() {
+var jenis = document.getElementById('phbi_jenis').value;
+var labelNama = document.getElementById('labelNamaDonatur');
+var inputNama = document.getElementById('phbi_nama');
+var kategoriSelect = document.getElementById('phbi_kategori');
+var hint = document.getElementById('phbi_kategori_hint');
+if (jenis === 'Pemasukan') {
+labelNama.innerHTML = 'Nama Donatur <span style="color:#999;font-weight:normal;">(boleh "Hamba Allah")</span>';
+inputNama.placeholder = 'Nama donatur / Hamba Allah';
+inputNama.required = false;
+hint.innerHTML = '(Donatur / Infaq / Sodaqoh)';
+kategoriSelect.innerHTML = '<option value="Donatur">Donatur</option><option value="Infaq" selected>Infaq</option><option value="Sodaqoh">Sodaqoh</option>';
+} else {
+labelNama.innerHTML = 'Penerima / Tujuan <span style="color:#999;font-weight:normal;">(opsional)</span>';
+inputNama.placeholder = 'Contoh: Ustadz Pengisi Acara, Vendor Konsumsi, dll';
+inputNama.required = false;
+hint.innerHTML = '(Pengeluaran Kegiatan)';
+kategoriSelect.innerHTML = '<option value="Honor Pemateri/Khatib">Honor Pemateri/Khatib</option><option value="Konsumsi">Konsumsi</option><option value="Dekorasi & Perlengkapan">Dekorasi & Perlengkapan</option><option value="Sound System">Sound System</option><option value="Cetak & Publikasi">Cetak & Publikasi</option><option value="Santunan">Santunan</option><option value="Lain-lain">Lain-lain</option>';
+}
+}
+function kirimInfaqPHBI(e) {
+e.preventDefault();
+var btn = document.getElementById('btnInfaqPHBI');
+var alertBox = document.getElementById('alertInfaqPHBI');
+var payload = {
+jenis: document.getElementById('phbi_jenis').value,
+kategori: document.getElementById('phbi_kategori').value,
+acara: document.getElementById('phbi_acara').value,
+nama: document.getElementById('phbi_nama').value.trim() || 'Hamba Allah',
+nominal: document.getElementById('phbi_nominal').value,
+metode: document.getElementById('phbi_metode').value,
+uraian: document.getElementById('phbi_uraian').value.trim()
+};
+if (!payload.nominal || Number(payload.nominal) <= 0) {
+alertBox.style.display = 'block';
+alertBox.style.background = '#f8d7da';
+alertBox.style.color = '#721c24';
+alertBox.innerText = '❌ Nominal harus lebih dari 0';
+return;
+}
+btn.disabled = true;
+btn.innerText = '⏳ Menyimpan...';
+alertBox.style.display = 'none';
+fetch(API_URL, {
+method: 'POST',
+mode: 'no-cors',
+headers: {'Content-Type': 'application/json'},
+body: JSON.stringify({action: 'infaq_phbi', payload: payload})
+})
+.then(function() {
+alertBox.style.display = 'block';
+alertBox.style.background = '#d4edda';
+alertBox.style.color = '#155724';
+alertBox.innerHTML = '✅ <strong>Alhamdulillah!</strong> Infaq PHBI Rp ' +
+Number(payload.nominal).toLocaleString('id-ID') +
+' tercatat di 📗 Buku Kas PHBI.<br><small>Data akan muncul dalam ±5 detik.</small>';
+document.getElementById('formInfaqPHBI').reset();
+document.getElementById('phbi_jenis').value = 'Pemasukan';
+updateFieldPHBI();
+setTimeout(function() { sinkronisasi(); }, 3000);
+btn.disabled = false;
+btn.innerText = '✅ SIMPAN INFAK PHBI';
+})
+.catch(function(err) {
+alertBox.style.display = 'block';
+alertBox.style.background = '#f8d7da';
+alertBox.style.color = '#721c24';
+alertBox.innerText = '❌ Gagal: ' + err.message;
+btn.disabled = false;
+btn.innerText = '✅ SIMPAN INFAK PHBI';
+});
+}
+/* ===== NAVIGASI SCROLL LANGSUNG KE SECTION ===== */
 (function() {
-  var NAV_HEIGHT = 60; // Tinggi navbar sticky
-  var EXTRA_OFFSET = 20; // Jarak tambahan dari atas section
-  
-  function scrollToTarget(targetId) {
-    var target = document.getElementById(targetId);
-    if (!target) return;
-    
-    var targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
-    var offsetPosition = targetPosition - NAV_HEIGHT - EXTRA_OFFSET;
-    
-    window.scrollTo({
-      top: offsetPosition,
-      behavior: 'auto'
-    });
-  }
-  
-  // Intercept semua klik link anchor
-  document.addEventListener('click', function(e) {
-    var link = e.target.closest('a[href^="#"]');
-    if (!link) return;
-    
-    var targetId = link.getAttribute('href').substring(1);
-    if (!targetId) return;
-    
-    // Jangan intercept untuk link kosong atau '#'
-    if (targetId === '') return;
-    
-    var targetSection = document.getElementById(targetId);
-    if (targetSection && targetSection.tagName === 'SECTION') {
-      e.preventDefault();
-      scrollToTarget(targetId);
-      
-      // Update URL
-      history.pushState(null, null, '#' + targetId);
-      
-      // Tutup dropdown menu mobile jika terbuka
-      var navList = document.getElementById('navList');
-      if (navList) navList.classList.remove('open');
-      
-      // Tutup semua dropdown
-      var allDropdowns = document.querySelectorAll('.dropdown.open');
-      for (var i = 0; i < allDropdowns.length; i++) {
-        allDropdowns[i].classList.remove('open');
-      }
-    }
-  });
-  
-  // Handle tombol "Lihat Kegiatan Kami"
-  var btnHero = document.querySelector('.btn-hero[href="#profil"]');
-  if (btnHero) {
-    btnHero.addEventListener('click', function(e) {
-      e.preventDefault();
-      scrollToTarget('profil');
-    });
-  }
-  
-  // Handle scroll saat halaman dimuat dengan hash
-  if (window.location.hash) {
-    var hash = window.location.hash.substring(1);
-    setTimeout(function() {
-      scrollToTarget(hash);
-    }, 300);
-  }
+var NAV_HEIGHT = 60;
+var EXTRA_OFFSET = 20;
+function scrollToTarget(targetId) {
+var target = document.getElementById(targetId);
+if (!target) return;
+var targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+var offsetPosition = targetPosition - NAV_HEIGHT - EXTRA_OFFSET;
+window.scrollTo({
+top: offsetPosition,
+behavior: 'auto'
+});
+}
+document.addEventListener('click', function(e) {
+var link = e.target.closest('a[href^="#"]');
+if (!link) return;
+var targetId = link.getAttribute('href').substring(1);
+if (!targetId) return;
+if (targetId === '') return;
+var targetSection = document.getElementById(targetId);
+if (targetSection && targetSection.tagName === 'SECTION') {
+e.preventDefault();
+scrollToTarget(targetId);
+history.pushState(null, null, '#' + targetId);
+var navList = document.getElementById('navList');
+if (navList) navList.classList.remove('open');
+var allDropdowns = document.querySelectorAll('.dropdown.open');
+for (var i = 0; i < allDropdowns.length; i++) {
+allDropdowns[i].classList.remove('open');
+}
+}
+});
+var btnHero = document.querySelector('.btn-hero[href="#profil"]');
+if (btnHero) {
+btnHero.addEventListener('click', function(e) {
+e.preventDefault();
+scrollToTarget('profil');
+});
+}
+if (window.location.hash) {
+var hash = window.location.hash.substring(1);
+setTimeout(function() {
+scrollToTarget(hash);
+}, 300);
+}
 })();
-// ===== ANTI-ZOOM RUNTIME =====
+/* ===== ANTI-ZOOM RUNTIME ===== */
 (function() {
-    var inputs = document.querySelectorAll('input, textarea, select, button');
-    for (var i = 0; i < inputs.length; i++) {
-        inputs[i].style.fontSize = '16px';
-        if (inputs[i].type === 'number') {
-            inputs[i].type = 'text';
-            inputs[i].setAttribute('inputmode', 'numeric');
-        }
-    }
-    document.addEventListener('touchstart', function(e) {
-        if (e.touches.length > 1) e.preventDefault();
-    }, { passive: false });
-    document.addEventListener('gesturestart', function(e) { e.preventDefault(); });
+var inputs = document.querySelectorAll('input, textarea, select, button');
+for (var i = 0; i < inputs.length; i++) {
+inputs[i].style.fontSize = '16px';
+if (inputs[i].type === 'number') {
+inputs[i].type = 'text';
+inputs[i].setAttribute('inputmode', 'numeric');
+}
+}
+document.addEventListener('touchstart', function(e) {
+if (e.touches.length > 1) e.preventDefault();
+}, { passive: false });
+document.addEventListener('gesturestart', function(e) { e.preventDefault(); });
 })();
-// ===== SISTEM SINGLE VIEW MODE =====
+/* ===== SISTEM SINGLE VIEW MODE ===== */
 (function() {
-  var semuaSection = document.querySelectorAll('section');
-  var showAllBtn = document.getElementById('showAllBtn');
-  var activeLabel = document.getElementById('activeLabel');
-  
-  // Peta nama menu untuk label yang ramah
-  var namaSection = {
-    'beranda': 'Beranda',
-    'profil': 'Profil Masjid',
-    'majlis-talim': 'Majlis Ta\'lim',
-    'majlis-dzikir': 'Majlis Dzikir',
-    'petugas-jumat': 'Petugas Jumat',
-    'petugas-rawatib': 'Petugas Rawatib',
-    'badan-pengembangan': 'Badan Pengembangan Masjid',
-    'bidang-ibadah': 'Bidang Ibadah',
-    'bidang-pendidikan': 'Bidang Pendidikan Anak',
-    'bmt': 'Baitul Mal Wa Tanwil',
-    'phbi': 'Panitia PHBI',
-    'kesejahteraan': 'Kesejahteraan Masjid',
-    'buku-kas': 'Buku Kas Digital',
-    'anggaran': 'Anggaran & Proposal',
-    'kontak': 'Kontak & Lokasi',
-    'donasi': 'Donasi Digital',
-    'share': 'Bagikan Website'
-  };
-  
-  // Fungsi untuk menampilkan hanya 1 section
-  window.tampilkanSatu = function(idSection) {
-    for (var i = 0; i < semuaSection.length; i++) {
-      if (semuaSection[i].id === idSection) {
-        semuaSection[i].classList.remove('section-hidden');
-        semuaSection[i].classList.add('section-visible');
-      } else {
-        semuaSection[i].classList.add('section-hidden');
-        semuaSection[i].classList.remove('section-visible');
-      }
-    }
-    // Tampilkan tombol "Tampilkan Semua"
-    showAllBtn.classList.add('active');
-    // Tampilkan label
-    var nama = namaSection[idSection] || idSection;
-    activeLabel.innerHTML = '📌 Sedang menampilkan: <strong>' + nama + '</strong>';
-    activeLabel.classList.add('active');
-    // Scroll ke atas
-    window.scrollTo({ top: 0, behavior: 'auto' });
-  };
-  
-  // Fungsi untuk menampilkan semua section
-  window.tampilkanSemua = function() {
-    for (var i = 0; i < semuaSection.length; i++) {
-      semuaSection[i].classList.remove('section-hidden');
-      semuaSection[i].classList.add('section-visible');
-    }
-    showAllBtn.classList.remove('active');
-    activeLabel.classList.remove('active');
-    window.scrollTo({ top: 0, behavior: 'auto' });
-  };
-  
-  // Intercept semua klik link anchor (#id)
-  document.addEventListener('click', function(e) {
-    var link = e.target.closest('a[href^="#"]');
-    if (!link) return;
-    
-    var targetId = link.getAttribute('href').substring(1);
-    if (!targetId) return;
-    
-    // Jika target adalah 'beranda' atau 'share' → tampilkan semua
-    if (targetId === 'beranda' || targetId === 'share') {
-      window.tampilkanSemua();
-      return;
-    }
-    
-    // Cek apakah section dengan id tersebut ada
-    var targetSection = document.getElementById(targetId);
-    if (targetSection && targetSection.tagName === 'SECTION') {
-      e.preventDefault();
-      window.tampilkanSatu(targetId);
-    }
-  });
-  
-  // Handle klik tombol "Lihat Kegiatan Kami" di hero
-  var btnHero = document.querySelector('.btn-hero[href="#profil"]');
-  if (btnHero) {
-    btnHero.addEventListener('click', function(e) {
-      e.preventDefault();
-      window.tampilkanSatu('profil');
-    });
-  }
+var semuaSection = document.querySelectorAll('section');
+var showAllBtn = document.getElementById('showAllBtn');
+var activeLabel = document.getElementById('activeLabel');
+var namaSection = {
+'beranda': 'Beranda',
+'profil': 'Profil Masjid',
+'majlis-talim': 'Majlis Ta\'lim',
+'majlis-dzikir': 'Majlis Dzikir',
+'petugas-jumat': 'Petugas Jumat',
+'petugas-rawatib': 'Petugas Rawatib',
+'badan-pengembangan': 'Badan Pengembangan Masjid',
+'bidang-ibadah': 'Bidang Ibadah',
+'bidang-pendidikan': 'Bidang Pendidikan Anak',
+'bmt': 'Baitul Mal Wa Tanwil',
+'phbi': 'Panitia PHBI',
+'kesejahteraan': 'Kesejahteraan Masjid',
+'buku-kas': 'Buku Kas Digital Masjid',
+'buku-kas-phbi': '📗 Buku Kas Digital PHBI',
+'anggaran': 'Anggaran & Proposal',
+'kontak': 'Kontak & Lokasi',
+'donasi': 'Donasi Digital',
+'share': 'Bagikan Website'
+};
+window.tampilkanSatu = function(idSection) {
+for (var i = 0; i < semuaSection.length; i++) {
+if (semuaSection[i].id === idSection) {
+semuaSection[i].classList.remove('section-hidden');
+semuaSection[i].classList.add('section-visible');
+} else {
+semuaSection[i].classList.add('section-hidden');
+semuaSection[i].classList.remove('section-visible');
+}
+}
+showAllBtn.classList.add('active');
+var nama = namaSection[idSection] || idSection;
+activeLabel.innerHTML = '📌 Sedang menampilkan: <strong>' + nama + '</strong>';
+activeLabel.classList.add('active');
+window.scrollTo({ top: 0, behavior: 'auto' });
+};
+window.tampilkanSemua = function() {
+for (var i = 0; i < semuaSection.length; i++) {
+semuaSection[i].classList.remove('section-hidden');
+semuaSection[i].classList.add('section-visible');
+}
+showAllBtn.classList.remove('active');
+activeLabel.classList.remove('active');
+window.scrollTo({ top: 0, behavior: 'auto' });
+};
+document.addEventListener('click', function(e) {
+var link = e.target.closest('a[href^="#"]');
+if (!link) return;
+var targetId = link.getAttribute('href').substring(1);
+if (!targetId) return;
+if (targetId === 'beranda' || targetId === 'share') {
+window.tampilkanSemua();
+return;
+}
+var targetSection = document.getElementById(targetId);
+if (targetSection && targetSection.tagName === 'SECTION') {
+e.preventDefault();
+window.tampilkanSatu(targetId);
+}
+});
+var btnHero = document.querySelector('.btn-hero[href="#profil"]');
+if (btnHero) {
+btnHero.addEventListener('click', function(e) {
+e.preventDefault();
+window.tampilkanSatu('profil');
+});
+}
 })();
 </script>
 </body>
