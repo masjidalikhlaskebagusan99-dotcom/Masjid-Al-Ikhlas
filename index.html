@@ -8,13 +8,11 @@
 <meta property="og:title" content="Masjid Jami' Al-Ikhlas Kebagusan">
 <meta property="og:description" content="Pusat Dakwah, Pendidikan & Pelayanan Umat — Standar Nasional & Internasional">
 <meta property="og:type" content="website">
-<meta property="og:url" content="">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Amiri:wght@400;700&display=swap');
-/* ===== ANTI-ZOOM GLOBAL ===== */
 html, body { touch-action: manipulation; -webkit-text-size-adjust: 100%; }
 input, select, textarea, button { font-size: 16px !important; touch-action: manipulation; }
 :root {
@@ -30,6 +28,9 @@ input, select, textarea, button { font-size: 16px !important; touch-action: mani
 --phbi-primary: #7b1fa2;
 --phbi-dark: #4a148c;
 --phbi-accent: #ff6f00;
+--santunan-primary: #00695c;
+--santunan-dark: #004d40;
+--santunan-accent: #ffb300;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: auto; }
@@ -171,7 +172,7 @@ position: absolute;
 top: 100%;
 left: 0;
 background: var(--primary-dark);
-min-width: 260px;
+min-width: 280px;
 box-shadow: 0 6px 20px rgba(0,0,0,0.25);
 border-radius: 0 0 10px 10px;
 z-index: 999;
@@ -276,9 +277,10 @@ table th { padding: 13px 12px; text-align: left; font-size: 0.9rem; font-weight:
 table td { padding: 11px 12px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
 table tbody tr:hover { background: rgba(13,110,63,0.04); }
 table tbody tr:last-child td { border-bottom: none; }
-/* ===== TABEL KHUSUS PHBI (UNGU) ===== */
 table.phbi-table thead { background: linear-gradient(135deg, var(--phbi-primary), var(--phbi-dark)); }
 table.phbi-table tbody tr:hover { background: rgba(123,31,162,0.05); }
+table.santunan-table thead { background: linear-gradient(135deg, var(--santunan-primary), var(--santunan-dark)); }
+table.santunan-table tbody tr:hover { background: rgba(0,105,92,0.05); }
 .ringkasan {
 display: grid;
 grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -307,12 +309,16 @@ margin-top: 20px;
 font-size: 0.92rem;
 }
 .info-box strong { color: var(--primary); }
-/* Info box khusus PHBI */
 .info-box.phbi {
 background: rgba(123,31,162,0.06);
 border-left-color: var(--phbi-primary);
 }
 .info-box.phbi strong { color: var(--phbi-primary); }
+.info-box.santunan {
+background: rgba(0,105,92,0.06);
+border-left-color: var(--santunan-primary);
+}
+.info-box.santunan strong { color: var(--santunan-primary); }
 .status-badge {
 display: inline-block;
 padding: 3px 10px;
@@ -323,10 +329,11 @@ font-weight: 500;
 }
 .status-in { background: var(--primary); }
 .status-out { background: #c0392b; }
-/* Badge kategori PHBI */
 .status-donatur { background: var(--phbi-primary); }
 .status-infaq { background: var(--phbi-accent); }
 .status-sodaqoh { background: #00897b; }
+.status-yatim { background: #1565c0; }
+.status-dhuafa { background: #ad1457; }
 .progress-bar {
 background: #e8e4d9;
 border-radius: 10px;
@@ -423,7 +430,6 @@ text-shadow: 0 1px 2px rgba(0, 30, 80, 0.45);
 color: #ffffff;
 text-shadow: 0 -1px 0 rgba(0, 30, 80, 0.35), 0 1px 0 rgba(255, 255, 255, 0.35), 0 3px 5px rgba(0, 30, 80, 0.45);
 }
-/* ===== RINGKASAN KHUSUS PHBI (TEMA UNGU) ===== */
 .ringkasan.phbi .card:has(#phbiTotalMasuk) {
 background: linear-gradient(135deg, #ab47bc 0%, #7b1fa2 100%);
 }
@@ -448,8 +454,33 @@ background: linear-gradient(135deg, #4a148c 0%, #311b92 100%);
 color: #fff;
 text-shadow: 0 2px 6px rgba(49,27,146,0.5);
 }
+.ringkasan.santunan .card:has(#santunanTotalMasuk) {
+background: linear-gradient(135deg, #26a69a 0%, #00695c 100%);
+}
+.ringkasan.santunan .card:has(#santunanTotalMasuk) h3,
+.ringkasan.santunan .card:has(#santunanTotalMasuk) .value {
+color: #fff;
+text-shadow: 0 2px 6px rgba(0,77,64,0.5);
+}
+.ringkasan.santunan .card:has(#santunanTotalKeluar) {
+background: linear-gradient(135deg, #ffa000 0%, #ff6f00 100%);
+}
+.ringkasan.santunan .card:has(#santunanTotalKeluar) h3,
+.ringkasan.santunan .card:has(#santunanTotalKeluar) .value {
+color: #fff;
+text-shadow: 0 2px 6px rgba(230,81,0,0.5);
+}
+.ringkasan.santunan .card:has(#santunanSaldoAkhir) {
+background: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%);
+}
+.ringkasan.santunan .card:has(#santunanSaldoAkhir) h3,
+.ringkasan.santunan .card:has(#santunanSaldoAkhir) .value {
+color: #fff;
+text-shadow: 0 2px 6px rgba(13,71,161,0.5);
+}
 .live-badge { display:inline-flex; align-items:center; gap:5px; font-size:0.75rem; color:#0d6e3f; font-weight:bold; background:rgba(13,110,63,0.08); padding:2px 10px; border-radius:12px; margin-left:6px; }
 .live-badge.phbi { color: var(--phbi-primary); background: rgba(123,31,162,0.08); }
+.live-badge.santunan { color: var(--santunan-primary); background: rgba(0,105,92,0.08); }
 .live-dot { width:8px; height:8px; border-radius:50%; background:#e53935; animation:pulse 1.2s infinite; }
 @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
 .share-fab {
@@ -609,7 +640,6 @@ transform: translateX(-50%) translateY(0);
 .share-icon { width: 34px; height: 34px; font-size: 1rem; }
 .share-inline-btn { padding: 10px 16px; font-size: 0.85rem; }
 }
-/* ===== SINGLE VIEW MODE ===== */
 .section-hidden { display: none !important; }
 .section-visible { display: block !important; }
 .show-all-btn {
@@ -657,27 +687,6 @@ padding: 8px 14px;
 font-size: 0.78rem;
 }
 }
-/* ===== TOMBOL INPUT INFAK PHBI ===== */
-.btn-input-phbi {
-display: inline-flex;
-align-items: center;
-gap: 8px;
-background: linear-gradient(135deg, var(--phbi-primary), var(--phbi-dark));
-color: #fff;
-padding: 12px 24px;
-border-radius: 30px;
-border: none;
-cursor: pointer;
-font-weight: bold;
-font-size: 0.95rem;
-box-shadow: 0 4px 15px rgba(123,31,162,0.4);
-transition: transform 0.2s, box-shadow 0.2s;
-margin-top: 10px;
-}
-.btn-input-phbi:hover {
-transform: translateY(-2px);
-box-shadow: 0 6px 20px rgba(123,31,162,0.55);
-}
 </style>
 </head>
 <body>
@@ -722,8 +731,9 @@ box-shadow: 0 6px 20px rgba(123,31,162,0.55);
 <li><a href="#bmt">Bidang Baitul Mal Wa Tanwil</a></li>
 <li><a href="#phbi">Pelaksanaan PHBI</a></li>
 <li><a href="#kesejahteraan">Bidang Kesejahteraan Masjid</a></li>
-<li><a href="#buku-kas">Buku Kas Masjid</a></li>
+<li><a href="#buku-kas">📒 Buku Kas Masjid</a></li>
 <li><a href="#buku-kas-phbi">📗 Buku Kas PHBI</a></li>
+<li><a href="#buku-kas-santunan">📘 Buku Kas Santunan</a></li>
 </ul>
 </li>
 <li><a href="#anggaran">Anggaran & Proposal</a></li>
@@ -903,39 +913,65 @@ box-shadow: 0 6px 20px rgba(123,31,162,0.55);
 </div>
 </div>
 </section>
-<!-- ===== BUKU KAS DIGITAL PHBI (BARU - TERPISAH) ===== -->
+<!-- ===== BUKU KAS DIGITAL PHBI (VIEW ONLY) ===== -->
 <section id="buku-kas-phbi">
 <div class="container">
 <h2 class="section-title" style="border-left-color: var(--phbi-accent);">📗 Buku Kas Digital PHBI</h2>
-<p class="subtitle">Pembukuan khusus Pemasukan & Pengeluaran Hari Besar Islam (Maulid, Isra Mi'raj, Idul Fitri, Idul Adha, Muharram, dll) — <strong>terpisah dari Buku Kas Masjid</strong> <span class="live-badge phbi"><span class="live-dot"></span>LIVE <span id="liveTimePHBI"></span></span></p>
-
+<p class="subtitle">Pembukuan khusus Hari Besar Islam — <strong>terpisah dari Buku Kas Masjid</strong> <span class="live-badge phbi"><span class="live-dot"></span>LIVE <span id="liveTimePHBI"></span></span></p>
 <div class="ringkasan phbi">
 <div class="card"><h3>💜 Total Pemasukan PHBI</h3><div class="value" id="phbiTotalMasuk">Rp 0</div></div>
 <div class="card"><h3>🧡 Total Pengeluaran PHBI</h3><div class="value" id="phbiTotalKeluar">Rp 0</div></div>
 <div class="card"><h3>💎 Saldo Kas PHBI</h3><div class="value" id="phbiSaldoAkhir">Rp 0</div></div>
 </div>
-
-<div style="display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; align-items:center; margin-bottom:15px;">
+<div style="display:flex; flex-wrap:wrap; gap:10px; justify-content:flex-start; align-items:center; margin-bottom:15px;">
 <div style="color:#fff; font-size:0.9rem;">
 <strong>Kategori Pemasukan:</strong>
 <span class="status-badge status-donatur">Donatur</span>
 <span class="status-badge status-infaq">Infaq</span>
 <span class="status-badge status-sodaqoh">Sodaqoh</span>
 </div>
-<button class="btn-input-phbi" onclick="bukaModalInfaqPHBI()">
-📝 Input Infaq PHBI
-</button>
 </div>
-
 <div class="table-wrapper">
 <table class="phbi-table">
 <thead><tr><th>No</th><th>Tanggal</th><th>No. Bukti</th><th>Jenis</th><th>Kategori</th><th>Nama Donatur</th><th>Uraian</th><th>Jumlah</th><th>Saldo</th></tr></thead>
 <tbody id="bodyTransaksiPHBI"><tr><td colspan="9" class="loading">⏳ Memuat data PHBI...</td></tr></tbody>
 </table>
 </div>
-
 <div class="info-box phbi" style="margin-top:20px;">
-<strong>📌 Catatan Penting:</strong> Buku Kas PHBI dikelola <strong>terpisah</strong> dari Buku Kas Masjid. Seluruh pemasukan (Donatur/Infaq/Sodaqoh) dan pengeluaran kegiatan Hari Besar Islam tercatat transparan di sini. Dana PHBI yang bersaldo akhir akan dilaporkan ke Bendahara Masjid secara berkala.
+<strong>📌 Catatan Penting:</strong> Buku Kas PHBI dikelola <strong>terpisah</strong> dari Buku Kas Masjid. Seluruh pemasukan (Donatur/Infaq/Sodaqoh) dan pengeluaran kegiatan Hari Besar Islam tercatat transparan di sini. <strong>Input data hanya melalui Dashboard Input oleh pengurus yang berwenang.</strong>
+</div>
+</div>
+</section>
+<!-- ===== BUKU KAS DIGITAL SANTUNAN YATIM & DHUAFA (VIEW ONLY) ===== -->
+<section id="buku-kas-santunan">
+<div class="container">
+<h2 class="section-title" style="border-left-color: var(--santunan-accent);">📘 Buku Kas Digital Santunan Yatim & Dhuafa</h2>
+<p class="subtitle">Pembukuan khusus Dana Santunan Yatim Piatu & Kaum Dhuafa — <strong>terpisah dari Buku Kas Masjid & PHBI</strong> <span class="live-badge santunan"><span class="live-dot"></span>LIVE <span id="liveTimeSantunan"></span></span></p>
+<div class="ringkasan santunan">
+<div class="card"><h3>💚 Total Pemasukan Santunan</h3><div class="value" id="santunanTotalMasuk">Rp 0</div></div>
+<div class="card"><h3>🧡 Total Pengeluaran Santunan</h3><div class="value" id="santunanTotalKeluar">Rp 0</div></div>
+<div class="card"><h3>💎 Saldo Kas Santunan</h3><div class="value" id="santunanSaldoAkhir">Rp 0</div></div>
+</div>
+<div style="display:flex; flex-wrap:wrap; gap:10px; justify-content:flex-start; align-items:center; margin-bottom:15px;">
+<div style="color:#fff; font-size:0.9rem;">
+<strong>Kategori Pemasukan:</strong>
+<span class="status-badge status-donatur">Donatur</span>
+<span class="status-badge status-infaq">Infaq</span>
+<span class="status-badge status-sodaqoh">Sodaqoh</span>
+&nbsp;|&nbsp;
+<strong>Kategori Pengeluaran:</strong>
+<span class="status-badge status-yatim">Santunan Yatim</span>
+<span class="status-badge status-dhuafa">Santunan Dhuafa</span>
+</div>
+</div>
+<div class="table-wrapper">
+<table class="santunan-table">
+<thead><tr><th>No</th><th>Tanggal</th><th>No. Bukti</th><th>Jenis</th><th>Kategori</th><th>Nama Donatur/Penerima</th><th>Uraian</th><th>Jumlah</th><th>Saldo</th></tr></thead>
+<tbody id="bodyTransaksiSantunan"><tr><td colspan="9" class="loading">⏳ Memuat data Santunan...</td></tr></tbody>
+</table>
+</div>
+<div class="info-box santunan" style="margin-top:20px;">
+<strong>📌 Catatan Penting:</strong> Buku Kas Santunan Yatim & Dhuafa dikelola <strong>terpisah</strong> dari Buku Kas Masjid dan PHBI. Dana santunan hanya digunakan untuk kepentingan yatim piatu, kaum dhuafa, dan mustahik yang berhak. <strong>Input data hanya melalui Dashboard Input oleh pengurus yang berwenang.</strong>
 </div>
 </div>
 </section>
@@ -1018,7 +1054,7 @@ box-shadow: 0 6px 20px rgba(123,31,162,0.55);
 </div>
 </div>
 </section>
-<!-- ===== MODAL DONASI UMUM (MASJID) ===== -->
+<!-- ===== MODAL DONASI UMUM (MASJID) - TETAP ADA ===== -->
 <div id="modalDonasi" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:2000;overflow-y:auto;padding:20px;">
 <div style="max-width:500px;margin:40px auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
 <div style="background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;padding:20px;display:flex;justify-content:space-between;align-items:center;">
@@ -1050,63 +1086,6 @@ box-shadow: 0 6px 20px rgba(123,31,162,0.55);
 </form>
 </div>
 </div>
-<!-- ===== MODAL INPUT INFAK PHBI (BARU) ===== -->
-<div id="modalInfaqPHBI" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:2000;overflow-y:auto;padding:20px;">
-<div style="max-width:500px;margin:40px auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
-<div style="background:linear-gradient(135deg,var(--phbi-primary),var(--phbi-dark));color:#fff;padding:20px;display:flex;justify-content:space-between;align-items:center;">
-<h3 style="margin:0;font-size:1.2rem;">📗 Input Infaq PHBI</h3>
-<button onclick="tutupModalInfaqPHBI()" style="background:transparent;border:none;color:#fff;font-size:1.5rem;cursor:pointer;">✕</button>
-</div>
-<form id="formInfaqPHBI" onsubmit="kirimInfaqPHBI(event)" style="padding:25px;">
-<div id="alertInfaqPHBI" style="display:none;padding:12px;border-radius:6px;margin-bottom:15px;font-weight:bold;"></div>
-
-<label style="display:block;margin-bottom:5px;font-weight:bold;font-size:0.9rem;">Jenis Transaksi PHBI</label>
-<select id="phbi_jenis" onchange="updateFieldPHBI()" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-bottom:15px;font-weight:bold;color:var(--phbi-primary);">
-<option value="Pemasukan">💰 Pemasukan (Infaq PHBI)</option>
-<option value="Pengeluaran">💸 Pengeluaran Kegiatan PHBI</option>
-</select>
-
-<label style="display:block;margin-bottom:5px;font-weight:bold;font-size:0.9rem;">Kategori <span id="phbi_kategori_hint" style="color:#999;font-weight:normal;">(Donatur / Infaq / Sodaqoh)</span></label>
-<select id="phbi_kategori" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-bottom:15px;">
-<option value="Donatur">Donatur</option>
-<option value="Infaq" selected>Infaq</option>
-<option value="Sodaqoh">Sodaqoh</option>
-</select>
-
-<label style="display:block;margin-bottom:5px;font-weight:bold;font-size:0.9rem;">Nama Acara PHBI</label>
-<select id="phbi_acara" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-bottom:15px;">
-<option value="Maulid Nabi">Maulid Nabi Muhammad SAW</option>
-<option value="Isra Mi'raj">Isra Mi'raj</option>
-<option value="Nuzulul Quran">Nuzulul Quran</option>
-<option value="Ramadhan">Ramadhan</option>
-<option value="Idul Fitri">Idul Fitri</option>
-<option value="Idul Adha">Idul Adha</option>
-<option value="Tahun Baru Islam">Tahun Baru Islam (Muharram)</option>
-<option value="Imlek / Cap Go Meh">Imlek / Cap Go Meh</option>
-<option value="Agenda Lainnya">Agenda PHBI Lainnya</option>
-</select>
-
-<label style="display:block;margin-bottom:5px;font-weight:bold;font-size:0.9rem;" id="labelNamaDonatur">Nama Donatur <span style="color:#999;font-weight:normal;">(boleh "Hamba Allah")</span></label>
-<input type="text" id="phbi_nama" placeholder="Nama donatur / Hamba Allah" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-bottom:15px;">
-
-<label style="display:block;margin-bottom:5px;font-weight:bold;font-size:0.9rem;">Nominal (Rp) *</label>
-<input type="text" id="phbi_nominal" required inputmode="numeric" pattern="[0-9]*" placeholder="Contoh: 100000" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-bottom:15px;font-size:16px !important;font-weight:bold;">
-
-<label style="display:block;margin-bottom:5px;font-weight:bold;font-size:0.9rem;">Metode</label>
-<select id="phbi_metode" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-bottom:15px;">
-<option value="Tunai">Tunai (Kotak Infaq PHBI)</option>
-<option value="Transfer">Transfer Bank</option>
-<option value="QRIS">QRIS</option>
-</select>
-
-<label style="display:block;margin-bottom:5px;font-weight:bold;font-size:0.9rem;">Uraian / Keterangan <span style="color:#999;font-weight:normal;">(opsional)</span></label>
-<textarea id="phbi_uraian" rows="2" placeholder="Contoh: Infaq acara Maulid Nabi 12 Rabiul Awal" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-bottom:15px;resize:vertical;"></textarea>
-
-<button type="submit" id="btnInfaqPHBI" style="width:100%;background:linear-gradient(135deg,var(--phbi-primary),var(--phbi-dark));color:#fff;padding:14px;border:none;border-radius:6px;font-weight:bold;font-size:1rem;cursor:pointer;">✅ SIMPAN INFAK PHBI</button>
-<p style="font-size:0.78rem;color:var(--muted);text-align:center;margin-top:12px;">🔒 Data tercatat di 📗 Buku Kas Digital PHBI (terpisah dari Buku Kas Masjid)</p>
-</form>
-</div>
-</div>
 <div class="share-fab" id="shareFab">
 <div class="share-options" id="shareOptions">
 <a href="javascript:void(0)" class="share-item" onclick="shareTo('whatsapp')"><span class="share-icon wa">💬</span><span>WhatsApp</span></a>
@@ -1133,6 +1112,7 @@ box-shadow: 0 6px 20px rgba(123,31,162,0.55);
 <p><a href="#badan-pengembangan">Badan Pengembangan</a></p>
 <p><a href="#buku-kas">Buku Kas Masjid</a></p>
 <p><a href="#buku-kas-phbi">Buku Kas PHBI</a></p>
+<p><a href="#buku-kas-santunan">Buku Kas Santunan</a></p>
 <p><a href="#anggaran">Anggaran & Proposal</a></p>
 <p><a href="#kontak">Kontak Kami</a></p>
 </div>
@@ -1321,7 +1301,7 @@ JUMLAH_RETRY = 0;
 });
 }
 function tampilkanError(pesan) {
-var ids = ['bodyTransaksi','bodyTransaksiPHBI','bodyJumat','bodyRawatib','bodyDzikir','bodyPanitia','gridPendidikan','gridProposal'];
+var ids = ['bodyTransaksi','bodyTransaksiPHBI','bodyTransaksiSantunan','bodyJumat','bodyRawatib','bodyDzikir','bodyPanitia','gridPendidikan','gridProposal'];
 for (var i = 0; i < ids.length; i++) {
 var el = document.getElementById(ids[i]);
 if (!el) continue;
@@ -1336,6 +1316,7 @@ el.innerHTML = '<div class="error-msg">Gagal memuat: ' + pesan + '</div>';
 function renderSemua() {
 renderTransaksi();
 renderTransaksiPHBI();
+renderTransaksiSantunan();
 renderJumat();
 renderRawatib();
 renderDzikir();
@@ -1397,7 +1378,6 @@ html += '</tr>';
 }
 tbody.innerHTML = html;
 }
-/* ===== RENDER BUKU KAS PHBI (TERPISAH) ===== */
 function renderTransaksiPHBI() {
 var d = DATA_CACHE.transaksi_phbi || {ringkasan:{masuk:0,keluar:0,saldo:0}, data:[]};
 var listData = d.data || [];
@@ -1437,6 +1417,63 @@ var badgeClass = 'status-in';
 if (kategoriLower === 'donatur') badgeClass = 'status-donatur';
 else if (kategoriLower === 'infaq') badgeClass = 'status-infaq';
 else if (kategoriLower === 'sodaqoh' || kategoriLower === 'shodaqoh') badgeClass = 'status-sodaqoh';
+else if (jenisLower === 'pengeluaran' || jenisLower === 'keluar') badgeClass = 'status-out';
+var tanda = isMasuk ? '+' : '-';
+html += '<tr>';
+html += '<td>' + (i + 1) + '</td>';
+html += '<td>' + (r.tanggal || '-') + '</td>';
+html += '<td><code>' + (r.bukti || '-') + '</code></td>';
+html += '<td><span class="status-badge ' + (isMasuk ? 'status-in' : 'status-out') + '">' + (jenis || '-') + '</span></td>';
+html += '<td><span class="status-badge ' + badgeClass + '">' + (kategori || '-') + '</span></td>';
+html += '<td>' + (r.donatur || '-') + '</td>';
+html += '<td>' + (r.uraian || '-') + '</td>';
+html += '<td><strong>' + tanda + ' ' + formatRp(jumlah) + '</strong></td>';
+html += '<td><strong>' + formatRp(saldoKumulatif) + '</strong></td>';
+html += '</tr>';
+}
+tbody.innerHTML = html;
+}
+function renderTransaksiSantunan() {
+var d = DATA_CACHE.transaksi_santunan || {ringkasan:{masuk:0,keluar:0,saldo:0}, data:[]};
+var listData = d.data || [];
+var totalMasuk = 0;
+var totalKeluar = 0;
+for (var i = 0; i < listData.length; i++) {
+var jumlah = toNumber(listData[i].jumlah);
+var jenis = String(listData[i].jenis || '').trim().toLowerCase();
+if (jenis === 'pemasukan' || jenis === 'masuk') totalMasuk += jumlah;
+else if (jenis === 'pengeluaran' || jenis === 'keluar') totalKeluar += jumlah;
+}
+totalMasuk = Math.round(totalMasuk);
+totalKeluar = Math.round(totalKeluar);
+var saldoAkhir = totalMasuk - totalKeluar;
+document.getElementById('santunanTotalMasuk').textContent = formatRp(totalMasuk);
+document.getElementById('santunanTotalKeluar').textContent = formatRp(totalKeluar);
+document.getElementById('santunanSaldoAkhir').textContent = formatRp(saldoAkhir);
+var tbody = document.getElementById('bodyTransaksiSantunan');
+if (listData.length === 0) {
+tbody.innerHTML = '<tr><td colspan="9" class="empty-msg">Belum ada data transaksi Santunan Yatim & Dhuafa</td></tr>';
+return;
+}
+var saldoKumulatif = 0;
+var html = '';
+for (var i = 0; i < listData.length; i++) {
+var r = listData[i];
+var jumlah = toNumber(r.jumlah);
+var jenis = String(r.jenis || '').trim();
+var jenisLower = jenis.toLowerCase();
+var isMasuk = (jenisLower === 'pemasukan' || jenisLower === 'masuk');
+if (isMasuk) saldoKumulatif += jumlah;
+else saldoKumulatif -= jumlah;
+saldoKumulatif = Math.round(saldoKumulatif);
+var kategori = String(r.kategori || '').trim();
+var kategoriLower = kategori.toLowerCase();
+var badgeClass = 'status-in';
+if (kategoriLower === 'donatur') badgeClass = 'status-donatur';
+else if (kategoriLower === 'infaq') badgeClass = 'status-infaq';
+else if (kategoriLower === 'sodaqoh' || kategoriLower === 'shodaqoh') badgeClass = 'status-sodaqoh';
+else if (kategoriLower.indexOf('yatim') !== -1) badgeClass = 'status-yatim';
+else if (kategoriLower.indexOf('dhuafa') !== -1 || kategoriLower.indexOf('dhuafa') !== -1) badgeClass = 'status-dhuafa';
 else if (jenisLower === 'pengeluaran' || jenisLower === 'keluar') badgeClass = 'status-out';
 var tanda = isMasuk ? '+' : '-';
 html += '<tr>';
@@ -1590,10 +1627,13 @@ fetch(API_URL + '&_=' + Date.now(), { method: 'GET', redirect: 'follow' })
 if (json.status !== 'success') return;
 DATA_CACHE = json;
 renderSemua();
+var now = new Date().toLocaleTimeString('id-ID');
 var el = document.getElementById('liveTime');
-if (el) el.textContent = 'Update: ' + new Date().toLocaleTimeString('id-ID');
+if (el) el.textContent = 'Update: ' + now;
 var elPHBI = document.getElementById('liveTimePHBI');
-if (elPHBI) elPHBI.textContent = 'Update: ' + new Date().toLocaleTimeString('id-ID');
+if (elPHBI) elPHBI.textContent = 'Update: ' + now;
+var elSantunan = document.getElementById('liveTimeSantunan');
+if (elSantunan) elSantunan.textContent = 'Update: ' + now;
 })
 .catch(function(err) { console.log('Gagal memuat...'); })
 .finally(function() { IS_LOADING_2 = false; });
@@ -1603,7 +1643,6 @@ setInterval(function() {
 if (!document.hidden) sinkronisasi();
 }, 3000);
 setInterval(loadAllData, 2 * 60 * 1000);
-/* ===== MODAL DONASI UMUM ===== */
 function bukaModalDonasi(metode) {
 document.getElementById('modalDonasi').style.display = 'block';
 document.getElementById('donasi_metode').value = metode;
@@ -1668,96 +1707,6 @@ btn.disabled = false;
 btn.innerText = '✅ KIRIM KONFIRMASI';
 });
 }
-/* ===== MODAL INFAK PHBI (BARU) ===== */
-function bukaModalInfaqPHBI() {
-document.getElementById('modalInfaqPHBI').style.display = 'block';
-document.getElementById('formInfaqPHBI').reset();
-document.getElementById('alertInfaqPHBI').style.display = 'none';
-document.getElementById('phbi_jenis').value = 'Pemasukan';
-document.getElementById('phbi_kategori').value = 'Infaq';
-updateFieldPHBI();
-document.body.style.overflow = 'hidden';
-}
-function tutupModalInfaqPHBI() {
-document.getElementById('modalInfaqPHBI').style.display = 'none';
-document.body.style.overflow = '';
-}
-document.getElementById('modalInfaqPHBI').addEventListener('click', function(e) {
-if (e.target === this) tutupModalInfaqPHBI();
-});
-function updateFieldPHBI() {
-var jenis = document.getElementById('phbi_jenis').value;
-var labelNama = document.getElementById('labelNamaDonatur');
-var inputNama = document.getElementById('phbi_nama');
-var kategoriSelect = document.getElementById('phbi_kategori');
-var hint = document.getElementById('phbi_kategori_hint');
-if (jenis === 'Pemasukan') {
-labelNama.innerHTML = 'Nama Donatur <span style="color:#999;font-weight:normal;">(boleh "Hamba Allah")</span>';
-inputNama.placeholder = 'Nama donatur / Hamba Allah';
-inputNama.required = false;
-hint.innerHTML = '(Donatur / Infaq / Sodaqoh)';
-kategoriSelect.innerHTML = '<option value="Donatur">Donatur</option><option value="Infaq" selected>Infaq</option><option value="Sodaqoh">Sodaqoh</option>';
-} else {
-labelNama.innerHTML = 'Penerima / Tujuan <span style="color:#999;font-weight:normal;">(opsional)</span>';
-inputNama.placeholder = 'Contoh: Ustadz Pengisi Acara, Vendor Konsumsi, dll';
-inputNama.required = false;
-hint.innerHTML = '(Pengeluaran Kegiatan)';
-kategoriSelect.innerHTML = '<option value="Honor Pemateri/Khatib">Honor Pemateri/Khatib</option><option value="Konsumsi">Konsumsi</option><option value="Dekorasi & Perlengkapan">Dekorasi & Perlengkapan</option><option value="Sound System">Sound System</option><option value="Cetak & Publikasi">Cetak & Publikasi</option><option value="Santunan">Santunan</option><option value="Lain-lain">Lain-lain</option>';
-}
-}
-function kirimInfaqPHBI(e) {
-e.preventDefault();
-var btn = document.getElementById('btnInfaqPHBI');
-var alertBox = document.getElementById('alertInfaqPHBI');
-var payload = {
-jenis: document.getElementById('phbi_jenis').value,
-kategori: document.getElementById('phbi_kategori').value,
-acara: document.getElementById('phbi_acara').value,
-nama: document.getElementById('phbi_nama').value.trim() || 'Hamba Allah',
-nominal: document.getElementById('phbi_nominal').value,
-metode: document.getElementById('phbi_metode').value,
-uraian: document.getElementById('phbi_uraian').value.trim()
-};
-if (!payload.nominal || Number(payload.nominal) <= 0) {
-alertBox.style.display = 'block';
-alertBox.style.background = '#f8d7da';
-alertBox.style.color = '#721c24';
-alertBox.innerText = '❌ Nominal harus lebih dari 0';
-return;
-}
-btn.disabled = true;
-btn.innerText = '⏳ Menyimpan...';
-alertBox.style.display = 'none';
-fetch(API_URL, {
-method: 'POST',
-mode: 'no-cors',
-headers: {'Content-Type': 'application/json'},
-body: JSON.stringify({action: 'infaq_phbi', payload: payload})
-})
-.then(function() {
-alertBox.style.display = 'block';
-alertBox.style.background = '#d4edda';
-alertBox.style.color = '#155724';
-alertBox.innerHTML = '✅ <strong>Alhamdulillah!</strong> Infaq PHBI Rp ' +
-Number(payload.nominal).toLocaleString('id-ID') +
-' tercatat di 📗 Buku Kas PHBI.<br><small>Data akan muncul dalam ±5 detik.</small>';
-document.getElementById('formInfaqPHBI').reset();
-document.getElementById('phbi_jenis').value = 'Pemasukan';
-updateFieldPHBI();
-setTimeout(function() { sinkronisasi(); }, 3000);
-btn.disabled = false;
-btn.innerText = '✅ SIMPAN INFAK PHBI';
-})
-.catch(function(err) {
-alertBox.style.display = 'block';
-alertBox.style.background = '#f8d7da';
-alertBox.style.color = '#721c24';
-alertBox.innerText = '❌ Gagal: ' + err.message;
-btn.disabled = false;
-btn.innerText = '✅ SIMPAN INFAK PHBI';
-});
-}
-/* ===== NAVIGASI SCROLL LANGSUNG KE SECTION ===== */
 (function() {
 var NAV_HEIGHT = 60;
 var EXTRA_OFFSET = 20;
@@ -1804,7 +1753,6 @@ scrollToTarget(hash);
 }, 300);
 }
 })();
-/* ===== ANTI-ZOOM RUNTIME ===== */
 (function() {
 var inputs = document.querySelectorAll('input, textarea, select, button');
 for (var i = 0; i < inputs.length; i++) {
@@ -1819,7 +1767,6 @@ if (e.touches.length > 1) e.preventDefault();
 }, { passive: false });
 document.addEventListener('gesturestart', function(e) { e.preventDefault(); });
 })();
-/* ===== SISTEM SINGLE VIEW MODE ===== */
 (function() {
 var semuaSection = document.querySelectorAll('section');
 var showAllBtn = document.getElementById('showAllBtn');
@@ -1837,8 +1784,9 @@ var namaSection = {
 'bmt': 'Baitul Mal Wa Tanwil',
 'phbi': 'Panitia PHBI',
 'kesejahteraan': 'Kesejahteraan Masjid',
-'buku-kas': 'Buku Kas Digital Masjid',
+'buku-kas': '📒 Buku Kas Digital Masjid',
 'buku-kas-phbi': '📗 Buku Kas Digital PHBI',
+'buku-kas-santunan': '📘 Buku Kas Santunan Yatim & Dhuafa',
 'anggaran': 'Anggaran & Proposal',
 'kontak': 'Kontak & Lokasi',
 'donasi': 'Donasi Digital',
