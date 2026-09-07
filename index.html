@@ -8,8 +8,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
-<!-- PDF.js Library dari Mozilla - untuk preview PDF di HP & Desktop -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-gradient(135deg,#1a0a2e 0%,#2d1b4e 30%,#1a0a2e 60%,#0d0520 100%);min-height:100vh;color:#fff}
@@ -321,7 +319,7 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-g
 .masjid-page .show-all-btn.active{display:inline-flex}
 .masjid-page .active-section-label{display:none;background:var(--primary);color:#fff;padding:12px 20px;border-radius:8px;margin:20px auto;max-width:1200px;font-weight:bold;text-align:center;box-shadow:0 4px 15px rgba(13,110,63,0.3)}
 .masjid-page .active-section-label.active{display:block}
-/* PDF Viewer - dengan PDF.js canvas */
+/* PDF Viewer */
 .pdf-viewer-container{display:none;background:rgba(0,0,0,0.6);border:1px solid rgba(201,168,76,0.3);border-radius:15px;padding:20px;margin-bottom:30px;position:relative}
 .pdf-viewer-container.active{display:block;animation:fadeIn 0.4s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
@@ -334,16 +332,13 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-g
 .pdf-btn.secondary{background:transparent;color:#c9a84c;border:1.5px solid #c9a84c}
 .pdf-btn.secondary:hover{background:rgba(201,168,76,0.1)}
 .pdf-btn.danger{background:linear-gradient(135deg,#c0392b,#e74c3c);color:#fff}
+.pdf-btn.rotate{background:linear-gradient(135deg,#3498db,#5dade2);color:#fff}
+.pdf-btn.rotate:hover{background:linear-gradient(135deg,#2980b9,#3498db)}
+.pdf-iframe-wrapper iframe{transition:transform 0.4s ease;transform-origin:center center}
+.pdf-btn.rotate{background:linear-gradient(135deg,#3498db,#5dade2);color:#fff}
+.pdf-btn.rotate:hover{background:linear-gradient(135deg,#2980b9,#3498db)}
 .pdf-iframe-wrapper{position:relative;width:100%;height:90vh;min-height:700px;background:#1a0a2e;border-radius:10px;overflow:hidden;border:1px solid rgba(201,168,76,0.2)}
-.pdf-iframe-wrapper iframe{width:100%;height:100%;border:none;background:#fff}
-/* PDF.js Canvas Container */
-.pdf-canvas-container{width:100%;height:100%;overflow-y:auto;overflow-x:hidden;background:#525659;padding:10px;display:flex;flex-direction:column;align-items:center;gap:10px}
-.pdf-canvas-container canvas{max-width:100%;height:auto!important;box-shadow:0 4px 20px rgba(0,0,0,0.5);background:#fff;display:block}
-.pdf-page-controls{position:sticky;bottom:0;left:0;right:0;background:rgba(26,10,46,0.95);padding:10px;display:flex;justify-content:center;align-items:center;gap:10px;border-top:1px solid rgba(201,168,76,0.3);z-index:30;backdrop-filter:blur(10px)}
-.pdf-page-controls button{background:linear-gradient(135deg,#c9a84c,#e8d48b);color:#1a0a2e;border:none;padding:8px 14px;border-radius:20px;font-size:0.85rem;font-weight:600;cursor:pointer;transition:all 0.3s}
-.pdf-page-controls button:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(201,168,76,0.4)}
-.pdf-page-controls button:disabled{opacity:0.5;cursor:not-allowed}
-.pdf-page-controls .page-info{color:#e8d48b;font-size:0.9rem;font-weight:600;min-width:100px;text-align:center}
+.pdf-iframe-wrapper iframe{width:100%;height:100%;border:none;background:#fff;transition:transform 0.4s ease;transform-origin:center center}
 .pdf-loading{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#c9a84c;font-size:1.1rem;text-align:center;z-index:10}
 .pdf-loading::before{content:'⏳';display:block;font-size:3rem;margin-bottom:10px;animation:spin 2s linear infinite}
 @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
@@ -389,14 +384,11 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-g
 .masjid-page header.m-header{padding:35px 0}
 }
 @media (max-width:768px){
-.pdf-iframe-wrapper{height:70vh;min-height:500px}
+.pdf-iframe-wrapper{height:60vh;min-height:400px}
 .pdf-viewer-header{flex-direction:column;align-items:flex-start}
 .pdf-viewer-title{font-size:1rem}
 .pdf-toolbar-overlay{height:46px}
 .pdf-toolbar-overlay::before{font-size:0.72rem}
-.pdf-page-controls{padding:8px;gap:6px}
-.pdf-page-controls button{padding:6px 10px;font-size:0.8rem}
-.pdf-page-controls .page-info{font-size:0.82rem;min-width:80px}
 }
 @media (max-width:600px){
 .masjid-page .share-fab{bottom:15px;right:15px}
@@ -580,6 +572,11 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <div class="pdf-viewer-header">
 <div class="pdf-viewer-title" id="pdfViewerTitle">Memuat Kitab...</div>
 <div class="pdf-viewer-actions">
+<div class="pdf-viewer-actions">
+<button class="pdf-btn secondary" onclick="openPdfNewTab()">🔗 Buka Tab Baru</button>
+<button class="pdf-btn rotate" onclick="rotatePdf('pdf')">🔄 Putar</button>
+<button class="pdf-btn danger" onclick="closePdfViewer()">✕ Tutup</button>
+</div>
 <button class="pdf-btn secondary" onclick="openPdfNewTab()">🔗 Buka Tab Baru</button>
 <button class="pdf-btn danger" onclick="closePdfViewer()">✕ Tutup</button>
 </div>
@@ -662,6 +659,11 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <div class="pdf-viewer-header">
 <div class="pdf-viewer-title" id="sholatPdfViewerTitle">Memuat Kitab Fiqih Sholat...</div>
 <div class="pdf-viewer-actions">
+<div class="pdf-viewer-actions">
+<button class="pdf-btn secondary" onclick="openSholatPdfNewTab()">🔗 Buka Tab Baru</button>
+<button class="pdf-btn rotate" onclick="rotatePdf('sholat')">🔄 Putar</button>
+<button class="pdf-btn danger" onclick="closeSholatPdfViewer()">✕ Tutup</button>
+</div>
 <button class="pdf-btn secondary" onclick="openSholatPdfNewTab()">🔗 Buka Tab Baru</button>
 <button class="pdf-btn danger" onclick="closeSholatPdfViewer()">✕ Tutup</button>
 </div>
@@ -712,6 +714,11 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <div class="pdf-viewer-header">
 <div class="pdf-viewer-title" id="doaPdfViewerTitle">Memuat Kitab Doa...</div>
 <div class="pdf-viewer-actions">
+<div class="pdf-viewer-actions">
+<button class="pdf-btn secondary" onclick="openDoaPdfNewTab()">🔗 Buka Tab Baru</button>
+<button class="pdf-btn rotate" onclick="rotatePdf('doa')">🔄 Putar</button>
+<button class="pdf-btn danger" onclick="closeDoaPdfViewer()">✕ Tutup</button>
+</div>
 <button class="pdf-btn secondary" onclick="openDoaPdfNewTab()">🔗 Buka Tab Baru</button>
 <button class="pdf-btn danger" onclick="closeDoaPdfViewer()">✕ Tutup</button>
 </div>
@@ -1038,14 +1045,12 @@ setTimeout(function(){
 },200);
 }
 function closeSholatPdfViewer(){
-var container=document.getElementById('sholatPdfViewerContainer');
-var content=document.getElementById('sholatContent');
-var controls=document.getElementById('sholatPdfPageControls');
-container.classList.remove('active');
-content.style.display='block';
-if(controls) controls.style.display='none';
-// Reset state
-pdfStates.sholat = { pdfDoc: null, pageNum: 1, totalPages: 1, url: '' };
+    var container=document.getElementById('sholatPdfViewerContainer');
+    var iframe=document.getElementById('sholatPdfIframe');
+    var content=document.getElementById('sholatContent');
+    container.classList.remove('active');
+    content.style.display='block';
+    setTimeout(function(){iframe.src='';resetPdfRotation('sholat');},300);
 }
 function openSholatPdfNewTab(){if(currentSholatPdfUrl)window.open(currentSholatPdfUrl,'_blank')}
 
@@ -1179,13 +1184,12 @@ setTimeout(function(){
 },200);
 }
 function closeDoaPdfViewer(){
-var container=document.getElementById('doaPdfViewerContainer');
-var content=document.getElementById('doaContent');
-var controls=document.getElementById('doaPdfPageControls');
-container.classList.remove('active');
-content.style.display='block';
-if(controls) controls.style.display='none';
-pdfStates.doa = { pdfDoc: null, pageNum: 1, totalPages: 1, url: '' };
+    var container=document.getElementById('doaPdfViewerContainer');
+    var iframe=document.getElementById('doaPdfIframe');
+    var content=document.getElementById('doaContent');
+    container.classList.remove('active');
+    content.style.display='block';
+    setTimeout(function(){iframe.src='';resetPdfRotation('doa');},300);
 }
 function openDoaPdfNewTab(){if(currentDoaPdfUrl)window.open(currentDoaPdfUrl,'_blank')}
 
@@ -1204,6 +1208,42 @@ if(pageId==='sholat')setTimeout(initSholat,100);
 // ============================================
 // FUNGSI PDF VIEWER - KITAB KUNING (PAKAI PDF.js)
 // ============================================
+// ============================================
+// FUNGSI ROTATE PDF (PUTAR TAMPILAN)
+// ============================================
+var pdfRotation = {
+    pdf: 0,
+    sholat: 0,
+    doa: 0
+};
+
+function rotatePdf(viewerId){
+    var iframeId = viewerId === 'pdf' ? 'pdfIframe' : (viewerId === 'sholat' ? 'sholatPdfIframe' : 'doaPdfIframe');
+    var iframe = document.getElementById(iframeId);
+    if(!iframe) return;
+    
+    // Tambah 90 derajat setiap klik (0 -> 90 -> 180 -> 270 -> 0)
+    pdfRotation[viewerId] = (pdfRotation[viewerId] + 90) % 360;
+    
+    // Terapkan rotasi ke iframe
+    iframe.style.transform = 'rotate(' + pdfRotation[viewerId] + 'deg)';
+    
+    // Jika rotasi 90° atau 270°, swap width/height agar pas
+    if(pdfRotation[viewerId] === 90 || pdfRotation[viewerId] === 270){
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
+    }
+    
+    showToast('🔄 Rotasi: ' + pdfRotation[viewerId] + '°');
+}
+
+// Reset rotasi saat viewer ditutup
+function resetPdfRotation(viewerId){
+    pdfRotation[viewerId] = 0;
+    var iframeId = viewerId === 'pdf' ? 'pdfIframe' : (viewerId === 'sholat' ? 'sholatPdfIframe' : 'doaPdfIframe');
+    var iframe = document.getElementById(iframeId);
+    if(iframe) iframe.style.transform = 'rotate(0deg)';
+}
 var currentPdfUrl='';
 var currentKitabName='';
 
@@ -1234,13 +1274,12 @@ setTimeout(function(){
 },200);
 }
 function closePdfViewer(){
-var container=document.getElementById('pdfViewerContainer');
-var listContainer=document.getElementById('kitabListContainer');
-var controls=document.getElementById('pdfPageControls');
-container.classList.remove('active');
-if(listContainer)listContainer.style.display='block';
-if(controls) controls.style.display='none';
-pdfStates.pdf = { pdfDoc: null, pageNum: 1, totalPages: 1, url: '' };
+    var container=document.getElementById('pdfViewerContainer');
+    var iframe=document.getElementById('pdfIframe');
+    var listContainer=document.getElementById('kitabListContainer');
+    container.classList.remove('active');
+    if(listContainer)listContainer.style.display='block';
+    setTimeout(function(){iframe.src='';resetPdfRotation('pdf');},300);
 }
 function openPdfNewTab(){if(currentPdfUrl)window.open(currentPdfUrl,'_blank')}
 
