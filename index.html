@@ -8,6 +8,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<!-- PDF.js Library dari Mozilla - untuk preview PDF di HP & Desktop -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-gradient(135deg,#1a0a2e 0%,#2d1b4e 30%,#1a0a2e 60%,#0d0520 100%);min-height:100vh;color:#fff}
@@ -319,7 +321,7 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-g
 .masjid-page .show-all-btn.active{display:inline-flex}
 .masjid-page .active-section-label{display:none;background:var(--primary);color:#fff;padding:12px 20px;border-radius:8px;margin:20px auto;max-width:1200px;font-weight:bold;text-align:center;box-shadow:0 4px 15px rgba(13,110,63,0.3)}
 .masjid-page .active-section-label.active{display:block}
-/* PDF Viewer */
+/* PDF Viewer - dengan PDF.js canvas */
 .pdf-viewer-container{display:none;background:rgba(0,0,0,0.6);border:1px solid rgba(201,168,76,0.3);border-radius:15px;padding:20px;margin-bottom:30px;position:relative}
 .pdf-viewer-container.active{display:block;animation:fadeIn 0.4s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
@@ -334,6 +336,14 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-g
 .pdf-btn.danger{background:linear-gradient(135deg,#c0392b,#e74c3c);color:#fff}
 .pdf-iframe-wrapper{position:relative;width:100%;height:90vh;min-height:700px;background:#1a0a2e;border-radius:10px;overflow:hidden;border:1px solid rgba(201,168,76,0.2)}
 .pdf-iframe-wrapper iframe{width:100%;height:100%;border:none;background:#fff}
+/* PDF.js Canvas Container */
+.pdf-canvas-container{width:100%;height:100%;overflow-y:auto;overflow-x:hidden;background:#525659;padding:10px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.pdf-canvas-container canvas{max-width:100%;height:auto!important;box-shadow:0 4px 20px rgba(0,0,0,0.5);background:#fff;display:block}
+.pdf-page-controls{position:sticky;bottom:0;left:0;right:0;background:rgba(26,10,46,0.95);padding:10px;display:flex;justify-content:center;align-items:center;gap:10px;border-top:1px solid rgba(201,168,76,0.3);z-index:30;backdrop-filter:blur(10px)}
+.pdf-page-controls button{background:linear-gradient(135deg,#c9a84c,#e8d48b);color:#1a0a2e;border:none;padding:8px 14px;border-radius:20px;font-size:0.85rem;font-weight:600;cursor:pointer;transition:all 0.3s}
+.pdf-page-controls button:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(201,168,76,0.4)}
+.pdf-page-controls button:disabled{opacity:0.5;cursor:not-allowed}
+.pdf-page-controls .page-info{color:#e8d48b;font-size:0.9rem;font-weight:600;min-width:100px;text-align:center}
 .pdf-loading{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#c9a84c;font-size:1.1rem;text-align:center;z-index:10}
 .pdf-loading::before{content:'⏳';display:block;font-size:3rem;margin-bottom:10px;animation:spin 2s linear infinite}
 @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
@@ -379,11 +389,14 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-g
 .masjid-page header.m-header{padding:35px 0}
 }
 @media (max-width:768px){
-.pdf-iframe-wrapper{height:60vh;min-height:400px}
+.pdf-iframe-wrapper{height:70vh;min-height:500px}
 .pdf-viewer-header{flex-direction:column;align-items:flex-start}
 .pdf-viewer-title{font-size:1rem}
 .pdf-toolbar-overlay{height:46px}
 .pdf-toolbar-overlay::before{font-size:0.72rem}
+.pdf-page-controls{padding:8px;gap:6px}
+.pdf-page-controls button{padding:6px 10px;font-size:0.8rem}
+.pdf-page-controls .page-info{font-size:0.82rem;min-width:80px}
 }
 @media (max-width:600px){
 .masjid-page .share-fab{bottom:15px;right:15px}
@@ -495,7 +508,7 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <a href="#" class="tag" onclick="showPage('pesantren-tertua'); return false;">Pesantren tertua di Jawa Timur</a>
 </div>
 </section>
-<!-- HALAMAN MASJID (tema hijau) -->
+<!-- HALAMAN MASJID (tema hijau) - DISINGKAT, ISI SAMA PERSIS SEPERTI FILE ASLI -->
 <div class="page-content" id="page-tentang-donasi">
 <div class="masjid-page">
 <button class="show-all-btn" id="showAllBtn" onclick="tampilkanSemua()">🏠 Tampilkan Semua</button>
@@ -505,6 +518,7 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <nav class="m-main-nav"><div class="m-container nav-inner"><button class="menu-toggle" id="menuToggle">☰ Menu</button><ul class="nav-list" id="navList"><li><a href="#" onclick="showHome(); return false;">Beranda</a></li><li><a href="#profil">Profil Masjid</a></li><li class="has-dropdown"><a href="javascript:void(0)" class="dropdown-toggle">Kegiatan ▾</a><ul class="m-dropdown"><li><a href="#majlis-talim">Majlis Ta'lim</a></li><li><a href="#majlis-dzikir">Majlis Dzikir</a></li><li><a href="#petugas-jumat">Petugas Jumat</a></li><li><a href="#petugas-rawatib">Petugas Sholat Rawatib 5 Waktu</a></li></ul></li><li class="has-dropdown"><a href="javascript:void(0)" class="dropdown-toggle">Badan Pengembangan ▾</a><ul class="m-dropdown"><li><a href="#bidang-ibadah">Bidang Ibadah</a></li><li><a href="#bidang-pendidikan">Bidang Pendidikan Anak</a></li><li><a href="#bmt">Bidang Baitul Mal Wa Tanwil</a></li><li><a href="#phbi">Pelaksanaan PHBI</a></li><li><a href="#kesejahteraan">Bidang Kesejahteraan Masjid</a></li><li><a href="#buku-kas">📒 Buku Kas Masjid</a></li><li><a href="#buku-kas-phbi">📗 Buku Kas PHBI</a></li><li><a href="#buku-kas-santunan">📘 Buku Kas Santunan</a></li></ul></li><li><a href="#anggaran">Anggaran & Proposal</a></li><li><a href="#kontak">Kontak</a></li><li><a href="#share">📤 Bagikan</a></li></ul></div></nav>
 <section class="m-hero m-section" id="beranda"><div class="m-container"><h2>Selamat Datang di Masjid Jami' Al-Ikhlas Kebagusan</h2><p>"Membangun Umat yang Ikhlas, Berilmu, dan Beramal Shalih" — Masjid kebanggaan warga Kebagusan, Pasar Minggu, Jakarta Selatan dengan standar nasional & internasional.</p><a href="#profil" class="btn-hero">Lihat Kegiatan Kami</a></div></section>
 <section class="m-section" id="profil"><div class="m-container"><h2 class="section-title">Profil Masjid</h2><p class="subtitle">Sekilas tentang Masjid Jami' Al-Ikhlas Kebagusan</p><div class="grid"><div class="card"><span class="icon">🕌</span><h3>Visi</h3><p>Menjadi masjid percontohan bertaraf nasional dan internasional yang menjadi pusat peradaban Islam, dakwah, pendidikan, serta pemberdayaan umat di wilayah Kebagusan dan sekitarnya.</p></div><div class="card"><span class="icon">🎯</span><h3>Misi</h3><p>1. Memakmurkan masjid dengan sholat berjamaah 5 waktu & sholat Jumat.<br>2. Menyelenggarakan Majlis Ta'lim & Dzikir rutin.<br>3. Mengembangkan pendidikan anak usia dini & remaja Islam.<br>4. Mengelola Baitul Mal untuk kemaslahatan umat.<br>5. Menyediakan fasilitas ramah difabel, lansia, dan anak.</p></div><div class="card"><span class="icon">🌿</span><h3>Standar Masjid</h3><p>Mengacu pada Permen Agama No. 2 Tahun 2019 tentang Standar Masjid Nasional & standar Islamic Affairs & Charitable Activities Department (IACAD) untuk masjid ramah lingkungan, aksesibel, dan berkelas internasional.</p></div><div class="card"><span class="icon"></span><h3>Data Teknis</h3><p><strong>Luas Tanah:</strong> ± 210 m²<br><strong>Kapasitas Jamaah:</strong> ± 1.500 orang<br><strong>Arah Kiblat:</strong> 293° (Azimut)<br><strong>Status:</strong> Wakaf / Milik Umat<br><strong>Afiliasi:</strong> Kemenag Jaksel & MUI</p></div></div></div></section>
+<!-- SISA SECTION MASJID SAMA PERSIS DENGAN FILE ASLI -->
 <section class="m-section" id="majlis-talim"><div class="m-container"><h2 class="section-title">Majlis Ta'lim</h2><p class="subtitle">Kajian rutin untuk seluruh lapisan umat</p><div class="grid"><div class="card"><span class="icon">📖</span><h3>Kajian Subuh (Setiap Hari)</h3><p><strong>Waktu:</strong> Ba'da Sholat Subuh (04.45 - 05.30 WIB)</p><p><strong>Materi:</strong> Tafsir Al-Qur'an, Hadits Arbain, Fiqh Ibadah</p><p><strong>Pemateri:</strong> Belum ada Kegiatan & Nara Sumber</p></div><div class="card"><span class="icon">📚</span><h3>Kajian Maghrib (Senin & Kamis)</h3><p><strong>Waktu:</strong> Ba'da Maghrib (18.15 - 19.15 WIB)</p><p><strong>Materi:</strong> Sirah Nabawiyah, Aqidah Ahlussunnah</p><p><strong>Pemateri:</strong> Belum ada Kegiatan & Nara Sumber</p></div><div class="card"><span class="icon"></span><h3>Kajian Ibu-ibu (Selasa)</h3><p><strong>Waktu:</strong> 09.00 - 11.00 WIB</p><p><strong>Materi:</strong> Fiqh Wanita, Parenting Islami, Rumah Tangga Sakinah</p><p><strong>Pemateri:</strong> Belum ada Kegiatan & Nara Sumber</p></div><div class="card"><span class="icon">👨</span><h3>Kajian Bapak-bapak (Ahad Pagi)</h3><p><strong>Waktu:</strong> 06.30 - 08.00 WIB</p><p><strong>Materi:</strong> Fiqh Muamalah, Ekonomi Syariah, Kepemimpinan</p><p><strong>Pemateri:</strong> Belum ada Kegiatan & Nara Sumber</p></div><div class="card"><span class="icon">🎓</span><h3>Kajian Pemuda / Remaja (Sabtu Malam)</h3><p><strong>Waktu:</strong> 20.00 - 21.30 WIB</p><p><strong>Materi:</strong> Islam & Modernitas, Karir, Pernikahan Muda</p><p><strong>Pemateri:</strong> Belum ada Kegiatan & Nara Sumber</p></div><div class="card"><span class="icon"></span><h3>Kajian Bulanan Akbar</h3><p><strong>Waktu:</strong> Ahad pertama tiap bulan, ba'da Subuh</p><p><strong>Pemateri:</strong> Ulama nasional & dai internasional</p><p><strong>Live streaming:</strong> YouTube & Facebook resmi masjid</p></div></div></div></section>
 <section class="m-section" id="majlis-dzikir"><div class="m-container"><h2 class="section-title">Majlis Dzikir</h2><p class="subtitle">Menghidupkan hati dengan mengingat Allah SWT</p><div class="table-wrapper"><table><thead><tr><th>Nama Dzikir</th><th>Jadwal</th><th>Waktu</th><th>Pimpinan</th></tr></thead><tbody id="bodyDzikir"><tr><td colspan="4" class="loading">⏳ Memuat data...</td></tr></tbody></table></div><div class="info-box"><strong>Keutamaan:</strong> "Majelis-majelis dzikir adalah taman-taman surga." (HR. Tirmidzi). Seluruh jamaah, termasuk wanita dan anak-anak, dipersilakan mengikuti dengan adab & khidmat.</div></div></section>
 <section class="m-section" id="petugas-jumat"><div class="m-container"><h2 class="section-title">Petugas Sholat Jumat</h2><p class="subtitle">Jadwal khatib, imam, muadzin, dan bilal sholat Jumat</p><div class="table-wrapper"><table><thead><tr><th>Minggu</th><th>Tanggal</th><th>Khatib</th><th>Imam</th><th>Muadzin</th><th>Bilal</th></tr></thead><tbody id="bodyJumat"><tr><td colspan="6" class="loading">⏳ Memuat data...</td></tr></tbody></table></div></div></section>
@@ -567,13 +581,21 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <div class="pdf-viewer-title" id="pdfViewerTitle">Memuat Kitab...</div>
 <div class="pdf-viewer-actions">
 <button class="pdf-btn secondary" onclick="openPdfNewTab()">🔗 Buka Tab Baru</button>
-<button class="pdf-btn secondary" onclick="downloadPdfMobile()">⬇️ Download PDF</button>
 <button class="pdf-btn danger" onclick="closePdfViewer()">✕ Tutup</button>
 </div>
 </div>
 <div class="pdf-iframe-wrapper">
 <div class="pdf-loading" id="pdfLoading">Memuat kitab...</div>
-<iframe id="pdfIframe" src="" title="PDF Viewer" onload="hidePdfLoading()"></iframe>
+<!-- PENGGANTI IFRAME: Canvas untuk PDF.js -->
+<div class="pdf-canvas-container" id="pdfCanvasContainer">
+<canvas id="pdfCanvas"></canvas>
+</div>
+<!-- Kontrol Navigasi Halaman -->
+<div class="pdf-page-controls" id="pdfPageControls" style="display:none;">
+<button onclick="pdfPrevPage('pdf')" id="pdfPrevBtn">◀ Sebelumnya</button>
+<span class="page-info" id="pdfPageInfo">Halaman 1 / 1</span>
+<button onclick="pdfNextPage('pdf')" id="pdfNextBtn">Selanjutnya ▶</button>
+</div>
 <!-- OVERLAY BLOKIR TOOLBAR PDF (Download & Print) -->
 <div class="pdf-toolbar-overlay"></div>
 </div>
@@ -641,14 +663,19 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <div class="pdf-viewer-title" id="sholatPdfViewerTitle">Memuat Kitab Fiqih Sholat...</div>
 <div class="pdf-viewer-actions">
 <button class="pdf-btn secondary" onclick="openSholatPdfNewTab()">🔗 Buka Tab Baru</button>
-<button class="pdf-btn secondary" onclick="downloadPdfMobile()">⬇️ Download PDF</button>
 <button class="pdf-btn danger" onclick="closeSholatPdfViewer()">✕ Tutup</button>
 </div>
 </div>
 <div class="pdf-iframe-wrapper">
 <div class="pdf-loading" id="sholatPdfLoading">Memuat kitab fiqih sholat...</div>
-<iframe id="sholatPdfIframe" src="" title="PDF Viewer Sholat" onload="hideSholatPdfLoading()"></iframe>
-<!-- OVERLAY BLOKIR TOOLBAR PDF (Download & Print) -->
+<div class="pdf-canvas-container" id="sholatPdfCanvasContainer">
+<canvas id="sholatPdfCanvas"></canvas>
+</div>
+<div class="pdf-page-controls" id="sholatPdfPageControls" style="display:none;">
+<button onclick="pdfPrevPage('sholat')" id="sholatPdfPrevBtn">◀ Sebelumnya</button>
+<span class="page-info" id="sholatPdfPageInfo">Halaman 1 / 1</span>
+<button onclick="pdfNextPage('sholat')" id="sholatPdfNextBtn">Selanjutnya ▶</button>
+</div>
 <div class="pdf-toolbar-overlay"></div>
 </div>
 </div>
@@ -686,14 +713,19 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <div class="pdf-viewer-title" id="doaPdfViewerTitle">Memuat Kitab Doa...</div>
 <div class="pdf-viewer-actions">
 <button class="pdf-btn secondary" onclick="openDoaPdfNewTab()">🔗 Buka Tab Baru</button>
-<button class="pdf-btn secondary" onclick="downloadPdfMobile()">⬇️ Download PDF</button>
 <button class="pdf-btn danger" onclick="closeDoaPdfViewer()">✕ Tutup</button>
 </div>
 </div>
 <div class="pdf-iframe-wrapper">
 <div class="pdf-loading" id="doaPdfLoading">Memuat kitab doa...</div>
-<iframe id="doaPdfIframe" src="" title="PDF Viewer Doa" onload="hideDoaPdfLoading()"></iframe>
-<!-- OVERLAY BLOKIR TOOLBAR PDF (Download & Print) -->
+<div class="pdf-canvas-container" id="doaPdfCanvasContainer">
+<canvas id="doaPdfCanvas"></canvas>
+</div>
+<div class="pdf-page-controls" id="doaPdfPageControls" style="display:none;">
+<button onclick="pdfPrevPage('doa')" id="doaPdfPrevBtn">◀ Sebelumnya</button>
+<span class="page-info" id="doaPdfPageInfo">Halaman 1 / 1</span>
+<button onclick="pdfNextPage('doa')" id="doaPdfNextBtn">Selanjutnya ▶</button>
+</div>
 <div class="pdf-toolbar-overlay"></div>
 </div>
 </div>
@@ -708,7 +740,7 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 </main>
 </div>
 </div>
-<!-- SISA HALAMAN SUB -->
+<!-- SISA HALAMAN SUB - SAMA PERSIS DENGAN FILE ASLI -->
 <div class="page-content" id="page-sejarah-islam"><div class="breadcrumb-dash"><a href="#" onclick="showHome(); return false;">Beranda</a> / Khazanah / <strong>Sejarah Islam Nusantara</strong></div><div class="sub-hero"><div class="sub-arabic">تَارِيخُ إِسْلَامِ الْأَرْخَبِيل</div><h2>Sejarah Islam Nusantara</h2><p class="sub-subtitle">Menelusuri jejak masuknya Islam ke kepulauan Nusantara.</p></div><div class="sub-container"><div class="sub-quote"><div class="quote-text">"Islam datang ke Nusantara bukan dengan pedang, melainkan dengan senyum, akhlak, dan budaya."</div><div class="quote-source">— Prof. Hamka</div></div><h3 class="sub-section-title"><span class="icon">🏰</span> Kerajaan-Kerajaan Islam Nusantara</h3><div class="sub-grid"><div class="sub-card"><div class="card-icon">🕌</div><h3>Samudera Pasai (1267-1521)</h3><p>Kerajaan Islam pertama di Nusantara.</p><div class="meta">📍 Aceh · 📅 Abad ke-13</div></div><div class="sub-card"><div class="card-icon">🕌</div><h3>Demak (1475-1548)</h3><p>Kerajaan Islam pertama di Jawa.</p><div class="meta">📍 Jawa Tengah · 📅 Abad ke-15</div></div><div class="sub-card"><div class="card-icon">🕌</div><h3>Mataram Islam (1587-1755)</h3><p>Kerajaan Islam terbesar di Jawa.</p><div class="meta">📍 Yogyakarta · 📅 Abad ke-16</div></div><div class="sub-card"><div class="card-icon">🕌</div><h3>Gowa-Tallo / Makassar</h3><p>Kesultanan Islam di Sulawesi Selatan.</p><div class="meta">📍 Sulawesi Selatan · 📅 Abad ke-14</div></div></div></div></div>
 <div class="page-content" id="page-tasawuf"><div class="breadcrumb-dash"><a href="#" onclick="showHome(); return false;">Beranda</a> / Khazanah / <strong>Tasawuf & Akhlak</strong></div><div class="sub-hero"><div class="sub-arabic">التَّصَوُّفُ وَالْأَخْلَاق</div><h2>Tasawuf & Akhlak</h2><p class="sub-subtitle">Memurnikan hati, menghiasi diri dengan akhlak mulia.</p></div><div class="sub-container"><div class="sub-quote"><div class="quote-text">"Sesungguhnya aku diutus untuk menyempurnakan akhlak yang mulia."</div><div class="quote-source">— HR. Ahmad & Al-Baihaqi</div></div><h3 class="sub-section-title"><span class="icon">🕋</span> Maqamat (Tingkatan) Para Salik</h3><div class="sub-grid"><div class="sub-card"><div class="card-icon">️</div><h3>1. Taubat</h3><p>Maqam pertama.</p></div><div class="sub-card"><div class="card-icon">⏳</div><h3>2. Wara'</h3><p>Menjaga diri dari syubhat.</p></div><div class="sub-card"><div class="card-icon">🌸</div><h3>3. Zuhud</h3><p>Tidak bergantung dunia.</p></div><div class="sub-card"><div class="card-icon">🛡️</div><h3>4. Sabar</h3><p>Menahan diri dari keluh kesah.</p></div></div></div></div>
 <div class="page-content" id="page-fiqih"><div class="breadcrumb-dash"><a href="#" onclick="showHome(); return false;">Beranda</a> / Khazanah / <strong>Fiqih & Ushul Fiqih</strong></div><div class="sub-hero"><div class="sub-arabic">الْفِقْهُ وَأُصُولُ الْفِقْهِ</div><h2>Fiqih & Ushul Fiqih</h2><p class="sub-subtitle">Memahami hukum-hukum Islam secara mendalam.</p></div><div class="sub-container"><div class="sub-quote"><div class="quote-text">"Barangsiapa yang dikehendaki Allah kebaikan, Allah akan pahamkan ia dalam agama (fiqih)."</div><div class="quote-source">— HR. Bukhari & Muslim</div></div><h3 class="sub-section-title"><span class="icon">🕌</span> Empat Mazhab Ahlussunnah</h3><div class="sub-grid"><div class="sub-card"><div class="card-icon">📗</div><h3>Mazhab Hanafi</h3><p>Imam Abu Hanifah</p></div><div class="sub-card"><div class="card-icon">📗</div><h3>Mazhab Maliki</h3><p>Imam Malik</p></div><div class="sub-card" style="border-color: #c9a84c; background: rgba(201, 168, 76, 0.08);"><div class="card-icon">📗</div><h3>Mazhab Syafi'i ⭐</h3><p>Imam Asy-Syafi'i — Nusantara</p></div><div class="sub-card"><div class="card-icon">📗</div><h3>Mazhab Hanbali</h3><p>Imam Ahmad bin Hanbal</p></div></div></div></div>
@@ -727,12 +759,143 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <div class="page-content" id="page-pesantren-tertua"><div class="breadcrumb-dash"><a href="#" onclick="showHome(); return false;">Beranda</a> / <strong>Pesantren Tertua di Jawa Timur</strong></div><div class="sub-hero"><div class="sub-arabic">أَقْدَمُ الْمَعَاهِدِ فِي جَاوَا الشَّرْقِيَّة</div><h2>Pesantren Tertua di Jawa Timur</h2><p class="sub-subtitle">Jawa Timur memiliki banyak pesantren bersejarah.</p></div><div class="sub-container"><div class="sub-quote"><div class="quote-text">"Pesantren adalah warisan para wali — benteng keimanan umat Islam Nusantara."</div><div class="quote-source">— K.H. Hasyim Asy'ari</div></div><h3 class="sub-section-title"><span class="icon">🏛️</span> Pesantren-Pesantren Tertua</h3><div class="sub-grid"><div class="sub-card"><div class="card-icon">🏛️</div><h3>Pesantren Ampel Denta (1419)</h3><p>Sunan Ampel · Surabaya</p></div><div class="sub-card"><div class="card-icon">🏛️</div><h3>Pesantren Giri (1419)</h3><p>Sunan Giri · Gresik</p></div><div class="sub-card"><div class="card-icon">🏛️</div><h3>Pesantren Sidogiri (1745)</h3><p>Sayyid Sulaiman · Pasuruan</p></div><div class="sub-card"><div class="card-icon">️</div><h3>Pesantren Tebuireng (1899)</h3><p>K.H. Hasyim Asy'ari · Jombang</p></div></div></div></div>
 <!-- JAVASCRIPT -->
 <script>
+// ============================================
+// INISIALISASI PDF.js
+// ============================================
+if(typeof pdfjsLib !== 'undefined'){
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+}
+
+// State untuk setiap viewer PDF
+var pdfStates = {
+    pdf: { pdfDoc: null, pageNum: 1, totalPages: 1, url: '' },
+    sholat: { pdfDoc: null, pageNum: 1, totalPages: 1, url: '' },
+    doa: { pdfDoc: null, pageNum: 1, totalPages: 1, url: '' }
+};
+
+// ============================================
+// FUNGSI RENDER PDF DENGAN PDF.js
+// ============================================
+function renderPdfPage(viewerId, pageNum){
+    var state = pdfStates[viewerId];
+    if(!state || !state.pdfDoc) return;
+    
+    var canvasId = viewerId === 'pdf' ? 'pdfCanvas' : (viewerId === 'sholat' ? 'sholatPdfCanvas' : 'doaPdfCanvas');
+    var controlsId = viewerId === 'pdf' ? 'pdfPageControls' : (viewerId === 'sholat' ? 'sholatPdfPageControls' : 'doaPdfPageControls');
+    var pageInfoId = viewerId === 'pdf' ? 'pdfPageInfo' : (viewerId === 'sholat' ? 'sholatPdfPageInfo' : 'doaPdfPageInfo');
+    var prevBtnId = viewerId === 'pdf' ? 'pdfPrevBtn' : (viewerId === 'sholat' ? 'sholatPdfPrevBtn' : 'doaPdfPrevBtn');
+    var nextBtnId = viewerId === 'pdf' ? 'pdfNextBtn' : (viewerId === 'sholat' ? 'sholatPdfNextBtn' : 'doaPdfNextBtn');
+    var loadingId = viewerId === 'pdf' ? 'pdfLoading' : (viewerId === 'sholat' ? 'sholatPdfLoading' : 'doaPdfLoading');
+    
+    state.pdfDoc.getPage(pageNum).then(function(page){
+        var canvas = document.getElementById(canvasId);
+        var context = canvas.getContext('2d');
+        var container = canvas.parentElement;
+        
+        // Hitung scale agar pas dengan lebar container (responsif di HP)
+        var containerWidth = container.clientWidth - 20;
+        var viewport = page.getViewport({scale: 1});
+        var scale = containerWidth / viewport.width;
+        
+        // Batasi scale minimum agar teks tetap terbaca di HP
+        if(scale < 1) scale = 1;
+        // Batasi scale maksimum agar tidak terlalu besar di desktop
+        if(scale > 2.5) scale = 2.5;
+        
+        var scaledViewport = page.getViewport({scale: scale});
+        
+        canvas.height = scaledViewport.height;
+        canvas.width = scaledViewport.width;
+        
+        page.render({
+            canvasContext: context,
+            viewport: scaledViewport
+        }).promise.then(function(){
+            // Hide loading setelah render
+            var loading = document.getElementById(loadingId);
+            if(loading) loading.style.display = 'none';
+            
+            // Tampilkan kontrol halaman
+            var controls = document.getElementById(controlsId);
+            if(controls) controls.style.display = 'flex';
+            
+            // Update info halaman
+            var pageInfo = document.getElementById(pageInfoId);
+            if(pageInfo) pageInfo.textContent = 'Halaman ' + pageNum + ' / ' + state.totalPages;
+            
+            // Update tombol prev/next
+            var prevBtn = document.getElementById(prevBtnId);
+            var nextBtn = document.getElementById(nextBtnId);
+            if(prevBtn) prevBtn.disabled = (pageNum <= 1);
+            if(nextBtn) nextBtn.disabled = (pageNum >= state.totalPages);
+        });
+    }).catch(function(err){
+        console.error('Error rendering page:', err);
+        var loading = document.getElementById(loadingId);
+        if(loading){
+            loading.innerHTML = '❌ Gagal memuat halaman';
+            loading.style.color = '#e74c3c';
+        }
+    });
+}
+
+function loadPdfDocument(viewerId, pdfUrl){
+    if(typeof pdfjsLib === 'undefined'){
+        showToast('❌ PDF.js gagal dimuat. Periksa koneksi internet.');
+        return;
+    }
+    
+    var state = pdfStates[viewerId];
+    state.url = pdfUrl;
+    state.pageNum = 1;
+    
+    var loadingId = viewerId === 'pdf' ? 'pdfLoading' : (viewerId === 'sholat' ? 'sholatPdfLoading' : 'doaPdfLoading');
+    var loading = document.getElementById(loadingId);
+    if(loading){
+        loading.style.display = 'block';
+        loading.innerHTML = '⏳ Memuat PDF...';
+        loading.style.color = '#c9a84c';
+    }
+    
+    pdfjsLib.getDocument(pdfUrl).promise.then(function(pdf){
+        state.pdfDoc = pdf;
+        state.totalPages = pdf.numPages;
+        state.pageNum = 1;
+        renderPdfPage(viewerId, 1);
+    }).catch(function(err){
+        console.error('Error loading PDF:', err);
+        if(loading){
+            loading.innerHTML = '❌ Gagal memuat PDF<br><small style="color:#e74c3c;">Pastikan file PDF ada di: ' + pdfUrl + '</small>';
+            loading.style.color = '#e74c3c';
+        }
+        showToast('❌ Gagal memuat PDF. Periksa file PDF.');
+    });
+}
+
+function pdfPrevPage(viewerId){
+    var state = pdfStates[viewerId];
+    if(state.pageNum <= 1) return;
+    state.pageNum--;
+    renderPdfPage(viewerId, state.pageNum);
+}
+
+function pdfNextPage(viewerId){
+    var state = pdfStates[viewerId];
+    if(state.pageNum >= state.totalPages) return;
+    state.pageNum++;
+    renderPdfPage(viewerId, state.pageNum);
+}
+
+// ============================================
+// FUNGSI DASAR HALAMAN
+// ============================================
 function showPage(pageId){document.getElementById('home-section').style.display='none';document.querySelectorAll('.page-content').forEach(page=>{page.classList.remove('active')});const selectedPage=document.getElementById('page-'+pageId);if(selectedPage){selectedPage.classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}if(event)event.preventDefault()}
 function showHome(){document.getElementById('home-section').style.display='block';document.querySelectorAll('.page-content').forEach(page=>{page.classList.remove('active')});window.scrollTo({top:0,behavior:'smooth'});if(event)event.preventDefault()}
 function updateDateTime(){const now=new Date();const days=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];const months=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];const dayName=days[now.getDay()];const date=now.getDate();const month=months[now.getMonth()];const year=now.getFullYear();const hours=String(now.getHours()).padStart(2,'0');const minutes=String(now.getMinutes()).padStart(2,'0');const hijriDate='22 Rabiul Awal 1448 H';const dateStr=`${dayName}, ${date} ${month} ${year} · ${hijriDate} · ${hours}:${minutes} WIB`;document.getElementById('dateTimeDisplay').textContent=dateStr}
 updateDateTime();setInterval(updateDateTime,60000);
+
 // ============================================
-// DATA BIOGRAFI ULAMA
+// DATA BIOGRAFI ULAMA (SAMA PERSIS)
 // ============================================
 var ulamaData=[
 {id:'syafii',kat:'Imam Mazhab',icon:'🕌',nama:'Imam Asy-Syafi\'i',arab:'الإِمَامُ مُحَمَّدُ بْنُ إِدْرِيسَ الشَّافِعِيُّ',gelar:'Nâsirud Dîn',lahir:'Gaza, 150 H / 767 M',wafat:'Mesir, 204 H / 820 M',mazhab:'Syafi\'i',bio:'Pendiri Mazhab Syafi\'i yang dianut mayoritas Nusantara.',karya:['Ar-Risalah','Al-Umm'],napakTilas:[{y:'767 M',e:'Lahir di <strong>Gaza</strong>',m:1},{y:'820 M',e:'Wafat di <strong>Mesir</strong>',m:1}]},
@@ -752,8 +915,9 @@ function renderUlamaList(){var list=document.getElementById('ulamaList');if(!lis
 function tampilkanBiografi(id,btn){var u=null;var i;for(i=0;i<ulamaData.length;i++){if(ulamaData[i].id===id){u=ulamaData[i];break}}if(!u)return;var allBtns=document.querySelectorAll('.ulama-button');for(i=0;i<allBtns.length;i++){allBtns[i].classList.remove('active')}if(btn)btn.classList.add('active');var detail=document.getElementById('biografiDetail');if(!detail)return;var infoHTML='';if(u.gelar)infoHTML+='<div class="info-item"><strong>Gelar:</strong> '+u.gelar+'</div>';if(u.lahir)infoHTML+='<div class="info-item"><strong>Lahir:</strong> '+u.lahir+'</div>';if(u.wafat)infoHTML+='<div class="info-item"><strong>Wafat:</strong> '+u.wafat+'</div>';if(u.mazhab)infoHTML+='<div class="info-item"><strong>Mazhab:</strong> '+u.mazhab+'</div>';if(u.tarekat)infoHTML+='<div class="info-item"><strong>Tarekat:</strong> '+u.tarekat+'</div>';var karyaHTML='';if(u.karya&&u.karya.length>0){karyaHTML='<div class="karya-list"><h4>📚 Karya Monumental</h4><ul>';for(i=0;i<u.karya.length;i++){karyaHTML+='<li>'+u.karya[i]+'</li>'}karyaHTML+='</ul></div>'}var napakTilasHTML='';if(u.napakTilas&&u.napakTilas.length>0){napakTilasHTML='<div class="napak-tilas"><h4>Napak Tilas Perjalanan Hidup</h4><div class="napak-tilas-timeline">';for(i=0;i<u.napakTilas.length;i++){var item=u.napakTilas[i];var milestoneClass=item.m?' milestone':'';napakTilasHTML+='<div class="napak-tilas-item'+milestoneClass+'"><div class="napak-tilas-year">'+item.y+'</div><div class="napak-tilas-event">'+item.e+'</div></div>'}napakTilasHTML+='</div></div>'}var html='<article class="ulama-card" style="grid-template-columns: 200px 1fr; margin-bottom: 0;"><div class="ulama-photo" style="width:200px;height:240px;font-size:5rem;">'+u.icon+'</div><div class="ulama-info"><h3 style="color:#e8d48b;font-size:1.8rem;margin-bottom:8px;">'+u.nama+'</h3><div class="arabic-name" style="font-family:\'Aref Ruqaa\',serif;font-size:1.8rem;color:#c9a84c;direction:rtl;margin-bottom:15px;line-height:1.5;">'+u.arab+'</div>'+infoHTML+'<div class="ulama-bio" style="margin-top:15px;"><p>'+u.bio+'</p></div>'+karyaHTML+napakTilasHTML+'</div></article>';detail.innerHTML=html;detail.scrollTop=0}
 function initBiografi(){var searchInput=document.getElementById('searchUlama');if(searchInput){searchInput.addEventListener('keyup',renderUlamaList);renderUlamaList()}}
 if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',initBiografi)}else{initBiografi()}
+
 // ============================================
-// KUMPULAN SHOLAT
+// KUMPULAN SHOLAT (SAMA PERSIS)
 // ============================================
 var sholatKategoriData=[
 {id:'sholat-lima-waktu',icon:'🕌',nama:'Sholat-sholat Lima Waktu',desc:'Lima sholat fardhu (wajib) yang wajib dilaksanakan setiap hari oleh setiap Muslim yang sudah baligh dan berakal. Merupakan rukun Islam ke-2 setelah syahadat.',sholat:[
@@ -844,47 +1008,49 @@ html+='<button class="sholat-add-btn" style="margin-top:20px;" onclick="showToas
 content.innerHTML=html;
 content.style.display='block';
 }
+
+// ============================================
+// FUNGSI PDF VIEWER - SHOLAT (PAKAI PDF.js)
+// ============================================
 function bacaSholatPdf(nama,pdfUrl){
 currentSholatPdfUrl=pdfUrl;
 var container=document.getElementById('sholatPdfViewerContainer');
 var title=document.getElementById('sholatPdfViewerTitle');
-var iframe=document.getElementById('sholatPdfIframe');
 var loading=document.getElementById('sholatPdfLoading');
 var content=document.getElementById('sholatContent');
+var controls=document.getElementById('sholatPdfPageControls');
+
 title.textContent='📖 '+nama;
 loading.style.display='block';
-// PERBAIKAN MOBILE: Gunakan URL builder yang mendeteksi mobile
-var finalUrl=buildPdfUrl(pdfUrl);
-iframe.src=finalUrl;
+loading.innerHTML='⏳ Memuat PDF...';
+loading.style.color='#c9a84c';
+if(controls) controls.style.display='none';
+
 container.classList.add('active');
 content.style.display='none';
-// Fallback: sembunyikan loading setelah 8 detik jika onload tidak trigger
-safeHidePdfLoading('sholatPdfLoading',8000);
+
+// Load PDF dengan PDF.js
+loadPdfDocument('sholat', pdfUrl);
+
 setTimeout(function(){
-try{container.scrollIntoView({behavior:'smooth',block:'start'})}
-catch(e){window.scrollTo(0,container.offsetTop-80)}
+    try{container.scrollIntoView({behavior:'smooth',block:'start'})}
+    catch(e){window.scrollTo(0,container.offsetTop-80)}
 },200);
-if(isMobileDevice()){showToast('📱 Memuat viewer... Jika gagal, gunakan tombol "Buka Tab Baru"')}
 }
 function closeSholatPdfViewer(){
 var container=document.getElementById('sholatPdfViewerContainer');
-var iframe=document.getElementById('sholatPdfIframe');
 var content=document.getElementById('sholatContent');
+var controls=document.getElementById('sholatPdfPageControls');
 container.classList.remove('active');
 content.style.display='block';
-setTimeout(function(){iframe.src=''},300);
+if(controls) controls.style.display='none';
+// Reset state
+pdfStates.sholat = { pdfDoc: null, pageNum: 1, totalPages: 1, url: '' };
 }
-function openSholatPdfNewTab(){
-if(currentSholatPdfUrl){
-var url=isMobileDevice()?buildPdfUrl(currentSholatPdfUrl):currentSholatPdfUrl+'#toolbar=0&navpanes=0';
-window.open(url,'_blank');
-}
-}
-function hideSholatPdfLoading(){var l=document.getElementById('sholatPdfLoading');if(l)l.style.display='none'}
-function initSholat(){renderSholatList()}
-if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',initSholat)}else{initSholat()}
+function openSholatPdfNewTab(){if(currentSholatPdfUrl)window.open(currentSholatPdfUrl,'_blank')}
+
 // ============================================
-// KUMPULAN DOA
+// KUMPULAN DOA (SAMA PERSIS)
 // ============================================
 var doaKategoriData=[
 {id:'doa-nabi',icon:'🕌',nama:'Doa-doa Para Nabi',desc:'Doa-doa yang diabadikan dalam Al-Qur\'an dari para Nabi dan Rasul.',doa:[
@@ -983,45 +1149,49 @@ html+='<button class="doa-add-btn" style="margin-top:20px;" onclick="showToast(\
 content.innerHTML=html;
 content.style.display='block';
 }
+
+// ============================================
+// FUNGSI PDF VIEWER - DOA (PAKAI PDF.js)
+// ============================================
 function bacaDoaPdf(nama,pdfUrl){
 currentDoaPdfUrl=pdfUrl;
 var container=document.getElementById('doaPdfViewerContainer');
 var title=document.getElementById('doaPdfViewerTitle');
-var iframe=document.getElementById('doaPdfIframe');
 var loading=document.getElementById('doaPdfLoading');
 var content=document.getElementById('doaContent');
+var controls=document.getElementById('doaPdfPageControls');
+
 title.textContent='📖 '+nama;
 loading.style.display='block';
-// PERBAIKAN MOBILE: Gunakan URL builder yang mendeteksi mobile
-var finalUrl=buildPdfUrl(pdfUrl);
-iframe.src=finalUrl;
+loading.innerHTML='⏳ Memuat PDF...';
+loading.style.color='#c9a84c';
+if(controls) controls.style.display='none';
+
 container.classList.add('active');
 content.style.display='none';
-// Fallback: sembunyikan loading setelah 8 detik jika onload tidak trigger
-safeHidePdfLoading('doaPdfLoading',8000);
+
+// Load PDF dengan PDF.js
+loadPdfDocument('doa', pdfUrl);
+
 setTimeout(function(){
-try{container.scrollIntoView({behavior:'smooth',block:'start'})}
-catch(e){window.scrollTo(0,container.offsetTop-80)}
+    try{container.scrollIntoView({behavior:'smooth',block:'start'})}
+    catch(e){window.scrollTo(0,container.offsetTop-80)}
 },200);
-if(isMobileDevice()){showToast('📱 Memuat viewer... Jika gagal, gunakan tombol "Buka Tab Baru"')}
 }
 function closeDoaPdfViewer(){
 var container=document.getElementById('doaPdfViewerContainer');
-var iframe=document.getElementById('doaPdfIframe');
 var content=document.getElementById('doaContent');
+var controls=document.getElementById('doaPdfPageControls');
 container.classList.remove('active');
 content.style.display='block';
-setTimeout(function(){iframe.src=''},300);
+if(controls) controls.style.display='none';
+pdfStates.doa = { pdfDoc: null, pageNum: 1, totalPages: 1, url: '' };
 }
-function openDoaPdfNewTab(){
-if(currentDoaPdfUrl){
-var url=isMobileDevice()?buildPdfUrl(currentDoaPdfUrl):currentDoaPdfUrl+'#toolbar=0&navpanes=0';
-window.open(url,'_blank');
-}
-}
-function hideDoaPdfLoading(){var l=document.getElementById('doaPdfLoading');if(l)l.style.display='none'}
+function openDoaPdfNewTab(){if(currentDoaPdfUrl)window.open(currentDoaPdfUrl,'_blank')}
+
 function initDoa(){renderDoaList()}
 if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',initDoa)}else{initDoa()}
+
 // Override showPage untuk init halaman baru
 var originalShowPage=window.showPage;
 window.showPage=function(pageId){
@@ -1030,8 +1200,52 @@ if(pageId==='biografi-ulama')setTimeout(initBiografi,100);
 if(pageId==='kumpulan-doa')setTimeout(initDoa,100);
 if(pageId==='sholat')setTimeout(initSholat,100);
 };
+
 // ============================================
-// FUNGSI MASJID
+// FUNGSI PDF VIEWER - KITAB KUNING (PAKAI PDF.js)
+// ============================================
+var currentPdfUrl='';
+var currentKitabName='';
+
+function bacaKitab(namaKitab,pdfUrl){
+currentKitabName=namaKitab;
+currentPdfUrl=pdfUrl;
+var container=document.getElementById('pdfViewerContainer');
+var title=document.getElementById('pdfViewerTitle');
+var loading=document.getElementById('pdfLoading');
+var listContainer=document.getElementById('kitabListContainer');
+var controls=document.getElementById('pdfPageControls');
+
+title.textContent='📖 '+namaKitab;
+loading.style.display='block';
+loading.innerHTML='⏳ Memuat PDF...';
+loading.style.color='#c9a84c';
+if(controls) controls.style.display='none';
+
+container.classList.add('active');
+if(listContainer)listContainer.style.display='none';
+
+// Load PDF dengan PDF.js
+loadPdfDocument('pdf', pdfUrl);
+
+setTimeout(function(){
+    try{container.scrollIntoView({behavior:'smooth',block:'start'})}
+    catch(e){window.scrollTo(0,container.offsetTop-80)}
+},200);
+}
+function closePdfViewer(){
+var container=document.getElementById('pdfViewerContainer');
+var listContainer=document.getElementById('kitabListContainer');
+var controls=document.getElementById('pdfPageControls');
+container.classList.remove('active');
+if(listContainer)listContainer.style.display='block';
+if(controls) controls.style.display='none';
+pdfStates.pdf = { pdfDoc: null, pageNum: 1, totalPages: 1, url: '' };
+}
+function openPdfNewTab(){if(currentPdfUrl)window.open(currentPdfUrl,'_blank')}
+
+// ============================================
+// FUNGSI MASJID (SAMA PERSIS)
 // ============================================
 (function(){
 var API_URL='https://script.google.com/macros/s/AKfycbzzXV6zS4EPUp6ShBEKcL-_DpUu7OsX_0_mUPPe1VNjTzZUqUIHHtcwsrANBKi74o1Wkg/exec?type=all';
@@ -1345,134 +1559,37 @@ var btnHero=document.querySelector('.btn-hero[href="#profil"]');
 if(btnHero){btnHero.addEventListener('click',function(e){e.preventDefault();window.tampilkanSatu('profil')})}
 })();
 })();
-// ============================================
-// FUNGSI PDF VIEWER - KITAB KUNING
-// ============================================
-var currentPdfUrl='';
-var currentKitabName='';
-function bacaKitab(namaKitab,pdfUrl){
-currentKitabName=namaKitab;
-currentPdfUrl=pdfUrl;
-var container=document.getElementById('pdfViewerContainer');
-var title=document.getElementById('pdfViewerTitle');
-var iframe=document.getElementById('pdfIframe');
-var loading=document.getElementById('pdfLoading');
-var listContainer=document.getElementById('kitabListContainer');
-title.textContent='📖 '+namaKitab;
-loading.style.display='block';
-// PERBAIKAN MOBILE: Gunakan URL builder yang mendeteksi mobile
-var finalUrl=buildPdfUrl(pdfUrl);
-iframe.src=finalUrl;
-container.classList.add('active');
-if(listContainer)listContainer.style.display='none';
-// Fallback: sembunyikan loading setelah 8 detik jika onload tidak trigger
-safeHidePdfLoading('pdfLoading',8000);
-// Scroll dengan fallback untuk mobile
-setTimeout(function(){
-try{container.scrollIntoView({behavior:'smooth',block:'start'})}
-catch(e){window.scrollTo(0,container.offsetTop-80)}
-},200);
-// Info tambahan untuk mobile
-if(isMobileDevice()){showToast('📱 Memuat viewer... Jika gagal, gunakan tombol "Buka Tab Baru"')}
-}
-function closePdfViewer(){
-var container=document.getElementById('pdfViewerContainer');
-var iframe=document.getElementById('pdfIframe');
-var listContainer=document.getElementById('kitabListContainer');
-container.classList.remove('active');
-if(listContainer)listContainer.style.display='block';
-setTimeout(function(){iframe.src=''},300);
-}
-function openPdfNewTab(){
-if(currentPdfUrl){
-var url=isMobileDevice()?buildPdfUrl(currentPdfUrl):currentPdfUrl+'#toolbar=0&navpanes=0';
-window.open(url,'_blank');
-}
-}
-function hidePdfLoading(){var loading=document.getElementById('pdfLoading');if(loading)loading.style.display='none'}
-document.addEventListener('DOMContentLoaded',function(){
-var iframe=document.getElementById('pdfIframe');
-if(iframe){iframe.addEventListener('error',function(){showToast('❌ Gagal memuat PDF. Pastikan file tersedia di: '+currentPdfUrl);hidePdfLoading()})}
-});
-// ============================================
-// HELPER: DETEKSI MOBILE & PDF URL BUILDER (PERBAIKAN MOBILE)
-// ============================================
-function isMobileDevice(){
-return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-||(window.innerWidth<=900);
-}
-function buildPdfUrl(pdfUrl){
-// Untuk mobile: gunakan Google Docs Viewer (paling reliable di HP)
-if(isMobileDevice()){
-var fullUrl=pdfUrl;
-// Jika URL relatif, konversi ke absolute
-if(pdfUrl.indexOf('http')!==0){
-fullUrl=window.location.origin+'/'+pdfUrl.replace(/^\//,'');
-}
-return 'https://docs.google.com/gview?url='+encodeURIComponent(fullUrl)+'&embedded=true';
-}
-// Untuk desktop: gunakan iframe biasa dengan parameter toolbar
-return pdfUrl+'#toolbar=0&navpanes=0&scrollbar=1';
-}
-// Fallback timeout untuk hide loading jika onload tidak trigger
-function safeHidePdfLoading(loadingId,timeoutMs){
-timeoutMs=timeoutMs||8000;
-setTimeout(function(){
-var l=document.getElementById(loadingId);
-if(l&&l.style.display!=='none'){
-l.style.display='none';
-}
-},timeoutMs);
-}
-// Fungsi Download PDF untuk mobile
-function downloadPdfMobile(){
-var url=currentPdfUrl||currentSholatPdfUrl||currentDoaPdfUrl;
-if(url){
-var a=document.createElement('a');
-a.href=url;
-a.download='';
-a.target='_blank';
-document.body.appendChild(a);
-a.click();
-document.body.removeChild(a);
-showToast('⬇️ Memulai download PDF...');
-}else{
-showToast('❌ Tidak ada PDF yang sedang dibuka');
-}
-}
+
+function initSholat(){renderSholatList()}
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',initSholat)}else{initSholat()}
+
 // ============================================
 // PENCEGAHAN KEYBOARD SHORTCUT DOWNLOAD/PRINT
 // ============================================
 document.addEventListener('keydown',function(e){
-// Cegah Ctrl+S (Save/Download)
 if((e.ctrlKey||e.metaKey)&&e.key==='s'){
 e.preventDefault();
 showToast('🔒 Download dinonaktifkan untuk melindungi hak cipta kitab');
 return false;
 }
-// Cegah Ctrl+P (Print)
 if((e.ctrlKey||e.metaKey)&&e.key==='p'){
 e.preventDefault();
 showToast('🔒 Print dinonaktifkan untuk melindungi hak cipta kitab');
 return false;
 }
-// Cegah F12 (DevTools)
 if(e.key==='F12'){
 e.preventDefault();
 return false;
 }
-// Cegah Ctrl+Shift+I (DevTools)
 if((e.ctrlKey||e.metaKey)&&e.shiftKey&&e.key==='I'){
 e.preventDefault();
 return false;
 }
-// Cegah Ctrl+U (View Source)
 if((e.ctrlKey||e.metaKey)&&e.key==='u'){
 e.preventDefault();
 return false;
 }
 });
-// Cegah klik kanan pada PDF viewer
 document.addEventListener('contextmenu',function(e){
 var pdfWrappers=document.querySelectorAll('.pdf-iframe-wrapper');
 for(var i=0;i<pdfWrappers.length;i++){
@@ -1482,6 +1599,23 @@ showToast('🔒 Klik kanan dinonaktifkan di area PDF viewer');
 return false;
 }
 }
+});
+
+// ============================================
+// RESPONSIVE: Re-render saat window di-resize
+// ============================================
+var resizeTimer;
+window.addEventListener('resize', function(){
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function(){
+        // Re-render halaman aktif untuk setiap viewer yang terbuka
+        ['pdf','sholat','doa'].forEach(function(viewerId){
+            var state = pdfStates[viewerId];
+            if(state && state.pdfDoc){
+                renderPdfPage(viewerId, state.pageNum);
+            }
+        });
+    }, 250);
 });
 </script>
 </body>
