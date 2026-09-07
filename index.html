@@ -929,42 +929,118 @@ function retryLoadSholatPdf(){
     }
 }
 
+var currentSholatPdfUrl='';
+var sholatPdfTimer=null;
+var sholatPdfTimeout=null;
+
 function bacaSholatPdf(nama,pdfUrl){
-currentSholatPdfUrl=pdfUrl;
-var container=document.getElementById('sholatPdfViewerContainer');
-var title=document.getElementById('sholatPdfViewerTitle');
-var iframe=document.getElementById('sholatPdfIframe');
-var loading=document.getElementById('sholatPdfLoading');
-var content=document.getElementById('sholatContent');
-var buttons=document.getElementById('sholatPdfLoadingButtons');
-var progressFill=document.getElementById('sholatPdfProgressFill');
-var statusText=document.getElementById('sholatPdfLoadingStatus');
+    currentSholatPdfUrl=pdfUrl;
+    var container=document.getElementById('sholatPdfViewerContainer');
+    var title=document.getElementById('sholatPdfViewerTitle');
+    var iframe=document.getElementById('sholatPdfIframe');
+    var loading=document.getElementById('sholatPdfLoading');
+    var content=document.getElementById('sholatContent');
+    
+    title.textContent='📖 '+nama;
+    
+    loading.style.display='block';
+    loading.innerHTML='<div style="font-size:3rem;margin-bottom:10px;animation:spin 2s linear infinite;">⏳</div>'+
+        '<div>Memuat kitab fiqih sholat...</div>'+
+        '<div style="margin-top:15px;width:200px;height:8px;background:rgba(255,255,255,0.2);border-radius:10px;overflow:hidden;margin-left:auto;margin-right:auto;">'+
+        '<div id="sholatPdfProgressFill" style="width:0%;height:100%;background:linear-gradient(90deg,#c9a84c,#e8d48b);transition:width 0.3s;"></div>'+
+        '</div>'+
+        '<div id="sholatPdfLoadingStatus" style="margin-top:10px;font-size:0.85rem;color:#aaa;">Menghubungkan ke server...</div>'+
+        '<div id="sholatPdfLoadingButtons" style="margin-top:20px;display:none;gap:10px;justify-content:center;flex-wrap:wrap;">'+
+        '<button onclick="openSholatPdfNewTab()" style="background:linear-gradient(135deg,#c9a84c,#e8d48b);color:#1a0a2e;border:none;padding:10px 20px;border-radius:20px;font-size:0.85rem;font-weight:600;cursor:pointer;">🔗 Buka Tab Baru</button>'+
+        '<button onclick="retryLoadSholatPdf()" style="background:transparent;color:#c9a84c;border:1.5px solid #c9a84c;padding:10px 20px;border-radius:20px;font-size:0.85rem;font-weight:600;cursor:pointer;">🔄 Coba Lagi</button>'+
+        '</div>';
+    
+    // ⚠️ JANGAN pakai #toolbar=0 di HP
+    iframe.src=pdfUrl;
+    container.classList.add('active');
+    content.style.display='none';
+    
+    startSholatPdfProgress();
+    
+    clearTimeout(sholatPdfTimeout);
+    sholatPdfTimeout=setTimeout(function(){
+        showSholatPdfTimeout();
+    },15000);
+    
+    setTimeout(function(){
+        try{container.scrollIntoView({behavior:'smooth',block:'start'})}
+        catch(e){window.scrollTo(0,container.offsetTop-80)}
+    },200);
+}
 
-title.textContent='📖 '+nama;
+function startSholatPdfProgress(){
+    var progressFill=document.getElementById('sholatPdfProgressFill');
+    var statusText=document.getElementById('sholatPdfLoadingStatus');
+    var progress=0;
+    
+    clearInterval(sholatPdfTimer);
+    sholatPdfTimer=setInterval(function(){
+        if(progress<95){
+            progress+=Math.random()*5;
+            if(progress>95)progress=95;
+        }
+        if(progressFill)progressFill.style.width=progress+'%';
+        
+        if(statusText){
+            if(progress<30)statusText.textContent='Menghubungkan ke server...';
+            else if(progress<60)statusText.textContent='Mengunduh file PDF...';
+            else if(progress<90)statusText.textContent='Memproses halaman...';
+            else statusText.textContent='Hampir selesai...';
+        }
+    },500);
+}
 
-// Reset loading
-if(loading)loading.style.display='block';
-if(buttons)buttons.classList.remove('show');
-if(progressFill)progressFill.style.width='0%';
-if(statusText)statusText.textContent='Menghubungkan ke server...';
+function showSholatPdfTimeout(){
+    clearInterval(sholatPdfTimer);
+    clearTimeout(sholatPdfTimeout);
+    
+    var progressFill=document.getElementById('sholatPdfProgressFill');
+    if(progressFill)progressFill.style.width='100%';
+    
+    var buttons=document.getElementById('sholatPdfLoadingButtons');
+    if(buttons)buttons.style.display='flex';
+    
+    var statusText=document.getElementById('sholatPdfLoadingStatus');
+    if(statusText)statusText.innerHTML='<span style="color:#e74c3c;">⚠️ Loading terlalu lama</span><br><small style="color:#aaa;">Klik "Buka Tab Baru" jika PDF tidak muncul</small>';
+}
 
-// Start progress
-startSholatPdfProgress();
+function retryLoadSholatPdf(){
+    if(currentSholatPdfUrl){
+        closeSholatPdfViewer();
+        setTimeout(function(){
+            var nama=document.getElementById('sholatPdfViewerTitle').textContent.replace('📖 ','');
+            bacaSholatPdf(nama,currentSholatPdfUrl);
+        },300);
+    }
+}
 
-iframe.src=pdfUrl+'#toolbar=0&navpanes=0&scrollbar=1';
-container.classList.add('active');
-content.style.display='none';
+function closeSholatPdfViewer(){
+    clearInterval(sholatPdfTimer);
+    clearTimeout(sholatPdfTimeout);
+    
+    var container=document.getElementById('sholatPdfViewerContainer');
+    var iframe=document.getElementById('sholatPdfIframe');
+    var content=document.getElementById('sholatContent');
+    container.classList.remove('active');
+    content.style.display='block';
+    setTimeout(function(){iframe.src=''},300);
+}
 
-// Timeout 15 detik
-clearTimeout(sholatPdfTimeout);
-sholatPdfTimeout=setTimeout(function(){
-    showSholatPdfTimeout();
-},15000);
+function openSholatPdfNewTab(){
+    if(currentSholatPdfUrl)window.open(currentSholatPdfUrl,'_blank');
+}
 
-setTimeout(function(){
-    try{container.scrollIntoView({behavior:'smooth',block:'start'})}
-    catch(e){window.scrollTo(0,container.offsetTop-80)}
-},100);
+function hideSholatPdfLoading(){
+    clearInterval(sholatPdfTimer);
+    clearTimeout(sholatPdfTimeout);
+    
+    var loading=document.getElementById('sholatPdfLoading');
+    if(loading)loading.style.display='none';
 }
 
 function closeSholatPdfViewer(){
@@ -1147,42 +1223,118 @@ function retryLoadDoaPdf(){
     }
 }
 
+var currentDoaPdfUrl='';
+var doaPdfTimer=null;
+var doaPdfTimeout=null;
+
 function bacaDoaPdf(nama,pdfUrl){
-currentDoaPdfUrl=pdfUrl;
-var container=document.getElementById('doaPdfViewerContainer');
-var title=document.getElementById('doaPdfViewerTitle');
-var iframe=document.getElementById('doaPdfIframe');
-var loading=document.getElementById('doaPdfLoading');
-var content=document.getElementById('doaContent');
-var buttons=document.getElementById('doaPdfLoadingButtons');
-var progressFill=document.getElementById('doaPdfProgressFill');
-var statusText=document.getElementById('doaPdfLoadingStatus');
+    currentDoaPdfUrl=pdfUrl;
+    var container=document.getElementById('doaPdfViewerContainer');
+    var title=document.getElementById('doaPdfViewerTitle');
+    var iframe=document.getElementById('doaPdfIframe');
+    var loading=document.getElementById('doaPdfLoading');
+    var content=document.getElementById('doaContent');
+    
+    title.textContent='📖 '+nama;
+    
+    loading.style.display='block';
+    loading.innerHTML='<div style="font-size:3rem;margin-bottom:10px;animation:spin 2s linear infinite;">⏳</div>'+
+        '<div>Memuat kitab doa...</div>'+
+        '<div style="margin-top:15px;width:200px;height:8px;background:rgba(255,255,255,0.2);border-radius:10px;overflow:hidden;margin-left:auto;margin-right:auto;">'+
+        '<div id="doaPdfProgressFill" style="width:0%;height:100%;background:linear-gradient(90deg,#c9a84c,#e8d48b);transition:width 0.3s;"></div>'+
+        '</div>'+
+        '<div id="doaPdfLoadingStatus" style="margin-top:10px;font-size:0.85rem;color:#aaa;">Menghubungkan ke server...</div>'+
+        '<div id="doaPdfLoadingButtons" style="margin-top:20px;display:none;gap:10px;justify-content:center;flex-wrap:wrap;">'+
+        '<button onclick="openDoaPdfNewTab()" style="background:linear-gradient(135deg,#c9a84c,#e8d48b);color:#1a0a2e;border:none;padding:10px 20px;border-radius:20px;font-size:0.85rem;font-weight:600;cursor:pointer;">🔗 Buka Tab Baru</button>'+
+        '<button onclick="retryLoadDoaPdf()" style="background:transparent;color:#c9a84c;border:1.5px solid #c9a84c;padding:10px 20px;border-radius:20px;font-size:0.85rem;font-weight:600;cursor:pointer;">🔄 Coba Lagi</button>'+
+        '</div>';
+    
+    // ⚠️ JANGAN pakai #toolbar=0 di HP
+    iframe.src=pdfUrl;
+    container.classList.add('active');
+    content.style.display='none';
+    
+    startDoaPdfProgress();
+    
+    clearTimeout(doaPdfTimeout);
+    doaPdfTimeout=setTimeout(function(){
+        showDoaPdfTimeout();
+    },15000);
+    
+    setTimeout(function(){
+        try{container.scrollIntoView({behavior:'smooth',block:'start'})}
+        catch(e){window.scrollTo(0,container.offsetTop-80)}
+    },200);
+}
 
-title.textContent='📖 '+nama;
+function startDoaPdfProgress(){
+    var progressFill=document.getElementById('doaPdfProgressFill');
+    var statusText=document.getElementById('doaPdfLoadingStatus');
+    var progress=0;
+    
+    clearInterval(doaPdfTimer);
+    doaPdfTimer=setInterval(function(){
+        if(progress<95){
+            progress+=Math.random()*5;
+            if(progress>95)progress=95;
+        }
+        if(progressFill)progressFill.style.width=progress+'%';
+        
+        if(statusText){
+            if(progress<30)statusText.textContent='Menghubungkan ke server...';
+            else if(progress<60)statusText.textContent='Mengunduh file PDF...';
+            else if(progress<90)statusText.textContent='Memproses halaman...';
+            else statusText.textContent='Hampir selesai...';
+        }
+    },500);
+}
 
-// Reset loading
-if(loading)loading.style.display='block';
-if(buttons)buttons.classList.remove('show');
-if(progressFill)progressFill.style.width='0%';
-if(statusText)statusText.textContent='Menghubungkan ke server...';
+function showDoaPdfTimeout(){
+    clearInterval(doaPdfTimer);
+    clearTimeout(doaPdfTimeout);
+    
+    var progressFill=document.getElementById('doaPdfProgressFill');
+    if(progressFill)progressFill.style.width='100%';
+    
+    var buttons=document.getElementById('doaPdfLoadingButtons');
+    if(buttons)buttons.style.display='flex';
+    
+    var statusText=document.getElementById('doaPdfLoadingStatus');
+    if(statusText)statusText.innerHTML='<span style="color:#e74c3c;">⚠️ Loading terlalu lama</span><br><small style="color:#aaa;">Klik "Buka Tab Baru" jika PDF tidak muncul</small>';
+}
 
-// Start progress
-startDoaPdfProgress();
+function retryLoadDoaPdf(){
+    if(currentDoaPdfUrl){
+        closeDoaPdfViewer();
+        setTimeout(function(){
+            var nama=document.getElementById('doaPdfViewerTitle').textContent.replace('📖 ','');
+            bacaDoaPdf(nama,currentDoaPdfUrl);
+        },300);
+    }
+}
 
-iframe.src=pdfUrl+'#toolbar=0&navpanes=0&scrollbar=1';
-container.classList.add('active');
-content.style.display='none';
+function closeDoaPdfViewer(){
+    clearInterval(doaPdfTimer);
+    clearTimeout(doaPdfTimeout);
+    
+    var container=document.getElementById('doaPdfViewerContainer');
+    var iframe=document.getElementById('doaPdfIframe');
+    var content=document.getElementById('doaContent');
+    container.classList.remove('active');
+    content.style.display='block';
+    setTimeout(function(){iframe.src=''},300);
+}
 
-// Timeout 15 detik
-clearTimeout(doaPdfTimeout);
-doaPdfTimeout=setTimeout(function(){
-    showDoaPdfTimeout();
-},15000);
+function openDoaPdfNewTab(){
+    if(currentDoaPdfUrl)window.open(currentDoaPdfUrl,'_blank');
+}
 
-setTimeout(function(){
-    try{container.scrollIntoView({behavior:'smooth',block:'start'})}
-    catch(e){window.scrollTo(0,container.offsetTop-80)}
-},100);
+function hideDoaPdfLoading(){
+    clearInterval(doaPdfTimer);
+    clearTimeout(doaPdfTimeout);
+    
+    var loading=document.getElementById('doaPdfLoading');
+    if(loading)loading.style.display='none';
 }
 
 function closeDoaPdfViewer(){
@@ -1590,43 +1742,122 @@ function retryLoadPdf(){
     }
 }
 
+var currentPdfUrl='';
+var currentKitabName='';
+var pdfTimer=null;
+var pdfTimeout=null;
+
 function bacaKitab(namaKitab,pdfUrl){
-currentKitabName=namaKitab;
-currentPdfUrl=pdfUrl;
-var container=document.getElementById('pdfViewerContainer');
-var title=document.getElementById('pdfViewerTitle');
-var iframe=document.getElementById('pdfIframe');
-var loading=document.getElementById('pdfLoading');
-var listContainer=document.getElementById('kitabListContainer');
-var buttons=document.getElementById('pdfLoadingButtons');
-var progressFill=document.getElementById('pdfProgressFill');
-var statusText=document.getElementById('pdfLoadingStatus');
+    currentKitabName=namaKitab;
+    currentPdfUrl=pdfUrl;
+    var container=document.getElementById('pdfViewerContainer');
+    var title=document.getElementById('pdfViewerTitle');
+    var iframe=document.getElementById('pdfIframe');
+    var loading=document.getElementById('pdfLoading');
+    var listContainer=document.getElementById('kitabListContainer');
+    
+    title.textContent='📖 '+namaKitab;
+    
+    // Reset loading
+    loading.style.display='block';
+    loading.innerHTML='<div style="font-size:3rem;margin-bottom:10px;animation:spin 2s linear infinite;">⏳</div>'+
+        '<div>Memuat kitab...</div>'+
+        '<div style="margin-top:15px;width:200px;height:8px;background:rgba(255,255,255,0.2);border-radius:10px;overflow:hidden;margin-left:auto;margin-right:auto;">'+
+        '<div id="pdfProgressFill" style="width:0%;height:100%;background:linear-gradient(90deg,#c9a84c,#e8d48b);transition:width 0.3s;"></div>'+
+        '</div>'+
+        '<div id="pdfLoadingStatus" style="margin-top:10px;font-size:0.85rem;color:#aaa;">Menghubungkan ke server...</div>'+
+        '<div id="pdfLoadingButtons" style="margin-top:20px;display:none;gap:10px;justify-content:center;flex-wrap:wrap;">'+
+        '<button onclick="openPdfNewTab()" style="background:linear-gradient(135deg,#c9a84c,#e8d48b);color:#1a0a2e;border:none;padding:10px 20px;border-radius:20px;font-size:0.85rem;font-weight:600;cursor:pointer;">🔗 Buka Tab Baru</button>'+
+        '<button onclick="retryLoadPdf()" style="background:transparent;color:#c9a84c;border:1.5px solid #c9a84c;padding:10px 20px;border-radius:20px;font-size:0.85rem;font-weight:600;cursor:pointer;">🔄 Coba Lagi</button>'+
+        '</div>';
+    
+    // ⚠️ PENTING: JANGAN pakai #toolbar=0&navpanes=0 di HP (sering diblokir browser mobile)
+    iframe.src=pdfUrl;
+    container.classList.add('active');
+    if(listContainer)listContainer.style.display='none';
+    
+    // Start progress simulation
+    startPdfProgress();
+    
+    // Timeout 15 detik - tampilkan opsi fallback
+    clearTimeout(pdfTimeout);
+    pdfTimeout=setTimeout(function(){
+        showPdfTimeout();
+    },15000);
+    
+    setTimeout(function(){
+        try{container.scrollIntoView({behavior:'smooth',block:'start'})}
+        catch(e){window.scrollTo(0,container.offsetTop-80)}
+    },200);
+}
 
-title.textContent='📖 '+namaKitab;
+function startPdfProgress(){
+    var progressFill=document.getElementById('pdfProgressFill');
+    var statusText=document.getElementById('pdfLoadingStatus');
+    var progress=0;
+    
+    clearInterval(pdfTimer);
+    pdfTimer=setInterval(function(){
+        if(progress<95){
+            progress+=Math.random()*5;
+            if(progress>95)progress=95;
+        }
+        if(progressFill)progressFill.style.width=progress+'%';
+        
+        if(statusText){
+            if(progress<30)statusText.textContent='Menghubungkan ke server...';
+            else if(progress<60)statusText.textContent='Mengunduh file PDF...';
+            else if(progress<90)statusText.textContent='Memproses halaman...';
+            else statusText.textContent='Hampir selesai...';
+        }
+    },500);
+}
 
-// Reset loading
-if(loading)loading.style.display='block';
-if(buttons)buttons.classList.remove('show');
-if(progressFill)progressFill.style.width='0%';
-if(statusText)statusText.textContent='Menghubungkan ke server...';
+function showPdfTimeout(){
+    clearInterval(pdfTimer);
+    clearTimeout(pdfTimeout);
+    
+    var progressFill=document.getElementById('pdfProgressFill');
+    if(progressFill)progressFill.style.width='100%';
+    
+    var buttons=document.getElementById('pdfLoadingButtons');
+    if(buttons)buttons.style.display='flex';
+    
+    var statusText=document.getElementById('pdfLoadingStatus');
+    if(statusText)statusText.innerHTML='<span style="color:#e74c3c;">⚠️ Loading terlalu lama</span><br><small style="color:#aaa;">Klik "Buka Tab Baru" jika PDF tidak muncul</small>';
+}
 
-// Start progress
-startPdfProgress();
+function retryLoadPdf(){
+    if(currentPdfUrl&&currentKitabName){
+        closePdfViewer();
+        setTimeout(function(){
+            bacaKitab(currentKitabName,currentPdfUrl);
+        },300);
+    }
+}
 
-iframe.src=pdfUrl+'#toolbar=0&navpanes=0&scrollbar=1';
-container.classList.add('active');
-if(listContainer)listContainer.style.display='none';
+function closePdfViewer(){
+    clearInterval(pdfTimer);
+    clearTimeout(pdfTimeout);
+    
+    var container=document.getElementById('pdfViewerContainer');
+    var iframe=document.getElementById('pdfIframe');
+    var listContainer=document.getElementById('kitabListContainer');
+    container.classList.remove('active');
+    if(listContainer)listContainer.style.display='block';
+    setTimeout(function(){iframe.src=''},300);
+}
 
-// Timeout 15 detik
-clearTimeout(pdfTimeout);
-pdfTimeout=setTimeout(function(){
-    showPdfTimeout();
-},15000);
+function openPdfNewTab(){
+    if(currentPdfUrl)window.open(currentPdfUrl,'_blank');
+}
 
-setTimeout(function(){
-    try{container.scrollIntoView({behavior:'smooth',block:'start'})}
-    catch(e){window.scrollTo(0,container.offsetTop-80)}
-},100);
+function hidePdfLoading(){
+    clearInterval(pdfTimer);
+    clearTimeout(pdfTimeout);
+    
+    var loading=document.getElementById('pdfLoading');
+    if(loading)loading.style.display='none';
 }
 
 function closePdfViewer(){
