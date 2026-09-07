@@ -8,8 +8,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script>pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-gradient(135deg,#1a0a2e 0%,#2d1b4e 30%,#1a0a2e 60%,#0d0520 100%);min-height:100vh;color:#fff}
@@ -133,7 +131,7 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-g
 .sub-search{width:100%;margin-top:10px;padding:12px 18px;border-radius:25px;border:1px solid rgba(201,168,76,0.3);background:rgba(0,0,0,0.3);color:#fff;font-size:15px;outline:none}
 .sub-search:focus{border-color:#c9a84c}
 .biografi-split-container,.doa-split-container,.sholat-split-container{display:flex;gap:25px;max-width:1400px;margin:0 auto;padding:0 30px 60px;align-items:flex-start}
-.biografi-sidebar,.doa-sidebar,.sholat-sidebar{width:360px;flex-shrink:0;background:rgba(255,255,255,0.03);border:1px solid rgba(201,168,76,0.2);border-radius:15px;padding:20px;max-height:85vh;overflow-y:auto;position:sticky;top:80px}
+.biografi-sidebar,.doa-sidebar,.sholat-sidebar{width:260px;flex-shrink:0;background:rgba(255,255,255,0.03);border:1px solid rgba(201,168,76,0.2);border-radius:15px;padding:15px;max-height:95vh;overflow-y:auto;position:sticky;top:80px}
 .biografi-sidebar::-webkit-scrollbar,.doa-sidebar::-webkit-scrollbar,.sholat-sidebar::-webkit-scrollbar{width:6px}
 .biografi-sidebar::-webkit-scrollbar-track,.doa-sidebar::-webkit-scrollbar-track,.sholat-sidebar::-webkit-scrollbar-track{background:rgba(0,0,0,0.2);border-radius:10px}
 .biografi-sidebar::-webkit-scrollbar-thumb,.doa-sidebar::-webkit-scrollbar-thumb,.sholat-sidebar::-webkit-scrollbar-thumb{background:rgba(201,168,76,0.4);border-radius:10px}
@@ -176,11 +174,9 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-g
 .doa-item-card .doa-ref,.sholat-item-card .sholat-ref{margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.06);color:#888;font-size:0.78rem}
 .doa-add-btn,.sholat-add-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:10px;margin-top:10px;background:transparent;border:1.5px dashed rgba(201,168,76,0.3);border-radius:10px;color:#c9a84c;cursor:pointer;font-size:0.82rem;font-family:inherit;transition:all 0.3s}
 .doa-add-btn:hover,.sholat-add-btn:hover{border-color:#c9a84c;background:rgba(201,168,76,0.08)}
-.masjid-page html,.masjid-page body{touch-action:manipulation;-webkit-text-size-adjust:100%}
-.masjid-page input,.masjid-page select,.masjid-page textarea,.masjid-page button{font-size:16px!important;touch-action:manipulation}
 .masjid-page{--primary:#0d6e3f;--primary-dark:#084a2a;--accent:#c9a227;--bg:#00E676;--text:#1f2a24;--muted:#2d5a3d;--card:#ffffff;--border:#A8E6A3;--shadow:0 4px 18px rgba(0,230,118,.2);--phbi-primary:#7b1fa2;--phbi-dark:#4a148c;--phbi-accent:#ff6f00;--santunan-primary:#00695c;--santunan-dark:#004d40;--santunan-accent:#ffb300;font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.65;width:100%}
 .masjid-page *{box-sizing:border-box}
-.masjid-page html{scroll-behavior:auto}
+.masjid-page input,.masjid-page select,.masjid-page textarea,.masjid-page button{font-size:16px!important;touch-action:manipulation}
 .masjid-page .m-container{max-width:1200px;margin:0 auto;padding:0 20px}
 .masjid-page .m-topbar{background:var(--primary-dark);color:#fff;padding:8px 0;font-size:0.85rem;text-align:center}
 .masjid-page header.m-header{background:linear-gradient(rgba(0,0,0,0.40),rgba(0,0,0,0.40)),url('6-removebg-preview.png');background-size:cover;background-position:center;background-repeat:no-repeat;background-color:#0d6e3f;color:#fff;padding:45px 0;text-align:center;position:relative;z-index:1}
@@ -198,7 +194,6 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-g
 .masjid-page nav.m-main-nav ul.nav-list>li{position:relative}
 .masjid-page nav.m-main-nav ul.nav-list>li>a{color:#fff;padding:14px 16px;display:block;text-decoration:none;font-size:0.93rem;transition:background 0.2s;cursor:pointer}
 .masjid-page nav.m-main-nav ul.nav-list>li>a:hover{background:rgba(255,255,255,0.12)}
-.masjid-page nav.m-main-nav ul.nav-list>li.active>a{background:rgba(255,255,255,0.18);font-weight:bold}
 .masjid-page .m-dropdown{display:none;position:absolute;top:100%;left:0;background:var(--primary-dark);min-width:280px;box-shadow:0 6px 20px rgba(0,0,0,0.25);border-radius:0 0 10px 10px;z-index:999}
 .masjid-page .m-dropdown.open{display:block}
 .masjid-page .m-dropdown li{list-style:none}
@@ -211,7 +206,6 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-g
 .masjid-page .btn-hero{display:inline-block;background:var(--accent);color:var(--primary-dark);padding:13px 32px;border-radius:30px;text-decoration:none;font-weight:bold;font-size:1rem;transition:transform 0.2s,box-shadow 0.2s;box-shadow:0 4px 15px rgba(201,162,39,0.4)}
 .masjid-page .btn-hero:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(201,162,39,0.5)}
 .masjid-page section.m-section{padding:50px 0;border-bottom:1px solid var(--border);scroll-margin-top:100px}
-.masjid-page section.m-section[id]{scroll-margin-top:100px}
 .masjid-page section.m-section h2.section-title{font-size:1.8rem;color:#ffffff;margin-bottom:8px;border-left:5px solid var(--accent);padding-left:12px;text-shadow:0 1px 0 rgba(255,255,255,0.5),0 2px 0 rgba(200,200,200,0.4),0 3px 0 rgba(150,150,150,0.3),0 4px 0 rgba(100,100,100,0.2),0 5px 15px rgba(0,0,0,0.8);font-weight:700;letter-spacing:0.5px}
 .masjid-page .subtitle{color:#FAFAD2;margin-bottom:25px;font-size:1rem;font-weight:600;text-shadow:0 1px 0 rgba(255,255,255,0.6),0 2px 0 rgba(245,222,179,0.5),0 3px 0 rgba(210,180,140,0.4),0 4px 0 rgba(180,150,100,0.3),0 5px 12px rgba(0,0,0,0.7);letter-spacing:0.3px}
 .masjid-page .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:20px}
@@ -261,26 +255,26 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-g
 .masjid-page .copyright{text-align:center;border-top:1px solid rgba(255,255,255,0.15);margin-top:25px;padding-top:15px;font-size:0.85rem;color:#aaa}
 .masjid-page .footer-bar{background:var(--primary-dark);color:#fff;padding:12px 0;font-size:0.9rem;text-align:center}
 .masjid-page .ringkasan .card:has(#totalMasuk){background:linear-gradient(135deg,#00E676 0%,#00C853 100%)}
-.masjid-page .ringkasan .card:has(#totalMasuk) h3{color:rgba(255,255,255,0.92);text-shadow:0 1px 2px rgba(0,70,25,0.4)}
-.masjid-page .ringkasan .card:has(#totalMasuk) .value{color:#fff;text-shadow:0 -1px 0 rgba(0,70,25,0.35),0 1px 0 rgba(255,255,255,0.35),0 3px 5px rgba(0,70,25,0.45)}
+.masjid-page .ringkasan .card:has(#totalMasuk) h3{color:rgba(255,255,255,0.92)}
+.masjid-page .ringkasan .card:has(#totalMasuk) .value{color:#fff}
 .masjid-page .ringkasan .card:has(#totalKeluar){background:linear-gradient(135deg,#A89028 0%,#7D6B1A 100%)}
-.masjid-page .ringkasan .card:has(#totalKeluar) h3{color:rgba(255,255,255,0.92);text-shadow:0 1px 2px rgba(70,55,0,0.5)}
-.masjid-page .ringkasan .card:has(#totalKeluar) .value{color:#fff;text-shadow:0 -1px 0 rgba(70,55,0,0.4),0 1px 0 rgba(255,255,255,0.35),0 3px 5px rgba(70,55,0,0.5)}
+.masjid-page .ringkasan .card:has(#totalKeluar) h3{color:rgba(255,255,255,0.92)}
+.masjid-page .ringkasan .card:has(#totalKeluar) .value{color:#fff}
 .masjid-page .ringkasan .card:has(#saldoAkhir){background:linear-gradient(135deg,#2979FF 0%,#0056D6 100%)}
-.masjid-page .ringkasan .card:has(#saldoAkhir) h3{color:rgba(255,255,255,0.92);text-shadow:0 1px 2px rgba(0,30,80,0.45)}
-.masjid-page .ringkasan .card:has(#saldoAkhir) .value{color:#fff;text-shadow:0 -1px 0 rgba(0,30,80,0.35),0 1px 0 rgba(255,255,255,0.35),0 3px 5px rgba(0,30,80,0.45)}
+.masjid-page .ringkasan .card:has(#saldoAkhir) h3{color:rgba(255,255,255,0.92)}
+.masjid-page .ringkasan .card:has(#saldoAkhir) .value{color:#fff}
 .masjid-page .ringkasan.phbi .card:has(#phbiTotalMasuk){background:linear-gradient(135deg,#ab47bc 0%,#7b1fa2 100%)}
-.masjid-page .ringkasan.phbi .card:has(#phbiTotalMasuk) h3,.masjid-page .ringkasan.phbi .card:has(#phbiTotalMasuk) .value{color:#fff;text-shadow:0 2px 6px rgba(74,20,140,0.5)}
+.masjid-page .ringkasan.phbi .card:has(#phbiTotalMasuk) h3,.masjid-page .ringkasan.phbi .card:has(#phbiTotalMasuk) .value{color:#fff}
 .masjid-page .ringkasan.phbi .card:has(#phbiTotalKeluar){background:linear-gradient(135deg,#ff8f00 0%,#e65100 100%)}
-.masjid-page .ringkasan.phbi .card:has(#phbiTotalKeluar) h3,.masjid-page .ringkasan.phbi .card:has(#phbiTotalKeluar) .value{color:#fff;text-shadow:0 2px 6px rgba(142,57,0,0.5)}
+.masjid-page .ringkasan.phbi .card:has(#phbiTotalKeluar) h3,.masjid-page .ringkasan.phbi .card:has(#phbiTotalKeluar) .value{color:#fff}
 .masjid-page .ringkasan.phbi .card:has(#phbiSaldoAkhir){background:linear-gradient(135deg,#4a148c 0%,#311b92 100%)}
-.masjid-page .ringkasan.phbi .card:has(#phbiSaldoAkhir) h3,.masjid-page .ringkasan.phbi .card:has(#phbiSaldoAkhir) .value{color:#fff;text-shadow:0 2px 6px rgba(49,27,146,0.5)}
+.masjid-page .ringkasan.phbi .card:has(#phbiSaldoAkhir) h3,.masjid-page .ringkasan.phbi .card:has(#phbiSaldoAkhir) .value{color:#fff}
 .masjid-page .ringkasan.santunan .card:has(#santunanTotalMasuk){background:linear-gradient(135deg,#26a69a 0%,#00695c 100%)}
-.masjid-page .ringkasan.santunan .card:has(#santunanTotalMasuk) h3,.masjid-page .ringkasan.santunan .card:has(#santunanTotalMasuk) .value{color:#fff;text-shadow:0 2px 6px rgba(0,77,64,0.5)}
+.masjid-page .ringkasan.santunan .card:has(#santunanTotalMasuk) h3,.masjid-page .ringkasan.santunan .card:has(#santunanTotalMasuk) .value{color:#fff}
 .masjid-page .ringkasan.santunan .card:has(#santunanTotalKeluar){background:linear-gradient(135deg,#ffa000 0%,#ff6f00 100%)}
-.masjid-page .ringkasan.santunan .card:has(#santunanTotalKeluar) h3,.masjid-page .ringkasan.santunan .card:has(#santunanTotalKeluar) .value{color:#fff;text-shadow:0 2px 6px rgba(230,81,0,0.5)}
+.masjid-page .ringkasan.santunan .card:has(#santunanTotalKeluar) h3,.masjid-page .ringkasan.santunan .card:has(#santunanTotalKeluar) .value{color:#fff}
 .masjid-page .ringkasan.santunan .card:has(#santunanSaldoAkhir){background:linear-gradient(135deg,#1565c0 0%,#0d47a1 100%)}
-.masjid-page .ringkasan.santunan .card:has(#santunanSaldoAkhir) h3,.masjid-page .ringkasan.santunan .card:has(#santunanSaldoAkhir) .value{color:#fff;text-shadow:0 2px 6px rgba(13,71,161,0.5)}
+.masjid-page .ringkasan.santunan .card:has(#santunanSaldoAkhir) h3,.masjid-page .ringkasan.santunan .card:has(#santunanSaldoAkhir) .value{color:#fff}
 .masjid-page .live-badge{display:inline-flex;align-items:center;gap:5px;font-size:0.75rem;color:#0d6e3f;font-weight:bold;background:rgba(13,110,63,0.08);padding:2px 10px;border-radius:12px;margin-left:6px}
 .masjid-page .live-badge.phbi{color:var(--phbi-primary);background:rgba(123,31,162,0.08)}
 .masjid-page .live-badge.santunan{color:var(--santunan-primary);background:rgba(0,105,92,0.08)}
@@ -321,11 +315,11 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-g
 .masjid-page .show-all-btn.active{display:inline-flex}
 .masjid-page .active-section-label{display:none;background:var(--primary);color:#fff;padding:12px 20px;border-radius:8px;margin:20px auto;max-width:1200px;font-weight:bold;text-align:center;box-shadow:0 4px 15px rgba(13,110,63,0.3)}
 .masjid-page .active-section-label.active{display:block}
-/* PDF Viewer */
-.pdf-viewer-container{display:none;background:rgba(0,0,0,0.6);border:1px solid rgba(201,168,76,0.3);border-radius:15px;padding:20px;margin-bottom:30px;position:relative}
-.pdf-viewer-container.active{display:block;animation:fadeIn 0.4s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
-.pdf-viewer-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;padding:12px 18px;background:rgba(201,168,76,0.1);border-radius:10px;border-left:4px solid #c9a84c;flex-wrap:wrap;gap:10px}
+/* PDF Viewer - Full Screen Overlay */
+.pdf-viewer-container{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(26,10,46,0.98);z-index:9999;overflow:hidden;padding:0;margin:0}
+.pdf-viewer-container.active{display:block;animation:fadeIn 0.3s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.pdf-viewer-header{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:linear-gradient(135deg,#1a0a2e,#2d1b4e);border-bottom:2px solid #c9a84c;flex-wrap:wrap;gap:10px;position:relative;z-index:10}
 .pdf-viewer-title{color:#e8d48b;font-size:1.2rem;font-weight:600;display:flex;align-items:center;gap:10px}
 .pdf-viewer-title::before{content:'📖';font-size:1.4rem}
 .pdf-viewer-actions{display:flex;gap:10px;flex-wrap:wrap}
@@ -334,26 +328,16 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-g
 .pdf-btn.secondary{background:transparent;color:#c9a84c;border:1.5px solid #c9a84c}
 .pdf-btn.secondary:hover{background:rgba(201,168,76,0.1)}
 .pdf-btn.danger{background:linear-gradient(135deg,#c0392b,#e74c3c);color:#fff}
-.pdf-iframe-wrapper{position:relative;width:100%;height:90vh;min-height:700px;background:#1a0a2e;border-radius:10px;overflow:hidden;border:1px solid rgba(201,168,76,0.2)}
+.pdf-iframe-wrapper{position:absolute;top:60px;left:0;right:0;bottom:0;background:#1a0a2e;overflow:hidden}
 .pdf-iframe-wrapper iframe{width:100%;height:100%;border:none;background:#fff}
-.pdf-loading{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#c9a84c;font-size:1.1rem;text-align:center;z-index:10;background:rgba(26,10,46,0.97);padding:30px;border-radius:15px;min-width:320px;max-width:90%;box-shadow:0 10px 40px rgba(0,0,0,0.5)}
+.pdf-loading{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#c9a84c;font-size:1.1rem;text-align:center;z-index:10;background:rgba(26,10,46,0.95);padding:30px;border-radius:15px;min-width:280px}
 .pdf-loading::before{content:'⏳';display:block;font-size:3rem;margin-bottom:10px;animation:spin 2s linear infinite}
 @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-.pdf-progress-bar{width:100%;height:8px;background:rgba(255,255,255,0.2);border-radius:10px;overflow:hidden;margin:15px 0}
-.pdf-progress-fill{height:100%;background:linear-gradient(90deg,#c9a84c,#e8d48b);transition:width 0.3s ease;width:0%}
-.pdf-loading-status{font-size:0.85rem;color:#aaa;margin-top:10px}
-.pdf-loading-buttons{margin-top:20px;display:none;gap:10px;justify-content:center;flex-wrap:wrap}
-.pdf-loading-buttons.show{display:flex}
-.pdf-loading-buttons button{background:linear-gradient(135deg,#c9a84c,#e8d48b);color:#1a0a2e;border:none;padding:10px 20px;border-radius:20px;font-size:0.85rem;font-weight:600;cursor:pointer;transition:all 0.3s}
-.pdf-loading-buttons button:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(201,168,76,0.4)}
-.pdf-loading-buttons button.secondary{background:transparent;color:#c9a84c;border:1.5px solid #c9a84c}
-/* ===== OVERLAY BLOKIR TOOLBAR PDF (Download & Print) ===== */
 .pdf-toolbar-overlay{position:absolute;top:0;left:0;right:0;height:52px;background:linear-gradient(to bottom,rgba(26,10,46,0.98) 0%,rgba(26,10,46,0.92) 80%,rgba(26,10,46,0) 100%);z-index:25;pointer-events:auto;cursor:not-allowed;display:flex;align-items:center;justify-content:center}
 .pdf-toolbar-overlay::before{content:' Download & Print Dinonaktifkan';color:#c9a84c;font-size:0.8rem;font-weight:700;letter-spacing:1px;text-shadow:0 2px 6px rgba(0,0,0,0.9);pointer-events:none}
 .pdf-toolbar-overlay::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#c9a84c,transparent)}
 .kitab-card.readable{cursor:pointer;transition:all 0.3s}
 .kitab-card.readable:hover{transform:translateY(-6px);box-shadow:0 15px 40px rgba(201,168,76,0.25)}
-.kitab-card.readable:hover .kitab-cover{transform:scale(1.05)}
 .kitab-read-btn{display:inline-flex;align-items:center;gap:6px;margin-top:12px;padding:8px 16px;background:linear-gradient(135deg,rgba(201,168,76,0.2),rgba(201,168,76,0.1));color:#e8d48b;border:1px solid rgba(201,168,76,0.4);border-radius:20px;font-size:0.82rem;font-weight:600;cursor:pointer;transition:all 0.3s}
 .kitab-read-btn:hover{background:linear-gradient(135deg,#c9a84c,#e8d48b);color:#1a0a2e;transform:translateX(3px)}
 .kitab-badge-available{display:inline-block;background:rgba(46,204,113,0.2);color:#2ecc71;padding:3px 10px;border-radius:10px;font-size:0.72rem;font-weight:600;margin-left:8px}
@@ -363,7 +347,6 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-g
 .biografi-sidebar,.doa-sidebar,.sholat-sidebar{width:100%;position:static;max-height:400px}
 .biografi-detail,.doa-detail,.sholat-detail{padding:20px}
 .napak-tilas{padding:18px}
-.napak-tilas h4{font-size:1rem}
 .nav-left{flex-direction:column;gap:15px}
 .nav-menu{flex-wrap:wrap;justify-content:center}
 .hero h1{font-size:32px}
@@ -375,7 +358,6 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-g
 .ulama-card{grid-template-columns:1fr;text-align:center}
 .ulama-card .ulama-photo{margin:0 auto;width:140px;height:170px;font-size:3.5rem}
 .sub-container{padding:0 15px 40px}
-.sub-section-title{font-size:1.3rem}
 .masjid-page nav.m-main-nav .nav-inner{flex-direction:column;align-items:stretch}
 .masjid-page .menu-toggle{display:block;width:100%;text-align:center}
 .masjid-page nav.m-main-nav ul.nav-list{flex-direction:column;width:100%;display:none}
@@ -384,26 +366,24 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-g
 .masjid-page .m-dropdown.open{display:block}
 .masjid-page header.m-header h1{font-size:1.5rem}
 .masjid-page .m-hero h2{font-size:1.5rem}
-.masjid-page .m-hero p{font-size:0.95rem}
 .masjid-page .kaligrafi-arab{font-size:2.2rem}
 .masjid-page header.m-header{padding:35px 0}
 }
 @media (max-width:768px){
-.pdf-iframe-wrapper{height:60vh;min-height:400px}
+.pdf-iframe-wrapper{height:70vh;min-height:500px}
 .pdf-viewer-header{flex-direction:column;align-items:flex-start}
 .pdf-viewer-title{font-size:1rem}
 .pdf-toolbar-overlay{height:46px}
-.pdf-toolbar-overlay::before{font-size:0.72rem}
-.pdf-loading{min-width:280px;padding:20px}
 }
 @media (max-width:600px){
 .masjid-page .share-fab{bottom:15px;right:15px}
 .masjid-page .share-fab-btn{width:52px;height:52px;font-size:1.3rem}
-.masjid-page .share-item{font-size:0.82rem;padding:6px 12px 6px 6px}
-.masjid-page .share-icon{width:34px;height:34px;font-size:1rem}
-.masjid-page .share-inline-btn{padding:10px 16px;font-size:0.85rem}
 .masjid-page .show-all-btn{top:70px;right:10px;padding:8px 14px;font-size:0.78rem}
 }
+/* Saat PDF viewer aktif, body tidak bisa scroll */
+body.pdf-viewer-active{overflow:hidden}
+body.pdf-viewer-active .page-content{display:none!important}
+body.pdf-viewer-active .page-content.active{display:block!important}
 </style>
 </head>
 <body>
@@ -411,7 +391,7 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-g
 <div class="top-bar">
 <div class="top-bar-left">
 <span class="moon-icon">🌙</span>
-<span id="dateTimeDisplay">Senin, 7 September 2026 · 24 Rabiul Awal 1448 H</span>
+<span id="dateTimeDisplay">Senin, 8 September 2026 · 25 Rabiul Awal 1448 H</span>
 </div>
 <div class="top-bar-right">
 <a href="#" onclick="showPage('tentang-donasi'); return false;">Tentang</a>
@@ -493,7 +473,7 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <!-- HERO -->
 <section class="hero" id="home-section">
 <div class="hero-badge">KHAZANAH KEILMUAN ISLAM UNTUK DUNIA</div>
-<h1>Ilmu Yang Bersanad,<br>Mendekatkan <span class="highlight">Di Ijabahnya Ibadah</span></h1>
+<h1>Ilmu yang Bersanad,<br>Kini Sedekat <span class="highlight">Satu Pertanyaan</span></h1>
 <p>Jelajahi biografi ulama, kitab, tuntunan ibadah Aswaja, Qur'an & Hadis beserta asbabnya — atau tanyakan langsung kepada Al-Ikhlas AI yang menjawab dari sumber bersanad.</p>
 <div class="search-container">
 <input type="text" placeholder='Tanya apa saja... "?"'>
@@ -577,19 +557,13 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <div class="pdf-viewer-header">
 <div class="pdf-viewer-title" id="pdfViewerTitle">Memuat Kitab...</div>
 <div class="pdf-viewer-actions">
-
 <button class="pdf-btn danger" onclick="closePdfViewer()">✕ Tutup</button>
 </div>
 </div>
 <div class="pdf-iframe-wrapper">
 <div class="pdf-loading" id="pdfLoading">Memuat kitab...</div>
-<div style="width:100%;height:100%;overflow-y:auto;background:#525659;padding:10px;display:flex;flex-direction:column;align-items:center;">
-<canvas id="pdfCanvas" style="max-width:100%;height:auto;box-shadow:0 4px 20px rgba(0,0,0,0.5);background:#fff;"></canvas>
-</div>
-<div id="pdfPageControls" style="display:none;position:sticky;bottom:0;left:0;right:0;background:rgba(26,10,46,0.95);padding:10px;justify-content:center;align-items:center;gap:10px;border-top:1px solid rgba(201,168,76,0.3);z-index:30;">
-<button id="pdfPrevBtn" onclick="pdfPrev('kitab')" style="background:linear-gradient(135deg,#c9a84c,#e8d48b);color:#1a0a2e;border:none;padding:8px 14px;border-radius:20px;font-weight:600;cursor:pointer;">◀ Prev</button>
-<span id="pdfPageInfo" style="color:#e8d48b;font-weight:600;min-width:100px;text-align:center;">Halaman 1 / 1</span>
-<button id="pdfNextBtn" onclick="pdfNext('kitab')" style="background:linear-gradient(135deg,#c9a84c,#e8d48b);color:#1a0a2e;border:none;padding:8px 14px;border-radius:20px;font-weight:600;cursor:pointer;">Next ▶</button>
+<iframe id="pdfIframe" src="" title="PDF Viewer" onload="hidePdfLoading()"></iframe>
+<div class="pdf-toolbar-overlay"></div>
 </div>
 </div>
 <div id="kitabListContainer">
@@ -601,16 +575,16 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 </div>
 <h3 class="sub-section-title"><span class="icon">⚖️</span> Fiqih (Mazhab Syafi'i)</h3>
 <div class="sub-grid">
-<div class="kitab-card readable" onclick="bacaKitab('Al-Umm', 'pdf/al-umm-jilid-1.pdf')"><div class="kitab-header"><div class="kitab-cover">📗</div><div><h3>Al-Umm Jilid 1 <span class="kitab-badge-available">✅ Tersedia</span></h3><div class="kitab-arabic">الْأُمّ</div><div class="kitab-author">Imam Muhammad bin Idris Asy-Syafi'i (w. 204 H)</div></div></div><p class="kitab-desc">Kitab induk Mazhab Syafi'i.</p><div class="kitab-meta"><span class="kitab-tag">Induk</span><span class="kitab-tag">Syafi'i</span><span class="kitab-tag">Referensi Utama</span></div><button class="kitab-read-btn">📖 Baca Kitab</button></div>
-<div class="kitab-card readable" onclick="bacaKitab('Al-Umm', 'pdf/al-umm-jilid-2.pdf')"><div class="kitab-header"><div class="kitab-cover">📗</div><div><h3>Al-Umm Jilid 2 <span class="kitab-badge-available">✅ Tersedia</span></h3><div class="kitab-arabic">الْأُمّ</div><div class="kitab-author">Imam Muhammad bin Idris Asy-Syafi'i (w. 204 H)</div></div></div><p class="kitab-desc">Kitab induk Mazhab Syafi'i.</p><div class="kitab-meta"><span class="kitab-tag">Induk</span><span class="kitab-tag">Syafi'i</span><span class="kitab-tag">Referensi Utama</span></div><button class="kitab-read-btn">📖 Baca Kitab</button></div>
-<div class="kitab-card readable" onclick="bacaKitab('Al-Umm', 'pdf/al-umm-jilid-3.pdf')"><div class="kitab-header"><div class="kitab-cover">📗</div><div><h3>Al-Umm Jilid 3 <span class="kitab-badge-available">✅ Tersedia</span></h3><div class="kitab-arabic">الْأُمّ</div><div class="kitab-author">Imam Muhammad bin Idris Asy-Syafi'i (w. 204 H)</div></div></div><p class="kitab-desc">Kitab induk Mazhab Syafi'i.</p><div class="kitab-meta"><span class="kitab-tag">Induk</span><span class="kitab-tag">Syafi'i</span><span class="kitab-tag">Referensi Utama</span></div><button class="kitab-read-btn">📖 Baca Kitab</button></div>
+<div class="kitab-card readable" onclick="bacaKitab('Al-Umm Jilid 1', 'pdf/al-umm-jilid-1.pdf')"><div class="kitab-header"><div class="kitab-cover">📗</div><div><h3>Al-Umm Jilid 1 <span class="kitab-badge-available">✅ Tersedia</span></h3><div class="kitab-arabic">الْأُمّ</div><div class="kitab-author">Imam Muhammad bin Idris Asy-Syafi'i (w. 204 H)</div></div></div><p class="kitab-desc">Kitab induk Mazhab Syafi'i.</p><div class="kitab-meta"><span class="kitab-tag">Induk</span><span class="kitab-tag">Syafi'i</span><span class="kitab-tag">Referensi Utama</span></div><button class="kitab-read-btn">📖 Baca Kitab</button></div>
+<div class="kitab-card readable" onclick="bacaKitab('Al-Umm Jilid 2', 'pdf/al-umm-jilid-2.pdf')"><div class="kitab-header"><div class="kitab-cover">📗</div><div><h3>Al-Umm Jilid 2 <span class="kitab-badge-available">✅ Tersedia</span></h3><div class="kitab-arabic">الْأُمّ</div><div class="kitab-author">Imam Muhammad bin Idris Asy-Syafi'i (w. 204 H)</div></div></div><p class="kitab-desc">Kitab induk Mazhab Syafi'i.</p><div class="kitab-meta"><span class="kitab-tag">Induk</span><span class="kitab-tag">Syafi'i</span><span class="kitab-tag">Referensi Utama</span></div><button class="kitab-read-btn">📖 Baca Kitab</button></div>
+<div class="kitab-card readable" onclick="bacaKitab('Al-Umm Jilid 3', 'pdf/al-umm-jilid-3.pdf')"><div class="kitab-header"><div class="kitab-cover">📗</div><div><h3>Al-Umm Jilid 3 <span class="kitab-badge-available">✅ Tersedia</span></h3><div class="kitab-arabic">الْأُمّ</div><div class="kitab-author">Imam Muhammad bin Idris Asy-Syafi'i (w. 204 H)</div></div></div><p class="kitab-desc">Kitab induk Mazhab Syafi'i.</p><div class="kitab-meta"><span class="kitab-tag">Induk</span><span class="kitab-tag">Syafi'i</span><span class="kitab-tag">Referensi Utama</span></div><button class="kitab-read-btn">📖 Baca Kitab</button></div>
 <div class="kitab-card readable" onclick="bacaKitab('Bidayatul Mujtahid Jilid 1', 'pdf/bidayatul-mujtahid-jilid-1.pdf')"><div class="kitab-header"><div class="kitab-cover"></div><div><h3>Bidayatul Mujtahid Jilid 1 <span class="kitab-badge-available">✅ Tersedia</span></h3><div class="kitab-arabic">بداية المجتهدة</div><div class="kitab-author">Syeikh Abu al-Walid Muhammad bin Ahmad bin Rusyd (w. 595H)</div></div></div><p class="kitab-desc">Kitab perbandingan fiqih.</p><div class="kitab-meta"><span class="kitab-tag">Dasar</span><span class="kitab-tag">Ibnu Rusyd</span></div><button class="kitab-read-btn">📖 Baca Kitab</button></div>
 <div class="kitab-card readable" onclick="bacaKitab('Bidayatul Mujtahid Jilid 2', 'pdf/bidayatul-mujtahid-jilid-2.pdf')"><div class="kitab-header"><div class="kitab-cover"></div><div><h3>Bidayatul Mujtahid Jilid 2 <span class="kitab-badge-available">✅ Tersedia</span></h3><div class="kitab-arabic">بداية المجتهدة</div><div class="kitab-author">Syeikh Abu al-Walid Muhammad bin Ahmad bin Rusyd (w. 595H)</div></div></div><p class="kitab-desc">Kitab perbandingan fiqih.</p><div class="kitab-meta"><span class="kitab-tag">Dasar</span><span class="kitab-tag">Ibnu Rusyd</span></div><button class="kitab-read-btn">📖 Baca Kitab</button></div>
 <div class="kitab-card readable" onclick="bacaKitab('Safînatun Najâh', 'pdf/safinatun-najah.pdf')"><div class="kitab-header"><div class="kitab-cover"></div><div><h3>Safînatun Najâh <span class="kitab-badge-available">✅ Tersedia</span></h3><div class="kitab-arabic">سَفِينَةُ النَّجَاة</div><div class="kitab-author">Syeikh Salim bin Sumair Al-Hadlrami (w. 1067 H)</div></div></div><p class="kitab-desc">Kitab fiqih Syafi'i paling dasar.</p><div class="kitab-meta"><span class="kitab-tag">Dasar</span><span class="kitab-tag">Syafi'i</span></div><button class="kitab-read-btn">📖 Baca Kitab</button></div>
 </div>
 <h3 class="sub-section-title"><span class="icon">🌿</span> Tasawuf & Akhlak</h3>
 <div class="sub-grid">
-<div class="kitab-card readable" onclick="bacaKitab('Ihyâ\' Ulûmiddîn', 'pdf/ihya-ulumiddin.pdf')"><div class="kitab-header"><div class="kitab-cover">📙</div><div><h3>Ihyâ' Ulûmiddîn <span class="kitab-badge-available">✅ Tersedia</span></h3><div class="kitab-arabic">إِحْيَاءُ عُلُومِ الدِّين</div><div class="kitab-author">Imam Al-Ghazali (w. 505 H)</div></div></div><p class="kitab-desc">Karya agung 40 jilid.</p><div class="kitab-meta"><span class="kitab-tag">Induk</span><span class="kitab-tag">Tasawuf</span><span class="kitab-tag">Akhlak</span></div><button class="kitab-read-btn">📖 Baca Kitab</button></div>
+<div class="kitab-card readable" onclick="bacaKitab('Ihyâ Ulûmiddîn', 'pdf/ihya-ulumiddin.pdf')"><div class="kitab-header"><div class="kitab-cover">📙</div><div><h3>Ihyâ' Ulûmiddîn <span class="kitab-badge-available">✅ Tersedia</span></h3><div class="kitab-arabic">إِحْيَاءُ عُلُومِ الدِّين</div><div class="kitab-author">Imam Al-Ghazali (w. 505 H)</div></div></div><p class="kitab-desc">Karya agung 40 jilid.</p><div class="kitab-meta"><span class="kitab-tag">Induk</span><span class="kitab-tag">Tasawuf</span><span class="kitab-tag">Akhlak</span></div><button class="kitab-read-btn">📖 Baca Kitab</button></div>
 <div class="kitab-card readable" onclick="bacaKitab('Al-Hikam', 'pdf/al-hikam.pdf')"><div class="kitab-header"><div class="kitab-cover">📙</div><div><h3>Al-Hikam <span class="kitab-badge-available">✅ Tersedia</span></h3><div class="kitab-arabic">الْحِكَمُ الْعَطَائِيَّة</div><div class="kitab-author">Ibnu Atha'illah As-Sakandari (w. 709 H)</div></div></div><p class="kitab-desc">300 hikmah spiritual para sufi.</p><div class="kitab-meta"><span class="kitab-tag">Menengah</span><span class="kitab-tag">Tasawuf</span></div><button class="kitab-read-btn">📖 Baca Kitab</button></div>
 </div>
 <h3 class="sub-section-title"><span class="icon">📜</span> Tafsir & Hadis</h3>
@@ -654,19 +628,13 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <div class="pdf-viewer-header">
 <div class="pdf-viewer-title" id="sholatPdfViewerTitle">Memuat Kitab Fiqih Sholat...</div>
 <div class="pdf-viewer-actions">
-
 <button class="pdf-btn danger" onclick="closeSholatPdfViewer()">✕ Tutup</button>
 </div>
 </div>
 <div class="pdf-iframe-wrapper">
 <div class="pdf-loading" id="sholatPdfLoading">Memuat kitab fiqih sholat...</div>
-<div style="width:100%;height:100%;overflow-y:auto;background:#525659;padding:10px;display:flex;flex-direction:column;align-items:center;">
-<canvas id="sholatPdfCanvas" style="max-width:100%;height:auto;box-shadow:0 4px 20px rgba(0,0,0,0.5);background:#fff;"></canvas>
-</div>
-<div id="sholatPdfPageControls" style="display:none;position:sticky;bottom:0;left:0;right:0;background:rgba(26,10,46,0.95);padding:10px;justify-content:center;align-items:center;gap:10px;border-top:1px solid rgba(201,168,76,0.3);z-index:30;">
-<button id="sholatPdfPrevBtn" onclick="pdfPrev('sholat')" style="background:linear-gradient(135deg,#c9a84c,#e8d48b);color:#1a0a2e;border:none;padding:8px 14px;border-radius:20px;font-weight:600;cursor:pointer;">◀ Prev</button>
-<span id="sholatPdfPageInfo" style="color:#e8d48b;font-weight:600;min-width:100px;text-align:center;">Halaman 1 / 1</span>
-<button id="sholatPdfNextBtn" onclick="pdfNext('sholat')" style="background:linear-gradient(135deg,#c9a84c,#e8d48b);color:#1a0a2e;border:none;padding:8px 14px;border-radius:20px;font-weight:600;cursor:pointer;">Next ▶</button>
+<iframe id="sholatPdfIframe" src="" title="PDF Viewer Sholat" onload="hideSholatPdfLoading()"></iframe>
+<div class="pdf-toolbar-overlay"></div>
 </div>
 </div>
 <div id="sholatContent">
@@ -702,21 +670,13 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <div class="pdf-viewer-header">
 <div class="pdf-viewer-title" id="doaPdfViewerTitle">Memuat Kitab Doa...</div>
 <div class="pdf-viewer-actions">
-
 <button class="pdf-btn danger" onclick="closeDoaPdfViewer()">✕ Tutup</button>
 </div>
 </div>
 <div class="pdf-iframe-wrapper">
-<div class="pdf-loading" id="doaPdfLoading">
-<div style="font-size:3rem;margin-bottom:10px;animation:spin 2s linear infinite;">⏳</div>
 <div class="pdf-loading" id="doaPdfLoading">Memuat kitab doa...</div>
-<div style="width:100%;height:100%;overflow-y:auto;background:#525659;padding:10px;display:flex;flex-direction:column;align-items:center;">
-<canvas id="doaPdfCanvas" style="max-width:100%;height:auto;box-shadow:0 4px 20px rgba(0,0,0,0.5);background:#fff;"></canvas>
-</div>
-<div id="doaPdfPageControls" style="display:none;position:sticky;bottom:0;left:0;right:0;background:rgba(26,10,46,0.95);padding:10px;justify-content:center;align-items:center;gap:10px;border-top:1px solid rgba(201,168,76,0.3);z-index:30;">
-<button id="doaPdfPrevBtn" onclick="pdfPrev('doa')" style="background:linear-gradient(135deg,#c9a84c,#e8d48b);color:#1a0a2e;border:none;padding:8px 14px;border-radius:20px;font-weight:600;cursor:pointer;">◀ Prev</button>
-<span id="doaPdfPageInfo" style="color:#e8d48b;font-weight:600;min-width:100px;text-align:center;">Halaman 1 / 1</span>
-<button id="doaPdfNextBtn" onclick="pdfNext('doa')" style="background:linear-gradient(135deg,#c9a84c,#e8d48b);color:#1a0a2e;border:none;padding:8px 14px;border-radius:20px;font-weight:600;cursor:pointer;">Next ▶</button>
+<iframe id="doaPdfIframe" src="" title="PDF Viewer Doa" onload="hideDoaPdfLoading()"></iframe>
+<div class="pdf-toolbar-overlay"></div>
 </div>
 </div>
 <div id="doaContent">
@@ -751,9 +711,8 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <script>
 function showPage(pageId){document.getElementById('home-section').style.display='none';document.querySelectorAll('.page-content').forEach(page=>{page.classList.remove('active')});const selectedPage=document.getElementById('page-'+pageId);if(selectedPage){selectedPage.classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}if(event)event.preventDefault()}
 function showHome(){document.getElementById('home-section').style.display='block';document.querySelectorAll('.page-content').forEach(page=>{page.classList.remove('active')});window.scrollTo({top:0,behavior:'smooth'});if(event)event.preventDefault()}
-function updateDateTime(){const now=new Date();const days=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];const months=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];const dayName=days[now.getDay()];const date=now.getDate();const month=months[now.getMonth()];const year=now.getFullYear();const hours=String(now.getHours()).padStart(2,'0');const minutes=String(now.getMinutes()).padStart(2,'0');const hijriDate='24 Rabiul Awal 1448 H';const dateStr=`${dayName}, ${date} ${month} ${year} · ${hijriDate} · ${hours}:${minutes} WIB`;document.getElementById('dateTimeDisplay').textContent=dateStr}
+function updateDateTime(){const now=new Date();const days=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];const months=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];const dayName=days[now.getDay()];const date=now.getDate();const month=months[now.getMonth()];const year=now.getFullYear();const hours=String(now.getHours()).padStart(2,'0');const minutes=String(now.getMinutes()).padStart(2,'0');const hijriDate='25 Rabiul Awal 1448 H';const dateStr=`${dayName}, ${date} ${month} ${year} · ${hijriDate} · ${hours}:${minutes} WIB`;document.getElementById('dateTimeDisplay').textContent=dateStr}
 updateDateTime();setInterval(updateDateTime,60000);
-
 // ============================================
 // DATA BIOGRAFI ULAMA
 // ============================================
@@ -775,7 +734,6 @@ function renderUlamaList(){var list=document.getElementById('ulamaList');if(!lis
 function tampilkanBiografi(id,btn){var u=null;var i;for(i=0;i<ulamaData.length;i++){if(ulamaData[i].id===id){u=ulamaData[i];break}}if(!u)return;var allBtns=document.querySelectorAll('.ulama-button');for(i=0;i<allBtns.length;i++){allBtns[i].classList.remove('active')}if(btn)btn.classList.add('active');var detail=document.getElementById('biografiDetail');if(!detail)return;var infoHTML='';if(u.gelar)infoHTML+='<div class="info-item"><strong>Gelar:</strong> '+u.gelar+'</div>';if(u.lahir)infoHTML+='<div class="info-item"><strong>Lahir:</strong> '+u.lahir+'</div>';if(u.wafat)infoHTML+='<div class="info-item"><strong>Wafat:</strong> '+u.wafat+'</div>';if(u.mazhab)infoHTML+='<div class="info-item"><strong>Mazhab:</strong> '+u.mazhab+'</div>';if(u.tarekat)infoHTML+='<div class="info-item"><strong>Tarekat:</strong> '+u.tarekat+'</div>';var karyaHTML='';if(u.karya&&u.karya.length>0){karyaHTML='<div class="karya-list"><h4>📚 Karya Monumental</h4><ul>';for(i=0;i<u.karya.length;i++){karyaHTML+='<li>'+u.karya[i]+'</li>'}karyaHTML+='</ul></div>'}var napakTilasHTML='';if(u.napakTilas&&u.napakTilas.length>0){napakTilasHTML='<div class="napak-tilas"><h4>Napak Tilas Perjalanan Hidup</h4><div class="napak-tilas-timeline">';for(i=0;i<u.napakTilas.length;i++){var item=u.napakTilas[i];var milestoneClass=item.m?' milestone':'';napakTilasHTML+='<div class="napak-tilas-item'+milestoneClass+'"><div class="napak-tilas-year">'+item.y+'</div><div class="napak-tilas-event">'+item.e+'</div></div>'}napakTilasHTML+='</div></div>'}var html='<article class="ulama-card" style="grid-template-columns: 200px 1fr; margin-bottom: 0;"><div class="ulama-photo" style="width:200px;height:240px;font-size:5rem;">'+u.icon+'</div><div class="ulama-info"><h3 style="color:#e8d48b;font-size:1.8rem;margin-bottom:8px;">'+u.nama+'</h3><div class="arabic-name" style="font-family:\'Aref Ruqaa\',serif;font-size:1.8rem;color:#c9a84c;direction:rtl;margin-bottom:15px;line-height:1.5;">'+u.arab+'</div>'+infoHTML+'<div class="ulama-bio" style="margin-top:15px;"><p>'+u.bio+'</p></div>'+karyaHTML+napakTilasHTML+'</div></article>';detail.innerHTML=html;detail.scrollTop=0}
 function initBiografi(){var searchInput=document.getElementById('searchUlama');if(searchInput){searchInput.addEventListener('keyup',renderUlamaList);renderUlamaList()}}
 if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',initBiografi)}else{initBiografi()}
-
 // ============================================
 // KUMPULAN SHOLAT
 // ============================================
@@ -868,60 +826,6 @@ html+='<button class="sholat-add-btn" style="margin-top:20px;" onclick="showToas
 content.innerHTML=html;
 content.style.display='block';
 }
-
-// ============================================
-// FUNGSI PDF VIEWER - SHOLAT (DENGAN PROGRESS & TIMEOUT)
-// ============================================
-var sholatPdfTimer=null;
-var sholatPdfTimeout=null;
-
-function startSholatPdfProgress(){
-    var progressFill=document.getElementById('sholatPdfProgressFill');
-    var statusText=document.getElementById('sholatPdfLoadingStatus');
-    var progress=0;
-    
-    clearInterval(sholatPdfTimer);
-    sholatPdfTimer=setInterval(function(){
-        if(progress<95){
-            progress+=Math.random()*5;
-            if(progress>95)progress=95;
-        }
-        if(progressFill)progressFill.style.width=progress+'%';
-        
-        if(statusText){
-            if(progress<30)statusText.textContent='Menghubungkan ke server...';
-            else if(progress<60)statusText.textContent='Mengunduh file PDF...';
-            else if(progress<90)statusText.textContent='Memproses halaman...';
-            else statusText.textContent='Hampir selesai...';
-        }
-    },500);
-}
-
-function showSholatPdfTimeout(){
-    clearInterval(sholatPdfTimer);
-    clearTimeout(sholatPdfTimeout);
-    
-    var progressFill=document.getElementById('sholatPdfProgressFill');
-    if(progressFill)progressFill.style.width='100%';
-    
-    var buttons=document.getElementById('sholatPdfLoadingButtons');
-    if(buttons)buttons.classList.add('show');
-    
-    var statusText=document.getElementById('sholatPdfLoadingStatus');
-    if(statusText)statusText.innerHTML='<span style="color:#e74c3c;">⚠️ Loading terlalu lama</span><br><small>Klik "Buka Tab Baru" untuk membaca PDF</small>';
-}
-
-function retryLoadSholatPdf(){
-    if(currentSholatPdfUrl){
-        var nama=document.getElementById('sholatPdfViewerTitle').textContent.replace('📖 ','');
-        bacaSholatPdf(nama,currentSholatPdfUrl);
-    }
-}
-
-var currentSholatPdfUrl='';
-var sholatPdfTimer=null;
-var sholatPdfTimeout=null;
-
 function bacaSholatPdf(nama,pdfUrl){
 currentSholatPdfUrl=pdfUrl;
 var container=document.getElementById('sholatPdfViewerContainer');
@@ -931,124 +835,24 @@ var loading=document.getElementById('sholatPdfLoading');
 var content=document.getElementById('sholatContent');
 title.textContent='📖 '+nama;
 loading.style.display='block';
-
-// ⚠️ URL polos tanpa parameter #toolbar=0
-iframe.src=pdfUrl;
-
+iframe.src=pdfUrl+'#toolbar=0&navpanes=0&scrollbar=1';
 container.classList.add('active');
+document.body.classList.add('pdf-viewer-active');
 content.style.display='none';
-
-setTimeout(function(){
-    var l=document.getElementById('sholatPdfLoading');
-    if(l&&l.style.display!=='none')l.style.display='none';
-},8000);
-
-setTimeout(function(){
-    try{container.scrollIntoView({behavior:'smooth',block:'start'})}
-    catch(e){window.scrollTo(0,container.offsetTop-80)}
-},200);
 }
-
-function startSholatPdfProgress(){
-    var progressFill=document.getElementById('sholatPdfProgressFill');
-    var statusText=document.getElementById('sholatPdfLoadingStatus');
-    var progress=0;
-    
-    clearInterval(sholatPdfTimer);
-    sholatPdfTimer=setInterval(function(){
-        if(progress<95){
-            progress+=Math.random()*5;
-            if(progress>95)progress=95;
-        }
-        if(progressFill)progressFill.style.width=progress+'%';
-        
-        if(statusText){
-            if(progress<30)statusText.textContent='Menghubungkan ke server...';
-            else if(progress<60)statusText.textContent='Mengunduh file PDF...';
-            else if(progress<90)statusText.textContent='Memproses halaman...';
-            else statusText.textContent='Hampir selesai...';
-        }
-    },500);
-}
-
-function showSholatPdfTimeout(){
-    clearInterval(sholatPdfTimer);
-    clearTimeout(sholatPdfTimeout);
-    
-    var progressFill=document.getElementById('sholatPdfProgressFill');
-    if(progressFill)progressFill.style.width='100%';
-    
-    var buttons=document.getElementById('sholatPdfLoadingButtons');
-    if(buttons)buttons.style.display='flex';
-    
-    var statusText=document.getElementById('sholatPdfLoadingStatus');
-    if(statusText)statusText.innerHTML='<span style="color:#e74c3c;">⚠️ Loading terlalu lama</span><br><small style="color:#aaa;">Klik "Buka Tab Baru" jika PDF tidak muncul</small>';
-}
-
-function retryLoadSholatPdf(){
-    if(currentSholatPdfUrl){
-        closeSholatPdfViewer();
-        setTimeout(function(){
-            var nama=document.getElementById('sholatPdfViewerTitle').textContent.replace('📖 ','');
-            bacaSholatPdf(nama,currentSholatPdfUrl);
-        },300);
-    }
-}
-
 function closeSholatPdfViewer(){
-    clearInterval(sholatPdfTimer);
-    clearTimeout(sholatPdfTimeout);
-    
-    var container=document.getElementById('sholatPdfViewerContainer');
-    var iframe=document.getElementById('sholatPdfIframe');
-    var content=document.getElementById('sholatContent');
-    container.classList.remove('active');
-    content.style.display='block';
-    setTimeout(function(){iframe.src=''},300);
-}
-
-function openSholatPdfNewTab(){
-    if(currentSholatPdfUrl)window.open(currentSholatPdfUrl,'_blank');
-}
-
-function hideSholatPdfLoading(){
-    clearInterval(sholatPdfTimer);
-    clearTimeout(sholatPdfTimeout);
-    
-    var loading=document.getElementById('sholatPdfLoading');
-    if(loading)loading.style.display='none';
-}
-
-function closeSholatPdfViewer(){
-clearInterval(sholatPdfTimer);
-clearTimeout(sholatPdfTimeout);
-
 var container=document.getElementById('sholatPdfViewerContainer');
 var iframe=document.getElementById('sholatPdfIframe');
 var content=document.getElementById('sholatContent');
-var buttons=document.getElementById('sholatPdfLoadingButtons');
-
 container.classList.remove('active');
+document.body.classList.remove('pdf-viewer-active');
 content.style.display='block';
-if(buttons)buttons.classList.remove('show');
 setTimeout(function(){iframe.src=''},300);
 }
-
 function openSholatPdfNewTab(){if(currentSholatPdfUrl)window.open(currentSholatPdfUrl,'_blank')}
-
-function hideSholatPdfLoading(){
-clearInterval(sholatPdfTimer);
-clearTimeout(sholatPdfTimeout);
-
-var loading=document.getElementById('sholatPdfLoading');
-var buttons=document.getElementById('sholatPdfLoadingButtons');
-if(loading)loading.style.display='none';
-if(buttons)buttons.classList.remove('show');
-}
-
+function hideSholatPdfLoading(){var l=document.getElementById('sholatPdfLoading');if(l)l.style.display='none'}
 function initSholat(){renderSholatList()}
 if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',initSholat)}else{initSholat()}
-
 // ============================================
 // KUMPULAN DOA
 // ============================================
@@ -1059,7 +863,7 @@ var doaKategoriData=[
 {judul:'Doa Nabi Ibrahim AS',arab:'رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِن ذُرِّيَّتِي رَبَّنَا وَتَقَبَّلْ دُعَاءِ',latin:'Rabbij\'alnî muqîmas-shalâti wa min dzurriyyatî...',arti:'Ya Tuhanku, jadikanlah aku dan anak cucuku orang yang tetap mendirikan sholat.',ref:'QS. Ibrahim: 40'},
 {judul:'Doa Nabi Yunus AS (Dzun Nun)',arab:'لَّا إِلَٰهَ إِلَّا أَنتَ سُبْحَانَكَ إِنِّي كُنتُ مِنَ الظَّالِمِينَ',latin:'Lâ ilâha illâ anta subhânaka innî kuntu minazh-zhâlimîn.',arti:'Tidak ada Tuhan selain Engkau, Maha Suci Engkau...',ref:'QS. Al-Anbiya: 87'}
 ]},
-{id:'doa-muhammad',icon:'',nama:'Doa-doa Nabi Muhammad ',desc:'Doa-doa yang diriwayatkan dari Rasulullah ﷺ dalam hadis-hadis shahih.',doa:[
+{id:'doa-muhammad',icon:'',nama:'Doa-doa Nabi Muhammad',desc:'Doa-doa yang diriwayatkan dari Rasulullah ﷺ dalam hadis-hadis shahih.',doa:[
 {judul:'Doa Pembuka Majelis',arab:'سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا أَنْتَ أَسْتَغْفِرُكَ وَأَتُوبُ إِلَيْكَ',latin:'Subhânakallâhumma wa bihamdika...',arti:'Maha Suci Engkau ya Allah, dengan memuji-Mu...',ref:'HR. Abu Daud & Tirmidzi'},
 {judul:'Doa Penutup Majelis',arab:'سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا أَنْتَ أَسْتَغْفِرُكَ وَأَتُوبُ إِلَيْكَ',latin:'Subhânakallâhumma wa bihamdika...',arti:'Kafaratul Majelis — penghapus dosa selama berada di majelis.',ref:'HR. Abu Daud & Tirmidzi'},
 {judul:'Doa Memohon Ilmu',arab:'اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا وَرِزْقًا طَيِّبًا وَعَمَلًا مُتَقَبَّلًا',latin:'Allâhumma innî as\'aluka \'ilman nâfi\'an...',arti:'Ya Allah, aku memohon kepada-Mu ilmu yang bermanfaat...',ref:'HR. Ibnu Majah'},
@@ -1149,60 +953,6 @@ html+='<button class="doa-add-btn" style="margin-top:20px;" onclick="showToast(\
 content.innerHTML=html;
 content.style.display='block';
 }
-
-// ============================================
-// FUNGSI PDF VIEWER - DOA (DENGAN PROGRESS & TIMEOUT)
-// ============================================
-var doaPdfTimer=null;
-var doaPdfTimeout=null;
-
-function startDoaPdfProgress(){
-    var progressFill=document.getElementById('doaPdfProgressFill');
-    var statusText=document.getElementById('doaPdfLoadingStatus');
-    var progress=0;
-    
-    clearInterval(doaPdfTimer);
-    doaPdfTimer=setInterval(function(){
-        if(progress<95){
-            progress+=Math.random()*5;
-            if(progress>95)progress=95;
-        }
-        if(progressFill)progressFill.style.width=progress+'%';
-        
-        if(statusText){
-            if(progress<30)statusText.textContent='Menghubungkan ke server...';
-            else if(progress<60)statusText.textContent='Mengunduh file PDF...';
-            else if(progress<90)statusText.textContent='Memproses halaman...';
-            else statusText.textContent='Hampir selesai...';
-        }
-    },500);
-}
-
-function showDoaPdfTimeout(){
-    clearInterval(doaPdfTimer);
-    clearTimeout(doaPdfTimeout);
-    
-    var progressFill=document.getElementById('doaPdfProgressFill');
-    if(progressFill)progressFill.style.width='100%';
-    
-    var buttons=document.getElementById('doaPdfLoadingButtons');
-    if(buttons)buttons.classList.add('show');
-    
-    var statusText=document.getElementById('doaPdfLoadingStatus');
-    if(statusText)statusText.innerHTML='<span style="color:#e74c3c;">⚠️ Loading terlalu lama</span><br><small>Klik "Buka Tab Baru" untuk membaca PDF</small>';
-}
-
-function retryLoadDoaPdf(){
-    if(currentDoaPdfUrl){
-        var nama=document.getElementById('doaPdfViewerTitle').textContent.replace('📖 ','');
-        bacaDoaPdf(nama,currentDoaPdfUrl);
-    }
-}
-
-var currentDoaPdfUrl='';
-var doaPdfTimer=null;
-var doaPdfTimeout=null;
-
 function bacaDoaPdf(nama,pdfUrl){
 currentDoaPdfUrl=pdfUrl;
 var container=document.getElementById('doaPdfViewerContainer');
@@ -1212,124 +962,24 @@ var loading=document.getElementById('doaPdfLoading');
 var content=document.getElementById('doaContent');
 title.textContent='📖 '+nama;
 loading.style.display='block';
-
-// ⚠️ URL polos tanpa parameter #toolbar=0
-iframe.src=pdfUrl;
-
+iframe.src=pdfUrl+'#toolbar=0&navpanes=0&scrollbar=1';
 container.classList.add('active');
+document.body.classList.add('pdf-viewer-active');
 content.style.display='none';
-
-setTimeout(function(){
-    var l=document.getElementById('doaPdfLoading');
-    if(l&&l.style.display!=='none')l.style.display='none';
-},8000);
-
-setTimeout(function(){
-    try{container.scrollIntoView({behavior:'smooth',block:'start'})}
-    catch(e){window.scrollTo(0,container.offsetTop-80)}
-},200);
 }
-
-function startDoaPdfProgress(){
-    var progressFill=document.getElementById('doaPdfProgressFill');
-    var statusText=document.getElementById('doaPdfLoadingStatus');
-    var progress=0;
-    
-    clearInterval(doaPdfTimer);
-    doaPdfTimer=setInterval(function(){
-        if(progress<95){
-            progress+=Math.random()*5;
-            if(progress>95)progress=95;
-        }
-        if(progressFill)progressFill.style.width=progress+'%';
-        
-        if(statusText){
-            if(progress<30)statusText.textContent='Menghubungkan ke server...';
-            else if(progress<60)statusText.textContent='Mengunduh file PDF...';
-            else if(progress<90)statusText.textContent='Memproses halaman...';
-            else statusText.textContent='Hampir selesai...';
-        }
-    },500);
-}
-
-function showDoaPdfTimeout(){
-    clearInterval(doaPdfTimer);
-    clearTimeout(doaPdfTimeout);
-    
-    var progressFill=document.getElementById('doaPdfProgressFill');
-    if(progressFill)progressFill.style.width='100%';
-    
-    var buttons=document.getElementById('doaPdfLoadingButtons');
-    if(buttons)buttons.style.display='flex';
-    
-    var statusText=document.getElementById('doaPdfLoadingStatus');
-    if(statusText)statusText.innerHTML='<span style="color:#e74c3c;">⚠️ Loading terlalu lama</span><br><small style="color:#aaa;">Klik "Buka Tab Baru" jika PDF tidak muncul</small>';
-}
-
-function retryLoadDoaPdf(){
-    if(currentDoaPdfUrl){
-        closeDoaPdfViewer();
-        setTimeout(function(){
-            var nama=document.getElementById('doaPdfViewerTitle').textContent.replace('📖 ','');
-            bacaDoaPdf(nama,currentDoaPdfUrl);
-        },300);
-    }
-}
-
 function closeDoaPdfViewer(){
-    clearInterval(doaPdfTimer);
-    clearTimeout(doaPdfTimeout);
-    
-    var container=document.getElementById('doaPdfViewerContainer');
-    var iframe=document.getElementById('doaPdfIframe');
-    var content=document.getElementById('doaContent');
-    container.classList.remove('active');
-    content.style.display='block';
-    setTimeout(function(){iframe.src=''},300);
-}
-
-function openDoaPdfNewTab(){
-    if(currentDoaPdfUrl)window.open(currentDoaPdfUrl,'_blank');
-}
-
-function hideDoaPdfLoading(){
-    clearInterval(doaPdfTimer);
-    clearTimeout(doaPdfTimeout);
-    
-    var loading=document.getElementById('doaPdfLoading');
-    if(loading)loading.style.display='none';
-}
-
-function closeDoaPdfViewer(){
-clearInterval(doaPdfTimer);
-clearTimeout(doaPdfTimeout);
-
 var container=document.getElementById('doaPdfViewerContainer');
 var iframe=document.getElementById('doaPdfIframe');
 var content=document.getElementById('doaContent');
-var buttons=document.getElementById('doaPdfLoadingButtons');
-
 container.classList.remove('active');
+document.body.classList.remove('pdf-viewer-active');
 content.style.display='block';
-if(buttons)buttons.classList.remove('show');
 setTimeout(function(){iframe.src=''},300);
 }
-
 function openDoaPdfNewTab(){if(currentDoaPdfUrl)window.open(currentDoaPdfUrl,'_blank')}
-
-function hideDoaPdfLoading(){
-clearInterval(doaPdfTimer);
-clearTimeout(doaPdfTimeout);
-
-var loading=document.getElementById('doaPdfLoading');
-var buttons=document.getElementById('doaPdfLoadingButtons');
-if(loading)loading.style.display='none';
-if(buttons)buttons.classList.remove('show');
-}
-
+function hideDoaPdfLoading(){var l=document.getElementById('doaPdfLoading');if(l)l.style.display='none'}
 function initDoa(){renderDoaList()}
 if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',initDoa)}else{initDoa()}
-
 // Override showPage untuk init halaman baru
 var originalShowPage=window.showPage;
 window.showPage=function(pageId){
@@ -1338,7 +988,6 @@ if(pageId==='biografi-ulama')setTimeout(initBiografi,100);
 if(pageId==='kumpulan-doa')setTimeout(initDoa,100);
 if(pageId==='sholat')setTimeout(initSholat,100);
 };
-
 // ============================================
 // FUNGSI MASJID
 // ============================================
@@ -1346,8 +995,8 @@ if(pageId==='sholat')setTimeout(initSholat,100);
 var API_URL='https://script.google.com/macros/s/AKfycbzzXV6zS4EPUp6ShBEKcL-_DpUu7OsX_0_mUPPe1VNjTzZUqUIHHtcwsrANBKi74o1Wkg/exec?type=all';
 var DATA_CACHE={};
 var SHARE_CONFIG={
-title:'Masjid Jam\'i Al-Ikhlas Kebagusan',
-text:'Assalamu\'alaikum 🕌\nMari kunjungi website resmi Masjid Jam\'i Al-Ikhlas Kebagusan.\nJazakumullah khairan 🤲',
+title:'Masjid Jami Al-Ikhlas Kebagusan',
+text:'Assalamu alaikum. Mari kunjungi website resmi Masjid Jami Al-Ikhlas Kebagusan. Jazakumullah khairan.',
 get url(){return window.location.href.split('#')[0]||'https://masjidalikhlaskebagusan.or.id'}
 };
 window.shareTo=function(platform){
@@ -1359,7 +1008,7 @@ switch(platform){
 case 'whatsapp':link='https://wa.me/?text='+text+'%0A%0A'+url;window.open(link,'_blank');break;
 case 'facebook':link='https://www.facebook.com/sharer/sharer.php?u='+url;window.open(link,'_blank','width=600,height=500');break;
 case 'instagram':copyLink();setTimeout(function(){showToast('📸 Link tersalin! Buka aplikasi Instagram → Buat Story / DM → Tempel link')},400);break;
-case 'email':link='mailto:?subject='+encodeURIComponent(title)+'&body='+encodeURIComponent(SHARE_CONFIG.text+'\n'+SHARE_CONFIG.url);window.location.href=link;break;
+case 'email':link='mailto:?subject='+encodeURIComponent(title)+'&body='+encodeURIComponent(SHARE_CONFIG.text+' '+SHARE_CONFIG.url);window.location.href=link;break;
 }
 var opts=document.getElementById('shareOptions');
 var btn=document.getElementById('shareFabBtn');
@@ -1654,288 +1303,41 @@ var btnHero=document.querySelector('.btn-hero[href="#profil"]');
 if(btnHero){btnHero.addEventListener('click',function(e){e.preventDefault();window.tampilkanSatu('profil')})}
 })();
 })();
-
 // ============================================
-// FUNGSI PDF VIEWER - KITAB KUNING (DENGAN PROGRESS & TIMEOUT)
+// FUNGSI PDF VIEWER - KITAB KUNING (DIPERBAIKI UNTUK HP)
 // ============================================
 var currentPdfUrl='';
 var currentKitabName='';
-var pdfTimer=null;
-var pdfTimeout=null;
-
-function startPdfProgress(){
-    var progressFill=document.getElementById('pdfProgressFill');
-    var statusText=document.getElementById('pdfLoadingStatus');
-    var progress=0;
-    
-    clearInterval(pdfTimer);
-    pdfTimer=setInterval(function(){
-        if(progress<95){
-            progress+=Math.random()*5;
-            if(progress>95)progress=95;
-        }
-        if(progressFill)progressFill.style.width=progress+'%';
-        
-        if(statusText){
-            if(progress<30)statusText.textContent='Menghubungkan ke server...';
-            else if(progress<60)statusText.textContent='Mengunduh file PDF...';
-            else if(progress<90)statusText.textContent='Memproses halaman...';
-            else statusText.textContent='Hampir selesai...';
-        }
-    },500);
+function bacaKitab(namaKitab,pdfUrl){
+currentKitabName=namaKitab;
+currentPdfUrl=pdfUrl;
+var container=document.getElementById('pdfViewerContainer');
+var title=document.getElementById('pdfViewerTitle');
+var iframe=document.getElementById('pdfIframe');
+var loading=document.getElementById('pdfLoading');
+var listContainer=document.getElementById('kitabListContainer');
+title.textContent=' '+namaKitab;
+loading.style.display='block';
+iframe.src=pdfUrl+'#toolbar=0&navpanes=0&scrollbar=1';
+container.classList.add('active');
+document.body.classList.add('pdf-viewer-active');
+if(listContainer)listContainer.style.display='none';
 }
-
-function showPdfTimeout(){
-    clearInterval(pdfTimer);
-    clearTimeout(pdfTimeout);
-    
-    var progressFill=document.getElementById('pdfProgressFill');
-    if(progressFill)progressFill.style.width='100%';
-    
-    var buttons=document.getElementById('pdfLoadingButtons');
-    if(buttons)buttons.classList.add('show');
-    
-    var statusText=document.getElementById('pdfLoadingStatus');
-    if(statusText)statusText.innerHTML='<span style="color:#e74c3c;">⚠️ Loading terlalu lama</span><br><small>Klik "Buka Tab Baru" untuk membaca PDF</small>';
-}
-
-function retryLoadPdf(){
-    if(currentPdfUrl&&currentKitabName){
-        bacaKitab(currentKitabName,currentPdfUrl);
-    }
-}
-
-var currentPdfUrl='';
-var currentKitabName='';
-var pdfTimer=null;
-var pdfTimeout=null;
-
-// ============================================
-// PDF.js VIEWER - PASTI BERHASUS DI HP & DESKTOP
-// ============================================
-var pdfState = {
-    kitab: {doc:null, page:1, total:1, url:''},
-    sholat: {doc:null, page:1, total:1, url:''},
-    doa: {doc:null, page:1, total:1, url:''}
-};
-
-function getViewerIds(type){
-    if(type==='kitab') return {
-        container:'pdfViewerContainer', title:'pdfViewerTitle',
-        canvas:'pdfCanvas', loading:'pdfLoading',
-        controls:'pdfPageControls', pageInfo:'pdfPageInfo',
-        prevBtn:'pdfPrevBtn', nextBtn:'pdfNextBtn',
-        listContainer:'kitabListContainer'
-    };
-    if(type==='sholat') return {
-        container:'sholatPdfViewerContainer', title:'sholatPdfViewerTitle',
-        canvas:'sholatPdfCanvas', loading:'sholatPdfLoading',
-        controls:'sholatPdfPageControls', pageInfo:'sholatPdfPageInfo',
-        prevBtn:'sholatPdfPrevBtn', nextBtn:'sholatPdfNextBtn',
-        listContainer:null, content:'sholatContent'
-    };
-    return {
-        container:'doaPdfViewerContainer', title:'doaPdfViewerTitle',
-        canvas:'doaPdfCanvas', loading:'doaPdfLoading',
-        controls:'doaPdfPageControls', pageInfo:'doaPdfPageInfo',
-        prevBtn:'doaPdfPrevBtn', nextBtn:'doaPdfNextBtn',
-        listContainer:null, content:'doaContent'
-    };
-}
-
-function renderPdfPage(type){
-    var state = pdfState[type];
-    var ids = getViewerIds(type);
-    if(!state.doc) return;
-    
-    var canvas = document.getElementById(ids.canvas);
-    var container = canvas.parentElement;
-    var ctx = canvas.getContext('2d');
-    
-    state.doc.getPage(state.page).then(function(page){
-        // Hitung scale agar pas di HP
-        var containerWidth = container.clientWidth - 20;
-        var viewport = page.getViewport({scale:1});
-        var scale = Math.max(1, Math.min(2.5, containerWidth / viewport.width));
-        var scaledViewport = page.getViewport({scale:scale});
-        
-        canvas.width = scaledViewport.width;
-        canvas.height = scaledViewport.height;
-        
-        page.render({canvasContext:ctx, viewport:scaledViewport}).promise.then(function(){
-            // Hide loading
-            var loading = document.getElementById(ids.loading);
-            if(loading) loading.style.display='none';
-            
-            // Show controls
-            var controls = document.getElementById(ids.controls);
-            if(controls) controls.style.display='flex';
-            
-            // Update page info
-            var pageInfo = document.getElementById(ids.pageInfo);
-            if(pageInfo) pageInfo.textContent = 'Halaman ' + state.page + ' / ' + state.total;
-            
-            // Update buttons
-            var prevBtn = document.getElementById(ids.prevBtn);
-            var nextBtn = document.getElementById(ids.nextBtn);
-            if(prevBtn) prevBtn.disabled = (state.page <= 1);
-            if(nextBtn) nextBtn.disabled = (state.page >= state.total);
-        });
-    });
-}
-
-function loadPdf(type, pdfUrl, nama){
-    var ids = getViewerIds(type);
-    var state = pdfState[type];
-    state.url = pdfUrl;
-    state.page = 1;
-    
-    var container = document.getElementById(ids.container);
-    var title = document.getElementById(ids.title);
-    var loading = document.getElementById(ids.loading);
-    var controls = document.getElementById(ids.controls);
-    
-    title.textContent = '📖 ' + nama;
-    loading.style.display = 'block';
-    loading.innerHTML = '<div style="font-size:3rem;margin-bottom:10px;animation:spin 2s linear infinite;">⏳</div><div>Memuat PDF...</div>';
-    if(controls) controls.style.display='none';
-    
-    container.classList.add('active');
-    
-    // Hide list/content
-    if(ids.listContainer){
-        var lc = document.getElementById(ids.listContainer);
-        if(lc) lc.style.display='none';
-    }
-    if(ids.content){
-        var ct = document.getElementById(ids.content);
-        if(ct) ct.style.display='none';
-    }
-    
-    // Load PDF dengan PDF.js
-    pdfjsLib.getDocument(pdfUrl).promise.then(function(pdf){
-        state.doc = pdf;
-        state.total = pdf.numPages;
-        renderPdfPage(type);
-        
-        setTimeout(function(){
-            try{container.scrollIntoView({behavior:'smooth',block:'start'})}
-            catch(e){window.scrollTo(0, container.offsetTop-80)}
-        }, 200);
-    }).catch(function(err){
-        console.error('PDF load error:', err);
-        loading.innerHTML = '<div style="font-size:3rem;margin-bottom:10px;">⚠️</div>'+
-            '<div style="color:#e74c3c;margin-bottom:10px;">Gagal memuat PDF</div>'+
-            '<div style="font-size:0.85rem;color:#aaa;margin-bottom:15px;">File mungkin tidak ada atau terlalu besar</div>'+
-            '<button onclick="openPdfInNewTab(\''+type+'\')" style="background:linear-gradient(135deg,#c9a84c,#e8d48b);color:#1a0a2e;border:none;padding:10px 20px;border-radius:20px;font-weight:600;cursor:pointer;">🔗 Buka di Tab Baru</button>';
-    });
-}
-
-function openPdfInNewTab(type){
-    var url = pdfState[type].url;
-    if(url) window.open(url, '_blank');
-}
-
-function pdfPrev(type){
-    var state = pdfState[type];
-    if(state.page > 1){
-        state.page--;
-        renderPdfPage(type);
-    }
-}
-
-function pdfNext(type){
-    var state = pdfState[type];
-    if(state.page < state.total){
-        state.page++;
-        renderPdfPage(type);
-    }
-}
-
-// ===== FUNGSI BACKWARD COMPATIBLE =====
-function bacaKitab(namaKitab, pdfUrl){
-    currentKitabName = namaKitab;
-    currentPdfUrl = pdfUrl;
-    loadPdf('kitab', pdfUrl, namaKitab);
-}
-
 function closePdfViewer(){
-    var container = document.getElementById('pdfViewerContainer');
-    var listContainer = document.getElementById('kitabListContainer');
-    var controls = document.getElementById('pdfPageControls');
-    container.classList.remove('active');
-    if(listContainer) listContainer.style.display='block';
-    if(controls) controls.style.display='none';
-    pdfState.kitab = {doc:null, page:1, total:1, url:''};
+var container=document.getElementById('pdfViewerContainer');
+var iframe=document.getElementById('pdfIframe');
+var listContainer=document.getElementById('kitabListContainer');
+container.classList.remove('active');
+document.body.classList.remove('pdf-viewer-active');
+if(listContainer)listContainer.style.display='block';
+setTimeout(function(){iframe.src=''},300);
 }
-
-function openPdfNewTab(){
-    if(currentPdfUrl) window.open(currentPdfUrl, '_blank');
-}
-
-function hidePdfLoading(){
-    var loading = document.getElementById('pdfLoading');
-    if(loading) loading.style.display='none';
-}
-
-function bacaSholatPdf(nama, pdfUrl){
-    currentSholatPdfUrl = pdfUrl;
-    loadPdf('sholat', pdfUrl, nama);
-}
-
-function closeSholatPdfViewer(){
-    var container = document.getElementById('sholatPdfViewerContainer');
-    var content = document.getElementById('sholatContent');
-    var controls = document.getElementById('sholatPdfPageControls');
-    container.classList.remove('active');
-    if(content) content.style.display='block';
-    if(controls) controls.style.display='none';
-    pdfState.sholat = {doc:null, page:1, total:1, url:''};
-}
-
-function openSholatPdfNewTab(){
-    if(currentSholatPdfUrl) window.open(currentSholatPdfUrl, '_blank');
-}
-
-function hideSholatPdfLoading(){
-    var loading = document.getElementById('sholatPdfLoading');
-    if(loading) loading.style.display='none';
-}
-
-function bacaDoaPdf(nama, pdfUrl){
-    currentDoaPdfUrl = pdfUrl;
-    loadPdf('doa', pdfUrl, nama);
-}
-
-function closeDoaPdfViewer(){
-    var container = document.getElementById('doaPdfViewerContainer');
-    var content = document.getElementById('doaContent');
-    var controls = document.getElementById('doaPdfPageControls');
-    container.classList.remove('active');
-    if(content) content.style.display='block';
-    if(controls) controls.style.display='none';
-    pdfState.doa = {doc:null, page:1, total:1, url:''};
-}
-
-function openDoaPdfNewTab(){
-    if(currentDoaPdfUrl) window.open(currentDoaPdfUrl, '_blank');
-}
-
-function hideDoaPdfLoading(){
-    var loading = document.getElementById('doaPdfLoading');
-    if(loading) loading.style.display='none';
-}
-
+function openPdfNewTab(){if(currentPdfUrl)window.open(currentPdfUrl,'_blank')}
+function hidePdfLoading(){var loading=document.getElementById('pdfLoading');if(loading)loading.style.display='none'}
 document.addEventListener('DOMContentLoaded',function(){
 var iframe=document.getElementById('pdfIframe');
-if(iframe){iframe.addEventListener('error',function(){
-    clearInterval(pdfTimer);
-    clearTimeout(pdfTimeout);
-    showPdfTimeout();
-    showToast('❌ Gagal memuat PDF. Pastikan file tersedia di: '+currentPdfUrl);
-})}
+if(iframe){iframe.addEventListener('error',function(){showToast('❌ Gagal memuat PDF. Pastikan file tersedia di: '+currentPdfUrl);hidePdfLoading()})}
 });
-
 // ============================================
 // PENCEGAHAN KEYBOARD SHORTCUT DOWNLOAD/PRINT
 // ============================================
