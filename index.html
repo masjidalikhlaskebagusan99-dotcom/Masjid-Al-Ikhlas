@@ -318,6 +318,11 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-g
 /* PDF Viewer - Full Screen Overlay */
 .pdf-viewer-container{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(26,10,46,0.98);z-index:9999;overflow:hidden;padding:0;margin:0}
 .pdf-viewer-container.active{display:block;animation:fadeIn 0.3s ease}
+/* TAMBAHKAN aturan ini — gunakan flexbox agar header tidak tertimpa */
+.pdf-viewer-container.active {
+    display: flex !important;
+    flex-direction: column;
+}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 .pdf-viewer-header{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:linear-gradient(135deg,#1a0a2e,#2d1b4e);border-bottom:2px solid #c9a84c;flex-wrap:wrap;gap:10px;position:relative;z-index:10}
 .pdf-viewer-title{color:#e8d48b;font-size:1.2rem;font-weight:600;display:flex;align-items:center;gap:10px}
@@ -328,7 +333,7 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-g
 .pdf-btn.secondary{background:transparent;color:#c9a84c;border:1.5px solid #c9a84c}
 .pdf-btn.secondary:hover{background:rgba(201,168,76,0.1)}
 .pdf-btn.danger{background:linear-gradient(135deg,#c0392b,#e74c3c);color:#fff}
-.pdf-iframe-wrapper{position:absolute;top:60px;left:0;right:0;bottom:0;background:#1a0a2e;overflow:hidden}
+.pdf-iframe-wrapper{position:relative;flex:1;left:0;right:0;bottom:0;background:#1a0a2e;overflow:hidden;min-height:0}
 .pdf-iframe-wrapper iframe{width:100%;height:100%;border:none;background:#fff}
 .pdf-loading{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#c9a84c;font-size:1.1rem;text-align:center;z-index:10;background:rgba(26,10,46,0.95);padding:30px;border-radius:15px;min-width:280px}
 .pdf-loading::before{content:'⏳';display:block;font-size:3rem;margin-bottom:10px;animation:spin 2s linear infinite}
@@ -370,10 +375,12 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-g
 .masjid-page header.m-header{padding:35px 0}
 }
 @media (max-width:768px){
-.pdf-iframe-wrapper{height:70vh;min-height:500px}
-.pdf-viewer-header{flex-direction:column;align-items:flex-start}
-.pdf-viewer-title{font-size:1rem}
-.pdf-toolbar-overlay{height:46px}
+    .pdf-viewer-header{flex-direction:column;align-items:flex-start;padding:10px 14px}
+    .pdf-viewer-title{font-size:0.95rem;width:100%;margin-bottom:8px}
+    .pdf-viewer-actions{width:100%;justify-content:flex-end}
+    .pdf-btn{padding:7px 14px;font-size:0.8rem}
+    .pdf-toolbar-overlay{height:46px}
+    /* HAPUS baris .pdf-iframe-wrapper{height:70vh;min-height:500px} */
 }
 @media (max-width:600px){
 .masjid-page .share-fab{bottom:15px;right:15px}
