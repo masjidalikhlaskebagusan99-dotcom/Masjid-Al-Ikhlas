@@ -826,19 +826,39 @@ html+='<button class="sholat-add-btn" style="margin-top:20px;" onclick="showToas
 content.innerHTML=html;
 content.style.display='block';
 }
-function bacaSholatPdf(nama,pdfUrl){
-currentSholatPdfUrl=pdfUrl;
-var container=document.getElementById('sholatPdfViewerContainer');
-var title=document.getElementById('sholatPdfViewerTitle');
-var iframe=document.getElementById('sholatPdfIframe');
-var loading=document.getElementById('sholatPdfLoading');
-var content=document.getElementById('sholatContent');
-title.textContent='📖 '+nama;
-loading.style.display='block';
-iframe.src=pdfUrl+'#toolbar=0&navpanes=0&scrollbar=1';
-container.classList.add('active');
-document.body.classList.add('pdf-viewer-active');
-content.style.display='none';
+function bacaSholatPdf(nama, pdfUrl) {
+    currentSholatPdfUrl = pdfUrl;
+    var container = document.getElementById('sholatPdfViewerContainer');
+    var title = document.getElementById('sholatPdfViewerTitle');
+    var iframe = document.getElementById('sholatPdfIframe');
+    var loading = document.getElementById('sholatPdfLoading');
+    var content = document.getElementById('sholatContent');
+    
+    title.textContent = '📖 ' + nama;
+    loading.style.display = 'block';
+    
+    // ✅ DETEKSI MOBILE
+    var isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(navigator.userAgent);
+    var baseUrl = window.location.origin + window.location.pathname;
+    var fullPdfUrl = baseUrl.replace(/\/[^\/]*$/, '/') + pdfUrl;
+    
+    if (isMobile) {
+        iframe.src = 'https://docs.google.com/gview?url=' + encodeURIComponent(fullPdfUrl) + '&embedded=true';
+    } else {
+        iframe.src = pdfUrl + '#toolbar=0&navpanes=0&scrollbar=1';
+    }
+    
+    container.classList.add('active');
+    document.body.classList.add('pdf-viewer-active');
+    content.style.display = 'none';
+    
+    setTimeout(function() {
+        if (loading.style.display !== 'none') {
+            loading.innerHTML = '<div style="font-size:48px;margin-bottom:15px;">⚠️</div>' +
+                '<p style="font-size:16px;font-weight:bold;">PDF tidak dapat dimuat</p>' +
+                '<a href="' + fullPdfUrl + '" target="_blank" style="display:inline-block;background:#c9a84c;color:#1a0a2e;padding:12px 24px;border-radius:25px;text-decoration:none;font-weight:bold;margin-top:10px;">📥 Buka PDF di Tab Baru</a>';
+        }
+    }, 15000);
 }
 function closeSholatPdfViewer(){
 var container=document.getElementById('sholatPdfViewerContainer');
@@ -953,19 +973,39 @@ html+='<button class="doa-add-btn" style="margin-top:20px;" onclick="showToast(\
 content.innerHTML=html;
 content.style.display='block';
 }
-function bacaDoaPdf(nama,pdfUrl){
-currentDoaPdfUrl=pdfUrl;
-var container=document.getElementById('doaPdfViewerContainer');
-var title=document.getElementById('doaPdfViewerTitle');
-var iframe=document.getElementById('doaPdfIframe');
-var loading=document.getElementById('doaPdfLoading');
-var content=document.getElementById('doaContent');
-title.textContent='📖 '+nama;
-loading.style.display='block';
-iframe.src=pdfUrl+'#toolbar=0&navpanes=0&scrollbar=1';
-container.classList.add('active');
-document.body.classList.add('pdf-viewer-active');
-content.style.display='none';
+function bacaDoaPdf(nama, pdfUrl) {
+    currentDoaPdfUrl = pdfUrl;
+    var container = document.getElementById('doaPdfViewerContainer');
+    var title = document.getElementById('doaPdfViewerTitle');
+    var iframe = document.getElementById('doaPdfIframe');
+    var loading = document.getElementById('doaPdfLoading');
+    var content = document.getElementById('doaContent');
+    
+    title.textContent = '📖 ' + nama;
+    loading.style.display = 'block';
+    
+    // ✅ DETEKSI MOBILE
+    var isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(navigator.userAgent);
+    var baseUrl = window.location.origin + window.location.pathname;
+    var fullPdfUrl = baseUrl.replace(/\/[^\/]*$/, '/') + pdfUrl;
+    
+    if (isMobile) {
+        iframe.src = 'https://docs.google.com/gview?url=' + encodeURIComponent(fullPdfUrl) + '&embedded=true';
+    } else {
+        iframe.src = pdfUrl + '#toolbar=0&navpanes=0&scrollbar=1';
+    }
+    
+    container.classList.add('active');
+    document.body.classList.add('pdf-viewer-active');
+    content.style.display = 'none';
+    
+    setTimeout(function() {
+        if (loading.style.display !== 'none') {
+            loading.innerHTML = '<div style="font-size:48px;margin-bottom:15px;">⚠️</div>' +
+                '<p style="font-size:16px;font-weight:bold;">PDF tidak dapat dimuat</p>' +
+                '<a href="' + fullPdfUrl + '" target="_blank" style="display:inline-block;background:#c9a84c;color:#1a0a2e;padding:12px 24px;border-radius:25px;text-decoration:none;font-weight:bold;margin-top:10px;">📥 Buka PDF di Tab Baru</a>';
+        }
+    }, 15000);
 }
 function closeDoaPdfViewer(){
 var container=document.getElementById('doaPdfViewerContainer');
@@ -1343,20 +1383,43 @@ if(btnHero){btnHero.addEventListener('click',function(e){e.preventDefault();wind
 // ============================================
 var currentPdfUrl='';
 var currentKitabName='';
-function bacaKitab(namaKitab,pdfUrl){
-currentKitabName=namaKitab;
-currentPdfUrl=pdfUrl;
-var container=document.getElementById('pdfViewerContainer');
-var title=document.getElementById('pdfViewerTitle');
-var iframe=document.getElementById('pdfIframe');
-var loading=document.getElementById('pdfLoading');
-var listContainer=document.getElementById('kitabListContainer');
-title.textContent=' '+namaKitab;
-loading.style.display='block';
-iframe.src=pdfUrl+'#toolbar=0&navpanes=0&scrollbar=1';
-container.classList.add('active');
-document.body.classList.add('pdf-viewer-active');
-if(listContainer)listContainer.style.display='none';
+function bacaKitab(namaKitab, pdfUrl) {
+    currentKitabName = namaKitab;
+    currentPdfUrl = pdfUrl;
+    var container = document.getElementById('pdfViewerContainer');
+    var title = document.getElementById('pdfViewerTitle');
+    var iframe = document.getElementById('pdfIframe');
+    var loading = document.getElementById('pdfLoading');
+    var listContainer = document.getElementById('kitabListContainer');
+    
+    title.textContent = '📖 ' + namaKitab;
+    loading.style.display = 'block';
+    
+    // ✅ DETEKSI MOBILE & GUNAKAN GOOGLE DOCS VIEWER
+    var isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(navigator.userAgent);
+    var baseUrl = window.location.origin + window.location.pathname;
+    var fullPdfUrl = baseUrl.replace(/\/[^\/]*$/, '/') + pdfUrl;
+    
+    if (isMobile) {
+        // Mobile: Pakai Google Docs Viewer (bisa render PDF di HP)
+        iframe.src = 'https://docs.google.com/gview?url=' + encodeURIComponent(fullPdfUrl) + '&embedded=true';
+    } else {
+        // Desktop: Pakai direct PDF (lebih cepat)
+        iframe.src = pdfUrl + '#toolbar=0&navpanes=0&scrollbar=1';
+    }
+    
+    container.classList.add('active');
+    document.body.classList.add('pdf-viewer-active');
+    if (listContainer) listContainer.style.display = 'none';
+    
+    // Fallback jika loading terlalu lama
+    setTimeout(function() {
+        if (loading.style.display !== 'none') {
+            loading.innerHTML = '<div style="font-size:48px;margin-bottom:15px;">⚠️</div>' +
+                '<p style="font-size:16px;font-weight:bold;">PDF tidak dapat dimuat</p>' +
+                '<a href="' + fullPdfUrl + '" target="_blank" style="display:inline-block;background:#c9a84c;color:#1a0a2e;padding:12px 24px;border-radius:25px;text-decoration:none;font-weight:bold;margin-top:10px;">📥 Buka PDF di Tab Baru</a>';
+        }
+    }, 15000);
 }
 function closePdfViewer(){
 var container=document.getElementById('pdfViewerContainer');
