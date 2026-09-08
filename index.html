@@ -1204,7 +1204,42 @@ function renderRawatib(){var data=DATA_CACHE.rawatib||[];var tbody=document.getE
 function renderDzikir(){var data=DATA_CACHE.dzikir||[];var tbody=document.getElementById('bodyDzikir');if(data.length===0){tbody.innerHTML='<tr><td colspan="4" class="empty-msg">Belum ada jadwal Majlis Dzikir</td></tr>';return}var html='';for(var i=0;i<data.length;i++){var r=data[i];html+='<tr><td><strong>'+(r.Nama_Dzikir||'-')+'</strong></td><td>'+(r.Jadwal||'-')+'</td><td>'+(r.Jam_Mulai||'')+' - '+(r.Jam_Selesai||'')+'</td><td>'+(r.Pimpinan||'-')+'</td></tr>'}tbody.innerHTML=html}
 function renderPanitia(){var data=DATA_CACHE.panitia||[];var tbody=document.getElementById('bodyPanitia');if(data.length===0){tbody.innerHTML='<tr><td colspan="3" class="empty-msg">Belum ada data panitia PHBI</td></tr>';return}var html='';for(var i=0;i<data.length;i++){var r=data[i];html+='<tr><td><strong>'+(r.Jabatan||'-')+'</strong></td><td>'+(r.Nama||'-')+'</td><td>'+(r.No_HP||'-')+'</td></tr>'}tbody.innerHTML=html}
 function renderPendidikan(){var data=DATA_CACHE.pendidikan||[];var grid=document.getElementById('gridPendidikan');if(data.length===0){grid.innerHTML='<div class="empty-msg">Belum ada program pendidikan</div>';return}var html='';for(var i=0;i<data.length;i++){var r=data[i];html+='<div class="card"><span class="icon">🎓</span><h3>'+(r.Program||'Program')+'</h3><p><strong>Usia:</strong> '+(r.Usia||'-')+'</p><p><strong>Jadwal:</strong> '+(r.Jadwal||'-')+'</p><p><strong>Kurikulum:</strong> '+(r.Kurikulum||'-')+'</p><p><strong>Koordinator:</strong> '+(r.Koordinator||'-')+'</p><p><strong>Jumlah Santri:</strong> '+(r.Jumlah||0)+' orang</p></div>'}grid.innerHTML=html}
-function renderProposal(){var data=DATA_CACHE.proposal||[];var grid=document.getElementById('gridProposal');if(data.length===0){grid.innerHTML='<div class="empty-msg">Belum ada proposal aktif</div>';return}var html='';for(var i=0;i<data.length;i++){var r=data[i];var target=toNumber(r.Target)||1;var terkumpul=toNumber(r.Terkumpul)||0;var persen=Math.min(100,Math.round((terkumpul/target)*100));html+='<div class="card"><span class="icon">📄</span><h3>'+(r.Nama||'Proposal')+'</h3><p>'+(r.Deskripsi||'')+'</p><p><strong>Target:</strong> '+formatRp(r.Target)+'</p><p><strong>Terkumpul:</strong> '+formatRp(r.Terkumpul)+'</p><div class="progress-bar"><div class="progress-fill" style="width:'+persen+'%">'+persen+'%</div></div>';if(r.Link){html+='<a href="'+r.Link+'" class="btn-hero" style="font-size:0.85rem; padding:8px 18px; margin-top:10px; display:inline-block;">Download Proposal</a>'}html+='</div>'}grid.innerHTML=html}
+function renderProposal() {
+    var data = DATA_CACHE.proposal || [];
+    var grid = document.getElementById('gridProposal');
+    if (data.length === 0) {
+        grid.innerHTML = '<div class="empty-msg">Belum ada proposal aktif</div>';
+        return;
+    }
+    var html = '';
+    for (var i = 0; i < data.length; i++) {
+        var r = data[i];
+        var target = toNumber(r.Target) || 1;
+        var terkumpul = toNumber(r.Terkumpul) || 0;
+        var persen = Math.min(100, Math.round((terkumpul / target) * 100));
+        
+        // ✅ PENGAMAN: Ganti tanda kutip agar tidak merusak kode HTML
+        var namaAman = (r.Nama || 'Proposal').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        
+        html += '<div class="card">';
+        html += '<span class="icon">📄</span>';
+        html += '<h3>' + namaAman + '</h3>';
+        html += '<p>' + (r.Deskripsi || '') + '</p>';
+        html += '<p><strong>Target:</strong> ' + formatRp(r.Target) + '</p>';
+        html += '<p><strong>Terkumpul:</strong> ' + formatRp(r.Terkumpul) + '</p>';
+        html += '<div class="progress-bar"><div class="progress-fill" style="width:' + persen + '%">' + persen + '%</div></div>';
+        
+        if (r.Link) {
+            // ✅ TOMBOL 1: Lihat PDF (Mobile Friendly)
+            html += '<button onclick="bukaPDF(\'' + r.Link + '\', \'' + namaAman + '\')" class="btn-hero" style="font-size:0.85rem; padding:8px 18px; margin-top:10px; display:inline-block; margin-right:5px; background:#0d6e3f; color:#fff; border:none; border-radius:25px; cursor:pointer;">📄 Lihat PDF</button>';
+            
+            // ✅ TOMBOL 2: Download (Cadangan)
+            html += '<a href="' + r.Link + '" download class="btn-hero" style="font-size:0.85rem; padding:8px 18px; margin-top:10px; display:inline-block; background:#6c757d; color:#fff; text-decoration:none; border-radius:25px;">⬇️ Download</a>';
+        }
+        html += '</div>';
+    }
+    grid.innerHTML = html;
+}
 var IS_LOADING_2=false;
 function sinkronisasi(){
 if(IS_LOADING_2)return;
@@ -1374,7 +1409,65 @@ showToast('🔒 Klik kanan dinonaktifkan di area PDF viewer');
 return false;
 }
 }
-});
+// ============================================
+// FUNGSI PDF VIEWER MOBILE-FRIENDLY
+// ============================================
+window.bukaPDF = function(pathRelatif, judul) {
+    var baseUrl = 'https://masjidalikhlaskebagusan99-dotcom.github.io/Masjid-Al-Ikhlas/';
+    var urlPdf = baseUrl + pathRelatif.replace(/^\//, '');
+    var isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(navigator.userAgent);
+    
+    var overlay = document.createElement('div');
+    overlay.id = 'pdfOverlay';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;background:#fff;display:flex;flex-direction:column;';
+    
+    var header = document.createElement('div');
+    header.style.cssText = 'background:#0d6e3f;color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;box-shadow:0 2px 10px rgba(0,0,0,0.2);';
+    header.innerHTML = '<span style="font-size:14px;font-weight:bold;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:65%;">📄 ' + (judul || 'Dokumen PDF') + '</span>' +
+        '<div style="display:flex;gap:8px;">' +
+        '<a href="' + urlPdf + '" download style="background:#c9a227;color:#084a2a;padding:8px 14px;border-radius:20px;font-weight:bold;text-decoration:none;font-size:12px;">⬇️</a>' +
+        '<button onclick="tutupPDF()" style="background:#c62828;color:#fff;border:none;padding:8px 14px;border-radius:20px;font-weight:bold;cursor:pointer;font-size:13px;">✕ Tutup</button>' +
+        '</div>';
+    
+    var loading = document.createElement('div');
+    loading.id = 'pdfLoading';
+    loading.style.cssText = 'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;color:#666;z-index:1;width:90%;';
+    loading.innerHTML = '<div style="font-size:48px;margin-bottom:15px;">⏳</div><p style="font-size:16px;font-weight:bold;">Memuat dokumen PDF...</p><p style="font-size:12px;color:#999;margin-top:10px;">Jika tidak muncul, gunakan tombol ⬇️ di atas</p>';
+    
+    var iframe = document.createElement('iframe');
+    iframe.style.cssText = 'flex:1;width:100%;border:none;background:#f5f5f5;';
+    
+    if (isMobile) {
+        iframe.src = 'https://docs.google.com/gview?url=' + encodeURIComponent(urlPdf) + '&embedded=true';
+    } else {
+        iframe.src = urlPdf;
+    }
+    
+    iframe.onload = function() {
+        var ld = document.getElementById('pdfLoading');
+        if (ld) ld.style.display = 'none';
+    };
+    
+    setTimeout(function() {
+        var ld = document.getElementById('pdfLoading');
+        if (ld && ld.style.display !== 'none') {
+            ld.innerHTML = '<div style="font-size:48px;margin-bottom:15px;">⚠️</div><p style="font-size:16px;font-weight:bold;">PDF tidak dapat dimuat</p><a href="' + urlPdf + '" download style="display:inline-block;background:#0d6e3f;color:#fff;padding:12px 24px;border-radius:25px;text-decoration:none;font-weight:bold;margin-top:10px;">⬇️ Download PDF Langsung</a>';
+        }
+    }, 12000);
+    
+    overlay.appendChild(header);
+    overlay.appendChild(loading);
+    overlay.appendChild(iframe);
+    document.body.appendChild(overlay);
+    document.body.style.overflow = 'hidden';
+};
+
+window.tutupPDF = function() {
+    var overlay = document.getElementById('pdfOverlay');
+    if (overlay) overlay.remove();
+    document.body.style.overflow = '';
+};
+})();
 </script>
 </body>
 </html>
