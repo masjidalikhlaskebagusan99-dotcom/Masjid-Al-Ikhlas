@@ -33,8 +33,9 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-g
 .nav-menu>li>a:hover{color:#c9a84c;background:rgba(201,168,76,0.1)}
 .dropdown-arrow{font-size:10px;transition:transform 0.3s}
 .nav-menu>li:hover .dropdown-arrow{transform:rotate(180deg)}
+.nav-menu>li.open .dropdown-arrow{transform:rotate(180deg)}
 .dropdown{position:absolute;top:100%;left:0;background:#1e0f35;border:1px solid rgba(201,168,76,0.3);border-radius:10px;min-width:260px;padding:8px 0;opacity:0;visibility:hidden;transform:translateY(10px);transition:all 0.3s ease;box-shadow:0 15px 40px rgba(0,0,0,0.5);z-index:1001}
-.nav-menu>li:hover .dropdown{opacity:1;visibility:visible;transform:translateY(0)}
+.nav-menu>li:hover .dropdown,.nav-menu>li.open .dropdown{opacity:1;visibility:visible;transform:translateY(0)}
 .dropdown li{list-style:none}
 .dropdown li a{display:flex;align-items:center;gap:12px;padding:12px 20px;color:#ccc;text-decoration:none;font-size:14px;transition:all 0.3s}
 .dropdown li a:hover{background:rgba(201,168,76,0.15);color:#c9a84c;padding-left:28px}
@@ -320,8 +321,8 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-g
 .pdf-viewer-container.active{display:block;animation:fadeIn 0.3s ease}
 /* TAMBAHKAN aturan ini — gunakan flexbox agar header tidak tertimpa */
 .pdf-viewer-container.active {
-    display: flex !important;
-    flex-direction: column;
+display: flex !important;
+flex-direction: column;
 }
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 .pdf-viewer-header{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:linear-gradient(135deg,#1a0a2e,#2d1b4e);border-bottom:2px solid #c9a84c;flex-wrap:wrap;gap:10px;position:relative;z-index:10}
@@ -375,12 +376,12 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-g
 .masjid-page header.m-header{padding:35px 0}
 }
 @media (max-width:768px){
-    .pdf-viewer-header{flex-direction:column;align-items:flex-start;padding:10px 14px}
-    .pdf-viewer-title{font-size:0.95rem;width:100%;margin-bottom:8px}
-    .pdf-viewer-actions{width:100%;justify-content:flex-end}
-    .pdf-btn{padding:7px 14px;font-size:0.8rem}
-    .pdf-toolbar-overlay{height:46px}
-    /* HAPUS baris .pdf-iframe-wrapper{height:70vh;min-height:500px} */
+.pdf-viewer-header{flex-direction:column;align-items:flex-start;padding:10px 14px}
+.pdf-viewer-title{font-size:0.95rem;width:100%;margin-bottom:8px}
+.pdf-viewer-actions{width:100%;justify-content:flex-end}
+.pdf-btn{padding:7px 14px;font-size:0.8rem}
+.pdf-toolbar-overlay{height:46px}
+/* HAPUS baris .pdf-iframe-wrapper{height:70vh;min-height:500px} */
 }
 @media (max-width:600px){
 .masjid-page .share-fab{bottom:15px;right:15px}
@@ -422,7 +423,7 @@ body.pdf-viewer-active .page-content.active{display:block!important}
 </a>
 <ul class="nav-menu">
 <li>
-<a href="#">Khazanah <span class="dropdown-arrow">▼</span></a>
+<a href="#" class="dropdown-parent">Khazanah <span class="dropdown-arrow">▼</span></a>
 <ul class="dropdown">
 <li><a href="#" onclick="showPage('biografi-ulama'); return false;"><span class="menu-icon">📖</span> Biografi Ulama</a></li>
 <li><a href="#" onclick="showPage('kitab-kuning'); return false;"><span class="menu-icon">📚</span> Kitab Kuning</a></li>
@@ -433,7 +434,7 @@ body.pdf-viewer-active .page-content.active{display:block!important}
 </ul>
 </li>
 <li>
-<a href="#">Tuntunan Ibadah <span class="dropdown-arrow">▼</span></a>
+<a href="#" class="dropdown-parent">Tuntunan Ibadah <span class="dropdown-arrow">▼</span></a>
 <ul class="dropdown">
 <li><a href="#" onclick="showPage('sholat'); return false;"><span class="menu-icon">🕌</span> Kumpulan Sholat & Kaifiyat</a></li>
 <li><a href="#" onclick="showPage('puasa'); return false;"><span class="menu-icon">🌙</span> Puasa & Ramadhan</a></li>
@@ -443,7 +444,7 @@ body.pdf-viewer-active .page-content.active{display:block!important}
 </ul>
 </li>
 <li>
-<a href="#">Komunitas <span class="dropdown-arrow">▼</span></a>
+<a href="#" class="dropdown-parent">Komunitas <span class="dropdown-arrow">▼</span></a>
 <ul class="dropdown">
 <li><a href="#" onclick="showPage('pesantren'); return false;"><span class="menu-icon">🏫</span> Pesantren</a></li>
 <li><a href="#" onclick="showPage('majelis-ilmu'); return false;"><span class="menu-icon"></span> Majelis Ilmu</a></li>
@@ -716,10 +717,80 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <div class="page-content" id="page-pesantren-tertua"><div class="breadcrumb-dash"><a href="#" onclick="showHome(); return false;">Beranda</a> / <strong>Pesantren Tertua di Jawa Timur</strong></div><div class="sub-hero"><div class="sub-arabic">أَقْدَمُ الْمَعَاهِدِ فِي جَاوَا الشَّرْقِيَّة</div><h2>Pesantren Tertua di Jawa Timur</h2><p class="sub-subtitle">Jawa Timur memiliki banyak pesantren bersejarah.</p></div><div class="sub-container"><div class="sub-quote"><div class="quote-text">"Pesantren adalah warisan para wali — benteng keimanan umat Islam Nusantara."</div><div class="quote-source">— K.H. Hasyim Asy'ari</div></div><h3 class="sub-section-title"><span class="icon">🏛️</span> Pesantren-Pesantren Tertua</h3><div class="sub-grid"><div class="sub-card"><div class="card-icon">🏛️</div><h3>Pesantren Ampel Denta (1419)</h3><p>Sunan Ampel · Surabaya</p></div><div class="sub-card"><div class="card-icon">🏛️</div><h3>Pesantren Giri (1419)</h3><p>Sunan Giri · Gresik</p></div><div class="sub-card"><div class="card-icon">🏛️</div><h3>Pesantren Sidogiri (1745)</h3><p>Sayyid Sulaiman · Pasuruan</p></div><div class="sub-card"><div class="card-icon">️</div><h3>Pesantren Tebuireng (1899)</h3><p>K.H. Hasyim Asy'ari · Jombang</p></div></div></div></div>
 <!-- JAVASCRIPT -->
 <script>
-function showPage(pageId){document.getElementById('home-section').style.display='none';document.querySelectorAll('.page-content').forEach(page=>{page.classList.remove('active')});const selectedPage=document.getElementById('page-'+pageId);if(selectedPage){selectedPage.classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}if(event)event.preventDefault()}
-function showHome(){document.getElementById('home-section').style.display='block';document.querySelectorAll('.page-content').forEach(page=>{page.classList.remove('active')});window.scrollTo({top:0,behavior:'smooth'});if(event)event.preventDefault()}
+function showPage(pageId){
+// ✅ TUTUP SEMUA DROPDOWN NAVBAR UTAMA
+var allDropdowns = document.querySelectorAll('.nav-menu > li.open');
+for(var i=0;i<allDropdowns.length;i++){
+allDropdowns[i].classList.remove('open');
+}
+document.getElementById('home-section').style.display='none';
+document.querySelectorAll('.page-content').forEach(page=>{page.classList.remove('active')});
+const selectedPage=document.getElementById('page-'+pageId);
+if(selectedPage){
+selectedPage.classList.add('active');
+window.scrollTo({top:0,behavior:'smooth'})
+}
+if(event)event.preventDefault()
+}
+function showHome(){
+// ✅ TUTUP SEMUA DROPDOWN NAVBAR UTAMA
+var allDropdowns = document.querySelectorAll('.nav-menu > li.open');
+for(var i=0;i<allDropdowns.length;i++){
+allDropdowns[i].classList.remove('open');
+}
+document.getElementById('home-section').style.display='block';
+document.querySelectorAll('.page-content').forEach(page=>{page.classList.remove('active')});
+window.scrollTo({top:0,behavior:'smooth'});
+if(event)event.preventDefault()
+}
 function updateDateTime(){const now=new Date();const days=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];const months=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];const dayName=days[now.getDay()];const date=now.getDate();const month=months[now.getMonth()];const year=now.getFullYear();const hours=String(now.getHours()).padStart(2,'0');const minutes=String(now.getMinutes()).padStart(2,'0');const hijriDate='25 Rabiul Awal 1448 H';const dateStr=`${dayName}, ${date} ${month} ${year} · ${hijriDate} · ${hours}:${minutes} WIB`;document.getElementById('dateTimeDisplay').textContent=dateStr}
 updateDateTime();setInterval(updateDateTime,60000);
+// ============================================
+// ✅ HANDLER DROPDOWN NAVBAR UTAMA - KLIK UNTUK TOGGLE (HP & DESKTOP)
+// ============================================
+(function(){
+var parentLinks = document.querySelectorAll('.nav-menu > li > a.dropdown-parent');
+for(var i=0;i<parentLinks.length;i++){
+parentLinks[i].addEventListener('click', function(e){
+e.preventDefault();
+e.stopPropagation();
+var parentLi = this.parentElement;
+var isOpen = parentLi.classList.contains('open');
+// Tutup semua dropdown lain
+var allParents = document.querySelectorAll('.nav-menu > li.open');
+for(var j=0;j<allParents.length;j++){
+if(allParents[j] !== parentLi){
+allParents[j].classList.remove('open');
+}
+}
+// Toggle dropdown saat ini
+if(isOpen){
+parentLi.classList.remove('open');
+} else {
+parentLi.classList.add('open');
+}
+});
+}
+// ✅ TUTUP DROPDOWN KETIKA KLIK DI LUAR
+document.addEventListener('click', function(e){
+if(!e.target.closest('.nav-menu > li')){
+var allParents = document.querySelectorAll('.nav-menu > li.open');
+for(var j=0;j<allParents.length;j++){
+allParents[j].classList.remove('open');
+}
+}
+});
+// ✅ TUTUP DROPDOWN SETELAH LINK DI DALAM DROPDOWN DIKLIK
+var dropdownLinks = document.querySelectorAll('.nav-menu .dropdown li a');
+for(var k=0;k<dropdownLinks.length;k++){
+dropdownLinks[k].addEventListener('click', function(){
+var allParents = document.querySelectorAll('.nav-menu > li.open');
+for(var j=0;j<allParents.length;j++){
+allParents[j].classList.remove('open');
+}
+});
+}
+})();
 // ============================================
 // DATA BIOGRAFI ULAMA
 // ============================================
@@ -834,38 +905,33 @@ content.innerHTML=html;
 content.style.display='block';
 }
 function bacaSholatPdf(nama, pdfUrl) {
-    currentSholatPdfUrl = pdfUrl;
-    var container = document.getElementById('sholatPdfViewerContainer');
-    var title = document.getElementById('sholatPdfViewerTitle');
-    var iframe = document.getElementById('sholatPdfIframe');
-    var loading = document.getElementById('sholatPdfLoading');
-    var content = document.getElementById('sholatContent');
-    
-    title.textContent = '📖 ' + nama;
-    loading.style.display = 'block';
-    
-    // ✅ DETEKSI MOBILE
-    var isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(navigator.userAgent);
-    var baseUrl = window.location.origin + window.location.pathname;
-    var fullPdfUrl = baseUrl.replace(/\/[^\/]*$/, '/') + pdfUrl;
-    
-    if (isMobile) {
-        iframe.src = 'https://docs.google.com/gview?url=' + encodeURIComponent(fullPdfUrl) + '&embedded=true';
-    } else {
-        iframe.src = pdfUrl + '#toolbar=0&navpanes=0&scrollbar=1';
-    }
-    
-    container.classList.add('active');
-    document.body.classList.add('pdf-viewer-active');
-    content.style.display = 'none';
-    
-    setTimeout(function() {
-        if (loading.style.display !== 'none') {
-            loading.innerHTML = '<div style="font-size:48px;margin-bottom:15px;">⚠️</div>' +
-                '<p style="font-size:16px;font-weight:bold;">PDF tidak dapat dimuat</p>' +
-                '<a href="' + fullPdfUrl + '" target="_blank" style="display:inline-block;background:#c9a84c;color:#1a0a2e;padding:12px 24px;border-radius:25px;text-decoration:none;font-weight:bold;margin-top:10px;">📥 Buka PDF di Tab Baru</a>';
-        }
-    }, 15000);
+currentSholatPdfUrl = pdfUrl;
+var container = document.getElementById('sholatPdfViewerContainer');
+var title = document.getElementById('sholatPdfViewerTitle');
+var iframe = document.getElementById('sholatPdfIframe');
+var loading = document.getElementById('sholatPdfLoading');
+var content = document.getElementById('sholatContent');
+title.textContent = '📖 ' + nama;
+loading.style.display = 'block';
+// ✅ DETEKSI MOBILE
+var isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(navigator.userAgent);
+var baseUrl = window.location.origin + window.location.pathname;
+var fullPdfUrl = baseUrl.replace(/\/[^\/]*$/, '/') + pdfUrl;
+if (isMobile) {
+iframe.src = 'https://docs.google.com/gview?url=' + encodeURIComponent(fullPdfUrl) + '&embedded=true';
+} else {
+iframe.src = pdfUrl + '#toolbar=0&navpanes=0&scrollbar=1';
+}
+container.classList.add('active');
+document.body.classList.add('pdf-viewer-active');
+content.style.display = 'none';
+setTimeout(function() {
+if (loading.style.display !== 'none') {
+loading.innerHTML = '<div style="font-size:48px;margin-bottom:15px;">⚠️</div>' +
+'<p style="font-size:16px;font-weight:bold;">PDF tidak dapat dimuat</p>' +
+'<a href="' + fullPdfUrl + '" target="_blank" style="display:inline-block;background:#c9a84c;color:#1a0a2e;padding:12px 24px;border-radius:25px;text-decoration:none;font-weight:bold;margin-top:10px;">📥 Buka PDF di Tab Baru</a>';
+}
+}, 15000);
 }
 function closeSholatPdfViewer(){
 var container=document.getElementById('sholatPdfViewerContainer');
@@ -981,38 +1047,33 @@ content.innerHTML=html;
 content.style.display='block';
 }
 function bacaDoaPdf(nama, pdfUrl) {
-    currentDoaPdfUrl = pdfUrl;
-    var container = document.getElementById('doaPdfViewerContainer');
-    var title = document.getElementById('doaPdfViewerTitle');
-    var iframe = document.getElementById('doaPdfIframe');
-    var loading = document.getElementById('doaPdfLoading');
-    var content = document.getElementById('doaContent');
-    
-    title.textContent = '📖 ' + nama;
-    loading.style.display = 'block';
-    
-    // ✅ DETEKSI MOBILE
-    var isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(navigator.userAgent);
-    var baseUrl = window.location.origin + window.location.pathname;
-    var fullPdfUrl = baseUrl.replace(/\/[^\/]*$/, '/') + pdfUrl;
-    
-    if (isMobile) {
-        iframe.src = 'https://docs.google.com/gview?url=' + encodeURIComponent(fullPdfUrl) + '&embedded=true';
-    } else {
-        iframe.src = pdfUrl + '#toolbar=0&navpanes=0&scrollbar=1';
-    }
-    
-    container.classList.add('active');
-    document.body.classList.add('pdf-viewer-active');
-    content.style.display = 'none';
-    
-    setTimeout(function() {
-        if (loading.style.display !== 'none') {
-            loading.innerHTML = '<div style="font-size:48px;margin-bottom:15px;">⚠️</div>' +
-                '<p style="font-size:16px;font-weight:bold;">PDF tidak dapat dimuat</p>' +
-                '<a href="' + fullPdfUrl + '" target="_blank" style="display:inline-block;background:#c9a84c;color:#1a0a2e;padding:12px 24px;border-radius:25px;text-decoration:none;font-weight:bold;margin-top:10px;">📥 Buka PDF di Tab Baru</a>';
-        }
-    }, 15000);
+currentDoaPdfUrl = pdfUrl;
+var container = document.getElementById('doaPdfViewerContainer');
+var title = document.getElementById('doaPdfViewerTitle');
+var iframe = document.getElementById('doaPdfIframe');
+var loading = document.getElementById('doaPdfLoading');
+var content = document.getElementById('doaContent');
+title.textContent = '📖 ' + nama;
+loading.style.display = 'block';
+// ✅ DETEKSI MOBILE
+var isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(navigator.userAgent);
+var baseUrl = window.location.origin + window.location.pathname;
+var fullPdfUrl = baseUrl.replace(/\/[^\/]*$/, '/') + pdfUrl;
+if (isMobile) {
+iframe.src = 'https://docs.google.com/gview?url=' + encodeURIComponent(fullPdfUrl) + '&embedded=true';
+} else {
+iframe.src = pdfUrl + '#toolbar=0&navpanes=0&scrollbar=1';
+}
+container.classList.add('active');
+document.body.classList.add('pdf-viewer-active');
+content.style.display = 'none';
+setTimeout(function() {
+if (loading.style.display !== 'none') {
+loading.innerHTML = '<div style="font-size:48px;margin-bottom:15px;">⚠️</div>' +
+'<p style="font-size:16px;font-weight:bold;">PDF tidak dapat dimuat</p>' +
+'<a href="' + fullPdfUrl + '" target="_blank" style="display:inline-block;background:#c9a84c;color:#1a0a2e;padding:12px 24px;border-radius:25px;text-decoration:none;font-weight:bold;margin-top:10px;">📥 Buka PDF di Tab Baru</a>';
+}
+}, 15000);
 }
 function closeDoaPdfViewer(){
 var container=document.getElementById('doaPdfViewerContainer');
@@ -1252,40 +1313,36 @@ function renderDzikir(){var data=DATA_CACHE.dzikir||[];var tbody=document.getEle
 function renderPanitia(){var data=DATA_CACHE.panitia||[];var tbody=document.getElementById('bodyPanitia');if(data.length===0){tbody.innerHTML='<tr><td colspan="3" class="empty-msg">Belum ada data panitia PHBI</td></tr>';return}var html='';for(var i=0;i<data.length;i++){var r=data[i];html+='<tr><td><strong>'+(r.Jabatan||'-')+'</strong></td><td>'+(r.Nama||'-')+'</td><td>'+(r.No_HP||'-')+'</td></tr>'}tbody.innerHTML=html}
 function renderPendidikan(){var data=DATA_CACHE.pendidikan||[];var grid=document.getElementById('gridPendidikan');if(data.length===0){grid.innerHTML='<div class="empty-msg">Belum ada program pendidikan</div>';return}var html='';for(var i=0;i<data.length;i++){var r=data[i];html+='<div class="card"><span class="icon">🎓</span><h3>'+(r.Program||'Program')+'</h3><p><strong>Usia:</strong> '+(r.Usia||'-')+'</p><p><strong>Jadwal:</strong> '+(r.Jadwal||'-')+'</p><p><strong>Kurikulum:</strong> '+(r.Kurikulum||'-')+'</p><p><strong>Koordinator:</strong> '+(r.Koordinator||'-')+'</p><p><strong>Jumlah Santri:</strong> '+(r.Jumlah||0)+' orang</p></div>'}grid.innerHTML=html}
 function renderProposal() {
-    var data = DATA_CACHE.proposal || [];
-    var grid = document.getElementById('gridProposal');
-    if (data.length === 0) {
-        grid.innerHTML = '<div class="empty-msg">Belum ada proposal aktif</div>';
-        return;
-    }
-    var html = '';
-    for (var i = 0; i < data.length; i++) {
-        var r = data[i];
-        var target = toNumber(r.Target) || 1;
-        var terkumpul = toNumber(r.Terkumpul) || 0;
-        var persen = Math.min(100, Math.round((terkumpul / target) * 100));
-        
-        // ✅ PENGAMAN: Ganti tanda kutip agar tidak merusak kode HTML
-        var namaAman = (r.Nama || 'Proposal').replace(/'/g, "\\'").replace(/"/g, '&quot;');
-        
-        html += '<div class="card">';
-        html += '<span class="icon">📄</span>';
-        html += '<h3>' + namaAman + '</h3>';
-        html += '<p>' + (r.Deskripsi || '') + '</p>';
-        html += '<p><strong>Target:</strong> ' + formatRp(r.Target) + '</p>';
-        html += '<p><strong>Terkumpul:</strong> ' + formatRp(r.Terkumpul) + '</p>';
-        html += '<div class="progress-bar"><div class="progress-fill" style="width:' + persen + '%">' + persen + '%</div></div>';
-        
-        if (r.Link) {
-            // ✅ TOMBOL 1: Lihat PDF (Mobile Friendly)
-            html += '<button onclick="bukaPDF(\'' + r.Link + '\', \'' + namaAman + '\')" class="btn-hero" style="font-size:0.85rem; padding:8px 18px; margin-top:10px; display:inline-block; margin-right:5px; background:#0d6e3f; color:#fff; border:none; border-radius:25px; cursor:pointer;">📄 Lihat PDF</button>';
-            
-            // ✅ TOMBOL 2: Download (Cadangan)
-            html += '<a href="' + r.Link + '" download class="btn-hero" style="font-size:0.85rem; padding:8px 18px; margin-top:10px; display:inline-block; background:#6c757d; color:#fff; text-decoration:none; border-radius:25px;">⬇️ Download</a>';
-        }
-        html += '</div>';
-    }
-    grid.innerHTML = html;
+var data = DATA_CACHE.proposal || [];
+var grid = document.getElementById('gridProposal');
+if (data.length === 0) {
+grid.innerHTML = '<div class="empty-msg">Belum ada proposal aktif</div>';
+return;
+}
+var html = '';
+for (var i = 0; i < data.length; i++) {
+var r = data[i];
+var target = toNumber(r.Target) || 1;
+var terkumpul = toNumber(r.Terkumpul) || 0;
+var persen = Math.min(100, Math.round((terkumpul / target) * 100));
+// ✅ PENGAMAN: Ganti tanda kutip agar tidak merusak kode HTML
+var namaAman = (r.Nama || 'Proposal').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+html += '<div class="card">';
+html += '<span class="icon">📄</span>';
+html += '<h3>' + namaAman + '</h3>';
+html += '<p>' + (r.Deskripsi || '') + '</p>';
+html += '<p><strong>Target:</strong> ' + formatRp(r.Target) + '</p>';
+html += '<p><strong>Terkumpul:</strong> ' + formatRp(r.Terkumpul) + '</p>';
+html += '<div class="progress-bar"><div class="progress-fill" style="width:' + persen + '%">' + persen + '%</div></div>';
+if (r.Link) {
+// ✅ TOMBOL 1: Lihat PDF (Mobile Friendly)
+html += '<button onclick="bukaPDF(\'' + r.Link + '\', \'' + namaAman + '\')" class="btn-hero" style="font-size:0.85rem; padding:8px 18px; margin-top:10px; display:inline-block; margin-right:5px; background:#0d6e3f; color:#fff; border:none; border-radius:25px; cursor:pointer;">📄 Lihat PDF</button>';
+// ✅ TOMBOL 2: Download (Cadangan)
+html += '<a href="' + r.Link + '" download class="btn-hero" style="font-size:0.85rem; padding:8px 18px; margin-top:10px; display:inline-block; background:#6c757d; color:#fff; text-decoration:none; border-radius:25px;">⬇️ Download</a>';
+}
+html += '</div>';
+}
+grid.innerHTML = html;
 }
 var IS_LOADING_2=false;
 function sinkronisasi(){
@@ -1391,42 +1448,37 @@ if(btnHero){btnHero.addEventListener('click',function(e){e.preventDefault();wind
 var currentPdfUrl='';
 var currentKitabName='';
 function bacaKitab(namaKitab, pdfUrl) {
-    currentKitabName = namaKitab;
-    currentPdfUrl = pdfUrl;
-    var container = document.getElementById('pdfViewerContainer');
-    var title = document.getElementById('pdfViewerTitle');
-    var iframe = document.getElementById('pdfIframe');
-    var loading = document.getElementById('pdfLoading');
-    var listContainer = document.getElementById('kitabListContainer');
-    
-    title.textContent = '📖 ' + namaKitab;
-    loading.style.display = 'block';
-    
-    // ✅ DETEKSI MOBILE & GUNAKAN GOOGLE DOCS VIEWER
-    var isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(navigator.userAgent);
-    var baseUrl = window.location.origin + window.location.pathname;
-    var fullPdfUrl = baseUrl.replace(/\/[^\/]*$/, '/') + pdfUrl;
-    
-    if (isMobile) {
-        // Mobile: Pakai Google Docs Viewer (bisa render PDF di HP)
-        iframe.src = 'https://docs.google.com/gview?url=' + encodeURIComponent(fullPdfUrl) + '&embedded=true';
-    } else {
-        // Desktop: Pakai direct PDF (lebih cepat)
-        iframe.src = pdfUrl + '#toolbar=0&navpanes=0&scrollbar=1';
-    }
-    
-    container.classList.add('active');
-    document.body.classList.add('pdf-viewer-active');
-    if (listContainer) listContainer.style.display = 'none';
-    
-    // Fallback jika loading terlalu lama
-    setTimeout(function() {
-        if (loading.style.display !== 'none') {
-            loading.innerHTML = '<div style="font-size:48px;margin-bottom:15px;">⚠️</div>' +
-                '<p style="font-size:16px;font-weight:bold;">PDF tidak dapat dimuat</p>' +
-                '<a href="' + fullPdfUrl + '" target="_blank" style="display:inline-block;background:#c9a84c;color:#1a0a2e;padding:12px 24px;border-radius:25px;text-decoration:none;font-weight:bold;margin-top:10px;">📥 Buka PDF di Tab Baru</a>';
-        }
-    }, 15000);
+currentKitabName = namaKitab;
+currentPdfUrl = pdfUrl;
+var container = document.getElementById('pdfViewerContainer');
+var title = document.getElementById('pdfViewerTitle');
+var iframe = document.getElementById('pdfIframe');
+var loading = document.getElementById('pdfLoading');
+var listContainer = document.getElementById('kitabListContainer');
+title.textContent = '📖 ' + namaKitab;
+loading.style.display = 'block';
+// ✅ DETEKSI MOBILE & GUNAKAN GOOGLE DOCS VIEWER
+var isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(navigator.userAgent);
+var baseUrl = window.location.origin + window.location.pathname;
+var fullPdfUrl = baseUrl.replace(/\/[^\/]*$/, '/') + pdfUrl;
+if (isMobile) {
+// Mobile: Pakai Google Docs Viewer (bisa render PDF di HP)
+iframe.src = 'https://docs.google.com/gview?url=' + encodeURIComponent(fullPdfUrl) + '&embedded=true';
+} else {
+// Desktop: Pakai direct PDF (lebih cepat)
+iframe.src = pdfUrl + '#toolbar=0&navpanes=0&scrollbar=1';
+}
+container.classList.add('active');
+document.body.classList.add('pdf-viewer-active');
+if (listContainer) listContainer.style.display = 'none';
+// Fallback jika loading terlalu lama
+setTimeout(function() {
+if (loading.style.display !== 'none') {
+loading.innerHTML = '<div style="font-size:48px;margin-bottom:15px;">⚠️</div>' +
+'<p style="font-size:16px;font-weight:bold;">PDF tidak dapat dimuat</p>' +
+'<a href="' + fullPdfUrl + '" target="_blank" style="display:inline-block;background:#c9a84c;color:#1a0a2e;padding:12px 24px;border-radius:25px;text-decoration:none;font-weight:bold;margin-top:10px;">📥 Buka PDF di Tab Baru</a>';
+}
+}, 15000);
 }
 function closePdfViewer(){
 var container=document.getElementById('pdfViewerContainer');
@@ -1483,59 +1535,50 @@ return false;
 // FUNGSI PDF VIEWER MOBILE-FRIENDLY
 // ============================================
 window.bukaPDF = function(pathRelatif, judul) {
-    var baseUrl = 'https://masjidalikhlaskebagusan99-dotcom.github.io/Masjid-Al-Ikhlas/';
-    var urlPdf = baseUrl + pathRelatif.replace(/^\//, '');
-    var isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(navigator.userAgent);
-    
-    var overlay = document.createElement('div');
-    overlay.id = 'pdfOverlay';
-    overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;background:#fff;display:flex;flex-direction:column;';
-    
-    var header = document.createElement('div');
-    header.style.cssText = 'background:#0d6e3f;color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;box-shadow:0 2px 10px rgba(0,0,0,0.2);';
-    header.innerHTML = '<span style="font-size:14px;font-weight:bold;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:65%;">📄 ' + (judul || 'Dokumen PDF') + '</span>' +
-        '<div style="display:flex;gap:8px;">' +
-        '<a href="' + urlPdf + '" download style="background:#c9a227;color:#084a2a;padding:8px 14px;border-radius:20px;font-weight:bold;text-decoration:none;font-size:12px;">⬇️</a>' +
-        '<button onclick="tutupPDF()" style="background:#c62828;color:#fff;border:none;padding:8px 14px;border-radius:20px;font-weight:bold;cursor:pointer;font-size:13px;">✕ Tutup</button>' +
-        '</div>';
-    
-    var loading = document.createElement('div');
-    loading.id = 'pdfLoading';
-    loading.style.cssText = 'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;color:#666;z-index:1;width:90%;';
-    loading.innerHTML = '<div style="font-size:48px;margin-bottom:15px;">⏳</div><p style="font-size:16px;font-weight:bold;">Memuat dokumen PDF...</p><p style="font-size:12px;color:#999;margin-top:10px;">Jika tidak muncul, gunakan tombol ⬇️ di atas</p>';
-    
-    var iframe = document.createElement('iframe');
-    iframe.style.cssText = 'flex:1;width:100%;border:none;background:#f5f5f5;';
-    
-    if (isMobile) {
-        iframe.src = 'https://docs.google.com/gview?url=' + encodeURIComponent(urlPdf) + '&embedded=true';
-    } else {
-        iframe.src = urlPdf;
-    }
-    
-    iframe.onload = function() {
-        var ld = document.getElementById('pdfLoading');
-        if (ld) ld.style.display = 'none';
-    };
-    
-    setTimeout(function() {
-        var ld = document.getElementById('pdfLoading');
-        if (ld && ld.style.display !== 'none') {
-            ld.innerHTML = '<div style="font-size:48px;margin-bottom:15px;">⚠️</div><p style="font-size:16px;font-weight:bold;">PDF tidak dapat dimuat</p><a href="' + urlPdf + '" download style="display:inline-block;background:#0d6e3f;color:#fff;padding:12px 24px;border-radius:25px;text-decoration:none;font-weight:bold;margin-top:10px;">⬇️ Download PDF Langsung</a>';
-        }
-    }, 12000);
-    
-    overlay.appendChild(header);
-    overlay.appendChild(loading);
-    overlay.appendChild(iframe);
-    document.body.appendChild(overlay);
-    document.body.style.overflow = 'hidden';
+var baseUrl = 'https://masjidalikhlaskebagusan99-dotcom.github.io/Masjid-Al-Ikhlas/';
+var urlPdf = baseUrl + pathRelatif.replace(/^\//, '');
+var isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(navigator.userAgent);
+var overlay = document.createElement('div');
+overlay.id = 'pdfOverlay';
+overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;background:#fff;display:flex;flex-direction:column;';
+var header = document.createElement('div');
+header.style.cssText = 'background:#0d6e3f;color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;box-shadow:0 2px 10px rgba(0,0,0,0.2);';
+header.innerHTML = '<span style="font-size:14px;font-weight:bold;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:65%;">📄 ' + (judul || 'Dokumen PDF') + '</span>' +
+'<div style="display:flex;gap:8px;">' +
+'<a href="' + urlPdf + '" download style="background:#c9a227;color:#084a2a;padding:8px 14px;border-radius:20px;font-weight:bold;text-decoration:none;font-size:12px;">⬇️</a>' +
+'<button onclick="tutupPDF()" style="background:#c62828;color:#fff;border:none;padding:8px 14px;border-radius:20px;font-weight:bold;cursor:pointer;font-size:13px;">✕ Tutup</button>' +
+'</div>';
+var loading = document.createElement('div');
+loading.id = 'pdfLoading';
+loading.style.cssText = 'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;color:#666;z-index:1;width:90%;';
+loading.innerHTML = '<div style="font-size:48px;margin-bottom:15px;">⏳</div><p style="font-size:16px;font-weight:bold;">Memuat dokumen PDF...</p><p style="font-size:12px;color:#999;margin-top:10px;">Jika tidak muncul, gunakan tombol ⬇️ di atas</p>';
+var iframe = document.createElement('iframe');
+iframe.style.cssText = 'flex:1;width:100%;border:none;background:#f5f5f5;';
+if (isMobile) {
+iframe.src = 'https://docs.google.com/gview?url=' + encodeURIComponent(urlPdf) + '&embedded=true';
+} else {
+iframe.src = urlPdf;
+}
+iframe.onload = function() {
+var ld = document.getElementById('pdfLoading');
+if (ld) ld.style.display = 'none';
 };
-
+setTimeout(function() {
+var ld = document.getElementById('pdfLoading');
+if (ld && ld.style.display !== 'none') {
+ld.innerHTML = '<div style="font-size:48px;margin-bottom:15px;">⚠️</div><p style="font-size:16px;font-weight:bold;">PDF tidak dapat dimuat</p><a href="' + urlPdf + '" download style="display:inline-block;background:#0d6e3f;color:#fff;padding:12px 24px;border-radius:25px;text-decoration:none;font-weight:bold;margin-top:10px;">⬇️ Download PDF Langsung</a>';
+}
+}, 12000);
+overlay.appendChild(header);
+overlay.appendChild(loading);
+overlay.appendChild(iframe);
+document.body.appendChild(overlay);
+document.body.style.overflow = 'hidden';
+};
 window.tutupPDF = function() {
-    var overlay = document.getElementById('pdfOverlay');
-    if (overlay) overlay.remove();
-    document.body.style.overflow = '';
+var overlay = document.getElementById('pdfOverlay');
+if (overlay) overlay.remove();
+document.body.style.overflow = '';
 };
 })();
 </script>
