@@ -502,44 +502,145 @@ padding:8px!important;
 .btn-beranda-masjid,
 [onclick*="showHome"],
 .breadcrumb-dash a {
-    touch-action: manipulation !important;
-    -webkit-tap-highlight-color: rgba(201, 168, 76, 0.3);
-    -webkit-touch-callout: none !important;
-    user-select: none !important;
-    -webkit-user-select: none !important;
-    cursor: pointer !important;
-    pointer-events: auto !important;
+touch-action: manipulation !important;
+-webkit-tap-highlight-color: rgba(201, 168, 76, 0.3);
+-webkit-touch-callout: none !important;
+user-select: none !important;
+-webkit-user-select: none !important;
+cursor: pointer !important;
+pointer-events: auto !important;
 }
 #logoBeranda:active,
 .btn-beranda-masjid:active,
 .breadcrumb-dash a:active {
-    transform: scale(0.96);
-    opacity: 0.8;
-    transition: all 0.08s ease;
+transform: scale(0.96);
+opacity: 0.8;
+transition: all 0.08s ease;
 }
 @media (max-width: 900px) {
-    #logoBeranda {
-        min-height: 44px !important;
-        min-width: 44px !important;
-        padding: 8px !important;
-        display: inline-flex !important;
-        align-items: center !important;
-        position: relative !important;
-        z-index: 1001 !important;
-    }
-    .btn-beranda-masjid {
-        min-height: 44px !important;
-        padding: 12px 16px !important;
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-    }
-    .breadcrumb-dash a {
-        min-height: 36px !important;
-        padding: 8px 12px !important;
-        display: inline-flex !important;
-        align-items: center !important;
-    }
+#logoBeranda {
+min-height: 44px !important;
+min-width: 44px !important;
+padding: 8px !important;
+display: inline-flex !important;
+align-items: center !important;
+position: relative !important;
+z-index: 1001 !important;
+}
+.btn-beranda-masjid {
+min-height: 44px !important;
+padding: 12px 16px !important;
+display: inline-flex !important;
+align-items: center !important;
+justify-content: center !important;
+}
+.breadcrumb-dash a {
+min-height: 36px !important;
+padding: 8px 12px !important;
+display: inline-flex !important;
+align-items: center !important;
+}
+}
+/* ============================================
+✅ SUB-MENU & SUB-SUB-MENU KITAB (TAFSIR & HADITS)
+============================================ */
+.kitab-submenu{margin-bottom:4px}
+.kitab-submenu-header{
+display:flex;align-items:center;gap:8px;width:100%;
+padding:9px 12px;margin-bottom:2px;
+background:rgba(201,168,76,0.08);
+border:1px solid rgba(201,168,76,0.2);
+border-radius:8px;color:#e8d48b;cursor:pointer;
+text-align:left;transition:all 0.3s;font-size:0.83rem;font-family:inherit;
+}
+.kitab-submenu-header:hover{background:rgba(201,168,76,0.18);border-color:#c9a84c;color:#fff}
+.kitab-submenu-header.active{background:rgba(201,168,76,0.22);border-color:#c9a84c;color:#fff}
+.kitab-submenu-header .sm-icon{font-size:1rem;flex-shrink:0}
+.kitab-submenu-header .sm-text{flex:1;line-height:1.3;font-weight:600}
+.kitab-submenu-header .sm-arrow{font-size:0.7rem;transition:transform 0.3s;flex-shrink:0;color:#c9a84c}
+.kitab-submenu-header.active .sm-arrow{transform:rotate(90deg)}
+.kitab-subsubmenu{
+display:none;padding-left:18px;margin-top:2px;
+border-left:2px solid rgba(201,168,76,0.3);
+margin-left:10px;
+}
+.kitab-subsubmenu.open{display:block;animation:fadeInContent 0.25s ease}
+.kitab-jilid-btn{
+display:flex;align-items:center;gap:8px;width:100%;
+padding:8px 10px;margin-bottom:4px;
+background:rgba(255,255,255,0.03);
+border:1px solid rgba(201,168,76,0.12);
+border-radius:7px;color:#ccc;cursor:pointer;
+text-align:left;transition:all 0.3s;font-size:0.78rem;font-family:inherit;
+}
+.kitab-jilid-btn:hover{background:rgba(201,168,76,0.15);border-color:#c9a84c;color:#e8d48b;transform:translateX(3px)}
+.kitab-jilid-btn.active{background:linear-gradient(135deg,#c9a84c,#e8d48b);color:#1a0a2e;font-weight:600;border-color:#c9a84c}
+.kitab-jilid-btn .jl-icon{font-size:0.85rem;flex-shrink:0}
+.kitab-jilid-btn .jl-text{flex:1}
+.kitab-jilid-btn .jl-badge{
+background:rgba(201,168,76,0.2);color:#c9a84c;
+padding:1px 7px;border-radius:8px;font-size:0.65rem;font-weight:700;flex-shrink:0;
+}
+.kitab-jilid-btn.active .jl-badge{background:rgba(26,10,46,0.2);color:#1a0a2e}
+.kitab-author-small{font-size:0.7rem;color:#888;font-style:italic;margin-top:2px;padding-left:2px}
+
+/* ============================================
+✅ MENU LEVEL 1 (AQIDAH, TAUHID, TASAWUF, AKHLAQ)
+============================================ */
+.kitab-menu{margin-bottom:6px}
+.kitab-menu-header{
+display:flex;align-items:center;gap:8px;width:100%;
+padding:10px 12px;margin-bottom:3px;
+background:linear-gradient(135deg,rgba(201,168,76,0.18),rgba(201,168,76,0.08));
+border:1px solid rgba(201,168,76,0.35);
+border-radius:10px;color:#e8d48b;cursor:pointer;
+text-align:left;transition:all 0.3s;font-size:0.88rem;
+font-family:inherit;font-weight:700;letter-spacing:0.3px;
+}
+.kitab-menu-header:hover{
+background:linear-gradient(135deg,rgba(201,168,76,0.28),rgba(201,168,76,0.15));
+border-color:#c9a84c;color:#fff;
+transform:translateX(2px);
+}
+.kitab-menu-header.active{
+background:linear-gradient(135deg,#c9a84c,#e8d48b);
+color:#1a0a2e;border-color:#c9a84c;
+box-shadow:0 3px 10px rgba(201,168,76,0.25);
+}
+.kitab-menu-header .mm-icon{font-size:1.1rem;flex-shrink:0}
+.kitab-menu-header .mm-text{flex:1;line-height:1.3}
+.kitab-menu-header .mm-arrow{
+font-size:0.75rem;transition:transform 0.3s;
+flex-shrink:0;color:#c9a84c;
+}
+.kitab-menu-header.active .mm-arrow{
+transform:rotate(90deg);color:#1a0a2e;
+}
+.kitab-menu-content{
+display:none;padding-left:8px;margin-top:4px;
+border-left:2px solid rgba(201,168,76,0.4);
+margin-left:10px;margin-bottom:8px;
+}
+.kitab-menu-content.open{
+display:block;
+animation:fadeInContent 0.25s ease;
+}
+
+/* Responsive HP */
+@media (max-width:900px){
+.kitab-submenu-header{padding:6px 8px;font-size:0.68rem}
+.kitab-submenu-header .sm-icon{font-size:0.8rem}
+.kitab-jilid-btn{padding:5px 7px;font-size:0.65rem}
+.kitab-subsubmenu{padding-left:12px;margin-left:6px}
+.kitab-author-small{font-size:0.58rem}
+.kitab-menu-header{padding:7px 8px;font-size:0.72rem}
+.kitab-menu-header .mm-icon{font-size:0.9rem}
+.kitab-menu-content{padding-left:6px;margin-left:6px}
+}
+@media (max-width:400px){
+.kitab-submenu-header{padding:5px 6px;font-size:0.6rem}
+.kitab-jilid-btn{padding:4px 5px;font-size:0.58rem}
+.kitab-menu-header{padding:6px 7px;font-size:0.62rem}
 }
 </style>
 </head>
@@ -679,7 +780,7 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 </div>
 </div>
 <!-- END masjid-page -->
- <!-- ============================================
+<!-- ============================================
 HALAMAN 1: BIOGRAFI ULAMA (Split Layout)
 ============================================ -->
 <div class="page-content" id="page-biografi-ulama">
@@ -717,17 +818,21 @@ HALAMAN 2: KITAB KUNING (Split Layout)
 <aside class="split-sidebar">
 <input type="text" id="searchKitab" class="sub-search" placeholder="🔍 Cari kitab..." onkeyup="filterKitab()">
 <h4>🕌 Aqidah & Tauhid</h4>
-<div id="kitabAqidah"></div>
+<div id="kitabAqidahTauhid"></div>
 <h4>⚖️ Fiqih (Mazhab Syafi'i)</h4>
 <div id="kitabFiqih"></div>
 <h4>🌿 Tasawuf & Akhlak</h4>
-<div id="kitabTasawuf"></div>
-<h4>📜 Tafsir & Hadis</h4>
+<div id="kitabTasawufAkhlak"></div>
+<h4>📜 Tafsir</h4>
 <div id="kitabTafsir"></div>
+<h4>📚 Hadits</h4>
+<div id="kitabHadits"></div>
 <h4>📐 Ushul Fiqih</h4>
 <div id="kitabUshul"></div>
-<h4>🔤 Nahwu & Sharaf</h4>
+<h4>📝 Nahwu</h4>
 <div id="kitabNahwu"></div>
+<h4>🔤 Sharaf</h4>
+<div id="kitabSharaf"></div>
 </aside>
 <main class="split-detail" id="kitabDetail">
 <div class="pdf-viewer-container" id="pdfViewerContainer">
@@ -1613,82 +1718,477 @@ var searchInput=document.getElementById('searchUlama');
 if(searchInput){searchInput.addEventListener('keyup',renderUlamaList);renderUlamaList()}
 }
 // ============================================
-// ✅ DATA KITAB KUNING
+// ✅ DATA KITAB KUNING (STRUKTUR BARU 3 LEVEL)
+// Level 1: Kategori (Aqidah & Tauhid, Tasawuf & Akhlak)
+// Level 2: Menu (Aqidah, Tauhid, Tasawuf, Akhlaq)
+// Level 3: Sub Menu (Kitab) → Sub-Sub Menu (Jilid)
 // ============================================
 var kitabData = {
-'aqidah': [
-{nama:'Aqidatul Awam',arab:'عَقِيدَةُ الْعَوَامّ',author:'Imam Al-Habib Alwi Al-Haddad',desc:'Kitab dasar aqidah Ahlussunnah wal Jamaah (Asy\'ariyah) yang diajarkan kepada orang awam.',pdf:'pdf/aqidatul-awam.pdf',tags:['Dasar','Asy\'ariyah','Nadhom']},
-{nama:'Ummul Barâhîn',arab:'أُمُّ الْبَرَاهِين',author:'Imam As-Sanusi Ash-Shaghir',desc:'Kitab aqidah Asy\'ariyah tingkat menengah.',pdf:'pdf/ummul-barahin.pdf',tags:['Menengah','Asy\'ariyah']}
+'aqidah-tauhid': {
+  'Aqidah': {
+    icon: '🕌',
+    kitab: {
+      'Aqidatul Awam': {
+        arab: 'عَقِيدَةُ الْعَوَامّ',
+        author: 'Imam Al-Habib Alwi Al-Haddad',
+        desc: 'Kitab dasar aqidah Ahlussunnah wal Jamaah (Asy\'ariyah) berbentuk nadhom yang diajarkan kepada orang awam.',
+        jilid: [
+          {jilid:1, label:'Jilid 1', pdf:'pdf/aqidatul-awam-jilid-1.pdf'},
+          {jilid:2, label:'Jilid 2', pdf:'pdf/aqidatul-awam-jilid-2.pdf'}
+        ]
+      }
+    }
+  },
+  'Tauhid': {
+    icon: '🕋',
+    kitab: {
+      'Ummul Barâhîn': {
+        arab: 'أُمُّ الْبَرَاهِين',
+        author: 'Imam As-Sanusi Ash-Shaghir',
+        desc: 'Kitab aqidah Asy\'ariyah tingkat menengah dengan argumentasi logis.',
+        jilid: [
+          {jilid:1, label:'Jilid 1', pdf:'pdf/ummul-barahin-jilid-1.pdf'},
+          {jilid:2, label:'Jilid 2', pdf:'pdf/ummul-barahin-jilid-2.pdf'}
+        ]
+      }
+    }
+  }
+},
+'tasawuf-akhlak': {
+  'Tasawuf': {
+    icon: '🌟',
+    kitab: {
+      'Ihyâ\' Ulûmiddîn': {
+        arab: 'إِحْيَاءُ عُلُومِ الدِّين',
+        author: 'Imam Al-Ghazali',
+        desc: 'Karya agung Imam Al-Ghazali yang membahas penyucian jiwa dan tazkiyatun nafs.',
+        jilid: [
+          {jilid:1, label:'Jilid 1', pdf:'pdf/ihya-ulumiddin-jilid-1.pdf'},
+          {jilid:2, label:'Jilid 2', pdf:'pdf/ihya-ulumiddin-jilid-2.pdf'},
+          {jilid:3, label:'Jilid 3', pdf:'pdf/ihya-ulumiddin-jilid-3.pdf'}
+        ]
+      }
+    }
+  },
+  'Akhlaq': {
+    icon: '🌿',
+    kitab: {
+      'Al-Hikam': {
+        arab: 'الْحِكَمُ الْعَطَائِيَّة',
+        author: 'Ibnu Atha\'illah As-Sakandari',
+        desc: '300 hikmah spiritual para sufi tentang ma\'rifatullah dan tazkiyatun nafs.',
+        jilid: [
+          {jilid:1, label:'Jilid 1', pdf:'pdf/al-hikam-jilid-1.pdf'},
+          {jilid:2, label:'Jilid 2', pdf:'pdf/al-hikam-jilid-2.pdf'}
+        ]
+      }
+    }
+  }
+},
+'ushul': [
+{
+nama:'Ar-Risâlah',
+arab:'الرِّسَالَة',
+author:'Imam Asy-Syafi\'i',
+icon:'📐',
+desc:'Kitab ushul fiqih pertama dalam sejarah Islam.',
+jilid:[
+{jilid:1, label:'Jilid 1', pdf:'pdf/ar-risalah-jilid-1.pdf'},
+{jilid:1, label:'Jilid 2', pdf:'pdf/ar-risalah-jilid-2.pdf'}
+]
+},
+{
+nama:'Al-Waraqât',
+arab:'الْوَرَقَات',
+author:'Imam Al-Haramain Al-Juwaini',
+icon:'📐',
+desc:'Matan ushul fiqih paling ringkas untuk pemula.',
+jilid:[
+{jilid:1, label:'Full PDF', pdf:'pdf/al-waraqat.pdf'}
+]
+}
 ],
 'fiqih': [
-{nama:'Al-Umm Jilid 1 Bagian 1',arab:'الْأُمّ',author:'Imam Asy-Syafi\'i',desc:'Kitab induk Mazhab Syafi\'i.',pdf:'pdf/al-umm-jilid-1-bagian-1.pdf',tags:['Induk','Syafi\'i']},
-{nama:'Al-Umm Jilid 1 Bagian 2',arab:'الْأُمّ',author:'Imam Asy-Syafi\'i',desc:'Kitab induk Mazhab Syafi\'i.',pdf:'pdf/al-umm-jilid-1-bagian-2.pdf',tags:['Induk','Syafi\'i']},
-{nama:'Al-Umm Jilid 1 Bagian 3',arab:'الْأُمّ',author:'Imam Asy-Syafi\'i',desc:'Kitab induk Mazhab Syafi\'i.',pdf:'pdf/al-umm-jilid-1-bagian-3.pdf',tags:['Induk','Syafi\'i']},
-{nama:'Al-Umm Jilid 2 Bagian 1',arab:'الْأُمّ',author:'Imam Asy-Syafi\'i',desc:'Kitab induk Mazhab Syafi\'i.',pdf:'pdf/al-umm-jilid-2-bagian-1.pdf',tags:['Induk','Syafi\'i']},
-{nama:'Al-Umm Jilid 2 Bagian 2',arab:'الْأُمّ',author:'Imam Asy-Syafi\'i',desc:'Kitab induk Mazhab Syafi\'i.',pdf:'pdf/al-umm-jilid-2-bagian-2.pdf',tags:['Induk','Syafi\'i']},
-{nama:'Al-Umm Jilid 2 Bagian 3',arab:'الْأُمّ',author:'Imam Asy-Syafi\'i',desc:'Kitab induk Mazhab Syafi\'i.',pdf:'pdf/al-umm-jilid-2-bagian-3.pdf',tags:['Induk','Syafi\'i']},
-{nama:'Al-Umm Jilid 2 Bagian 4',arab:'الْأُمّ',author:'Imam Asy-Syafi\'i',desc:'Kitab induk Mazhab Syafi\'i.',pdf:'pdf/al-umm-jilid-2-bagian-4.pdf',tags:['Induk','Syafi\'i']},
-{nama:'Al-Umm Jilid 3 Bagian 1',arab:'الْأُمّ',author:'Imam Asy-Syafi\'i',desc:'Kitab induk Mazhab Syafi\'i.',pdf:'pdf/al-umm-jilid-3-bagian-1.pdf',tags:['Induk','Syafi\'i']},
-{nama:'Al-Umm Jilid 3 Bagian 2',arab:'الْأُمّ',author:'Imam Asy-Syafi\'i',desc:'Kitab induk Mazhab Syafi\'i.',pdf:'pdf/al-umm-jilid-3-bagian-2.pdf',tags:['Induk','Syafi\'i']},
-{nama:'Al-Umm Jilid 3 Bagian 3',arab:'الْأُمّ',author:'Imam Asy-Syafi\'i',desc:'Kitab induk Mazhab Syafi\'i.',pdf:'pdf/al-umm-jilid-3-bagian-3.pdf',tags:['Induk','Syafi\'i']},
-{nama:'Bidayatul Mujtahid Jilid 1',arab:'بداية المجتهدة',author:'Ibnu Rusyd',desc:'Kitab perbandingan fiqih.',pdf:'pdf/bidayatul-mujtahid-jilid-1.pdf',tags:['Dasar','Ibnu Rusyd']},
-{nama:'Bidayatul Mujtahid Jilid 2',arab:'بداية المجتهدة',author:'Ibnu Rusyd',desc:'Kitab perbandingan fiqih.',pdf:'pdf/bidayatul-mujtahid-jilid-2.pdf',tags:['Dasar','Ibnu Rusyd']},
-{nama:'Safînatun Najâh',arab:'سَفِينَةُ النَّجَاة',author:'Syeikh Salim bin Sumair Al-Hadlrami',desc:'Kitab fiqih Syafi\'i paling dasar.',pdf:'pdf/safinatun-najah.pdf',tags:['Dasar','Syafi\'i']}
-],
-'tasawuf': [
-{nama:'Ihyâ\' Ulûmiddîn',arab:'إِحْيَاءُ عُلُومِ الدِّين',author:'Imam Al-Ghazali',desc:'Karya agung 40 jilid.',pdf:'pdf/ihya-ulumiddin.pdf',tags:['Induk','Tasawuf','Akhlak']},
-{nama:'Al-Hikam',arab:'الْحِكَمُ الْعَطَائِيَّة',author:'Ibnu Atha\'illah As-Sakandari',desc:'300 hikmah spiritual para sufi.',pdf:'pdf/al-hikam.pdf',tags:['Menengah','Tasawuf']}
+{
+nama:'Al-Umm',
+arab:'الْأُمّ',
+author:'Imam Asy-Syafi\'i',
+icon:'📗',
+desc:'Kitab induk Mazhab Syafi\'i, karya terbesar Imam Asy-Syafi\'i.',
+jilid:[
+{jilid:1, label:'Jilid 1 — Bagian 1', pdf:'pdf/al-umm-jilid-1-bagian-1.pdf'},
+{jilid:2, label:'Jilid 1 — Bagian 2', pdf:'pdf/al-umm-jilid-1-bagian-2.pdf'},
+{jilid:3, label:'Jilid 1 — Bagian 3', pdf:'pdf/al-umm-jilid-1-bagian-3.pdf'},
+{jilid:4, label:'Jilid 2 — Bagian 1', pdf:'pdf/al-umm-jilid-2-bagian-1.pdf'},
+{jilid:5, label:'Jilid 2 — Bagian 2', pdf:'pdf/al-umm-jilid-2-bagian-2.pdf'},
+{jilid:6, label:'Jilid 2 — Bagian 3', pdf:'pdf/al-umm-jilid-2-bagian-3.pdf'},
+{jilid:7, label:'Jilid 2 — Bagian 4', pdf:'pdf/al-umm-jilid-2-bagian-4.pdf'},
+{jilid:8, label:'Jilid 3 — Bagian 1', pdf:'pdf/al-umm-jilid-3-bagian-1.pdf'},
+{jilid:9, label:'Jilid 3 — Bagian 2', pdf:'pdf/al-umm-jilid-3-bagian-2.pdf'},
+{jilid:10, label:'Jilid 3 — Bagian 3', pdf:'pdf/al-umm-jilid-3-bagian-3.pdf'}
+]
+},
+{
+nama:'Bidayatul Mujtahid',
+arab:'بِدَايَةُ الْمُجْتَهِد',
+author:'Ibnu Rusyd',
+icon:'📘',
+desc:'Kitab perbandingan fiqih antar mazhab secara ringkas dan padat.',
+jilid:[
+{jilid:1, label:'Jilid 1', pdf:'pdf/bidayatul-mujtahid-jilid-1.pdf'},
+{jilid:2, label:'Jilid 2', pdf:'pdf/bidayatul-mujtahid-jilid-2.pdf'}
+]
+},
+{
+nama:'Safînatun Najâh',
+arab:'سَفِينَةُ النَّجَاة',
+author:'Syeikh Salim bin Sumair Al-Hadlrami',
+icon:'📙',
+desc:'Kitab fiqih Syafi\'i paling dasar yang diajarkan di hampir seluruh pesantren.',
+jilid:[
+{jilid:1, label:'Full PDF', pdf:'pdf/safinatun-najah.pdf'}
+]
+}
 ],
 'tafsir': [
-{nama:'Tafsîr Al-Jalâlain',arab:'تَفْسِيرُ الْجَلَالَيْن',author:'Imam Al-Mahalli & As-Suyuthi',desc:'Tafsir Al-Qur\'an ringkas.',pdf:'pdf/tafsir-jalalain.pdf',tags:['Dasar','Tafsir']},
-{nama:'Riyâdhus Shâlihîn',arab:'رِيَاضُ الصَّالِحِين',author:'Imam An-Nawawi',desc:'Kumpulan hadis shahih.',pdf:'pdf/riyadhus-shalihin.pdf',tags:['Dasar','Hadis','Akhlak']}
+{
+nama:'Tafsir Jalalain',
+arab:'تَفْسِيرُ الْجَلَالَيْن',
+author:'Imam Al-Mahalli & As-Suyuthi',
+desc:'Tafsir Al-Qur\'an ringkas oleh dua Imam Jalal.',
+jilid:[
+{jilid:1, label:'Jilid 1', pdf:'pdf/tafsir-jalalain-jilid-1.pdf'},
+{jilid:2, label:'Jilid 2', pdf:'pdf/tafsir-jalalain-jilid-2.pdf'}
+]
+},
+{
+nama:'Tafsir Ibnu Katsir',
+arab:'تَفْسِيرُ ابْنِ كَثِير',
+author:'Imam Ibnu Katsir',
+desc:'Tafsir Al-Qur\'an bil ma\'tsur yang komprehensif.',
+jilid:[
+{jilid:1, label:'Jilid 1', pdf:'pdf/tafsir-ibnu-katsir-jilid-1.pdf'},
+{jilid:2, label:'Jilid 2', pdf:'pdf/tafsir-ibnu-katsir-jilid-2.pdf'}
+]
+}
 ],
-'ushul': [
-{nama:'Ar-Risâlah',arab:'الرِّسَالَة',author:'Imam Asy-Syafi\'i',desc:'Kitab ushul fiqih pertama dalam sejarah Islam.',pdf:'pdf/ar-risalah.pdf',tags:['Induk','Ushul Fiqih']},
-{nama:'Al-Waraqât',arab:'الْوَرَقَات',author:'Imam Al-Haramain Al-Juwaini',desc:'Matan ushul fiqih paling ringkas.',pdf:'pdf/al-waraqat.pdf',tags:['Dasar','Ushul Fiqih']}
+'hadits': [
+{
+nama:'Sahih Bukhari',
+arab:'صَحِيحُ الْبُخَارِي',
+author:'Imam Al-Bukhari',
+desc:'Kitab hadis paling shahih setelah Al-Qur\'an.',
+jilid:[
+{jilid:1, label:'Jilid 1', pdf:'pdf/sahih-bukhari-jilid-1.pdf'},
+{jilid:2, label:'Jilid 2', pdf:'pdf/sahih-bukhari-jilid-2.pdf'},
+{jilid:3, label:'Jilid 3', pdf:'pdf/sahih-bukhari-jilid-3.pdf'},
+{jilid:1, label:'Jilid 1', pdf:'pdf/sahih-bukhari-jilid-1.pdf'},
+{jilid:2, label:'Jilid 2', pdf:'pdf/sahih-bukhari-jilid-2.pdf'},
+{jilid:3, label:'Jilid 3', pdf:'pdf/sahih-bukhari-jilid-3.pdf'},
+{jilid:3, label:'Jilid 3', pdf:'pdf/sahih-bukhari-jilid-3.pdf'}
+]
+},
+{
+nama:'Sahih Muslim',
+arab:'صَحِيحُ مُسْلِم',
+author:'Imam Muslim bin Al-Hajjaj',
+desc:'Kitab hadis shahih kedua setelah Bukhari.',
+jilid:[
+{jilid:1, label:'Jilid 1', pdf:'pdf/sahih-muslim-jilid-1.pdf'},
+{jilid:2, label:'Jilid 2', pdf:'pdf/sahih-muslim-jilid-2.pdf'}
+]
+}
 ],
 'nahwu': [
-{nama:'Al-Âjurrûmiyyah',arab:'الْأَجُرُّومِيَّة',author:'Ibnu Âjurrûm',desc:'Matan nahwu paling dasar.',pdf:'pdf/ajurumiyyah.pdf',tags:['Dasar','Nahwu']},
-{nama:'Alfiyyah Ibnu Malik',arab:'أَلْفِيَّةُ ابْنِ مَالِك',author:'Ibnu Malik',desc:'Nadhom nahwu-sharaf 1000 bait.',pdf:'pdf/alfiyyah-ibnu-malik.pdf',tags:['Lanjutan','Nahwu-Sharaf']}
+{
+nama:'Al-Ajurrumiyyah',
+arab:'الْأَجُرُّومِيَّة',
+author:'Ibnu Ajurrum Ash-Shanhaji',
+desc:'Matan nahwu paling dasar.',
+jilid:[
+{jilid:1, label:'Jilid 1', pdf:'pdf/ajurumiyyah-jilid-1.pdf'},
+{jilid:2, label:'Jilid 2', pdf:'pdf/ajurumiyyah-jilid-2.pdf'}
+]
+},
+{
+nama:'Imrithi',
+arab:'الْعِمْرِيطِي',
+author:'Syeikh Imrithi',
+desc:'Nadhom nahwu tingkat menengah.',
+jilid:[
+{jilid:1, label:'Jilid 1', pdf:'pdf/imrithi-jilid-1.pdf'},
+{jilid:2, label:'Jilid 2', pdf:'pdf/imrithi-jilid-2.pdf'}
+]
+},
+{
+nama:'Alfiyyah Ibnu Malik',
+arab:'أَلْفِيَّةُ ابْنِ مَالِك',
+author:'Ibnu Malik Al-Andalusi',
+desc:'Nadhom nahwu-sharaf 1000 bait.',
+jilid:[
+{jilid:1, label:'Jilid 1', pdf:'pdf/alfiyyah-ibnu-malik-jilid-1.pdf'},
+{jilid:2, label:'Jilid 2', pdf:'pdf/alfiyyah-ibnu-malik-jilid-2.pdf'}
+]
+},
+{
+nama:'Mutammimah Al-Ajurrumiyyah',
+arab:'مُتَمِّمَةُ الْآجُرُّومِيَّة',
+author:'Syeikh Al-Hathab Ar-Ru\'aini',
+desc:'Pelengkap kitab Al-Ajurrumiyyah.',
+jilid:[
+{jilid:1, label:'Jilid 1', pdf:'pdf/mutammimah-jilid-1.pdf'},
+{jilid:2, label:'Jilid 2', pdf:'pdf/mutammimah-jilid-2.pdf'}
+]
+}
+],
+'sharaf': [
+{
+nama:'Al-Amtsilah At-Tashrifiyyah',
+arab:'الْأَمْثِلَةُ التَّصْرِيفِيَّة',
+author:'KH. Muhammad Ma\'shum Ali',
+desc:'Kitab dasar ilmu sharaf.',
+jilid:[
+{jilid:1, label:'Jilid 1', pdf:'pdf/amtsilah-tashrifiyyah-jilid-1.pdf'},
+{jilid:2, label:'Jilid 2', pdf:'pdf/amtsilah-tashrifiyyah-jilid-2.pdf'}
+]
+},
+{
+nama:'Kailani (Al-Kailani)',
+arab:'الْكَيْلَانِي',
+author:'Syeikh Al-Kailani',
+desc:'Kitab sharaf tingkat menengah.',
+jilid:[
+{jilid:1, label:'Jilid 1', pdf:'pdf/kailani-jilid-1.pdf'},
+{jilid:2, label:'Jilid 2', pdf:'pdf/kailani-jilid-2.pdf'}
+]
+},
+{
+nama:'Shorof Al-Izzi',
+arab:'صَرْفُ الْعِزِّي',
+author:'Imam Al-Izzi',
+desc:'Kitab sharaf klasik.',
+jilid:[
+{jilid:1, label:'Jilid 1', pdf:'pdf/shorof-al-izzi-jilid-1.pdf'},
+{jilid:2, label:'Jilid 2', pdf:'pdf/shorof-al-izzi-jilid-2.pdf'}
+]
+},
+{
+nama:'Nadhom Al-Maqshur wal Mamdud',
+arab:'نَظْمُ الْمَقْصُورِ وَالْمَمْدُود',
+author:'Ibnu Malik',
+desc:'Nadhom tentang isim maqshur dan mamdud.',
+jilid:[
+{jilid:1, label:'Jilid 1', pdf:'pdf/maqshur-mamdud-jilid-1.pdf'},
+{jilid:2, label:'Jilid 2', pdf:'pdf/maqshur-mamdud-jilid-2.pdf'}
+]
+}
 ]
 };
+
+// ============================================
+// ✅ RENDER KITAB NESTED (3 LEVEL: Menu → Kitab → Jilid)
+// ============================================
+function renderKitabNested(categoryKey, containerId, search){
+  var container = document.getElementById(containerId);
+  if(!container) return;
+  var categoryData = kitabData[categoryKey] || {};
+  var html = '';
+  var matchFound = false;
+
+  for(var menuName in categoryData){
+    if(!categoryData.hasOwnProperty(menuName)) continue;
+    var menu = categoryData[menuName];
+    var menuId = 'menu-' + categoryKey + '-' + menuName.replace(/[^a-zA-Z0-9]/g,'-');
+    var kitabList = menu.kitab || {};
+    var menuHtml = '';
+    var menuMatch = false;
+
+    for(var kitabName in kitabList){
+      if(!kitabList.hasOwnProperty(kitabName)) continue;
+      var k = kitabList[kitabName];
+      // Filter pencarian
+      if(search && kitabName.toLowerCase().indexOf(search)===-1 && k.author.toLowerCase().indexOf(search)===-1) continue;
+
+      menuMatch = true;
+      var safeKitabName = kitabName.replace(/'/g,"\\'").replace(/"/g,'&quot;');
+      var submenuId = 'submenu-' + categoryKey + '-' + menuName.replace(/[^a-zA-Z0-9]/g,'-') + '-' + kitabName.replace(/[^a-zA-Z0-9]/g,'-');
+
+      menuHtml += '<div class="kitab-submenu">';
+      menuHtml += '<button class="kitab-submenu-header" onclick="toggleKitabSubmenu(\''+submenuId+'\',this)">';
+      menuHtml += '<span class="sm-icon">📖</span>';
+      menuHtml += '<span class="sm-text">'+kitabName+'</span>';
+      menuHtml += '<span class="sm-arrow">▶</span>';
+      menuHtml += '</button>';
+      menuHtml += '<div class="kitab-author-small">'+k.author+'</div>';
+      menuHtml += '<div class="kitab-subsubmenu" id="'+submenuId+'">';
+
+      if(k.jilid && k.jilid.length > 0){
+        for(var j=0;j<k.jilid.length;j++){
+          var jl = k.jilid[j];
+          var displayLabel = jl.label || ('Jilid '+jl.jilid);
+          var judulBtn = kitabName+' — '+displayLabel;
+          menuHtml += '<button class="kitab-jilid-btn" onclick="bacaKitabJilid(\''+judulBtn.replace(/'/g,"\\'")+'\',\''+jl.pdf+'\')">';
+          menuHtml += '<span class="jl-icon">📖</span>';
+          menuHtml += '<span class="jl-text">'+displayLabel+'</span>';
+          menuHtml += '<span class="jl-badge">PDF</span>';
+          menuHtml += '</button>';
+        }
+      } else {
+        menuHtml += '<p style="color:#888;font-size:0.72rem;padding:5px 0;">Belum tersedia</p>';
+      }
+      menuHtml += '</div>'; // tutup subsubmenu
+      menuHtml += '</div>'; // tutup submenu
+    }
+
+    if(menuMatch){
+      matchFound = true;
+      html += '<div class="kitab-menu">';
+      html += '<button class="kitab-menu-header" onclick="toggleKitabMenu(\''+menuId+'\',this)">';
+      html += '<span class="mm-icon">'+(menu.icon || '📖')+'</span>';
+      html += '<span class="mm-text">'+menuName+'</span>';
+      html += '<span class="mm-arrow">▶</span>';
+      html += '</button>';
+      html += '<div class="kitab-menu-content" id="'+menuId+'">';
+      html += menuHtml;
+      html += '</div>'; // tutup menu-content
+      html += '</div>'; // tutup menu
+    }
+  }
+
+  container.innerHTML = html || '<p style="color:#888;text-align:center;padding:10px;font-size:0.82rem;">Tidak ditemukan</p>';
+}
+
+// ============================================
+// ✅ TOGGLE MENU LEVEL 1 (AQIDAH, TAUHID, TASAWUF, AKHLAQ)
+// ============================================
+function toggleKitabMenu(menuId, btn){
+  var menu = document.getElementById(menuId);
+  if(!menu) return;
+  var isOpen = menu.classList.contains('open');
+
+  // Tutup menu lain di container yang sama
+  var parent = btn.closest('.split-sidebar');
+  if(parent){
+    var allMenus = parent.querySelectorAll('.kitab-menu-content.open');
+    for(var i=0;i<allMenus.length;i++){
+      allMenus[i].classList.remove('open');
+    }
+    var allHeaders = parent.querySelectorAll('.kitab-menu-header.active');
+    for(var i=0;i<allHeaders.length;i++){
+      allHeaders[i].classList.remove('active');
+    }
+  }
+
+  if(!isOpen){
+    menu.classList.add('open');
+    btn.classList.add('active');
+  }
+}
+
 function renderKitabList(){
-var sections = [
-{key:'aqidah',id:'kitabAqidah'},
-{key:'fiqih',id:'kitabFiqih'},
-{key:'tasawuf',id:'kitabTasawuf'},
-{key:'tafsir',id:'kitabTafsir'},
-{key:'ushul',id:'kitabUshul'},
-{key:'nahwu',id:'kitabNahwu'}
-];
 var searchInput = document.getElementById('searchKitab');
 var search = searchInput ? searchInput.value.toLowerCase() : '';
-for(var s=0;s<sections.length;s++){
-var sec = sections[s];
-var container = document.getElementById(sec.id);
-if(!container) continue;
-var list = kitabData[sec.key] || [];
+// ✅ Render AQIDAH & TAUHID dengan struktur nested 3 level
+renderKitabNested('aqidah-tauhid','kitabAqidahTauhid',search);
+// ✅ Render TASAWUF & AKHLAK dengan struktur nested 3 level
+renderKitabNested('tasawuf-akhlak','kitabTasawufAkhlak',search);
+// ✅ Render kategori lain dengan struktur 2 level (existing)
+renderKitabBergilir('fiqih','kitabFiqih',search);
+renderKitabBergilir('tafsir','kitabTafsir',search);
+renderKitabBergilir('hadits','kitabHadits',search);
+renderKitabBergilir('ushul','kitabUshul',search);
+renderKitabBergilir('nahwu','kitabNahwu',search);
+renderKitabBergilir('sharaf','kitabSharaf',search);
+}
+// Wrapper untuk filterKitab (dipanggil dari onkeyup search)
+function filterKitab(){ renderKitabList(); }
+// ============================================
+// ✅ RENDER KITAB BERGILIR (TAFSIR & HADITS)
+// ============================================
+function renderKitabBergilir(categoryKey, containerId, search){
+var container = document.getElementById(containerId);
+if(!container) return;
+var list = kitabData[categoryKey] || [];
 var html = '';
+// Icon default per kategori
+var defaultIcons = {
+'tafsir':'📜','hadits':'📚',
+'nahwu':'📝','sharaf':'🔤',
+'fiqih':'⚖️',
+'aqidah':'🕌','tasawuf':'🌿','ushul':'📐'
+};
+var defaultIcon = defaultIcons[categoryKey] || '📖';
 for(var i=0;i<list.length;i++){
 var k = list[i];
+// Filter pencarian
 if(search && k.nama.toLowerCase().indexOf(search)===-1 && k.author.toLowerCase().indexOf(search)===-1) continue;
 var safeNama = k.nama.replace(/'/g,"\\'").replace(/"/g,'&quot;');
-html += '<button class="split-btn" onclick="bacaKitab(\''+safeNama+'\',\''+k.pdf+'\')">';
-html += '<span class="btn-icon">📖</span>';
-html += '<span class="btn-text">'+k.nama+'</span>';
+var submenuId = 'submenu-'+categoryKey+'-'+i;
+var kitabIcon = k.icon || defaultIcon;
+// Sub-menu header (Al-Umm, Bidayatul Mujtahid, dll)
+html += '<div class="kitab-submenu">';
+html += '<button class="kitab-submenu-header" onclick="toggleKitabSubmenu(\''+submenuId+'\',this)">';
+html += '<span class="sm-icon">'+kitabIcon+'</span>';
+html += '<span class="sm-text">'+k.nama+'</span>';
+html += '<span class="sm-arrow">▶</span>';
 html += '</button>';
+html += '<div class="kitab-author-small">'+k.author+'</div>';
+// Sub-sub-menu (Jilid 1 — Bagian 1, Jilid 2, dll)
+html += '<div class="kitab-subsubmenu" id="'+submenuId+'">';
+if(k.jilid && k.jilid.length > 0){
+for(var j=0;j<k.jilid.length;j++){
+var jl = k.jilid[j];
+// ✅ Gunakan jl.label jika ada, fallback ke 'Jilid '+jl.jilid
+var displayLabel = jl.label || ('Jilid '+jl.jilid);
+var judulBtn = safeNama+' — '+displayLabel;
+html += '<button class="kitab-jilid-btn" onclick="bacaKitabJilid(\''+judulBtn.replace(/'/g,"\\'")+'\',\''+jl.pdf+'\')">';
+html += '<span class="jl-icon">📖</span>';
+html += '<span class="jl-text">'+displayLabel+'</span>';
+html += '<span class="jl-badge">PDF</span>';
+html += '</button>';
+}
+} else {
+html += '<p style="color:#888;font-size:0.72rem;padding:5px 0;">Belum tersedia</p>';
+}
+html += '</div>'; // tutup kitab-subsubmenu
+html += '</div>'; // tutup kitab-submenu
 }
 container.innerHTML = html || '<p style="color:#888;text-align:center;padding:10px;font-size:0.82rem;">Tidak ditemukan</p>';
 }
+// ============================================
+// ✅ TOGGLE SUB-MENU KITAB
+// ============================================
+function toggleKitabSubmenu(submenuId, btn){
+var submenu = document.getElementById(submenuId);
+if(!submenu) return;
+var isOpen = submenu.classList.contains('open');
+// Tutup semua submenu lain di container yang sama
+var parent = btn.closest('.split-sidebar');
+if(parent){
+var allSubmenus = parent.querySelectorAll('.kitab-subsubmenu.open');
+for(var i=0;i<allSubmenus.length;i++){
+allSubmenus[i].classList.remove('open');
 }
-function filterKitab(){renderKitabList()}
-function bacaKitab(namaKitab,pdfUrl){
+var allHeaders = parent.querySelectorAll('.kitab-submenu-header.active');
+for(var i=0;i<allHeaders.length;i++){
+allHeaders[i].classList.remove('active');
+}
+}
+if(!isOpen){
+submenu.classList.add('open');
+btn.classList.add('active');
+}
+}
+// ============================================
+// ✅ BACA KITAB PER JILID
+// ============================================
+function bacaKitabJilid(namaLengkap, pdfUrl){
 var container=document.getElementById('pdfViewerContainer');
 var title=document.getElementById('pdfViewerTitle');
 var iframe=document.getElementById('pdfIframe');
 var loading=document.getElementById('pdfLoading');
 var welcome=document.getElementById('kitabWelcome');
-title.textContent='📖 '+namaKitab;
+title.textContent='📖 '+namaLengkap;
 loading.style.display='block';
 loading.innerHTML='<div style="font-size:48px;margin-bottom:15px;">⏳</div><p style="font-size:16px;font-weight:bold;">Memuat kitab...</p>';
 var isMobile=/Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(navigator.userAgent);
