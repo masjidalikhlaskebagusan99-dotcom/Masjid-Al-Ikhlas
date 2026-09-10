@@ -946,27 +946,31 @@ if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded'
 // KUMPULAN DOA
 // ============================================
 var doaKategoriData=[
-{id:'doa-nabi',icon:'🕌',nama:'Doa-doa Para Nabi',desc:'Doa-doa yang diabadikan dalam Al-Qur\'an dari para Nabi dan Rasul.',doa:[
-{judul:'Doa Nabi Adam AS',arab:'رَبَّنَا ظَلَمْنَا أَنفُسَنَا وَإِن لَّمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ',latin:'Rabbanâ zhalamnâ anfusanâ wa in lam taghfir lanâ wa tarhamnâ lanakûnanna minal khâsirîn.',arti:'Ya Tuhan kami, kami telah menzalimi diri kami sendiri...',ref:'QS. Al-A\'raf: 23'},
-{judul:'Doa Nabi Nuh AS',arab:'رَّبِّ اغْفِرْ لِي وَلِوَالِدَيَّ وَلِمَن دَخَلَ بَيْتِيَ مُؤْمِنًا وَلِلْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ',latin:'Rabbighfir lî wa liwâlidayya...',arti:'Ya Tuhanku, ampunilah aku, ibu bapakku...',ref:'QS. Nuh: 28'},
-{judul:'Doa Nabi Ibrahim AS',arab:'رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِن ذُرِّيَّتِي رَبَّنَا وَتَقَبَّلْ دُعَاءِ',latin:'Rabbij\'alnî muqîmas-shalâti wa min dzurriyyatî...',arti:'Ya Tuhanku, jadikanlah aku dan anak cucuku orang yang tetap mendirikan sholat.',ref:'QS. Ibrahim: 40'},
-{judul:'Doa Nabi Yunus AS (Dzun Nun)',arab:'لَّا إِلَٰهَ إِلَّا أَنتَ سُبْحَانَكَ إِنِّي كُنتُ مِنَ الظَّالِمِينَ',latin:'Lâ ilâha illâ anta subhânaka innî kuntu minazh-zhâlimîn.',arti:'Tidak ada Tuhan selain Engkau, Maha Suci Engkau...',ref:'QS. Al-Anbiya: 87'}
+  
+{id:'doa-quran',icon:'📚',nama:'Doa-doa Dari Al-Quran',desc:'Doa-doa yang mustajabah dari Al-Quran\'tabar.',doa:[
+{judul:'Doa Mohon Kebaikan Dunia Akhirat',arab:'رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ',latin:'Rabbana atinaa fiiddunyaa hasanah wa fil akhirati hasanah, waqinaa adzaabannaar',arti:'Ya Tuhan, berilah kami kebaikan di dunia dan kebaikan di akhirat, serta selamatkanlah kami dari siksa neraka.” (QS. Al-Baqarah: 201)'}
 ]},
+
 {id:'doa-muhammad',icon:'',nama:'Doa-doa Nabi Muhammad',desc:'Doa-doa yang diriwayatkan dari Rasulullah ﷺ dalam hadis-hadis shahih.',doa:[
 {judul:'Doa Pembuka Majelis',arab:'سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا أَنْتَ أَسْتَغْفِرُكَ وَأَتُوبُ إِلَيْكَ',latin:'Subhânakallâhumma wa bihamdika...',arti:'Maha Suci Engkau ya Allah, dengan memuji-Mu...',ref:'HR. Abu Daud & Tirmidzi'},
 {judul:'Doa Penutup Majelis',arab:'سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا أَنْتَ أَسْتَغْفِرُكَ وَأَتُوبُ إِلَيْكَ',latin:'Subhânakallâhumma wa bihamdika...',arti:'Kafaratul Majelis — penghapus dosa selama berada di majelis.',ref:'HR. Abu Daud & Tirmidzi'},
 {judul:'Doa Memohon Ilmu',arab:'اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا وَرِزْقًا طَيِّبًا وَعَمَلًا مُتَقَبَّلًا',latin:'Allâhumma innî as\'aluka \'ilman nâfi\'an...',arti:'Ya Allah, aku memohon kepada-Mu ilmu yang bermanfaat...',ref:'HR. Ibnu Majah'},
 {judul:'Doa Perlindungan',arab:'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ وَأَعُوذُ بِكَ مِنَ الْعَجْزِ وَالْكَسَلِ',latin:'Allâhumma innî a\'ûdzu bika minal hammi wal hazani...',arti:'Ya Allah, aku berlindung kepada-Mu dari kegelisahan dan kesedihan.',ref:'HR. Bukhari'}
 ]},
+  
+{id:'doa-nabi',icon:'🕌',nama:'Doa-doa Para Nabi',desc:'Doa-doa yang diabadikan dalam Al-Qur\'an dari para Nabi dan Rasul.',doa:[
+{judul:'Doa Nabi Adam AS',arab:'رَبَّنَا ظَلَمْنَا أَنفُسَنَا وَإِن لَّمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ',latin:'Rabbanâ zhalamnâ anfusanâ wa in lam taghfir lanâ wa tarhamnâ lanakûnanna minal khâsirîn.',arti:'Ya Tuhan kami, kami telah menzalimi diri kami sendiri...',ref:'QS. Al-A\'raf: 23'},
+{judul:'Doa Nabi Nuh AS',arab:'رَّبِّ اغْفِرْ لِي وَلِوَالِدَيَّ وَلِمَن دَخَلَ بَيْتِيَ مُؤْمِنًا وَلِلْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ',latin:'Rabbighfir lî wa liwâlidayya...',arti:'Ya Tuhanku, ampunilah aku, ibu bapakku...',ref:'QS. Nuh: 28'},
+{judul:'Doa Nabi Ibrahim AS',arab:'رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِن ذُرِّيَّتِي رَبَّنَا وَتَقَبَّلْ دُعَاءِ',latin:'Rabbij\'alnî muqîmas-shalâti wa min dzurriyyatî...',arti:'Ya Tuhanku, jadikanlah aku dan anak cucuku orang yang tetap mendirikan sholat.',ref:'QS. Ibrahim: 40'},
+{judul:'Doa Nabi Yunus AS (Dzun Nun)',arab:'لَّا إِلَٰهَ إِلَّا أَنتَ سُبْحَانَكَ إِنِّي كُنتُ مِنَ الظَّالِمِينَ',latin:'Lâ ilâha illâ anta subhânaka innî kuntu minazh-zhâlimîn.',arti:'Tidak ada Tuhan selain Engkau, Maha Suci Engkau...',ref:'QS. Al-Anbiya: 87'}
+]},
+  
 {id:'doa-ulama',icon:'📚',nama:'Doa-doa Karya Ulama',desc:'Doa-doa yang disusun oleh ulama Ahlussunnah wal Jamaah dari berbagai kitab mu\'tabar.',doa:[
 {judul:'Doa Ratib Al-Haddad',arab:'لَا إِلَٰهَ إِلَّا اللهُ مُحَمَّدٌ رَّسُولُ اللهِ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ',latin:'Lâ ilâha illallâh Muhammadur Rasûlullâh shallallâhu \'alaihi wa sallam.',arti:'Tiada Tuhan selain Allah, Muhammad adalah utusan Allah.',ref:'Al-Habib Abdullah bin Alwi Al-Haddad'},
 {judul:'Doa Al-Hikam',arab:'إِلَٰهِي هَبْ لِي كَمَالَ الْإِنْقِطَاعِ إِلَيْكَ وَأَنِرْ أَبْصَارَ قُلُوبِنَا بِضِيَاءِ نَظَرِهَا إِلَيْكَ',latin:'Ilâhî hab lî kamâlal inqithâ\'i ilaika...',arti:'Ya Tuhanku, anugerahkanlah kepadaku kesempurnaan terputus kepada-Mu.',ref:'Ibnu Atha\'illah As-Sakandari, Al-Hikam'},
 {judul:'Doa Imam Nawawi',arab:'اللَّهُمَّ اغْفِرْ لِلْمُسْلِمِينَ وَالْمُسْلِمَاتِ وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ الْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ',latin:'Allâhummaghfir lil muslimîna wal muslimât...',arti:'Ya Allah, ampunilah kaum Muslimin dan Muslimat...',ref:'Imam An-Nawawi, Al-Adzkâr'}
 ]},
-  
-{id:'doa-quran',icon:'📚',nama:'Doa-doa Dari Al-Quran',desc:'Doa-doa yang mustajabah dari Al-Quran\'tabar.',doa:[
-{judul:'Doa Mohon Kebaikan Dunia Akhirat',arab:'رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ',latin:'Rabbana atinaa fiiddunyaa hasanah wa fil akhirati hasanah, waqinaa adzaabannaar',arti:'Ya Tuhan, berilah kami kebaikan di dunia dan kebaikan di akhirat, serta selamatkanlah kami dari siksa neraka.” (QS. Al-Baqarah: 201)'}
-]},
+
   
 {id:'doa-harian',icon:'',nama:'Doa-doa Harian',desc:'Doa-doa yang dibaca sehari-hari sesuai sunnah Rasulullah ﷺ.',doa:[
 {judul:'Doa Bangun Tidur',arab:'الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ',latin:'Alhamdulillâhil ladzî ahyânâ ba\'da mâ amâtanâ wa ilaihin nusyûr.',arti:'Segala puji bagi Allah yang menghidupkan kami setelah mematikan kami.',ref:'HR. Bukhari'},
