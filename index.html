@@ -642,6 +642,128 @@ animation:fadeInContent 0.25s ease;
 .kitab-jilid-btn{padding:4px 5px;font-size:0.58rem}
 .kitab-menu-header{padding:6px 7px;font-size:0.62rem}
 }
+/* ============================================
+✅ RANGKAIAN DOA (beberapa bagian dalam 1 item)
+============================================ */
+.doa-rangkaian-card{
+background:linear-gradient(135deg,rgba(201,168,76,0.06),rgba(45,27,78,0.4));
+border:1px solid rgba(201,168,76,0.4);
+border-radius:15px;padding:25px;margin-bottom:20px;
+position:relative;overflow:hidden;
+}
+.doa-rangkaian-card::before{
+content:'';position:absolute;top:0;left:0;right:0;height:3px;
+background:linear-gradient(90deg,#c9a84c,#e8d48b,#c9a84c);
+}
+.doa-rangkaian-card .rangkaian-header{
+display:flex;align-items:center;gap:10px;
+margin-bottom:18px;padding-bottom:12px;
+border-bottom:1px dashed rgba(201,168,76,0.3);
+}
+.doa-rangkaian-card .rangkaian-header .rangkaian-icon{
+width:40px;height:40px;
+background:linear-gradient(135deg,#c9a84c,#e8d48b);
+border-radius:10px;display:flex;align-items:center;justify-content:center;
+font-size:1.3rem;color:#1a0a2e;flex-shrink:0;
+}
+.doa-rangkaian-card .rangkaian-header h4{
+color:#e8d48b;font-size:1.15rem;font-weight:700;
+margin:0;line-height:1.3;
+}
+.doa-rangkaian-card .rangkaian-header .rangkaian-badge{
+margin-left:auto;padding:3px 10px;
+background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);
+border-radius:12px;font-size:0.68rem;color:#c9a84c;font-weight:700;
+letter-spacing:0.5px;white-space:nowrap;
+}
+.doa-bagian-item{
+position:relative;padding:15px 18px;margin-bottom:12px;
+background:rgba(255,255,255,0.03);
+border-left:3px solid rgba(201,168,76,0.5);
+border-radius:0 10px 10px 0;transition:all 0.3s;
+}
+.doa-bagian-item:hover{
+background:rgba(201,168,76,0.07);
+border-left-color:#c9a84c;
+transform:translateX(3px);
+}
+.doa-bagian-item .bagian-label{
+display:flex;align-items:center;gap:8px;
+color:#e8d48b;font-size:0.9rem;font-weight:600;
+margin-bottom:10px;
+}
+.doa-bagian-item .bagian-label .bagian-num{
+width:22px;height:22px;
+background:rgba(201,168,76,0.25);
+border:1px solid rgba(201,168,76,0.5);
+border-radius:50%;display:inline-flex;
+align-items:center;justify-content:center;
+font-size:0.7rem;color:#e8d48b;font-weight:700;flex-shrink:0;
+}
+.doa-bagian-item .bagian-arab{
+font-family:'Noto Naskh Arabic','Amiri',serif;
+font-size:1.4rem;color:#c9a84c;
+direction:rtl;text-align:right;line-height:2;
+padding:12px 15px;background:rgba(0,0,0,0.25);
+border-radius:8px;margin-bottom:8px;
+}
+.doa-bagian-item .bagian-latin{
+color:#e8d48b;font-style:italic;
+font-size:0.88rem;line-height:1.6;margin-bottom:8px;
+}
+.doa-bagian-item .bagian-latin::before{content:'🔤 ';font-style:normal}
+.doa-bagian-item .bagian-arti{
+color:#ccc;font-size:0.87rem;line-height:1.6;
+padding:10px 12px;background:rgba(201,168,76,0.06);
+border-radius:6px;
+}
+.doa-bagian-item .bagian-arti::before{
+content:'📝 ';font-style:normal;
+}
+.doa-rangkaian-penutup{
+margin-top:18px;padding:18px;
+background:linear-gradient(135deg,rgba(201,168,76,0.12),rgba(45,27,78,0.5));
+border:1px solid rgba(201,168,76,0.4);border-radius:10px;
+text-align:center;
+}
+.doa-rangkaian-penutup .penutup-label{
+color:#e8d48b;font-size:0.9rem;font-weight:700;
+margin-bottom:10px;letter-spacing:1px;
+display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.doa-rangkaian-penutup .penutup-label::before{content:'🌟'}
+.doa-rangkaian-penutup .penutup-label::after{content:'🌟'}
+.doa-rangkaian-penutup .penutup-arab{
+font-family:'Noto Naskh Arabic','Amiri',serif;
+font-size:1.4rem;color:#c9a84c;direction:rtl;
+line-height:2;margin-bottom:8px;padding:10px;
+background:rgba(0,0,0,0.3);border-radius:8px;
+}
+.doa-rangkaian-penutup .penutup-latin{
+color:#e8d48b;font-style:italic;font-size:0.85rem;margin-bottom:6px;
+}
+.doa-rangkaian-penutup .penutup-arti{
+color:#ccc;font-size:0.85rem;line-height:1.6;max-width:550px;margin:0 auto;
+}
+.doa-rangkaian-card .rangkaian-ref{
+margin-top:12px;padding-top:10px;
+border-top:1px solid rgba(255,255,255,0.08);
+color:#888;font-size:0.75rem;text-align:right;font-style:italic;
+}
+.doa-rangkaian-card .rangkaian-ref::before{content:'📖 '}
+@media (max-width:900px){
+.doa-rangkaian-card{padding:15px}
+.doa-rangkaian-card .rangkaian-header h4{font-size:0.95rem}
+.doa-rangkaian-card .rangkaian-header .rangkaian-badge{font-size:0.58rem;padding:2px 6px}
+.doa-rangkaian-card .rangkaian-header .rangkaian-icon{width:32px;height:32px;font-size:1rem}
+.doa-bagian-item{padding:12px 10px}
+.doa-bagian-item .bagian-arab{font-size:1.1rem;padding:10px 12px}
+.doa-bagian-item .bagian-latin{font-size:0.78rem}
+.doa-bagian-item .bagian-arti{font-size:0.78rem;padding:8px 10px}
+.doa-bagian-item .bagian-label{font-size:0.8rem}
+.doa-rangkaian-penutup{padding:14px 12px}
+.doa-rangkaian-penutup .penutup-arab{font-size:1.1rem}
+}
 </style>
 </head>
 <body>
@@ -2350,33 +2472,112 @@ function initSholat(){renderSholatList()}
 // ✅ DATA DOA
 // ============================================
 var doaKategoriData=[
+
 {id:'doa-quran',icon:'📖',nama:'Doa Dari Al-Quran',desc:'Doa-doa mustajabah dari Al-Qur\'an.',doa:[
-{judul:'Doa Mohon Kebaikan Dunia Akhirat',arab:'رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ',latin:'Rabbana atinaa fiiddunyaa hasanah wa fil akhirati hasanah, waqinaa adzaabannaar',arti:'Ya Tuhan, berilah kami kebaikan di dunia dan kebaikan di akhirat, serta selamatkanlah kami dari siksa neraka.',ref:'QS. Al-Baqarah: 201'}
+  // ✅ DOA TUNGGAL
+  {judul:'Doa Mohon Kebaikan Dunia Akhirat',arab:'رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ',latin:'Rabbanâ âtinâ fiddunyâ hasanah wa fil âkhirati hasanah wa qinâ \'adzâbannâr',arti:'Ya Tuhan kami, berilah kami kebaikan di dunia dan kebaikan di akhirat, dan peliharalah kami dari siksa neraka.',ref:'QS. Al-Baqarah: 201'},
+  // ✅ DOA TUNGGAL
+  {judul:'Doa Mohon Ampunan & Rahmat',arab:'رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِنْ لَدُنْكَ رَحْمَةً',latin:'Rabbanâ lâ tuzigh qulûbanâ ba\'da idz hadaitanâ wa hab lanâ min ladunka rahmah',arti:'Ya Tuhan kami, janganlah Engkau jadikan hati kami condong kepada kesesatan sesudah Engkau beri petunjuk kepada kami, dan karuniakanlah rahmat dari sisi-Mu.',ref:'QS. Ali Imran: 8'},
+  // ✅ RANGKAIAN DOA (beberapa bagian jadi 1 item)
+  {judul:'Rangkaian Doa Memohon Kesabaran',icon:'🛡️',ref:'QS. Al-Baqarah: 250 & QS. Ibrahim: 12',
+   bagian:[
+    {label:'Doa Memohon Keteguhan',arab:'رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا وَثَبِّتْ أَقْدَامَنَا',latin:'Rabbanâ afrigh \'alainâ shabran wa tsabbit aqdâmanâ',arti:'Ya Tuhan kami, limpahkanlah kesabaran atas diri kami, dan teguhkanlah pendirian kami.'},
+    {label:'Doa Memohon Pertolongan',arab:'وَانْصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ',latin:'Wanshurnâ \'alal qaumil kâfirîn',arti:'Dan tolonglah kami terhadap orang-orang kafir.'},
+    {label:'Doa Tawakkal',arab:'عَلَى اللَّهِ تَوَكَّلْنَا رَبَّنَا لَا تَجْعَلْنَا فِتْنَةً لِلْقَوْمِ الظَّالِمِينَ',latin:'\'Alallâhi tawakkalnâ, rabbanâ lâ taj\'alnâ fitnatan lil qaumizh-zhâlimîn',arti:'Kepada Allah kami bertawakkal. Ya Tuhan kami, janganlah Engkau jadikan kami sasaran fitnah bagi kaum yang zalim.'}
+   ],
+   penutup:{arab:'وَنَجِّنَا بِرَحْمَتِكَ مِنَ الْقَوْمِ الْكَافِرِينَ',latin:'Wa najjinâ bi rahmatika minal qaumil kâfirîn',arti:'Dan selamatkanlah kami dengan rahmat-Mu dari kaum kafir.'}
+  }
 ]},
+
 {id:'doa-muhammad',icon:'🕌',nama:'Doa Nabi Muhammad',desc:'Doa-doa dari Rasulullah ﷺ.',doa:[
-{judul:'Doa Pembuka Majelis',arab:'سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ',latin:'Subhânakallâhumma wa bihamdika...',arti:'Maha Suci Engkau ya Allah, dengan memuji-Mu...',ref:'HR. Abu Daud & Tirmidzi'},
-{judul:'Doa Penutup Majelis',arab:'سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ',latin:'Subhânakallâhumma wa bihamdika...',arti:'Kafaratul Majelis — penghapus dosa selama di majelis.',ref:'HR. Abu Daud & Tirmidzi'},
-{judul:'Doa Memohon Ilmu',arab:'اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا',latin:'Allâhumma innî as\'aluka \'ilman nâfi\'an...',arti:'Ya Allah, aku memohon ilmu yang bermanfaat...',ref:'HR. Ibnu Majah'},
-{judul:'Doa Perlindungan',arab:'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ',latin:'Allâhumma innî a\'ûdzu bika minal hammi wal hazani...',arti:'Ya Allah, aku berlindung dari kegelisahan dan kesedihan.',ref:'HR. Bukhari'}
+  // ✅ DOA TUNGGAL
+  {judul:'Doa Memohon Ilmu Bermanfaat',arab:'اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا وَرِزْقًا طَيِّبًا وَعَمَلًا مُتَقَبَّلًا',latin:'Allâhumma innî as\'aluka \'ilman nâfi\'an wa rizqan thayyiban wa \'amalan mutaqabbalan',arti:'Ya Allah, aku memohon ilmu yang bermanfaat, rezeki yang baik, dan amal yang diterima.',ref:'HR. Ibnu Majah'},
+  // ✅ DOA TUNGGAL
+  {judul:'Doa Perlindungan dari Kesusahan',arab:'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ وَالْعَجْزِ وَالْكَسَلِ',latin:'Allâhumma innî a\'ûdzu bika minal hammi wal hazani wal \'ajzi wal kasali',arti:'Ya Allah, aku berlindung kepada-Mu dari kegelisahan, kesedihan, kelemahan, dan kemalasan.',ref:'HR. Bukhari'},
+  // ✅ RANGKAIAN DOA (Sayyidul Istighfar lengkap)
+  {judul:'Sayyidul Istighfar Lengkap',icon:'📿',ref:'HR. Bukhari',
+   bagian:[
+    {label:'Pengakuan Tauhid',arab:'اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ',latin:'Allâhumma anta rabbî lâ ilâha illâ anta',arti:'Ya Allah, Engkau adalah Tuhanku, tiada Tuhan selain Engkau.'},
+    {label:'Pengakuan sebagai Hamba',arab:'خَلَقْتَنِي وَأَنَا عَبْدُكَ',latin:'Khalaqtanî wa ana \'abduka',arti:'Engkau telah menciptakanku dan aku adalah hamba-Mu.'},
+    {label:'Pengakuan Perjanjian',arab:'وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ',latin:'Wa ana \'alâ \'ahdika wa wa\'dika mastatha\'tu',arti:'Aku menepati perjanjian-Mu dan janji-Mu sesuai kemampuanku.'},
+    {label:'Perlindungan dari Keburukan',arab:'أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ',latin:'A\'ûdzu bika min syarri mâ shana\'tu',arti:'Aku berlindung kepada-Mu dari keburukan perbuatanku.'},
+    {label:'Pengakuan Nikmat & Dosa',arab:'أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ وَأَبُوءُ بِذَنْبِي',latin:'Abû\'u laka bini\'matika \'alayya wa abû\'u bi dzanbî',arti:'Aku mengakui nikmat-Mu kepadaku dan aku mengakui dosaku.'},
+    {label:'Permohonan Ampunan',arab:'فَاغْفِرْ لِي فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ',latin:'Faghfir lî fa innahû lâ yaghfirudz-dzunûba illâ anta',arti:'Maka ampunilah aku, karena sesungguhnya tiada yang mengampuni dosa kecuali Engkau.'}
+   ],
+   penutup:{arab:'إِنَّكَ أَنْتَ غَفَّارُ الذُّنُوبِ',latin:'Innaka anta ghaffârudz-dzunûb',arti:'Sesungguhnya Engkau Maha Pengampun dosa.'}
+  }
 ]},
-{id:'doa-nabi',icon:'🕌',nama:'Doa Para Nabi',desc:'Doa-doa dari para Nabi dan Rasul.',doa:[
-{judul:'Doa Nabi Adam AS',arab:'رَبَّنَا ظَلَمْنَا أَنفُسَنَا',latin:'Rabbanâ zhalamnâ anfusanâ...',arti:'Ya Tuhan kami, kami telah menzalimi diri kami sendiri...',ref:'QS. Al-A\'raf: 23'},
-{judul:'Doa Nabi Nuh AS',arab:'رَّبِّ اغْفِرْ لِي وَلِوَالِدَيَّ',latin:'Rabbighfir lî wa liwâlidayya...',arti:'Ya Tuhanku, ampunilah aku, ibu bapakku...',ref:'QS. Nuh: 28'},
-{judul:'Doa Nabi Ibrahim AS',arab:'رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ',latin:'Rabbij\'alnî muqîmas-shalâti...',arti:'Ya Tuhanku, jadikanlah aku pendiri sholat...',ref:'QS. Ibrahim: 40'},
-{judul:'Doa Nabi Yunus AS',arab:'لَّا إِلَٰهَ إِلَّا أَنتَ سُبْحَانَكَ إِنِّي كُنتُ مِنَ الظَّالِمِينَ',latin:'Lâ ilâha illâ anta subhânaka innî kuntu minazh-zhâlimîn.',arti:'Tidak ada Tuhan selain Engkau, Maha Suci Engkau, sesungguhnya aku termasuk orang-orang yang zalim.',ref:'QS. Al-Anbiya: 87'}
+
+{id:'doa-nabi',icon:'🕋',nama:'Doa Para Nabi',desc:'Doa-doa para Nabi dan Rasul yang diabadikan dalam Al-Qur\'an.',doa:[
+  {judul:'Doa Nabi Adam AS',arab:'رَبَّنَا ظَلَمْنَا أَنْفُسَنَا وَإِنْ لَمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ',latin:'Rabbanâ zhalamnâ anfusanâ wa illam taghfir lanâ wa tarhamnâ lanakûnanna minal khâsirîn',arti:'Ya Tuhan kami, kami telah menzalimi diri kami sendiri. Jika Engkau tidak mengampuni kami, niscaya kami termasuk orang-orang yang merugi.',ref:'QS. Al-A\'raf: 23'},
+  {judul:'Doa Nabi Yunus AS',arab:'لَا إِلَهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ',latin:'Lâ ilâha illâ anta subhânaka innî kuntu minazh-zhâlimîn',arti:'Tidak ada Tuhan selain Engkau, Maha Suci Engkau, sesungguhnya aku termasuk orang-orang yang zalim.',ref:'QS. Al-Anbiya: 87'},
+  {judul:'Doa Nabi Musa AS',arab:'رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي وَاحْلُلْ عُقْدَةً مِنْ لِسَانِي يَفْقَهُوا قَوْلِي',latin:'Rabbisyrah lî shadrî wa yassir lî amrî wahlul \'uqdatan min lisânî yafqahû qaulî',arti:'Ya Tuhanku, lapangkanlah dadaku, mudahkanlah urusanku, dan lepaskanlah kekakuan dari lidahku, agar mereka mengerti perkataanku.',ref:'QS. Thaha: 25-28'}
 ]},
-{id:'doa-ulama',icon:'👳‍♂️',nama:'Doa Karya Ulama',desc:'Doa-doa karya ulama Ahlussunnah wal Jamaah.',doa:[
-{judul:'Doa Waliyyullah',arab:'اَللَّهُمَّ اغْفِرْ لِأُمَّةِ سَيِّدِنَا مُحَمَّدٍ',latin:'Allâhummaghfir li-ummati sayyidinâ Muhammad...',arti:'Ya Allah, ampunilah umat baginda kami Muhammad...',ref:'Biasa dibaca Para Waliyullah'},
-{judul:'Doa Ratib Al-Haddad',arab:'لَا إِلَٰهَ إِلَّا اللهُ مُحَمَّدٌ رَّسُولُ اللهِ',latin:'Lâ ilâha illallâh Muhammadur Rasûlullâh...',arti:'Tiada Tuhan selain Allah, Muhammad adalah utusan Allah.',ref:'Al-Habib Abdullah bin Alwi Al-Haddad'},
-{judul:'Doa Al-Hikam',arab:'إِلَٰهِي هَبْ لِي كَمَالَ الْإِنْقِطَاعِ إِلَيْكَ',latin:'Ilâhî hab lî kamâlal inqithâ\'i ilaika...',arti:'Ya Tuhanku, anugerahkanlah kepadaku kesempurnaan terputus kepada-Mu.',ref:'Ibnu Atha\'illah As-Sakandari'},
-{judul:'Doa Imam Nawawi',arab:'اللَّهُمَّ اغْفِرْ لِلْمُسْلِمِينَ وَالْمُسْلِمَاتِ',latin:'Allâhummaghfir lil muslimîna wal muslimât...',arti:'Ya Allah, ampunilah kaum Muslimin dan Muslimat...',ref:'Imam An-Nawawi, Al-Adzkâr'}
+
+{id:'doa-ulama',icon:'👳‍♂️',nama:'Doa Karya Ulama',desc:'Doa-doa dari para ulama Ahlussunnah wal Jamaah.',doa:[
+  {judul:'Doa Waliyyullah',arab:'اللّهُمَّ اغْفِرْ لِأُمَّةِ سَيِّدِنَا مُحَمَّدٍ . اللّهُمَّ ارْحَمْ أُمَّةَ سَيِّدِنَا مُحَمَّد . اللّهُمَّ اسْتُرْ أُمَّةَ سَيِّدِنَا مُحَمَّد . اللّهُمَّ اجْبُرْ أُمَّةَ سَيِّدِنَا مُحَمَّدٍ . اللّهُمَّ أَصْلِحْ أُمَّةَ سَيِّدِنَا مُحَمَّدٍ . اللّهُمَّ عَافِ أُمَّةَ سَيِّدِنَا مُحَمَّدٍ . اللّهُمَّ احْفَظْ أُمَّةَ سَيِّدِنَا مُحَمَّدٍ . اللّهُمَّ ارْحَمْ أُمَّةَ سَيِّدِنَا مُحَمَّد رَحْمَةً عَآمَّةً يَارَبَّ الْعَالَمِيْنَ . اللّهُمَّ اغْفِرْ لِأُمَّةِ سَيِّدِنَا مُحَمَّدٍ مَغْفِرَةً عَآمَّةً يَارَبَّ الْعَالَمِيْنَ . اللّهُمَّ فَرِّجْ عَنْ أُمَّةِ سَيِّدِنَا مُحَمَّدٍ فَرْجًا عَاجِلًا يَارَبَّ الْعَالَمِيْنَ .',arti:'Ya Allah, sayangilah umat baginda kami Muhammad. Ya Allah, tamballah (kekurangan) umat baginda kami Muhammad. Ya Allah, perbaikilah umat baginda kami Muhammad. Ya Allah, sehatkanlah umat baginda kami Muhammad. Ya Allah, peliharalah umat baginda kami Muhammad. Ya Allah, sayangilah umat baginda kami Muhammad dengan rahmat yang menyeluruh. Wahai Tuhan semesta alam. Ya Allah, berilah pengampunan yang menyeluruh, Wahai Tuhan semesta alam. Ya Allah, lapangkanlah umat baginda kami Muhammad dengan kelapangan yang segerah, wahai Tuhan semesta alam',ref:'Doa Para Waliyullah'},
+  // ✅ RANGKAIAN DOA (Ratib Al-Haddad ringkas)
+  {judul:'Ratib Al-Haddad (Ringkas)',icon:'📿',ref:'Al-Habib Abdullah bin Alwi Al-Haddad',
+   bagian:[
+    {label:'Pembuka — Tahlil',arab:'لَا إِلَهَ إِلَّا اللهُ مُحَمَّدٌ رَسُولُ اللهِ',latin:'Lâ ilâha illallâh Muhammadur rasûlullâh',arti:'Tiada Tuhan selain Allah, Muhammad utusan Allah.'},
+    {label:'Tasbih',arab:'سُبْحَانَ اللهِ وَالْحَمْدُ لِلَّهِ وَلَا إِلَهَ إِلَّا اللهُ وَاللهُ أَكْبَرُ',latin:'Subhânallâhi walhamdulillâhi wa lâ ilâha illallâhu wallâhu akbar',arti:'Maha Suci Allah, segala puji bagi Allah, tiada Tuhan selain Allah, Allah Maha Besar.'},
+    {label:'Sholawat Nabi',arab:'اللَّهُمَّ صَلِّ عَلَى سَيِّدِنَا مُحَمَّدٍ وَعَلَى آلِ سَيِّدِنَا مُحَمَّدٍ',latin:'Allâhumma shalli \'alâ sayyidinâ Muhammad wa \'alâ âli sayyidinâ Muhammad',arti:'Ya Allah, limpahkanlah sholawat kepada junjungan kami Nabi Muhammad dan kepada keluarganya.'},
+    {label:'Doa Keberkahan Ratib',arab:'اللَّهُمَّ بِحَقِّ هَذَا الرَاتِبِ احْفَظْنَا مِنْ كُلِّ سُوْءٍ',latin:'Allâhumma bi haqqi hâdzar-râtibi ihfzhnâ min kulli sû\'',arti:'Ya Allah, dengan keberkahan ratib ini, jagalah kami dari segala keburukan.'}
+   ],
+   penutup:{arab:'وَصَلَّى اللهُ عَلَى سَيِّدِنَا مُحَمَّدٍ وَعَلَى آلِهِ وَصَحْبِهِ وَسَلَّمَ',latin:'Wa shallallâhu \'alâ sayyidinâ Muhammad wa \'alâ âlihi wa shahbihi wa sallam',arti:'Semoga Allah melimpahkan sholawat dan salam kepada junjungan kami Nabi Muhammad, keluarganya, dan sahabatnya.'}
+  },
+  {judul:'Rangkaian Doa dan Dzikir Rezeki', icon:'📿', ref:'...',
+ bagian:[
+   {label:'Pembuka', arab:'رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَ فِي الْآخِرَةِ حَسَنَةً، وَ قِنَا عَذَابَ النَّارِ', arti:'Ya Tuhan kami, berikanlah kebaikan kepada kami di dunia dan kebaikan di akhirat, dan lindungilah kami dari siksa neraka'},
+   {label:'', arab:'اللهُمَّ اغْفِرْ لِيْ، وَ ارْحَمْنِيْ، وَ اهْدِنِيْ، وَ عَافِنِيْ، وَ ارْزُقْنِيْ', arti:'Ya Allah, berikanlah kepadaku ampunan, rahmat, petunjuk, kesehatan, dan rezeki'},
+   {label:'', arab:'اللهُمَّ أَصْلِحْ لِيْ دِيْنِي الَّذِيْ هُوَ عِصْمَةُ أَمْرِيْ، وَ أَصْلِحْ لِيْ دُنْيَايَ الَّتِيْ فِيْهَا مَعَاشِيْ، وَ أَصْلِحْ لِيْ آخِرَتِي الَّتِيْ فِيْهَا مَعَادِيْ، وَ اجْعَلِ الْحَيَاةَ زِيَادَةً لِيْ فِيْ كُلِّ خَيْرٍ، وَ اجْعَلِ الْمَوْتَ رَاحَةً لِيْ مِنْ كُلِّ شَرٍّ', arti:'Ya Allah, perbaguslah untukku agamaku yang menjadi pegangan perkaraku, perbaguslah untukku duniaku yang di dalamnya ada kehidupanku, serta perbaguslah akhiratku yang di dalamnya ada tempat kembaliku. Jadikanlah hidup ini sebagai tambahan bagiku dalam segala kebaikan, dan jadikanlah kematian sebagai istirahat untukku dari segala keburukan.'},
+   {label:'', arab:'اللهُمَّ إِنِّيْ أَعُوْذُ بِكَ مِنْ زَوَالِ نِعْمَتِكَ، وَ تَحَوُّلِ عَافِيَتِكَ، وَ فُجَاءَةِ نِقْمَتِكَ، وَ جَمِيْعِ سَخَطِكَ.', latin:'...', arti:'Ya Allah, sesungguhnya aku mohon perlindungan kepada-Mu dari lenyapnya keni‘matan-Mu, bergantinya kesehatan yang ada dalam diriku, dari tibanya siksa-Mu secara mendadak, dan dari segala macam kemurkaan-Mu.'},
+   {label:'', arab:'اللهُمَّ إِنِّيْ أَعُوْذُ بِكَ مِنْ فِتْنَةِ النَّارِ، وَ عَذَابِ النَّارِ، وَ مِنْ شَرِّ الْغِنَى وَ الْفَقْرِ.', latin:'...', arti:'Ya Allah, sesungguhnya aku memohon perlindungan kepada-Mu dari fitnah neraka dan siksa neraka, serta dari buruknya kekayaan dan kefakiran'},
+   {label:'', arab:'اللهُمَّ إِنِّيْ أَعُوْذُ بِكَ مِنَ الْجُوْعِ، فَإِنَّهُ بِئْسَ الضَّجِيْعُ، وَ أَعُوْذُ بِكَ مِنَ الْخِيَانَةِ فَإِنَّهَا بِئْسَتِ الْبِطَانَةُ.', latin:'...', arti:'Ya Allah, sesungguhnya aku mohon perlindungan kepada-Mu dari kelaparan sebab sesungguhnya lapar adalah teman tidur yang paling buruk. Aku juga mohon perlindungan kepada-Mu dari berkhianat karena sesungguhnya khianat itu adalah sifat yang menjadi ciri seseorang yang paling buruk'},
+   {label:'', arab:'اللهُمَّ اكْفِنِيْ بِححَلَالِكَ عَنْ حَرَامِكَ، وَ أَغْنِنِيْ بِفَضْلِكَ عَمَّنْ سِوَاكَ.', latin:'...', arti:'Ya Allah, cukupkanlah aku dengan mendapatkan apa-apa yang halal dari-Mu untuk tidak sampai melanggar apa-apa yang diharamkan oleh-Mu, dan kayakanlah diriku dengan mendapatkan keutamaan dari-Mu hingga tidak memerlukan lagi yang selain dari-Mu'},
+   {label:'', arab:'اللهُمَّ إِنِّيْ أَسْأَلُكَ عِلْمًا نَافِعًا وَ رِزْقًا طَيِّبًا وَ عَمَلًا مُتَقَبَّلًا.', arti:'Ya Allah, sesungguhnya aku memohon pada-Mu ilmu yang bermanfaat dan rezeki yang baik'},
+   {label:'', arab:'اللهُمَّ قَنِّعْنِيْ بِمَا رَزَقْتَنِيْ وَ بَارِكْ لِيْ فِيْهِ وَ اخْلُفْ عَلَيَّ كُلِّ غَائِبَةٍ لِيْ بِخَيْرٍ.', arti:'Ya Allah, anugerahkan padaku sifat qana‘ah terhadap rezeki yang Engkau berikan, berilah aku keberkahan dengan rezeki itu dan berikan aku ganti setiap yang hilang dariku dengan yang lebih baik.'},
+   {label:'', arab:'اللهُمَّ فَارِجَ الْهَمِّ وَ كَاشِفَ الْغَمِّ وَ مُجِيْبَ دَعْوَةِ الْمُضْطَرِّيْنَ رَحْمَانَ الدُّنْيَا وَ الْآخِرَةِ أَنْتَ رِحْمَانِيْ فَارْحَمْنِيْ رَحْمَةً تُغْنِيْنِيْ بِهَا عَنْ مَنْ سِوَاكَ', arti:'Ya Allah, Dzāt yang menghilangkan kesedihan dan melenyapkan gundah-gulana, yang mengabulkan doa orang-orang yang dipaksa, yang Maha Pengasih di dunia dan akhirat, yang mengasihiku maka kasihilah aku dengan rahmat dan kasih yang dengannya aku merasa tak lagi butuh pada selain-Mu'},
+   {label:'', arab:'اللهُمَّ رَبَّ السَّمَاوَاتِ السَّبْعِ وَ رَبُّ الْأَرْضِيْنَ وَ رَبَّنَا وَ رَبَّ كُلِّ شَيْءٍ فَالِقَ الْحَبِّ وَ النَّوَى، مُنْزِلَ التَّوْرَاةِ وَ الْأِنْجِيْلِ وَ الْقُرْآنِ أَعُوْذُ بِكَ مِنْ شَرِّ كُلِّ ذِيْ شَرٍّ أَنْتَ آخِذٌ بِنَاصِيَتِهِ أَنْتَ الْأَوَّلُ فَلَيْسَ قَبْلَكَ شَيْءٌ وَ أَنْتَ الْآخِرُ فَلَيْسَ بَعْدَكَ شَيْءٌ وَ أَنْتَ الظَّاهِرُ فَلَيْسَ فَوْقَكَ شَيْءٌ وَ أَنْتَ الْبَاطِنُ فَلَيْسَ دُوْنَكَ شَيْءٌ اقْضِ عَنِّي الْدَّيْنَ وَ أَغَنِنِيْ مِنَ الْفَقْرِ', arti:'Ya Allah, yang memelihara tujuh langit, yang memelihara bumi, yang memelihara kami, yang memelihara segala sesuatu yang menumbuhkan biji dan benih, yang menurunkan Taurāt, Injīl dan al-Qur’ān, aku memohon pada-Mu dari bahaya setiap makhluk yang membahayakan karena Engkaulah yang menguasai otaknya. Engkau Maha Awwal maka tak ada sesuatu pun sebelum-Mu, Engkau Maha Ākhir maka tak ada sesuatu pun setelah-Mu, Engkau Maha Lahir (Zhāhir) maka tak ada sesuatu pun yang di atas-Mu, Engkau Maha Bāthin maka tidak ada sesuatu pun yang tersembunyi dari-Mu, lunasilah utang kami dan hindarkanlah kami dari kefakiran'},
+   {label:'', arab:'اللهُمَّ لَكَ الْحَمْدُ كُلُّهُ، اللهُمَّ لَا قَابِضَ لِمَا بَسَطْتَ، وَ لَا بَاسِطَ لِمَا قَبَضْتَ، وَ لَا مَانِعَ لِمَا أَعْطَيْتَ، وَ لَا مُعْطِيَ لِمَا مَنَعْتَ، وَ لَا هَادِيَ لِمَا أَضْلَلْتَ، وَ لَا مُضِلَّ لِمَا هَدَيْتَ، وَ لَا مُقَرِّبَ لِمَا بَاعَدْتَ، وَ لَا مُبَعِّدَ لِمَا قَرَّبْتَ، اللهُمَّ ايْسُطْ عَلَيْنَا مِنْ بَرَكَاتِكَ وَ مِنْ رَحْمَتِكَ وَ مِنْ رِزْقِكَ، اللهُمَّ إِنِّيْ أَسْأَلُكَ النَّعِيْمَ الْمُقِيْمَ الَّذِيْ لَا يُحَوَّلُ وَ لَا يَزُوْلُ، اللهُمَّ إِنِّيْ أَسْأَلُكَ النَّعِيْمَ يَوْمَ الْعَيْلَةِ، وَ الْأَمْنَ يَوْمَ الْخَوْفِ، اللهُمَّ عَائِذٌ بِكَ مِنْ شَرِّ مَا أَعْطَيْتَنَا وَ مِنْ شَرِّ مَا مَنَعْتَنَا، اللهُمَّ حَبِّبْ إِلَيْنَا الْإِيْمَانَ وَ زَيِّنْهُ فِيْ قُلُوْبِنَا، وَ كَرِّهْ إِلَيْنَا الْكُفْرَ وَ الْفُسُوْقَ وَ الْعِصْيَانَ، وَ اجْعَلْنَا مِنَ الرَّاشِدِيْنَ، اللهُمَّ تَوَفَّنَا مُسْلِمِيْنَ وَ أَحْيِنَا مُسْلِمِيْنَ وَ أَلْحِقْنَا بِالصَّالِحِيْنَ غَيْرَ خَزَايَا وَ لَا مَفْتُوْنِيْنَ، اللهُمَّ قَاتِلِ الْكَفَرَةَ الَّذِيْنَ يَصُدُّوْنَ عَنْ سَبِيْلِكَ، وَ اجْعَلْ عَلَيْهِمْ رِجْزَكَ وَ عَذَابَكَ، اللهُمَّ قَاتِلْ كَفَرَةَ أَهْلِ الْكِتَابِ إِلهَ الْحَقِّ', arti:'a Allah, segala puji bagi-Mu. Ya Allah tidak ada yang bisa memungut apa yang Engkau hamparkan, tidak ada yang bisa menghamparkan apa yang Engkau pungut. Tidak ada yang bisa memberi petunjuk kepada orang yang Engkau sesatkan dan tidak ada yang bisa memberi kesesatan kepada orang yang Engkau beri petunjuk. Tidak ada yang bisa memberi apa yang Engkau tahan dan yang bisa menahan apa yang Engkau berikan. Tidak ada yang bisa mendekatkan apa yang Engkau jauhkan dan tidak ada yang bisa menjauhkan apa yang Engkau dekatkan. Ya Allah, hamparkanlah kepada kami dari berkah-Mu, rahmat-Mu, kurnia-Mu dan rezeki-Mu, Ya Allah, sesungguhnya kami memohon keni‘matan yang kekal kepada-Mu, yang tidak berubah dan habis. Ya Allah, sesungguhnya aku memohon pertolongan kepada-Mu saat lemah dan keamanan pada saat ketakutan. Ya Allah, sesungguhnya aku berlindung kepada-Mu dari kejahatan yang Engkau berikan kepada kami dan kejahatan yang Engkau tahan dari kami. Ya Allah, buatlah kami mencintai iman dan buatlah iman itu bagus dalam hati kami. Buatlah kami membenci kekufuran, kefasikan dan kedurhakaan. Jadikanlah kami termasuk orang-orang yang mengikuti jalan kebenaran. Ya Allah, matikanlah kami dalam keadaan berserah diri dan hidupkanlah kami dalam keadaan berserah diri. Himpunlah kami bersama orang-orang shalih tanpa ada kehinaan dan bukan dalam keadaan mendapat cobaan. Ya Allah, musuhilah orang-orang kafir yang mendustakan rasul-rasulMu dan menghalangi manusia dari jalan-Mu. Berikanlah siksaan dan ‘adzab-Mu terhadap mereka. Ya Allah, musuhilah orang-orang kafir yang telah diberi al-Kitab, Engkaulah Ilah yang benar'},
+   {label:'', arab:'اللهُمَّ اجْعَلْ أَوْسَعَ رِزْقِكَ عَلَيَّ عِنْدَ كِبَرِ سَنِّيْ وَ انْقِطَاعُ عُمْرِيْ.', arti:'Ya Allah, berikanlah keluasan rezeki padaku di saat usia tuaku dan menjelang umurku berakhir'},
+   {label:'', arab:'اللهُمَّ اهْدِنِيْ مِنْ عِنْدِكَ وَ أَفْضِ عَلَيَّ مِنْ رِزْقِكَ وَ انْشُرْ عَلَيَّ مِنْ رَحْمَتِكَ', arti:'Ya Allah, berikanlah hidayah padaku untuk menggapai apa yang ada di sisi-Mu, limpahkan kepadaku sebagian dari rezeki-Mu dan tebarlah rahmat-Mu kepadaku.'},
+   {label:'', arab:'اللهُمَّ ارْزُقْنَا مِنْ فَضْلِكَ وَ لَا تُحَرِّمْنَا رِزْقَكَ وَ بَارِكَ لَنَا فِيْمَا رَزَقْتَنَا وَ اجْعَلْ غِنَانَا فِيْ أَنْفُسِنَا وَ اجْعَلْ رَغْبَتَنَا فِيْمَا عِنْدَكَ', arti:'Ya Allah, berikanlah rezeki kepada kami dengan kemuliaan-Mu maka janganlah Engkau halangi kami untuk mendapatkan rezeki-Mu, berikanlah keberkahan kepada kami atas rezeki yang Engkau anugerahkan dan jadikanlah kekayaan itu sifat dalam diri kami (kaya hati) maka jadikanlah kecintaan kami hanya untuk hal yang (Engkau ridhai) di sisi-Mu.'},
+   {label:'', arab:'اللهُمَّ لَا تُكَلِّفَنِّيْ طَلَبَ مَا لَمْ تُقَدِّرْهُ لِيْ، وَ مَا قَدَّرْتَ لِيْ مِنْ رِزْقٍ فَائْتِنِيْ بِهِ فِيْ يُسْرٍ مِنْكَ وَ عَافِيَةٍ، وَ أَصْلِحْنِيْ بِمَا أَصْلَحْتَ بِهِ الصَّالِحِيْنَ، فَإِنَّمَا أَصْلَحَ الصَّالِحُوْنَ أَنْتَ', arti:'Ya Allah, janganlah Engkau bebankan padaku untuk mencari sesuatu yang tidak Engkau taqdirkan untukku, dan yang telah Engkau taqdirkan untukku berupa rezeki maka berikanlah ia padaku dengan mudah dan terbuka, dan berikanlah kebaikan untukku sebagaimana Engkau memberi kebaikan kepada orang-orang shāliḥ, karena hanya Engkaulah yang memberi kebaikan pada orang-orang shāliḥ'},
+   {label:'Dzikir', arab:'لَا إِلهَ إِلَّا اللهُ الْعَظِيْمُ الْحَلِيْمُ، لَا إِلهَ إِلَّا اللهُ رَبُّ الْعَرْشِ الْعَظِيْمِ، لَا إِلهَ إِلَّا اللهُ رَبُّ السَّمَاوَاتِ، وَ رَبُّ الْأَرْضِ، وَ رَبُّ الْعَرْشِ الْكَرِيْمِ', arti:'Tidak ada tuhan selain Allah Yang Maha Agung lagi Penyantun. Tidak ada tuhan selain Allah Yang Maha Menguasai ‘Arasy yang agung. Tidak ada tuhan selain Allah Yang Maha Menguasai langit dan bumi dan Menguasai ‘Arasy yang mulia'},
+   {label:'Membaca QS.Al-Ikhals', arab:'مَنْ قَرَأَ: قُلْ هُوَ اللهُ أَحَدٌ حِيْنَ يَدْخُلُ مَنْزِلَهُ نَفَتِ الْفَقْرُ عَنْ أَهْلِ ذلِكَ الْمَنْزِلِ وَ الْجِيْرَانِ.', arti:'Siapa yang membaca: “Qul huwallāhu aḥad” ketika masuk rumah maka keluarga itu dan tetangganya akan dijauhkan dari kefakiran.'},
+   {label:'Membaca QS. Waqiah', arab:'مَنْ قَرَأَ سُوْرَةَ الْوَاقِعَةِ فِيْ كُلِّ لَيْلَةٍ لَمْ تُصِبْهُ فَاقَةٌ أَبَدًا.', arti:'Siapa yang membaca surah al-Wāqi‘ah setiap malam maka kesempitan rezeki tidak akan menimpanya, selamanya'},
+   {label:'', arab:'فَقُلْتُ اسْتَغْفِرُوْا رَبَّكُمْ إِنَّهُ كَانَ غَفَّارًا. يُرْسِلِ السَّمَاءَ عَلَيْكُمْ مِّدْرَارًا. وَ يُمْدِدْكُمْ بِأَمْوَالٍ وَ بَنِيْنَ وَ يَجْعَلْ لَّكُمْ جَنَّاتٍ وَ يَجْعَلْ لَّكُمْ أَنْهَارًا. مَّا لَكُمْ لَا تَرْجُوْنَ للهِ وَقَارًا. وَ قَدْ خَلَقَكُمْ أَطْوَارًا', arti:'Maka aku berkata (kepada mereka): “Mohonlah ampunan kepada Tuhanmu, sungguh, Dia Maha Pengampun, niscaya Dia akan menurunkan hujan yang lebat dari langit kepadamu, dan Dia memperbanyak harta dan anak-anakmu, dan mengadakan kebun-kebun untukmu dan mengadakan sungai-sungai untukmu.” Mengapa kamu tidak takut akan kebesaran Allah? Dan sungguh, Dia telah menciptakan kamu dalam beberapa tingkatan (kejadian)'}
+ ],
+ penutup:{arab:'...', latin:'...', arti:'...'}
+}
 ]},
-{id:'doa-harian',icon:'🤲',nama:'Doa-doa Harian',desc:'Doa-doa sehari-hari sesuai sunnah.',doa:[
-{judul:'Doa Bangun Tidur',arab:'الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا',latin:'Alhamdulillâhil ladzî ahyânâ ba\'da mâ amâtanâ...',arti:'Segala puji bagi Allah yang menghidupkan kami setelah mematikan kami.',ref:'HR. Bukhari'},
-{judul:'Doa Masuk Kamar Mandi',arab:'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ',latin:'Allâhumma innî a\'ûdzu bika minal khubutsi wal khabâ\'its.',arti:'Ya Allah, aku berlindung dari setan laki-laki dan perempuan.',ref:'HR. Bukhari & Muslim'},
-{judul:'Doa Keluar Rumah',arab:'بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ',latin:'Bismillâhi tawakkaltu \'alallâhi...',arti:'Dengan nama Allah, aku bertawakkal kepada Allah.',ref:'HR. Abu Daud & Tirmidzi'},
-{judul:'Doa Sebelum Makan',arab:'بِسْمِ اللَّهِ وَعَلَى بَرَكَةِ اللَّهِ',latin:'Bismillâhi wa \'alâ barakâtillâh.',arti:'Dengan nama Allah dan di atas berkah Allah.',ref:'HR. Abu Daud'},
-{judul:'Doa Naik Kendaraan',arab:'سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَٰذَا',latin:'Subhânal ladzî sakhkhara lanâ hâdzâ...',arti:'Maha Suci Dzat yang telah menundukkan kendaraan ini untuk kami.',ref:'QS. Az-Zukhruf: 13-14'}
+
+{id:'doa-harian',icon:'🤲',nama:'Doa-doa Harian',desc:'Doa-doa aktivitas sehari-hari sesuai sunnah Rasulullah ﷺ.',doa:[
+  // ✅ DOA TUNGGAL
+  {judul:'Doa Bangun Tidur',arab:'الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ',latin:'Alhamdulillâhil ladzî ahyânâ ba\'da mâ amâtanâ wa ilaihin-nusyûr',arti:'Segala puji bagi Allah yang menghidupkan kami setelah mematikan kami, dan kepada-Nya kami dibangkitkan.',ref:'HR. Bukhari'},
+  // ✅ DOA TUNGGAL
+  {judul:'Doa Masuk Kamar Mandi',arab:'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ',latin:'Allâhumma innî a\'ûdzu bika minal khubutsi wal khabâ\'its',arti:'Ya Allah, aku berlindung kepada-Mu dari setan laki-laki dan setan perempuan.',ref:'HR. Bukhari & Muslim'},
+  // ✅ DOA TUNGGAL
+  {judul:'Doa Keluar Rumah',arab:'بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ',latin:'Bismillâhi tawakkaltu \'alallâhi wa lâ haula wa lâ quwwata illâ billâh',arti:'Dengan nama Allah, aku bertawakkal kepada Allah. Tiada daya dan kekuatan kecuali dengan pertolongan Allah.',ref:'HR. Abu Daud & Tirmidzi'},
+  // ✅ RANGKAIAN DOA (3 doa sebelum tidur jadi 1 kesatuan)
+  {judul:'Rangkaian Doa Sebelum Tidur',icon:'🌙',ref:'HR. Bukhari & Muslim',
+   bagian:[
+    {label:'Doa Menyerahkan Diri',arab:'بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا',latin:'Bismikallâhumma amûtu wa ahyâ',arti:'Dengan nama-Mu ya Allah, aku mati dan aku hidup.'},
+    {label:'Doa Perlindungan',arab:'اللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَبْعَثُ عِبَادَكَ',latin:'Allâhumma qinî \'adzâbaka yauma tab\'atsu \'ibâdaka',arti:'Ya Allah, lindungilah aku dari siksa-Mu pada hari Engkau bangkitkan hamba-hamba-Mu.'},
+    {label:'Tasbih Sebelum Tidur',arab:'سُبْحَانَ اللَّهِ وَالْحَمْدُ لِلَّهِ وَلَا إِلَهَ إِلَّا اللَّهُ وَاللَّهُ أَكْبَرُ',latin:'Subhânallâhi walhamdulillâhi wa lâ ilâha illallâhu wallâhu akbar',arti:'Maha Suci Allah, segala puji bagi Allah, tiada Tuhan selain Allah, Allah Maha Besar.'}
+   ],
+   penutup:{arab:'بِاسْمِكَ رَبِّي وَضَعْتُ جَنْبِي وَبِكَ أَرْفَعُهُ',latin:'Bismika rabbî wadha\'tu janbî wa bika arfa\'uh',arti:'Dengan nama-Mu ya Tuhanku, aku letakkan tubuhku, dan dengan pertolongan-Mu aku mengangkatnya.'}
+  },
+  // ✅ RANGKAIAN DOA (Dzikir pagi jadi 1 kesatuan)
+  {judul:'Rangkaian Dzikir Pagi',icon:'🌅',ref:'HR. Abu Daud & Tirmidzi',
+   bagian:[
+    {label:'Istighfar Pembuka',arab:'أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ الَّذِي لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ وَأَتُوبُ إِلَيْهِ',latin:'Astaghfirullâhal \'azhîmal ladzî lâ ilâha illâ huwal hayyul qayyûm wa atûbu ilaih',arti:'Aku memohon ampun kepada Allah Yang Maha Agung, tiada Tuhan selain Dia Yang Maha Hidup lagi Maha Berdiri Sendiri, dan aku bertaubat kepada-Nya.'},
+    {label:'Sholawat Nabi',arab:'اللَّهُمَّ صَلِّ عَلَى سَيِّدِنَا مُحَمَّدٍ وَعَلَى آلِهِ وَصَحْبِهِ أَجْمَعِينَ',latin:'Allâhumma shalli \'alâ sayyidinâ Muhammad wa \'alâ âlihi wa shahbihi ajma\'în',arti:'Ya Allah, limpahkanlah sholawat kepada junjungan kami Nabi Muhammad beserta keluarga dan seluruh sahabatnya.'},
+    {label:'Doa Perlindungan Pagi',arab:'بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ',latin:'Bismillâhil ladzî lâ yadhurru ma\'asmihi syai\'un fil ardhi wa lâ fis-samâ\'',arti:'Dengan nama Allah, yang dengan nama-Nya tidak ada sesuatu pun yang membahayakan di bumi maupun di langit.'}
+   ],
+   penutup:{arab:'رَضِيتُ بِاللَّهِ رَبًّا وَبِالْإِسْلَامِ دِينًا وَبِمُحَمَّدٍ نَبِيًّا',latin:'Radhîtu billâhi rabban wa bil islâmi dînan wa bi Muhammadin nabiyyan',arti:'Aku ridha Allah sebagai Tuhanku, Islam sebagai agamaku, dan Muhammad sebagai nabiku.'}
+  }
 ]}
 ];
 var doaKitabPdfData=[
@@ -2437,16 +2638,73 @@ var html='<h3 style="color:#e8d48b;font-size:1.4rem;margin-bottom:8px;">'+k.icon
 html+='<p style="color:#888;font-size:0.9rem;margin-bottom:20px;">'+k.desc+'</p>';
 for(var i=0;i<k.doa.length;i++){
 var d=k.doa[i];
+// ✅ Deteksi: jika item punya field 'bagian' → render sebagai RANGKAIAN
+//            jika tidak → render sebagai DOA TUNGGAL
+if(d.bagian && d.bagian.length>0){
+html+=renderDoaRangkaian(d);
+}else{
+html+=renderDoaTunggal(d);
+}
+}
+content.innerHTML=html;
+content.style.display='block';
+}
+
+// ============================================
+// ✅ TEMPLATE DOA TUNGGAL (1 arab + 1 latin + 1 arti)
+// ============================================
+function renderDoaTunggal(d){
+var html='';
 html+='<div class="doa-item-card">';
 html+='<h4>🤲 '+d.judul+'</h4>';
 html+='<div class="doa-arab">'+d.arab+'</div>';
 if(d.latin)html+='<div class="doa-latin-text">'+d.latin+'</div>';
 if(d.arti)html+='<div class="doa-arti"><strong>Arti:</strong> '+d.arti+'</div>';
-html+='<div class="doa-ref">📖 '+d.ref+'</div>';
+if(d.ref)html+='<div class="doa-ref">📖 '+d.ref+'</div>';
+html+='</div>';
+return html;
+}
+
+// ============================================
+// ✅ TEMPLATE RANGKAIAN DOA (beberapa bagian dalam 1 item)
+// ============================================
+function renderDoaRangkaian(d){
+var html='';
+var iconRangkaian=d.icon||'📿';
+var jumlahBagian=d.bagian.length;
+html+='<div class="doa-rangkaian-card">';
+// Header rangkaian
+html+='<div class="rangkaian-header">';
+html+='<div class="rangkaian-icon">'+iconRangkaian+'</div>';
+html+='<h4>'+d.judul+'</h4>';
+html+='<span class="rangkaian-badge">RANGKAIAN · '+jumlahBagian+' BAGIAN</span>';
+html+='</div>';
+// Loop setiap bagian dalam rangkaian
+for(var j=0;j<d.bagian.length;j++){
+var b=d.bagian[j];
+var nomor=j+1;
+html+='<div class="doa-bagian-item">';
+html+='<div class="bagian-label"><span class="bagian-num">'+nomor+'</span>'+((b.label)?b.label:'Bagian '+nomor)+'</div>';
+html+='<div class="bagian-arab">'+b.arab+'</div>';
+if(b.latin)html+='<div class="bagian-latin">'+b.latin+'</div>';
+if(b.arti)html+='<div class="bagian-arti">'+b.arti+'</div>';
 html+='</div>';
 }
-content.innerHTML=html;
-content.style.display='block';
+// Penutup rangkaian (jika ada)
+if(d.penutup){
+html+='<div class="doa-rangkaian-penutup">';
+html+='<div class="penutup-label">PENUTUP</div>';
+html+='<div class="penutup-arab">'+d.penutup.arab+'</div>';
+if(d.penutup.latin)html+='<div class="penutup-latin">'+d.penutup.latin+'</div>';
+if(d.penutup.arti)html+='<div class="penutup-arti">'+d.penutup.arti+'</div>';
+html+='</div>';
+}
+// Referensi rangkaian
+if(d.ref){
+html+='<div class="rangkaian-ref">'+d.ref+'</div>';
+}
+html+='</div>';
+return html;
 }
 function bacaDoaPdf(nama,pdfUrl){
 var container=document.getElementById('doaPdfViewerContainer');
