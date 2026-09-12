@@ -773,6 +773,25 @@ color:#888;font-size:0.75rem;text-align:right;font-style:italic;
 .split-container.sidebar-closed .split-detail{padding:15px!important}
 .show-sidebar-btn{padding:9px 16px;font-size:0.8rem;margin-bottom:12px}
 }
+/* ============================================
+✅ FIX MOBILE: TOMBOL KEMBALI SIDEBAR
+============================================ */
+.show-sidebar-btn{
+touch-action:manipulation!important;
+-webkit-tap-highlight-color:rgba(201,168,76,0.4);
+user-select:none!important;
+-webkit-user-select:none!important;
+pointer-events:auto!important;
+cursor:pointer!important;
+min-height:44px;
+}
+@media (max-width:900px){
+.show-sidebar-btn{
+padding:10px 18px!important;
+font-size:0.85rem!important;
+margin-bottom:12px!important;
+}
+}
 </style>
 </head>
 <body>
@@ -1647,15 +1666,7 @@ for(var k=0;k<dropdownLinks.length;k++){dropdownLinks[k].addEventListener('click
 var SIDEBAR_BACK_BTN='<button class="show-sidebar-btn" type="button">☰ Kembali Tampilkan Sidebar</button>';
 // Event delegation di document level: menangkap SEMUA klik pada .show-sidebar-btn
 // kapan pun dan di mana pun tombol itu dirender ulang
-document.addEventListener('click',function(e){
-var backBtn=e.target.closest('.show-sidebar-btn');
-if(backBtn){
-e.preventDefault();
-var container=backBtn.closest('.split-container');
-if(container){container.classList.remove('sidebar-closed')}
-return;
-}
-});
+
 function tutupSidebarDariBtn(btn){
 var container=btn.closest('.split-container');
 if(container){container.classList.add('sidebar-closed')}
@@ -1720,6 +1731,71 @@ document.addEventListener('DOMContentLoaded',simpanWelcomeDetails);
 }else{
 simpanWelcomeDetails();
 }
+// ============================================
+// ✅ SIDEBAR TOGGLE + RESET WELCOME (MOBILE-FIXED)
+// Menggunakan touchend + click agar berfungsi di HP
+// ============================================
+var SIDEBAR_BACK_BTN='<button class="show-sidebar-btn" type="button">☰ Kembali Tampilkan Sidebar</button>';
+var welcomeCache={};
+var backSidebarTouchFired=false;
+
+// Simpan tampilan Welcome Awal setiap detail (untuk reset)
+function simpanWelcomeDetails(){
+var pages=document.querySelectorAll('.page-content');
+for(var i=0;i<pages.length;i++){
+var detail=pages[i].querySelector('.split-detail');
+if(detail && !welcomeCache[pages[i].id]){
+welcomeCache[pages[i].id]=detail.innerHTML;
+}
+}
+}
+
+// Logika utama: tampilkan sidebar + reset konten ke Welcome Awal
+function jalankanKembaliSidebar(backBtn){
+if(!backBtn)return;
+var container=backBtn.closest('.split-container');
+if(!container)return;
+// 1. Tampilkan sidebar kembali
+container.classList.remove('sidebar-closed');
+// 2. Reset konten ke Welcome Awal
+var pageContent=container.closest('.page-content');
+if(pageContent && welcomeCache[pageContent.id]){
+var detail=container.querySelector('.split-detail');
+if(detail){detail.innerHTML=welcomeCache[pageContent.id]}
+}
+// 3. Hapus status active semua tombol sidebar
+var activeBtns=container.querySelectorAll('.split-btn.active');
+for(var i=0;i<activeBtns.length;i++){activeBtns[i].classList.remove('active')}
+}
+
+// ✅ HANDLER 1: touchend (PRIORITAS untuk HP)
+document.addEventListener('touchend',function(e){
+var backBtn=e.target.closest('.show-sidebar-btn');
+if(backBtn){
+backSidebarTouchFired=true;
+e.preventDefault();
+jalankanKembaliSidebar(backBtn);
+setTimeout(function(){backSidebarTouchFired=false},400);
+}
+},{passive:false});
+
+// ✅ HANDLER 2: click (desktop & fallback HP)
+document.addEventListener('click',function(e){
+var backBtn=e.target.closest('.show-sidebar-btn');
+if(backBtn){
+if(backSidebarTouchFired){e.preventDefault();return}
+jalankanKembaliSidebar(backBtn);
+}
+});
+
+// Simpan welcome saat load + re-init berkala (jaga-jaga)
+if(document.readyState==='loading'){
+document.addEventListener('DOMContentLoaded',simpanWelcomeDetails);
+}else{
+simpanWelcomeDetails();
+}
+setTimeout(simpanWelcomeDetails,500);
+setTimeout(simpanWelcomeDetails,1500);
 // ============================================
 // ✅ GENERIC SPLIT CONTENT HANDLER
 // ============================================
