@@ -495,9 +495,6 @@ padding:8px!important;
 .sub-hero h2{font-size:1.2rem!important}
 .sub-hero .sub-arabic{font-size:1.3rem!important}
 }
-/* ============================================
-✅ FIX FINAL: TOMBOL BERANDA MOBILE-GUARANTEED
-============================================ */
 #logoBeranda,
 .btn-beranda-masjid,
 [onclick*="showHome"],
@@ -541,9 +538,6 @@ display: inline-flex !important;
 align-items: center !important;
 }
 }
-/* ============================================
-✅ SUB-MENU & SUB-SUB-MENU KITAB (TAFSIR & HADITS)
-============================================ */
 .kitab-submenu{margin-bottom:4px}
 .kitab-submenu-header{
 display:flex;align-items:center;gap:8px;width:100%;
@@ -583,9 +577,6 @@ padding:1px 7px;border-radius:8px;font-size:0.65rem;font-weight:700;flex-shrink:
 }
 .kitab-jilid-btn.active .jl-badge{background:rgba(26,10,46,0.2);color:#1a0a2e}
 .kitab-author-small{font-size:0.7rem;color:#888;font-style:italic;margin-top:2px;padding-left:2px}
-/* ============================================
-✅ MENU LEVEL 1 (AQIDAH, TAUHID, TASAWUF, AKHLAQ)
-============================================ */
 .kitab-menu{margin-bottom:6px}
 .kitab-menu-header{
 display:flex;align-items:center;gap:8px;width:100%;
@@ -624,7 +615,6 @@ margin-left:10px;margin-bottom:8px;
 display:block;
 animation:fadeInContent 0.25s ease;
 }
-/* Responsive HP */
 @media (max-width:900px){
 .kitab-submenu-header{padding:6px 8px;font-size:0.68rem}
 .kitab-submenu-header .sm-icon{font-size:0.8rem}
@@ -640,9 +630,6 @@ animation:fadeInContent 0.25s ease;
 .kitab-jilid-btn{padding:4px 5px;font-size:0.58rem}
 .kitab-menu-header{padding:6px 7px;font-size:0.62rem}
 }
-/* ============================================
-✅ RANGKAIAN DOA (beberapa bagian dalam 1 item)
-============================================ */
 .doa-rangkaian-card{
 background:linear-gradient(135deg,rgba(201,168,76,0.06),rgba(45,27,78,0.4));
 border:1px solid rgba(201,168,76,0.4);
@@ -763,8 +750,19 @@ color:#888;font-size:0.75rem;text-align:right;font-style:italic;
 .doa-rangkaian-penutup .penutup-arab{font-size:1.1rem}
 }
 /* ============================================
-✅ SIDEBAR TOGGLE: Sembunyikan sidebar saat konten dipilih
-   (Khazanah, Tuntunan Ibadah, Komunitas)
+✅ SIDEBAR TOGGLE (FIXED - Event Delegation)
+============================================ */
+.split-container.sidebar-closed .split-sidebar{display:none}
+.split-container.sidebar-closed .split-detail{width:100%;max-width:1100px;margin:0 auto}
+.show-sidebar-btn{display:inline-flex;align-items:center;gap:8px;margin-bottom:18px;padding:11px 22px;background:linear-gradient(135deg,#c9a84c,#e8d48b);color:#1a0a2e;border:none;border-radius:25px;font-size:0.9rem;font-weight:700;cursor:pointer;transition:all 0.3s;font-family:inherit;box-shadow:0 3px 12px rgba(201,168,76,0.3)}
+.show-sidebar-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(201,168,76,0.45)}
+.show-sidebar-btn:active{transform:scale(0.96)}
+@media (max-width:900px){
+.split-container.sidebar-closed .split-detail{padding:15px!important}
+.show-sidebar-btn{padding:9px 16px;font-size:0.8rem;margin-bottom:12px}
+}
+/* ============================================
+✅ SIDEBAR TOGGLE + RESET KE WELCOME
 ============================================ */
 .split-container.sidebar-closed .split-sidebar{display:none}
 .split-container.sidebar-closed .split-detail{width:100%;max-width:1100px;margin:0 auto}
@@ -1643,20 +1641,84 @@ var dropdownLinks=document.querySelectorAll('.nav-menu .dropdown li a');
 for(var k=0;k<dropdownLinks.length;k++){dropdownLinks[k].addEventListener('click',function(){tutupSemuaDropdownNavbar()})}
 })();
 // ============================================
-// ✅ SIDEBAR TOGGLE HELPERS
+// ✅ SIDEBAR TOGGLE — FIXED dengan EVENT DELEGATION
+// (Tombol kembali selalu berfungsi meskipun innerHTML diganti berulang kali)
 // ============================================
+var SIDEBAR_BACK_BTN='<button class="show-sidebar-btn" type="button">☰ Kembali Tampilkan Sidebar</button>';
+// Event delegation di document level: menangkap SEMUA klik pada .show-sidebar-btn
+// kapan pun dan di mana pun tombol itu dirender ulang
+document.addEventListener('click',function(e){
+var backBtn=e.target.closest('.show-sidebar-btn');
+if(backBtn){
+e.preventDefault();
+var container=backBtn.closest('.split-container');
+if(container){container.classList.remove('sidebar-closed')}
+return;
+}
+});
 function tutupSidebarDariBtn(btn){
 var container=btn.closest('.split-container');
-if(container)container.classList.add('sidebar-closed');
+if(container){container.classList.add('sidebar-closed')}
 }
-function bukaSidebarDariDetail(btn){
-var container=btn.closest('.split-container');
-if(container)container.classList.remove('sidebar-closed');
-}
-var SIDEBAR_BACK_BTN='<button class="show-sidebar-btn" onclick="bukaSidebarDariDetail(this)">☰ Kembali Tampilkan Sidebar</button>';
 function pastikanSidebarTerbuka(pageId){
 var page=document.getElementById('page-'+pageId);
-if(page){var sc=page.querySelector('.split-container');if(sc)sc.classList.remove('sidebar-closed');}
+if(page){var sc=page.querySelector('.split-container');if(sc){sc.classList.remove('sidebar-closed')}}
+}
+// ============================================
+// ✅ SIDEBAR TOGGLE + RESET KE WELCOME (Event Delegation)
+// ============================================
+var SIDEBAR_BACK_BTN='<button class="show-sidebar-btn" type="button">☰ Kembali Tampilkan Sidebar</button>';
+var welcomeCache={};
+
+// Simpan tampilan Welcome Awal setiap detail (untuk reset)
+function simpanWelcomeDetails(){
+var pages=document.querySelectorAll('.page-content');
+for(var i=0;i<pages.length;i++){
+var detail=pages[i].querySelector('.split-detail');
+if(detail && !welcomeCache[pages[i].id]){
+welcomeCache[pages[i].id]=detail.innerHTML;
+}
+}
+}
+
+// Event delegation: tangkap klik tombol kembali (selalu berfungsi walau konten dirender ulang)
+document.addEventListener('click',function(e){
+var backBtn=e.target.closest('.show-sidebar-btn');
+if(backBtn){
+e.preventDefault();
+var container=backBtn.closest('.split-container');
+if(container){
+// 1. Tampilkan sidebar kembali
+container.classList.remove('sidebar-closed');
+// 2. RESET konten ke Welcome Awal
+var pageContent=container.closest('.page-content');
+if(pageContent && welcomeCache[pageContent.id]){
+var detail=container.querySelector('.split-detail');
+if(detail){detail.innerHTML=welcomeCache[pageContent.id]}
+}
+// 3. Hapus status active semua tombol sidebar
+var activeBtns=container.querySelectorAll('.split-btn.active');
+for(var i=0;i<activeBtns.length;i++){activeBtns[i].classList.remove('active')}
+}
+return;
+}
+});
+
+function tutupSidebarDariBtn(btn){
+var container=btn.closest('.split-container');
+if(container){container.classList.add('sidebar-closed')}
+}
+
+function pastikanSidebarTerbuka(pageId){
+var page=document.getElementById('page-'+pageId);
+if(page){var sc=page.querySelector('.split-container');if(sc){sc.classList.remove('sidebar-closed')}}
+}
+
+// Simpan welcome saat halaman pertama dimuat
+if(document.readyState==='loading'){
+document.addEventListener('DOMContentLoaded',simpanWelcomeDetails);
+}else{
+simpanWelcomeDetails();
 }
 // ============================================
 // ✅ GENERIC SPLIT CONTENT HANDLER
@@ -2292,7 +2354,9 @@ btn.classList.add('active');
 }
 }
 function bacaKitabJilid(namaLengkap, pdfUrl){
-pastikanSidebarTerbuka('kitab-kuning');
+pastikanSidebarTerbuka('kitab-kuning');   // ← TAMBAHKAN BARIS INI
+var container=document.getElementById('pdfViewerContainer');
+// ... sisanya tidak berubah
 var container=document.getElementById('pdfViewerContainer');
 var title=document.getElementById('pdfViewerTitle');
 var iframe=document.getElementById('pdfIframe');
@@ -2421,7 +2485,9 @@ content.style.display='block';
 tutupSidebarDariBtn(btn);
 }
 function bacaSholatPdf(nama,pdfUrl){
-pastikanSidebarTerbuka('sholat');
+pastikanSidebarTerbuka('sholat');   // ← TAMBAHKAN BARIS INI
+var container=document.getElementById('sholatPdfViewerContainer');
+// ... sisanya tidak berubah
 var container=document.getElementById('sholatPdfViewerContainer');
 var title=document.getElementById('sholatPdfViewerTitle');
 var iframe=document.getElementById('sholatPdfIframe');
@@ -2667,7 +2733,9 @@ html+='</div>';
 return html;
 }
 function bacaDoaPdf(nama,pdfUrl){
-pastikanSidebarTerbuka('kumpulan-doa');
+pastikanSidebarTerbuka('kumpulan-doa');   // ← TAMBAHKAN BARIS INI
+var container=document.getElementById('doaPdfViewerContainer');
+// ... sisanya tidak berubah
 var container=document.getElementById('doaPdfViewerContainer');
 var title=document.getElementById('doaPdfViewerTitle');
 var iframe=document.getElementById('doaPdfIframe');
@@ -2705,7 +2773,7 @@ setTimeout(function(){iframe.src=''},300);
 function hideDoaPdfLoading(){var l=document.getElementById('doaPdfLoading');if(l)l.style.display='none'}
 function initDoa(){renderDoaList()}
 // ============================================
-// ✅ INIT HALAMAN
+// ✅ INIT HALAMAN + RESET SIDEBAR SAAT PINDAH HALAMAN
 // ============================================
 function initHalaman(pageId){
 if(pageId==='biografi-ulama')setTimeout(initBiografi,100);
@@ -2716,6 +2784,7 @@ if(pageId==='kitab-kuning')setTimeout(initKitab,100);
 var originalShowPage=window.showPage;
 window.showPage=function(pageId){
 originalShowPage(pageId);
+// Reset sidebar saat pindah halaman agar sidebar tampil lagi
 var allClosed=document.querySelectorAll('.split-container.sidebar-closed');
 for(var i=0;i<allClosed.length;i++){allClosed[i].classList.remove('sidebar-closed')}
 initHalaman(pageId);
@@ -3014,9 +3083,6 @@ var btnHero=document.querySelector('.btn-hero[href="#profil"]');
 if(btnHero){btnHero.addEventListener('click',function(e){e.preventDefault();scrollToTarget('profil')})}
 if(window.location.hash){var hash=window.location.hash.substring(1);setTimeout(function(){scrollToTarget(hash)},300)}
 })();
-// ============================================
-// ✅ PERBAIKAN: HANDLER TOUCH & ZOOM
-// ============================================
 (function(){
 var inputs=document.querySelectorAll('input, textarea, select, button');
 for(var i=0;i<inputs.length;i++){inputs[i].style.fontSize='16px';if(inputs[i].type==='number'){inputs[i].type='text';inputs[i].setAttribute('inputmode','numeric')}}
@@ -3064,9 +3130,6 @@ var btnHero=document.querySelector('.btn-hero[href="#profil"]');
 if(btnHero){btnHero.addEventListener('click',function(e){e.preventDefault();window.tampilkanSatu('profil')})}
 })();
 })();
-// ============================================
-// ✅ PDF VIEWER MOBILE-FRIENDLY
-// ============================================
 window.bukaPDF=function(pathRelatif,judul){
 var baseUrl='https://masjidalikhlaskebagusan99-dotcom.github.io/Masjid-Al-Ikhlas/';
 var urlPdf=baseUrl+pathRelatif.replace(/^\//,'');
@@ -3109,9 +3172,6 @@ var overlay=document.getElementById('pdfOverlay');
 if(overlay)overlay.remove();
 document.body.style.overflow='';
 };
-// ============================================
-// ✅ PENCEGAHAN KEYBOARD SHORTCUT
-// ============================================
 document.addEventListener('keydown',function(e){
 if((e.ctrlKey||e.metaKey)&&e.key==='s'){e.preventDefault();showToast('🔒 Download dinonaktifkan');return false}
 if((e.ctrlKey||e.metaKey)&&e.key==='p'){e.preventDefault();showToast('🔒 Print dinonaktifkan');return false}
@@ -3129,9 +3189,6 @@ return false;
 }
 }
 });
-// ============================================
-// ✅ FIX FINAL v2: TOMBOL BERANDA - MOBILE GUARANTEED
-// ============================================
 (function(){
 'use strict';
 function goToBeranda(e){
