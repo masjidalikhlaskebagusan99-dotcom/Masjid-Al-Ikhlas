@@ -48,11 +48,12 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-g
 .marquee-bar{background:rgba(0,0,0,0.25);padding:10px 0;display:flex;align-items:center;overflow:hidden;border-bottom:1px solid rgba(255,255,255,0.05)}
 .marquee-label{background:linear-gradient(135deg,#c9a84c,#e8d48b);color:#1a0a2e;padding:6px 18px;border-radius:20px;font-size:12px;font-weight:700;white-space:nowrap;margin-left:20px;display:flex;align-items:center;gap:6px;flex-shrink:0;letter-spacing:1px}
 .marquee-label .icon{font-size:14px}
-.marquee-content{flex:1;overflow:hidden;margin-left:20px}
-.marquee-text{display:inline-block;white-space:nowrap;animation:marquee 35s linear infinite;color:#ccc;font-size:14px}
+.marquee-content{flex:1;overflow:hidden;margin-left:20px;position:relative}
+.marquee-track{display:inline-block;white-space:nowrap;will-change:transform;animation:marquee 60s linear infinite}
+.marquee-text{display:inline-block;white-space:nowrap;color:#ccc;font-size:14px}
 .marquee-text a{color:#c9a84c;text-decoration:none}
 .marquee-text a:hover{text-decoration:underline}
-@keyframes marquee{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .hero{text-align:center;padding:60px 20px 80px;max-width:900px;margin:0 auto}
 .hero-badge{display:inline-block;border:1px solid rgba(201,168,76,0.5);padding:8px 24px;border-radius:25px;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#c9a84c;margin-bottom:30px;background:rgba(201,168,76,0.08)}
 .hero h1{font-size:52px;font-weight:700;line-height:1.2;margin-bottom:25px;color:#fff}
@@ -825,7 +826,6 @@ touch-action:manipulation;
 -webkit-text-size-adjust:100%;
 -ms-text-size-adjust:100%;
 }
-
 /* Mode Mobile: zoom out diperbolehkan */
 @media (max-width:900px){
 body{
@@ -838,24 +838,20 @@ max-width:100vw;
 overflow-x:auto;
 }
 }
-
 /* Mode Desktop di HP: zoom in diperbolehkan */
 @media (min-width:901px) and (max-width:1400px){
 body{
 min-width:auto;
 }
 }
-
 /* Cegah zoom hanya pada input fields (standar mobile UX) */
 input,textarea,select{
 font-size:16px!important;
 }
-
 /* Smooth zoom transition */
 *{
 transition:transform 0.1s ease-out;
 }
-
 /* Pastikan PDF viewer tetap fullscreen saat zoom */
 .pdf-viewer-container.active{
 position:fixed!important;
@@ -935,10 +931,16 @@ Masjid Jami' Al-Ikhlas
 <a href="#" class="btn-halamanku">Halamanku</a>
 </div>
 </nav>
-<!-- MARQUEE -->
+
+<!-- ✅ MARQUEE DIPERBAIKI: hanya 1 marquee-bar, tanpa duplikasi -->
+<!-- ❌ SEBELUMNYA (index2.txt asli): ada 2x <div class="marquee-bar"> yang menyebabkan
+     seluruh konten (hero, halaman masjid, split) terjebak di dalam marquee -->
+<!-- ✅ SEKARANG: struktur marquee-track + marquee-text dipertahankan (sesuai index2.txt)
+     karena didukung oleh setupMarquee() di JavaScript -->
 <div class="marquee-bar">
 <div class="marquee-label"><span class="icon">📢</span></div>
 <div class="marquee-content">
+<div class="marquee-track" id="marqueeTrack">
 <div class="marquee-text">
 <a href="#" onclick="showPage('silsilah'); return false;">KH. Usman</a>, Pendiri Musholla Al-Ikhlas, Kebagusan ◆ KH. M. Hamdani anak dan Penerus KH. Usman ◆ Ust. Amir Hamzah cucu KH. Usman & Anak KH. M. Hamdani Penerus & Perubah Peningkatan Musholla Menjadi Masjid Jami' Al-Ikhlas ◆
 <a href="#" onclick="showPage('kegiatan'); return false;">Pengembangan Kegiatan Masjid</a> ◆
@@ -948,6 +950,8 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 </div>
 </div>
 </div>
+</div>
+
 <!-- HERO -->
 <section class="hero" id="home-section">
 <div class="hero-badge">KHAZANAH KEILMUAN ISLAM UNTUK DUNIA</div>
@@ -964,6 +968,7 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <a href="#" class="tag" onclick="showPage('pesantren-tertua'); return false;">Pesantren tertua di Jawa Timur</a>
 </div>
 </section>
+
 <!-- HALAMAN MASJID (tema hijau) -->
 <div class="page-content" id="page-tentang-donasi">
 <div class="masjid-page">
@@ -998,7 +1003,7 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <div class="footer-bar">📍 Jl. Ikhlas IV No. 22, Kebagusan, Pasar Minggu, Jakarta Selatan 12520 |  (021) 7884-0000 | ✉️ info@masjidalikhlaskebagusan.or.id</div>
 </div>
 </div>
-<!-- HALAMAN 1-20 SPLIT (sama persis dengan file asli Anda) -->
+<!-- HALAMAN 1-20 SPLIT -->
 <div class="page-content" id="page-biografi-ulama">
 <div class="breadcrumb-dash"><a href="#" onclick="showHome(); return false;">Beranda</a> / Khazanah / <strong>Biografi Ulama</strong></div>
 <div class="sub-hero"><div class="sub-arabic">تَرَاجِمُ الْعُلَمَاءِ</div><h2>Biografi Ulama</h2><p class="sub-subtitle">Meneladani jejak para pewaris Nabi ﷺ — klik nama ulama di panel kiri untuk melihat biografi lengkap beserta napak tilas perjalanan hidup beliau.</p></div>
@@ -1007,6 +1012,7 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <main class="split-detail" id="biografiDetail"><div class="split-welcome"><div class="welcome-icon">📖</div><h3>Pilih Nama Ulama</h3><p>Klik nama ulama di panel sebelah kiri untuk melihat biografi, karya, dan perjalanan hidup beliau.<br>Gunakan kotak pencarian untuk menemukan ulama tertentu.</p></div></main>
 </div>
 </div>
+
 <div class="page-content" id="page-kitab-kuning">
 <div class="breadcrumb-dash"><a href="#" onclick="showHome(); return false;">Beranda</a> / Khazanah / <strong>Kitab Kuning</strong></div>
 <div class="sub-hero"><div class="sub-arabic">الْكُتُبُ التُّرَاثِيَّة</div><h2>Kitab Kuning</h2><p class="sub-subtitle">Koleksi kitab-kitab klasik (turats) Ahlussunnah wal Jamaah. Klik nama kitab untuk membaca langsung di panel kanan.</p></div>
@@ -1018,6 +1024,7 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 </main>
 </div>
 </div>
+
 <div class="page-content" id="page-sholat">
 <div class="breadcrumb-dash"><a href="#" onclick="showHome(); return false;">Beranda</a> / Tuntunan Ibadah / <strong>Kumpulan Sholat Wajib & Sunnah</strong></div>
 <div class="sub-hero"><div class="sub-arabic">مَجْمُوْعَةُ الصَّلَوَاتِ الْمَفْرُوْضَةِ وَالمَسْنُوْنَةِ وَكَيْفِيَّاتِهَا</div><h2>Kumpulan Sholat Wajib & Sunnah Serta Kaifiyatnya</h2><p class="sub-subtitle">Panduan lengkap tata cara sholat fardhu dan sunnah sesuai Mazhab Syafi'i & amaliah Ahlussunnah wal Jamaah.</p></div>
@@ -1029,6 +1036,7 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 </main>
 </div>
 </div>
+
 <div class="page-content" id="page-kumpulan-doa">
 <div class="breadcrumb-dash"><a href="#" onclick="showHome(); return false;">Beranda</a> / Khazanah / <strong>Kumpulan Doa & Amaliah Aswaja</strong></div>
 <div class="sub-hero"><div class="sub-arabic">مَجْمُوْعَةُ الْأَدْعِيَةِ وَالْأَعْمَالِ</div><h2>Kumpulan Doa & Silsilah Amaliah Aswaja</h2><p class="sub-subtitle">Koleksi doa-doa pilihan dari Al-Qur'an, Hadis, dan karya ulama Ahlussunnah wal Jamaah.</p></div>
@@ -1040,6 +1048,7 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 </main>
 </div>
 </div>
+
 <div class="page-content" id="page-sejarah-islam">
 <div class="breadcrumb-dash"><a href="#" onclick="showHome(); return false;">Beranda</a> / Khazanah / <strong>Sejarah Islam Nusantara</strong></div>
 <div class="sub-hero"><div class="sub-arabic">تَارِيخُ إِسْلَامِ الْأَرْخَبِيل</div><h2>Sejarah Islam Nusantara</h2><p class="sub-subtitle">Menelusuri jejak masuknya Islam ke kepulauan Nusantara.</p></div>
@@ -1048,6 +1057,7 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <main class="split-detail" id="sejarahDetail"><div class="split-welcome"><div class="welcome-icon">🏛️</div><h3>Pilih Topik Sejarah</h3><p>Klik topik di panel sebelah kiri untuk mempelajari sejarah Islam Nusantara.<br><br><em>"Islam datang ke Nusantara bukan dengan pedang, melainkan dengan senyum, akhlak, dan budaya."</em><br>— Prof. Hamka</p></div></main>
 </div>
 </div>
+
 <div class="page-content" id="page-tasawuf">
 <div class="breadcrumb-dash"><a href="#" onclick="showHome(); return false;">Beranda</a> / Khazanah / <strong>Tasawuf & Akhlak</strong></div>
 <div class="sub-hero"><div class="sub-arabic">التَّصَوُّفُ وَالْأَخْلَاق</div><h2>Tasawuf & Akhlak</h2><p class="sub-subtitle">Memurnikan hati, menghiasi diri dengan akhlak mulia.</p></div>
@@ -1056,6 +1066,7 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <main class="split-detail" id="tasawufDetail"><div class="split-welcome"><div class="welcome-icon">🌿</div><h3>Pilih Topik Tasawuf</h3><p>Klik topik di panel sebelah kiri untuk mempelajari maqamat dan tarekat.<br><br><em>"Sesungguhnya aku diutus untuk menyempurnakan akhlak yang mulia."</em><br>— HR. Ahmad & Al-Baihaqi</p></div></main>
 </div>
 </div>
+
 <div class="page-content" id="page-fiqih">
 <div class="breadcrumb-dash"><a href="#" onclick="showHome(); return false;">Beranda</a> / Khazanah / <strong>Fiqih & Ushul Fiqih</strong></div>
 <div class="sub-hero"><div class="sub-arabic">الْفِقْهُ وَأُصُولُ الْفِقْهِ</div><h2>Fiqih & Ushul Fiqih</h2><p class="sub-subtitle">Memahami hukum-hukum Islam secara mendalam.</p></div>
@@ -1064,6 +1075,7 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <main class="split-detail" id="fiqihDetail"><div class="split-welcome"><div class="welcome-icon">⚖️</div><h3>Pilih Topik Fiqih</h3><p>Klik topik di panel sebelah kiri untuk mempelajari mazhab dan ushul fiqih.<br><br><em>"Barangsiapa yang dikehendaki Allah kebaikan, Allah akan pahamkan ia dalam agama (fiqih)."</em><br>— HR. Bukhari & Muslim</p></div></main>
 </div>
 </div>
+
 <div class="page-content" id="page-puasa">
 <div class="breadcrumb-dash"><a href="#" onclick="showHome(); return false;">Beranda</a> / Tuntunan Ibadah / <strong>Puasa & Ramadhan</strong></div>
 <div class="sub-hero"><div class="sub-arabic">الصِّيَامُ وَشَهْرُ رَمَضَان</div><h2>Puasa & Ramadhan</h2><p class="sub-subtitle">Bulan Ramadhan — bulan yang di dalamnya diturunkan Al-Qur'an.</p></div>
@@ -1072,6 +1084,7 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <main class="split-detail" id="puasaDetail"><div class="split-welcome"><div class="welcome-icon">🌙</div><h3>Pilih Topik Puasa</h3><p>Klik topik di panel sebelah kiri untuk mempelajari hukum dan amalan puasa.<br><br><em>"Barangsiapa berpuasa Ramadhan karena iman dan mengharap pahala, diampuni dosa-dosanya yang telah lalu."</em><br>— HR. Bukhari & Muslim</p></div></main>
 </div>
 </div>
+
 <div class="page-content" id="page-haji">
 <div class="breadcrumb-dash"><a href="#" onclick="showHome(); return false;">Beranda</a> / Tuntunan Ibadah / <strong>Haji & Umrah</strong></div>
 <div class="sub-hero"><div class="sub-arabic">الْحَجُّ وَالْعُمْرَة</div><h2>Haji & Umrah</h2><p class="sub-subtitle">Haji adalah rukun Islam ke-5.</p></div>
@@ -1080,6 +1093,7 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <main class="split-detail" id="hajiDetail"><div class="split-welcome"><div class="welcome-icon">🕋</div><h3>Pilih Topik Haji & Umrah</h3><p>Klik topik di panel sebelah kiri untuk mempelajari rukun dan kaifiyat haji.<br><br><em>"Haji mabrur tidak ada balasan lain selain surga."</em><br>— HR. Bukhari & Muslim</p></div></main>
 </div>
 </div>
+
 <div class="page-content" id="page-zakat">
 <div class="breadcrumb-dash"><a href="#" onclick="showHome(); return false;">Beranda</a> / Tuntunan Ibadah / <strong>Zakat & Sedekah</strong></div>
 <div class="sub-hero"><div class="sub-arabic">الزَّكَاةُ وَالصَّدَقَةُ</div><h2>Zakat & Sedekah</h2><p class="sub-subtitle">Zakat adalah rukun Islam ke-3.</p></div>
@@ -1088,6 +1102,7 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <main class="split-detail" id="zakatDetail"><div class="split-welcome"><div class="welcome-icon">💰</div><h3>Pilih Topik Zakat</h3><p>Klik topik di panel sebelah kiri untuk mempelajari jenis dan ketentuan zakat.<br><br><em>"Ambillah zakat dari sebagian harta mereka, dengan zakat itu kamu membersihkan dan mensucikan mereka."</em><br>— QS. At-Taubah: 103</p></div></main>
 </div>
 </div>
+
 <div class="page-content" id="page-quran-hadis">
 <div class="breadcrumb-dash"><a href="#" onclick="showHome(); return false;">Beranda</a> / Tuntunan Ibadah / <strong>Al-Qur'an & Hadis</strong></div>
 <div class="sub-hero"><div class="sub-arabic">الْقُرْآنُ وَالْحَدِيث</div><h2>Al-Qur'an & Hadis</h2><p class="sub-subtitle">Dua sumber utama syariat Islam.</p></div>
@@ -1096,6 +1111,7 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <main class="split-detail" id="quranDetail"><div class="split-welcome"><div class="welcome-icon">📜</div><h3>Pilih Topik Al-Qur'an & Hadis</h3><p>Klik topik di panel sebelah kiri untuk mempelajari kitab-kitab induk.<br><br><em>"Aku tinggalkan untuk kalian dua perkara, kalian tidak akan tersesat selama berpegang teguh pada keduanya: Kitab Allah dan Sunnah Nabi-Nya."</em><br>— HR. Malik</p></div></main>
 </div>
 </div>
+
 <div class="page-content" id="page-pesantren">
 <div class="breadcrumb-dash"><a href="#" onclick="showHome(); return false;">Beranda</a> / Komunitas / <strong>Pesantren</strong></div>
 <div class="sub-hero"><div class="sub-arabic">الْمَعَاهِدُ الدِّينِيَّة</div><h2>Pesantren</h2><p class="sub-subtitle">Lembaga pendidikan Islam tertua di Nusantara.</p></div>
@@ -1104,6 +1120,7 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <main class="split-detail" id="pesantrenDetail"><div class="split-welcome"><div class="welcome-icon">🏛️</div><h3>Pilih Pesantren</h3><p>Klik nama pesantren di panel sebelah kiri untuk mempelajari sejarahnya.<br><br><em>"Pesantren adalah benteng umat Islam Indonesia."</em><br>— K.H. Hasyim Asy'ari</p></div></main>
 </div>
 </div>
+
 <div class="page-content" id="page-majelis-ilmu">
 <div class="breadcrumb-dash"><a href="#" onclick="showHome(); return false;">Beranda</a> / Komunitas / <strong>Majelis Ilmu</strong></div>
 <div class="sub-hero"><div class="sub-arabic">مَجَالِسُ الْعِلْم</div><h2>Majelis Ilmu</h2><p class="sub-subtitle">"Majelis-majelis ilmu adalah taman-taman surga."</p></div>
@@ -1112,6 +1129,7 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <main class="split-detail" id="majelisDetail"><div class="split-welcome"><div class="welcome-icon">🕌</div><h3>Pilih Majelis Ilmu</h3><p>Klik nama majelis di panel sebelah kiri untuk melihat jadwal dan materi.<br><br><em>"Tidaklah suatu kaum berkumpul di salah satu rumah Allah, mereka membaca Kitabullah dan saling mempelajarinya, kecuali turun ketenangan kepada mereka."</em><br>— HR. Muslim</p></div></main>
 </div>
 </div>
+
 <div class="page-content" id="page-organisasi-islam">
 <div class="breadcrumb-dash"><a href="#" onclick="showHome(); return false;">Beranda</a> / Komunitas / <strong>Organisasi Islam</strong></div>
 <div class="sub-hero"><div class="sub-arabic">الْمُنَظَّمَاتُ الْإِسْلَامِيَّة</div><h2>Organisasi Islam</h2><p class="sub-subtitle">Mengenal organisasi-organisasi Islam di Indonesia.</p></div>
@@ -1120,6 +1138,7 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <main class="split-detail" id="ormasDetail"><div class="split-welcome"><div class="welcome-icon">🏢</div><h3>Pilih Organisasi Islam</h3><p>Klik nama ormas di panel sebelah kiri untuk mempelajari sejarah dan profilnya.<br><br><em>"Dan tolong-menolonglah kamu dalam (mengerjakan) kebajikan dan takwa."</em><br>— QS. Al-Ma'idah: 2</p></div></main>
 </div>
 </div>
+
 <div class="page-content" id="page-forum-diskusi">
 <div class="breadcrumb-dash"><a href="#" onclick="showHome(); return false;">Beranda</a> / Komunitas / <strong>Forum Diskusi</strong></div>
 <div class="sub-hero"><div class="sub-arabic">الْمُنْتَدَى</div><h2>Forum Diskusi</h2><p class="sub-subtitle">Ruang diskusi keislaman yang beradab.</p></div>
@@ -1128,6 +1147,7 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <main class="split-detail" id="forumDetail"><div class="split-welcome"><div class="welcome-icon">💬</div><h3>Pilih Kategori Diskusi</h3><p>Klik kategori di panel sebelah kiri untuk melihat topik diskusi.<br><br><em>"Bertanyalah kalian kepada orang yang berilmu, jika kalian tidak mengetahui."</em><br>— QS. An-Nahl: 43</p></div><div class="sub-info" style="margin-top:30px;"><strong>📌 Konsultasi Langsung:</strong> Silakan hadir di <strong>Kajian Subuh</strong> atau <strong>Kajian Maghrib</strong> di Masjid Jami' Al-Ikhlas untuk bertanya langsung kepada para ulama dan ustadz.</div></main>
 </div>
 </div>
+
 <div class="page-content" id="page-kegiatan">
 <div class="breadcrumb-dash"><a href="#" onclick="showHome(); return false;">Beranda</a> / Komunitas / <strong>Kegiatan & Agenda</strong></div>
 <div class="sub-hero"><div class="sub-arabic">الْفَعَالِيَّاتُ وَالْأَجِنْدَة</div><h2>Kegiatan & Agenda</h2><p class="sub-subtitle">Kalender lengkap kegiatan keislaman di Masjid Jami' Al-Ikhlas Kebagusan.</p></div>
@@ -1136,6 +1156,7 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <main class="split-detail" id="kegiatanDetail"><div class="split-welcome"><div class="welcome-icon">📅</div><h3>Pilih Kegiatan</h3><p>Klik kegiatan di panel sebelah kiri untuk melihat jadwal dan detailnya.</p></div></main>
 </div>
 </div>
+
 <div class="page-content" id="page-silsilah">
 <div class="breadcrumb-dash"><a href="#" onclick="showHome(); return false;">Beranda</a> / <strong>Silsilah Saur Sepuh</strong></div>
 <div class="sub-hero"><div class="sub-arabic">شَجَرَةُ النَّسَب</div><h2>Silsilah Saur Sepuh Masjid Al-Ikhlas</h2><p class="sub-subtitle">Menelusuri jejak para pendiri dan penerus Musholla Al-Ikhlas.</p></div>
@@ -1144,6 +1165,7 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <main class="split-detail" id="silsilahDetail"><div class="split-welcome"><div class="welcome-icon">🌳</div><h3>Tiga Generasi Pendiri</h3><p>Klik nama di panel sebelah kiri untuk melihat profil lengkap.<br><br><em>"Sebaik-baik manusia adalah yang paling bermanfaat bagi manusia lainnya."</em><br>— HR. Ath-Thabrani</p></div></main>
 </div>
 </div>
+
 <div class="page-content" id="page-doa-ziarah">
 <div class="breadcrumb-dash"><a href="#" onclick="showHome(); return false;">Beranda</a> / <strong>Doa Ziarah Kubur</strong></div>
 <div class="sub-hero"><div class="sub-arabic">دُعَاءُ زِيَارَةِ الْقُبُور</div><h2>Doa Ziarah Kubur Sesuai Sunnah</h2><p class="sub-subtitle">Panduan lengkap tata cara ziarah kubur.</p></div>
@@ -1152,6 +1174,7 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <main class="split-detail" id="ziarahDetail"><div class="split-welcome"><div class="welcome-icon">🤲</div><h3>Pilih Doa Ziarah</h3><p>Klik topik di panel sebelah kiri untuk melihat doa dan tata caranya.<br><br><em>"Dahulu aku melarang kalian ziarah kubur, maka sekarang ziarahilah."</em><br>— HR. Muslim</p></div></main>
 </div>
 </div>
+
 <div class="page-content" id="page-asbabul-nuzul">
 <div class="breadcrumb-dash"><a href="#" onclick="showHome(); return false;">Beranda</a> / <strong>Asbabun Nuzul Al-Kahfi</strong></div>
 <div class="sub-hero"><div class="sub-arabic">سُورَةُ الْكَهْف</div><h2>Asbabun Nuzul Surat Al-Kahfi</h2><p class="sub-subtitle">Surat Al-Kahfi adalah surat Makkiyah yang terdiri dari 110 ayat.</p></div>
@@ -1160,6 +1183,7 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <main class="split-detail" id="kahfiDetail"><div class="split-welcome"><div class="welcome-icon">📖</div><h3>Surat Al-Kahfi</h3><p>Klik kisah di panel sebelah kiri untuk mempelajarinya.<br><br><em>"Barangsiapa membaca Surat Al-Kahfi pada hari Jumat, akan diterangi cahaya di antara dua Jumat."</em><br>— HR. Al-Hakim & Al-Baihaqi</p></div></main>
 </div>
 </div>
+
 <div class="page-content" id="page-pesantren-tertua">
 <div class="breadcrumb-dash"><a href="#" onclick="showHome(); return false;">Beranda</a> / <strong>Pesantren Tertua di Jawa Timur</strong></div>
 <div class="sub-hero"><div class="sub-arabic">أَقْدَمُ الْمَعَاهِدِ فِي جَاوَا الشَّرْقِيَّة</div><h2>Pesantren Tertua di Jawa Timur</h2><p class="sub-subtitle">Jawa Timur memiliki banyak pesantren bersejarah.</p></div>
@@ -1208,11 +1232,42 @@ const dateStr=`${dayName}, ${date} ${month} ${year} · ${hijriDate} · ${hours}:
 document.getElementById('dateTimeDisplay').textContent=dateStr;
 }
 updateDateTime();setInterval(updateDateTime,60000);
-
 // ============================================
-// ✅ MARQUEE DENGAN JEDA 2 DETIK
+// ✅ RUNNING TEXT KONTINU TANPA LOMPATAN KILAT
+// (DIPERTAHANKAN DARI INDEX2.TXT - SUDAH BENAR)
 // ============================================
-
+(function(){
+function setupMarquee(){
+var track=document.getElementById('marqueeTrack');
+if(!track)return;
+var content=track.parentElement;
+if(!content)return;
+var first=track.querySelector('.marquee-text');
+if(!first)return;
+if(!track.querySelector('.marquee-text[aria-hidden="true"]')){
+var clone=first.cloneNode(true);
+clone.setAttribute('aria-hidden','true');
+track.appendChild(clone);
+}
+var copies=track.querySelectorAll('.marquee-text');
+for(var i=0;i<copies.length;i++){copies[i].style.paddingRight='0px';}
+var W=first.offsetWidth;
+var C=content.clientWidth;
+for(var i=0;i<copies.length;i++){copies[i].style.paddingRight=C+'px';}
+var periode=W+C;
+track.style.animationDuration=Math.max(20,Math.round(periode/80))+'s';
+}
+if(document.readyState==='loading'){
+document.addEventListener('DOMContentLoaded',setupMarquee);
+}else{
+setupMarquee();
+}
+var t;
+window.addEventListener('resize',function(){clearTimeout(t);t=setTimeout(setupMarquee,200);});
+})();
+// ============================================
+// ✅ NAVBAR DROPDOWN
+// ============================================
 (function(){
 var parentLinks=document.querySelectorAll('.nav-menu > li > a.dropdown-parent');
 for(var i=0;i<parentLinks.length;i++){
@@ -1229,13 +1284,11 @@ var dropdownLinks=document.querySelectorAll('.nav-menu .dropdown li a');
 for(var k=0;k<dropdownLinks.length;k++){dropdownLinks[k].addEventListener('click',function(){tutupSemuaDropdownNavbar()})}
 })();
 // ============================================
-// ✅ PERBAIKAN UTAMA: SIDEBAR BACK BUTTON - MOBILE COMPATIBLE
+// ✅ SIDEBAR BACK BUTTON - MOBILE COMPATIBLE
 // ============================================
 var SIDEBAR_BACK_BTN='<button type="button" class="show-sidebar-btn" onclick="kembaliSidebarGlobal(this);return false;" ontouchstart="kembaliSidebarGlobal(this);return false;">☰ Kembali Tampilkan Sidebar</button>';
 var welcomeNodeCache={};
 var _sidebarBackCooldown=false;
-
-// ✅ Fungsi global yang dipanggil dari inline onclick - PALING RELIABLE di mobile
 window.kembaliSidebarGlobal=function(btn){
 if(_sidebarBackCooldown)return;
 _sidebarBackCooldown=true;
@@ -1278,8 +1331,6 @@ target.style.display='block';
 window.scrollTo({top:0,behavior:'smooth'});
 return false;
 };
-
-// ✅ Event delegation backup dengan capture phase (lebih reliable di mobile)
 document.addEventListener('click',function(e){
 var backBtn=e.target.closest?e.target.closest('.show-sidebar-btn'):null;
 if(backBtn){
@@ -1289,8 +1340,6 @@ window.kembaliSidebarGlobal(backBtn);
 return false;
 }
 },true);
-
-// ✅ Touch event handler backup
 document.addEventListener('touchend',function(e){
 var backBtn=e.target.closest?e.target.closest('.show-sidebar-btn'):null;
 if(backBtn){
@@ -1300,7 +1349,6 @@ window.kembaliSidebarGlobal(backBtn);
 return false;
 }
 },{passive:false});
-
 function simpanSemuaWelcomeNode(){
 var details=document.querySelectorAll('.split-detail,.biografi-detail,.doa-detail,.sholat-detail');
 for(var i=0;i<details.length;i++){
@@ -1317,9 +1365,7 @@ if(!pageContent)continue;
 var pageId=pageContent.id;
 if(welcomeNodeCache[pageId])continue;
 var welcomeEl=detail.querySelector('.split-welcome,.biografi-welcome,.doa-welcome,.sholat-welcome');
-if(welcomeEl){
-welcomeNodeCache[pageId]=welcomeEl;
-}
+if(welcomeEl){welcomeNodeCache[pageId]=welcomeEl;}
 }
 }
 function simpanWelcomeNode(btn){
@@ -1338,9 +1384,7 @@ if(welcomeNodeCache[pageId])return;
 var detail=pageContent.querySelector('.split-detail,.biografi-detail,.doa-detail,.sholat-detail');
 if(!detail)return;
 var welcomeEl=detail.querySelector('.split-welcome,.biografi-welcome,.doa-welcome,.sholat-welcome');
-if(welcomeEl){
-welcomeNodeCache[pageId]=welcomeEl;
-}
+if(welcomeEl){welcomeNodeCache[pageId]=welcomeEl;}
 }
 function tutupSidebarDariBtn(btn){
 var container=btn.closest?btn.closest('.split-container'):null;
@@ -1365,7 +1409,7 @@ simpanSemuaWelcomeNode();
 setTimeout(simpanSemuaWelcomeNode,500);
 setTimeout(simpanSemuaWelcomeNode,1500);
 // ============================================
-// ✅ GENERIC SPLIT CONTENT HANDLER (DIMODIFIKASI)
+// ✅ GENERIC SPLIT CONTENT HANDLER
 // ============================================
 var splitContentData = {
 'sejah-kerajaan': {title:'🏰 Kerajaan-Kerajaan Islam Nusantara', content:'<div class="sub-grid"><div class="sub-card"><div class="card-icon">🕌</div><h3>Samudera Pasai (1267-1521)</h3><p>Kerajaan Islam pertama di Nusantara, terletak di Aceh.</p><div class="meta">📍 Aceh · 📅 Abad ke-13</div></div><div class="sub-card"><div class="card-icon">🕌</div><h3>Demak (1475-1548)</h3><p>Kerajaan Islam pertama di Jawa, didirikan Raden Patah.</p><div class="meta">📍 Jawa Tengah · 📅 Abad ke-15</div></div><div class="sub-card"><div class="card-icon">🕌</div><h3>Mataram Islam (1587-1755)</h3><p>Kerajaan Islam terbesar di Jawa.</p><div class="meta">📍 Yogyakarta · 📅 Abad ke-16</div></div><div class="sub-card"><div class="card-icon">🕌</div><h3>Gowa-Tallo / Makassar</h3><p>Kesultanan Islam di Sulawesi Selatan.</p><div class="meta">📍 Sulawesi Selatan · 📅 Abad ke-14</div></div></div>'},
@@ -1452,25 +1496,7 @@ var splitContentData = {
 'kegiatan-maulid': {title:'🌟 Maulid Nabi', content:'<p style="color:#ccc;line-height:1.8;"><strong>12 Rabiul Awal</strong></p><p style="color:#ccc;line-height:1.8;">Peringatan kelahiran Nabi Muhammad ﷺ dengan pembacaan sholawat, barzanji, dan tausiyah.</p>'},
 'kegiatan-isra-miraj': {title:'🕊️ Isra Mi\'raj', content:'<p style="color:#ccc;line-height:1.8;"><strong>27 Rajab</strong></p><p style="color:#ccc;line-height:1.8;">Peringatan perjalanan Nabi Muhammad ﷺ dari Masjidil Haram ke Masjidil Aqsha, lalu naik ke Sidratul Muntaha. Peristiwa disyariatkannya sholat 5 waktu.</p>'},
 'kegiatan-idul-fitri': {title:'🎉 Idul Fitri', content:'<p style="color:#ccc;line-height:1.8;"><strong>1 Syawal</strong></p><p style="color:#ccc;line-height:1.8;">Hari raya kemenangan setelah sebulan berpuasa. Dilaksanakan sholat Ied, halal bihalal, dan silaturahmi.</p>'},
-'kegiatan-idul-adha': {title:'🐪 Idul Adha', content:'<p style="color:#ccc;line-height:1.8;"><strong>10 Dzulhijjah</strong></p><p style="color:#ccc;line-height:1.8;">Hari raya qurban, mengenang pengorbanan Nabi Ibrahim AS. Dilaksanakan sholat Ied dan penyembelihan hewan qurban.</p>'},
-'silsilah-gen1': {title:'👳 Generasi 1: KH. Usman', content:'<div class="ulama-card" style="grid-template-columns: 200px 1fr;"><div class="ulama-photo" style="width:200px;height:240px;font-size:5rem;">👳</div><div class="ulama-info"><h3 style="color:#e8d48b;font-size:1.8rem;margin-bottom:8px;">KH. Usman</h3><div class="arabic-name" style="font-family:\'Aref Ruqaa\',serif;font-size:1.6rem;color:#c9a84c;direction:rtl;margin-bottom:15px;line-height:1.5;">الْخَوْجَةُ عُثْمَان</div><div class="info-item"><strong>Peran:</strong> Pendiri Musholla Al-Ikhlas</div><div class="info-item"><strong>Generasi:</strong> Pertama</div><div class="info-item"><strong>Lokasi:</strong> Kebagusan, Jakarta Selatan</div><div class="ulama-bio" style="margin-top:15px;"><p>KH. Usman adalah pendiri Musholla Al-Ikhlas di Kebagusan. Beliau meletakkan batu pertama dakwah Islam di wilayah ini, membangun musholla yang menjadi cikal bakal Masjid Jami\' Al-Ikhlas.</p></div></div></div>'},
-'silsilah-gen2': {title:'👳 Generasi 2: KH. M. Hamdani', content:'<div class="ulama-card" style="grid-template-columns: 200px 1fr;"><div class="ulama-photo" style="width:200px;height:240px;font-size:5rem;">👳</div><div class="ulama-info"><h3 style="color:#e8d48b;font-size:1.8rem;margin-bottom:8px;">KH. M. Hamdani</h3><div class="arabic-name" style="font-family:\'Aref Ruqaa\',serif;font-size:1.6rem;color:#c9a84c;direction:rtl;margin-bottom:15px;line-height:1.5;">الْخَوْجَةُ مُحَمَّد حَمْدَانِي</div><div class="info-item"><strong>Peran:</strong> Anak & Penerus KH. Usman</div><div class="info-item"><strong>Generasi:</strong> Kedua</div><div class="ulama-bio" style="margin-top:15px;"><p>KH. M. Hamdani adalah anak dari KH. Usman yang meneruskan perjuangan dakwah ayahnya. Beliau memakmurkan musholla dan memperluas jangkauan dakwah di Kebagusan.</p></div></div></div>'},
-'silsilah-gen3': {title:'👨 Generasi 3: Ust. Amir Hamzah', content:'<div class="ulama-card" style="grid-template-columns: 200px 1fr;"><div class="ulama-photo" style="width:200px;height:240px;font-size:5rem;">👨</div><div class="ulama-info"><h3 style="color:#e8d48b;font-size:1.8rem;margin-bottom:8px;">Ust. Amir Hamzah</h3><div class="arabic-name" style="font-family:\'Aref Ruqaa\',serif;font-size:1.6rem;color:#c9a84c;direction:rtl;margin-bottom:15px;line-height:1.5;">الْأُسْتَاذ أَمِير حَمْزَة</div><div class="info-item"><strong>Peran:</strong> Penerus & Transformer</div><div class="info-item"><strong>Generasi:</strong> Ketiga</div><div class="info-item"><strong>Kontribusi:</strong> Mengubah Musholla menjadi Masjid Jami\' Al-Ikhlas</div><div class="ulama-bio" style="margin-top:15px;"><p>Ust. Amir Hamzah adalah cucu KH. Usman dan anak KH. M. Hamdani. Beliau adalah transformer yang mengubah status Musholla Al-Ikhlas menjadi Masjid Jami\' Al-Ikhlas dengan standar nasional & internasional.</p></div></div></div>'},
-'silsilah-peta': {title:'🗺️ Peta Silsilah', content:'<div class="sub-timeline"><div class="timeline-item"><div class="year">Generasi Pertama</div><div class="event"><strong>KH. Usman</strong> — Pendiri Musholla Al-Ikhlas</div></div><div class="timeline-item"><div class="year">Generasi Kedua</div><div class="event"><strong>KH. M. Hamdani</strong> — Anak & Penerus KH. Usman</div></div><div class="timeline-item"><div class="year">Generasi Ketiga</div><div class="event"><strong>Ust. Amir Hamzah</strong> — Cucu KH. Usman, Transformer Musholla menjadi Masjid Jami\' Al-Ikhlas</div></div></div><div class="sub-info" style="margin-top:20px;"><strong>📌 Warisan Tiga Generasi:</strong> Mari kita doakan mereka: <em>"Allâhummaghfir lahum warhamhum wa \'âfihim wa\'fu \'anhum"</em>.</div>'},
-'ziarah-masuk': {title:'🚪 Doa Masuk Kuburan', content:'<div class="doa-card"><h3>📿 Doa Saat Masuk Kuburan</h3><div class="doa-arabic">السَّلَامُ عَلَيْكُمْ أَهْلَ الدِّيَارِ مِنَ الْمُؤْمِنِينَ وَالْمُسْلِمِينَ وَإِنَّا إِنْ شَاءَ اللَّهُ بِكُمْ لَاحِقُونَ</div><p class="doa-latin">"Assalâmu \'alaikum ahlad-diyâri minal mu\'minîna wal muslimîn, wa innâ in syâ\'allâhu bikum lâhiqûn."</p><p class="doa-translation">"Keselamatan atas kalian, wahai penghuni kubur dari kalangan orang-orang mukmin dan muslim. Dan sesungguhnya kami, jika Allah menghendaki, akan menyusul kalian."</p><p class="doa-source">📖 HR. Muslim</p></div>'},
-'ziarah-untuk-mayit': {title:'🤲 Doa Untuk Mayit', content:'<div class="doa-card"><h3>📿 Doa Untuk Mayit</h3><div class="doa-arabic">اللَّهُمَّ اغْفِرْ لَهُ وَارْحَمْهُ وَعَافِهِ وَاعْفُ عَنْهُ</div><p class="doa-latin">"Allâhummaghfir lahu warhamhu wa \'âfihi wa\'fu \'anhu."</p><p class="doa-translation">"Ya Allah, ampunilah dia, rahmatilah dia, afiatkan dia, dan maafkanlah dia."</p><p class="doa-source">📖 HR. Abu Daud, Tirmidzi</p></div>'},
-'ziarah-tata-cara': {title:'📋 Tata Cara Ziarah', content:'<ol style="color:#ccc;line-height:2;padding-left:20px;"><li>🚿 Berwudhu sebelum berangkat</li><li>🤲 Mengucapkan salam saat masuk kuburan</li><li>📖 Membaca Al-Qur\'an (Yasin, dll) untuk mayit</li><li>🤲 Mendoakan ampunan untuk mayit</li><li>🌿 Berdoa di sisi kubur dengan khusyuk</li><li>🚫 Tidak meratap atau menangis berlebihan</li></ol>'},
-'ziarah-adab': {title:'🌿 Adab Ziarah', content:'<ul style="color:#ccc;line-height:2;padding-left:20px;"><li>🌿 Niat ikhlas karena Allah</li><li>🌿 Mengingat kematian dan akhirat</li><li>🌿 Berbicara dengan sopan</li><li>🌿 Tidak duduk di atas kubur</li><li>🌿 Tidak menginjak kuburan</li><li>🌿 Mendoakan mayit dengan ikhlas</li></ul>'},
-'kahfi-ashabul': {title:'👥 Kisah 1: Ashabul Kahfi', content:'<p style="color:#ccc;line-height:1.8;">Kisah pemuda-pemuda beriman yang berlindung ke dalam gua dari kejaran raja zalim. Allah tidurkan mereka selama 309 tahun, lalu membangunkan mereka kembali.</p><div class="sub-info"><strong>Pelajaran:</strong> Keimanan kepada Allah akan dilindungi-Nya, meskipun harus bersembunyi.</div>'},
-'kahfi-jannatain': {title:'🌳 Kisah 2: Shahibul Jannatain', content:'<p style="color:#ccc;line-height:1.8;">Kisah dua orang laki-laki, salah satunya sombong dengan dua kebunnya yang subur, lalu mengingkari hari kiamat. Allah hancurkan kebunnya sebagai pelajaran.</p><div class="sub-info"><strong>Pelajaran:</strong> Harta dunia tidak kekal, jangan sombong dan jangan lupa kepada Allah.</div>'},
-'kahfi-musakhidir': {title:'🧕 Kisah 3: Musa & Khidir', content:'<p style="color:#ccc;line-height:1.8;">Kisah Nabi Musa AS yang belajar dari seorang hamba Allah yang lebih berilmu (Khidhir). Tiga peristiwa aneh yang dilakukan Khidir ternyata memiliki hikmah yang dalam.</p><div class="sub-info"><strong>Pelajaran:</strong> Jangan cepat menilai sesuatu sebelum mengetahui hikmah di baliknya.</div>'},
-'kahfi-dzulqarnain': {title:'👑 Kisah 4: Dzulqarnain', content:'<p style="color:#ccc;line-height:1.8;">Kisah raja adil yang mengelilingi bumi dari barat ke timur, membantu kaum yang tertindas, dan membangun tembaga untuk menghalangi Ya\'juj dan Ma\'juj.</p><div class="sub-info"><strong>Pelajaran:</strong> Kekuasaan harus digunakan untuk menegakkan keadilan dan membantu yang lemah.</div>'},
-'kahfi-keutamaan': {title:'✨ Keutamaan Surat Al-Kahfi', content:'<ul style="color:#ccc;line-height:2;padding-left:20px;"><li>🌟 Dibaca setiap hari Jumat</li><li>🌟 Diterangi cahaya di antara dua Jumat</li><li>🌟 Terjaga dari fitnah Dajjal</li><li>🌟 Mendapat pahala besar</li></ul><div class="sub-quote"><div class="quote-text">"Barangsiapa membaca Surat Al-Kahfi pada hari Jumat, akan diterangi cahaya di antara dua Jumat."</div><div class="quote-source">— HR. Al-Hakim & Al-Baihaqi</div></div>'},
-'ptua-ampel': {title:'🏛️ Pesantren Ampel Denta (1419)', content:'<p style="color:#ccc;line-height:1.8;"><strong>Pendiri:</strong> Sunan Ampel (Raden Rahmat)</p><p style="color:#ccc;line-height:1.8;"><strong>Lokasi:</strong> Ampel, Surabaya, Jawa Timur</p><p style="color:#ccc;line-height:1.8;"><strong>Sejarah:</strong> Pesantren pertama di Jawa, menjadi pusat dakwah Wali Songo.</p>'},
-'ptua-giri': {title:'🏛️ Pesantren Giri (1419)', content:'<p style="color:#ccc;line-height:1.8;"><strong>Pendiri:</strong> Sunan Giri (Raden Paku)</p><p style="color:#ccc;line-height:1.8;"><strong>Lokasi:</strong> Gresik, Jawa Timur</p><p style="color:#ccc;line-height:1.8;"><strong>Sejarah:</strong> Pusat dakwah Islam di Jawa Timur dan Nusantara bagian timur.</p>'},
-'ptua-sidogiri': {title:'🏛️ Pesantren Sidogiri (1745)', content:'<p style="color:#ccc;line-height:1.8;"><strong>Pendiri:</strong> Sayyid Sulaiman</p><p style="color:#ccc;line-height:1.8;"><strong>Lokasi:</strong> Pasuruan, Jawa Timur</p><p style="color:#ccc;line-height:1.8;"><strong>Sejarah:</strong> Pesantren tertua yang masih aktif di Jawa Timur.</p>'},
-'ptua-tebuireng': {title:'🏛️ Pesantren Tebuireng (1899)', content:'<p style="color:#ccc;line-height:1.8;"><strong>Pendiri:</strong> K.H. Hasyim Asy\'ari</p><p style="color:#ccc;line-height:1.8;"><strong>Lokasi:</strong> Jombang, Jawa Timur</p><p style="color:#ccc;line-height:1.8;"><strong>Sejarah:</strong> Pesantren terbesar di Jawa pada masanya, cikal bakal Nahdlatul Ulama.</p>'},
-'ptua-lirboyo': {title:'🏛️ Pesantren Lirboyo (1910)', content:'<p style="color:#ccc;line-height:1.8;"><strong>Pendiri:</strong> K.H. Moinuddin</p><p style="color:#ccc;line-height:1.8;"><strong>Lokasi:</strong> Kediri, Jawa Timur</p><p style="color:#ccc;line-height:1.8;"><strong>Sejarah:</strong> Salah satu pesantren terbesar di Indonesia.</p>'}
+'kegiatan-idul-adha': {title:'🐪 Idul Adha', content:'<p style="color:#ccc;line-height:1.8;"><strong>10 Dzulhijjah</strong></p><p style="color:#ccc;line-height:1.8;">Hari raya qurban, mengenang pengorbanan Nabi Ibrahim AS. Dilaksanakan sholat Ied dan penyembelihan hewan qurban.</p>'}
 };
 function showSplitContent(page, key, btn){
 var sidebar = btn.closest('.split-sidebar');
@@ -1502,6 +1528,7 @@ var ulamaData=[
 {id:'sunan_kalijaga',kat:'Wali Songo',icon:'🎭',nama:'Sunan Kalijaga',arab:'سُونَانْ كَالِيجَاغَا',gelar:'Raden Said',lahir:'Tuban, 1450 M',wafat:'Demak, 1513 M',bio:'Wali paling akulturatif.',karya:['Tembang Ilir-ilir','Wayang Islam'],napakTilas:[{y:'1450 M',e:'Lahir di <strong>Tuban</strong>',m:1},{y:'1513 M',e:'Wafat di <strong>Demak</strong>',m:1}]},
 {id:'sunan_gunung_jati',kat:'Wali Songo',icon:'🌹',nama:'Sunan Gunung Jati',arab:'سُونَانْ غُونُوغ جَاتِي',gelar:'Syarif Hidayatullah',lahir:'Mesir, 1448 M',wafat:'Cirebon, 1568 M',bio:'Pendiri Kesultanan Cirebon dan Banten.',karya:['Kesultanan Cirebon','Kesultanan Banten'],napakTilas:[{y:'1448 M',e:'Lahir di <strong>Mesir</strong>',m:1},{y:'1568 M',e:'Wafat di <strong>Cirebon</strong>',m:1}]}
 ];
+
 function renderUlamaList(){
 var list=document.getElementById('ulamaList');if(!list)return;
 var searchInput=document.getElementById('searchUlama');
@@ -1532,6 +1559,7 @@ for(var i=0;i<buttons.length;i++){
 buttons[i].addEventListener('click',function(){tampilkanBiografi(this.getAttribute('data-id'),this)});
 }
 }
+
 function tampilkanBiografi(id,btn){
 var u=null;
 for(var i=0;i<ulamaData.length;i++){if(ulamaData[i].id===id){u=ulamaData[i];break}}
@@ -1569,10 +1597,12 @@ detail.innerHTML=html;
 detail.scrollTop=0;
 tutupSidebarDariBtn(btn);
 }
+
 function initBiografi(){
 var searchInput=document.getElementById('searchUlama');
 if(searchInput){searchInput.addEventListener('keyup',renderUlamaList);renderUlamaList()}
 }
+
 var kitabData = {
 'aqidah-tauhid': {
 'Aqidah': {icon: '🕌',kitab: {'Aqidatul Awam': {arab: 'عَقِيدَةُ الْعَوَامّ',author: 'Imam Al-Habib Alwi Al-Haddad',desc: 'Kitab dasar aqidah Ahlussunnah wal Jamaah (Asy\'ariyah) berbentuk nadhom yang diajarkan kepada orang awam.',jilid: [{jilid:1, label:'Jilid 1', pdf:'pdf/aqidatul-awam-jilid-1.pdf'},{jilid:2, label:'Jilid 2', pdf:'pdf/aqidatul-awam-jilid-2.pdf'}]}}},
@@ -1612,6 +1642,7 @@ var kitabData = {
 {nama:'Nadhom Al-Maqshur wal Mamdud',arab:'نَظْمُ الْمَقْصُورِ وَالْمَمْدُود',author:'Ibnu Malik',desc:'Nadhom tentang isim maqshur dan mamdud.',jilid:[{jilid:1, label:'Jilid 1', pdf:'pdf/maqshur-mamdud-jilid-1.pdf'},{jilid:2, label:'Jilid 2', pdf:'pdf/maqshur-mamdud-jilid-2.pdf'}]}
 ]
 };
+
 function renderKitabNested(categoryKey, containerId, search){
 var container = document.getElementById(containerId);
 if(!container) return;
@@ -1670,6 +1701,7 @@ html += '</div>';
 }
 container.innerHTML = html || '<p style="color:#888;text-align:center;padding:10px;font-size:0.82rem;">Tidak ditemukan</p>';
 }
+
 function toggleKitabMenu(menuId, btn){
 var menu = document.getElementById(menuId);
 if(!menu) return;
@@ -1683,6 +1715,7 @@ for(var i=0;i<allHeaders.length;i++){allHeaders[i].classList.remove('active');}
 }
 if(!isOpen){menu.classList.add('open');btn.classList.add('active');}
 }
+
 function renderKitabList(){
 var searchInput = document.getElementById('searchKitab');
 var search = searchInput ? searchInput.value.toLowerCase() : '';
@@ -1695,7 +1728,9 @@ renderKitabBergilir('ushul','kitabUshul',search);
 renderKitabBergilir('nahwu','kitabNahwu',search);
 renderKitabBergilir('sharaf','kitabSharaf',search);
 }
+
 function filterKitab(){ renderKitabList(); }
+
 function renderKitabBergilir(categoryKey, containerId, search){
 var container = document.getElementById(containerId);
 if(!container) return;
@@ -1736,6 +1771,7 @@ html += '</div>';
 }
 container.innerHTML = html || '<p style="color:#888;text-align:center;padding:10px;font-size:0.82rem;">Tidak ditemukan</p>';
 }
+
 function toggleKitabSubmenu(submenuId, btn){
 var submenu = document.getElementById(submenuId);
 if(!submenu) return;
@@ -1749,6 +1785,7 @@ for(var i=0;i<allHeaders.length;i++){allHeaders[i].classList.remove('active');}
 }
 if(!isOpen){submenu.classList.add('open');btn.classList.add('active');}
 }
+
 function bacaKitabJilid(namaLengkap, pdfUrl){
 pastikanSidebarTerbuka('kitab-kuning');
 var container=document.getElementById('pdfViewerContainer');
@@ -1773,6 +1810,7 @@ loading.innerHTML='<div style="font-size:48px;margin-bottom:15px;">⚠️</div><
 }
 },15000);
 }
+
 function closePdfViewer(){
 var container=document.getElementById('pdfViewerContainer');
 var iframe=document.getElementById('pdfIframe');
@@ -1782,8 +1820,10 @@ document.body.classList.remove('pdf-viewer-active');
 if(welcome)welcome.style.display='block';
 setTimeout(function(){iframe.src=''},300);
 }
+
 function hidePdfLoading(){var l=document.getElementById('pdfLoading');if(l)l.style.display='none'}
 function initKitab(){renderKitabList()}
+
 var sholatKategoriData=[
 {id:'sholat-lima-waktu',icon:'🕌',nama:'Sholat-sholat Lima Waktu',desc:'Lima sholat fardhu (wajib) yang wajib dilaksanakan setiap hari.',sholat:[
 {judul:'🌅 Sholat Subuh (2 Rakaat)',arab:'أُصَلِّيْ فَرْضَ الصُّبْحِ رَكْعَتَيْنِ مُسْتَقْبِلَ الْقِبْلَةِ لِلَّهِ تَعَالَى',desc:'<ul><li><strong>Waktu:</strong> Terbit fajar shâdiq hingga terbit matahari</li><li><strong>Rakaat:</strong> 2 rakaat fardhu</li><li><strong>Qunut Subuh:</strong> Disunnahkan qunut sebelum rukuk pada rakaat kedua</li><li><strong>Sholat Rawatib:</strong> 2 rakaat sebelum fardhu (sunnah muakkadah)</li></ul>',ref:'Kitab Safînatun Najâh, Fathul Qarîb'},
@@ -1805,6 +1845,7 @@ var sholatKategoriData=[
 {judul:'🕊️ Sholat Jenazah',arab:'صَلَاةُ الْجَنَازَة',desc:'<ul><li><strong>Hukum:</strong> Fardhu kifayah</li><li><strong>Rakaat:</strong> 4 rakaat tanpa rukuk dan sujud</li><li><strong>Takbir:</strong> 4x</li></ul>',ref:'HR. Bukhari & Muslim'}
 ]}
 ];
+
 var sholatKitabPdfData=[
 {nama:'Kitab Safînatun Najâh',pdf:'pdf/safinatun-najah.pdf',icon:'📗'},
 {nama:'Kitab Fathul Qarîb',pdf:'pdf/fathul-qarib.pdf',icon:'📗'},
@@ -1812,6 +1853,7 @@ var sholatKitabPdfData=[
 {nama:'Kitab Minhâjut Thâlibîn',pdf:'pdf/minhajut-thalibin.pdf',icon:'📕'},
 {nama:'Kitab Al-Umm',pdf:'pdf/al-umm.pdf',icon:'📗'}
 ];
+
 function renderSholatList(){
 var catList=document.getElementById('sholatCategoryList');
 var kitabList=document.getElementById('sholatKitabList');
@@ -1847,6 +1889,7 @@ khtml+='</button>';
 }
 kitabList.innerHTML=khtml;
 }
+
 function tampilkanKategoriSholat(id,btn){
 var k=null;
 for(var i=0;i<sholatKategoriData.length;i++){if(sholatKategoriData[i].id===id){k=sholatKategoriData[i];break}}
@@ -1873,6 +1916,7 @@ content.innerHTML=html;
 content.style.display='block';
 tutupSidebarDariBtn(btn);
 }
+
 function bacaSholatPdf(nama,pdfUrl){
 pastikanSidebarTerbuka('sholat');
 var container=document.getElementById('sholatPdfViewerContainer');
@@ -1897,6 +1941,7 @@ loading.innerHTML='<div style="font-size:48px;margin-bottom:15px;">⚠️</div><
 }
 },15000);
 }
+
 function closeSholatPdfViewer(){
 var container=document.getElementById('sholatPdfViewerContainer');
 var iframe=document.getElementById('sholatPdfIframe');
@@ -1906,6 +1951,7 @@ document.body.classList.remove('pdf-viewer-active');
 content.style.display='block';
 setTimeout(function(){iframe.src=''},300);
 }
+
 function hideSholatPdfLoading(){var l=document.getElementById('sholatPdfLoading');if(l)l.style.display='none'}
 function initSholat(){renderSholatList()}
 var doaKategoriData=[
@@ -2036,6 +2082,7 @@ var doaKitabPdfData=[
 {nama:'Silsilah Tahlil',pdf:'pdf/silsilah-tahlil.pdf',icon:'📗'},
 {nama:'Silsilah Khatmil Quran',pdf:'pdf/silsilah-khatmil-quran.pdf',icon:'📗'}
 ];
+
 function renderDoaList(){
 var catList=document.getElementById('doaCategoryList');
 var kitabList=document.getElementById('doaKitabList');
@@ -2071,6 +2118,7 @@ khtml+='</button>';
 }
 kitabList.innerHTML=khtml;
 }
+
 function tampilkanKategoriDoa(id,btn){
 var k=null;
 for(var i=0;i<doaKategoriData.length;i++){if(doaKategoriData[i].id===id){k=doaKategoriData[i];break}}
@@ -2093,6 +2141,7 @@ content.innerHTML=html;
 content.style.display='block';
 tutupSidebarDariBtn(btn);
 }
+
 function renderDoaTunggal(d){
 var html='';
 html+='<div class="doa-item-card">';
@@ -2104,6 +2153,7 @@ if(d.ref)html+='<div class="doa-ref">📖 '+d.ref+'</div>';
 html+='</div>';
 return html;
 }
+
 function renderDoaRangkaian(d){
 var html='';
 var iconRangkaian=d.icon||'📿';
@@ -2136,6 +2186,7 @@ if(d.ref){html+='<div class="rangkaian-ref">'+d.ref+'</div>';}
 html+='</div>';
 return html;
 }
+
 function bacaDoaPdf(nama,pdfUrl){
 pastikanSidebarTerbuka('kumpulan-doa');
 var container=document.getElementById('doaPdfViewerContainer');
@@ -2160,6 +2211,7 @@ loading.innerHTML='<div style="font-size:48px;margin-bottom:15px;">⚠️</div><
 }
 },15000);
 }
+
 function closeDoaPdfViewer(){
 var container=document.getElementById('doaPdfViewerContainer');
 var iframe=document.getElementById('doaPdfIframe');
@@ -2169,8 +2221,10 @@ document.body.classList.remove('pdf-viewer-active');
 content.style.display='block';
 setTimeout(function(){iframe.src=''},300);
 }
+
 function hideDoaPdfLoading(){var l=document.getElementById('doaPdfLoading');if(l)l.style.display='none'}
 function initDoa(){renderDoaList()}
+
 function initHalaman(pageId){
 if(pageId==='biografi-ulama')setTimeout(initBiografi,100);
 if(pageId==='kumpulan-doa')setTimeout(initDoa,100);
@@ -2184,10 +2238,15 @@ var allClosed=document.querySelectorAll('.split-container.sidebar-closed');
 for(var i=0;i<allClosed.length;i++){allClosed[i].classList.remove('sidebar-closed');}
 initHalaman(pageId);
 };
+
+// ============================================
+// ✅ MASJID API & DATA HANDLER
+// ============================================
 (function(){
 var API_URL='https://script.google.com/macros/s/AKfycbzzXV6zS4EPUp6ShBEKcL-_DpUu7OsX_0_mUPPe1VNjTzZUqUIHHtcwsrANBKi74o1Wkg/exec?type=all';
 var DATA_CACHE={};
 var SHARE_CONFIG={title:'Masjid Jami Al-Ikhlas Kebagusan',text:'Assalamu alaikum. Mari kunjungi website resmi Masjid Jami Al-Ikhlas Kebagusan.',get url(){return window.location.href.split('#')[0]||'https://masjidalikhlaskebagusan.or.id'}};
+
 window.shareTo=function(platform){
 var text=encodeURIComponent(SHARE_CONFIG.text);var title=encodeURIComponent(SHARE_CONFIG.title);var url=encodeURIComponent(SHARE_CONFIG.url);var link='';
 switch(platform){
@@ -2199,26 +2258,31 @@ case 'email':link='mailto:?subject='+encodeURIComponent(title)+'&body='+encodeUR
 var opts=document.getElementById('shareOptions');var btn=document.getElementById('shareFabBtn');
 if(opts)opts.classList.remove('open');if(btn)btn.classList.remove('active');
 };
+
 window.copyLink=function(){
 var url=SHARE_CONFIG.url;
 if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(function(){showToast('✅ Link berhasil disalin')}).catch(function(){fallbackCopy(url)});}
 else{fallbackCopy(url)}
 };
+
 function fallbackCopy(text){
 var textarea=document.createElement('textarea');textarea.value=text;textarea.style.position='fixed';textarea.style.opacity='0';
 document.body.appendChild(textarea);textarea.select();
 try{document.execCommand('copy');showToast('✅ Link berhasil disalin')}catch(e){showToast('❌ Gagal menyalin')}
 document.body.removeChild(textarea);
 }
+
 window.showToast=function(pesan){
 var toast=document.getElementById('toast');if(!toast)return;
 toast.innerText=pesan;toast.classList.add('show');
 clearTimeout(window._toastTimer);window._toastTimer=setTimeout(function(){toast.classList.remove('show')},3500);
 };
+
 window.toggleShareFab=function(){
 var opts=document.getElementById('shareOptions');var btn=document.getElementById('shareFabBtn');
 if(!opts||!btn)return;opts.classList.toggle('open');btn.classList.toggle('active');
 };
+
 document.addEventListener('click',function(e){
 var fab=document.getElementById('shareFab');
 if(fab&&!fab.contains(e.target)){
@@ -2226,8 +2290,11 @@ var opts=document.getElementById('shareOptions');var btn=document.getElementById
 if(opts)opts.classList.remove('open');if(btn)btn.classList.remove('active');
 }
 });
+
 function formatRp(n){var angka=Number(n)||0;angka=Math.round(angka);return 'Rp '+angka.toLocaleString('id-ID')}
 function toNumber(v){if(v===null||v===undefined||v==='')return 0;var s=String(v).replace(/[^\d\.\-,]/g,'').replace(/,/g,'');var n=parseFloat(s);if(isNaN(n))return 0;return Math.round(n)}
+
+// Masjid dropdown handler
 (function(){
 var toggles=document.querySelectorAll('.dropdown-toggle');
 for(var i=0;i<toggles.length;i++){
@@ -2258,6 +2325,7 @@ if(menuToggle&&navList){menuToggle.addEventListener('click',function(){navList.c
 var navLinks=document.querySelectorAll('.nav-list > li > a:not(.dropdown-toggle)');
 for(var m=0;m<navLinks.length;m++){navLinks[m].addEventListener('click',function(){navList.classList.remove('open')})}
 })();
+
 var JUMLAH_RETRY=0;
 function loadAllData(){
 fetch(API_URL+'&_='+Date.now(),{method:'GET',redirect:'follow'})
@@ -2272,6 +2340,7 @@ if(JUMLAH_RETRY<3){JUMLAH_RETRY++;setTimeout(loadAllData,2000)}
 else{tampilkanError('Koneksi gagal. Periksa internet Anda lalu refresh halaman.');JUMLAH_RETRY=0}
 });
 }
+
 function tampilkanError(pesan){
 var ids=['bodyTransaksi','bodyTransaksiPHBI','bodyTransaksiSantunan','bodyJumat','bodyRawatib','bodyDzikir','bodyPanitia','gridPendidikan','gridProposal'];
 for(var i=0;i<ids.length;i++){
@@ -2280,7 +2349,9 @@ if(el.tagName==='TBODY'){var cols=el.parentElement.querySelector('thead').rows[0
 else{el.innerHTML='<div class="error-msg">Gagal memuat: '+pesan+'</div>'}
 }
 }
+
 function renderSemua(){renderTransaksi();renderTransaksiPHBI();renderTransaksiSantunan();renderJumat();renderRawatib();renderDzikir();renderPanitia();renderPendidikan();renderProposal()}
+
 function renderTransaksi(){
 var d=DATA_CACHE.transaksi||{ringkasan:{masuk:0,keluar:0,saldo:0},data:[]};var listData=d.data||[];
 var totalMasuk=0,totalKeluar=0;
@@ -2302,6 +2373,7 @@ html+='<tr><td>'+(i+1)+'</td><td>'+(r.tanggal||'-')+'</td><td><code>'+(r.bukti||
 }
 tbody.innerHTML=html;
 }
+
 function renderTransaksiPHBI(){
 var d=DATA_CACHE.transaksi_phbi||{ringkasan:{masuk:0,keluar:0,saldo:0},data:[]};var listData=d.data||[];
 var totalMasuk=0,totalKeluar=0;
@@ -2329,6 +2401,7 @@ html+='<tr><td>'+(i+1)+'</td><td>'+(r.tanggal||'-')+'</td><td><code>'+(r.bukti||
 }
 tbody.innerHTML=html;
 }
+
 function renderTransaksiSantunan(){
 var d=DATA_CACHE.transaksi_santunan||{ringkasan:{masuk:0,keluar:0,saldo:0},data:[]};var listData=d.data||[];
 var totalMasuk=0,totalKeluar=0;
@@ -2358,11 +2431,13 @@ html+='<tr><td>'+(i+1)+'</td><td>'+(r.tanggal||'-')+'</td><td><code>'+(r.bukti||
 }
 tbody.innerHTML=html;
 }
+
 function renderJumat(){var data=DATA_CACHE.jumat||[];var tbody=document.getElementById('bodyJumat');if(data.length===0){tbody.innerHTML='<tr><td colspan="6" class="empty-msg">Belum ada jadwal petugas Jumat</td></tr>';return}var html='';for(var i=0;i<data.length;i++){var r=data[i];html+='<tr><td><strong>'+(r.Minggu_Ke||'-')+'</strong></td><td>'+(r.Tanggal||'-')+'</td><td>'+(r.Khatib||'-')+'</td><td>'+(r.Imam||'-')+'</td><td>'+(r.Muadzin||'-')+'</td><td>'+(r.Bilal||'-')+'</td></tr>'}tbody.innerHTML=html}
 function renderRawatib(){var data=DATA_CACHE.rawatib||[];var tbody=document.getElementById('bodyRawatib');if(data.length===0){tbody.innerHTML='<tr><td colspan="5" class="empty-msg">Belum ada jadwal petugas Rawatib</td></tr>';return}var html='';for(var i=0;i<data.length;i++){var r=data[i];html+='<tr><td><strong>'+(r.Waktu_Sholat||'-')+'</strong></td><td>'+(r.Jam||'-')+'</td><td>'+(r.Imam_Tetap||'-')+'</td><td>'+(r.Imam_Pengganti||'-')+'</td><td>'+(r.Muadzin||'-')+'</td></tr>'}tbody.innerHTML=html}
 function renderDzikir(){var data=DATA_CACHE.dzikir||[];var tbody=document.getElementById('bodyDzikir');if(data.length===0){tbody.innerHTML='<tr><td colspan="4" class="empty-msg">Belum ada jadwal Majlis Dzikir</td></tr>';return}var html='';for(var i=0;i<data.length;i++){var r=data[i];html+='<tr><td><strong>'+(r.Nama_Dzikir||'-')+'</strong></td><td>'+(r.Jadwal||'-')+'</td><td>'+(r.Jam_Mulai||'')+' - '+(r.Jam_Selesai||'')+'</td><td>'+(r.Pimpinan||'-')+'</td></tr>'}tbody.innerHTML=html}
 function renderPanitia(){var data=DATA_CACHE.panitia||[];var tbody=document.getElementById('bodyPanitia');if(data.length===0){tbody.innerHTML='<tr><td colspan="3" class="empty-msg">Belum ada data panitia PHBI</td></tr>';return}var html='';for(var i=0;i<data.length;i++){var r=data[i];html+='<tr><td><strong>'+(r.Jabatan||'-')+'</strong></td><td>'+(r.Nama||'-')+'</td><td>'+(r.No_HP||'-')+'</td></tr>'}tbody.innerHTML=html}
 function renderPendidikan(){var data=DATA_CACHE.pendidikan||[];var grid=document.getElementById('gridPendidikan');if(data.length===0){grid.innerHTML='<div class="empty-msg">Belum ada program pendidikan</div>';return}var html='';for(var i=0;i<data.length;i++){var r=data[i];html+='<div class="card"><span class="icon">🎓</span><h3>'+(r.Program||'Program')+'</h3><p><strong>Usia:</strong> '+(r.Usia||'-')+'</p><p><strong>Jadwal:</strong> '+(r.Jadwal||'-')+'</p><p><strong>Kurikulum:</strong> '+(r.Kurikulum||'-')+'</p><p><strong>Koordinator:</strong> '+(r.Koordinator||'-')+'</p><p><strong>Jumlah Santri:</strong> '+(r.Jumlah||0)+' orang</p></div>'}grid.innerHTML=html}
+
 function renderProposal(){
 var data=DATA_CACHE.proposal||[];var grid=document.getElementById('gridProposal');
 if(data.length===0){grid.innerHTML='<div class="empty-msg">Belum ada proposal aktif</div>';return}
@@ -2386,6 +2461,7 @@ html+='</div>';
 }
 grid.innerHTML=html;
 }
+
 var IS_LOADING_2=false;
 function sinkronisasi(){
 if(IS_LOADING_2)return;IS_LOADING_2=true;
@@ -2405,9 +2481,11 @@ var elSantunan=document.getElementById('liveTimeSantunan');if(elSantunan)elSantu
 window.addEventListener('DOMContentLoaded',function(){sinkronisasi()});
 setInterval(function(){if(!document.hidden)sinkronisasi()},3000);
 setInterval(loadAllData,2*60*1000);
+
 window.bukaModalDonasi=function(metode){document.getElementById('modalDonasi').style.display='block';document.getElementById('donasi_metode').value=metode;document.getElementById('formDonasi').reset();document.getElementById('donasi_metode').value=metode;document.getElementById('alertDonasi').style.display='none';document.body.style.overflow='hidden'};
 window.tutupModalDonasi=function(){document.getElementById('modalDonasi').style.display='none';document.body.style.overflow=''};
 document.getElementById('modalDonasi').addEventListener('click',function(e){if(e.target===this)tutupModalDonasi()});
+
 window.kirimDonasi=function(e){
 e.preventDefault();
 var btn=document.getElementById('btnDonasi');var alertBox=document.getElementById('alertDonasi');
@@ -2418,6 +2496,8 @@ fetch(API_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application
 .then(function(){alertBox.style.display='block';alertBox.style.background='#d4edda';alertBox.style.color='#155724';alertBox.innerHTML='✅ <strong>Alhamdulillah!</strong> Donasi Rp '+Number(payload.nominal).toLocaleString('id-ID')+' tercatat.<br><small>Jazakumullah khairan 🤲</small>';document.getElementById('formDonasi').reset();document.getElementById('donasi_metode').value=payload.metode;setTimeout(function(){sinkronisasi()},3000);btn.disabled=false;btn.innerText='✅ KIRIM KONFIRMASI'})
 .catch(function(err){alertBox.style.display='block';alertBox.style.background='#f8d7da';alertBox.style.color='#721c24';alertBox.innerText='❌ Gagal: '+err.message;btn.disabled=false;btn.innerText='✅ KIRIM KONFIRMASI'});
 };
+
+// Smooth scroll untuk anchor link
 (function(){
 var NAV_HEIGHT=60;var EXTRA_OFFSET=20;
 function scrollToTarget(targetId){var target=document.getElementById(targetId);if(!target)return;var targetPosition=target.getBoundingClientRect().top+window.pageYOffset;var offsetPosition=targetPosition-NAV_HEIGHT-EXTRA_OFFSET;window.scrollTo({top:offsetPosition,behavior:'auto'})}
@@ -2437,13 +2517,13 @@ var btnHero=document.querySelector('.btn-hero[href="#profil"]');
 if(btnHero){btnHero.addEventListener('click',function(e){e.preventDefault();scrollToTarget('profil')})}
 if(window.location.hash){var hash=window.location.hash.substring(1);setTimeout(function(){scrollToTarget(hash)},300)}
 })();
+
+// Input font-size fix
 (function(){
 var inputs=document.querySelectorAll('input, textarea, select, button');
 for(var i=0;i<inputs.length;i++){inputs[i].style.fontSize='16px';if(inputs[i].type==='number'){inputs[i].type='text';inputs[i].setAttribute('inputmode','numeric')}}
 document.addEventListener('touchstart',function(e){
-// Izinkan pinch-to-zoom (2 jari)
 if(e.touches.length===2)return;
-// Cegah zoom hanya pada 1 jari untuk elemen non-clickable
 if(e.touches.length>1){
 var target=e.target;
 var isClickable=target.closest('#logoBeranda, .btn-beranda-masjid, a, button, [onclick*="showHome"]');
@@ -2452,6 +2532,8 @@ if(!isClickable){e.preventDefault()}
 },{passive:false});
 document.addEventListener('gesturestart',function(e){e.preventDefault()});
 })();
+
+// Tampilkan satu section / semua section
 (function(){
 var semuaSection=document.querySelectorAll('.m-section');
 var showAllBtn=document.getElementById('showAllBtn');var activeLabel=document.getElementById('activeLabel');
@@ -2483,6 +2565,10 @@ var btnHero=document.querySelector('.btn-hero[href="#profil"]');
 if(btnHero){btnHero.addEventListener('click',function(e){e.preventDefault();window.tampilkanSatu('profil')})}
 })();
 })();
+
+// ============================================
+// ✅ PDF VIEWER UNTUK PROPOSAL
+// ============================================
 window.bukaPDF=function(pathRelatif,judul){
 var baseUrl='https://masjidalikhlaskebagusan99-dotcom.github.io/Masjid-Al-Ikhlas/';
 var urlPdf=baseUrl+pathRelatif.replace(/^\//,'');
@@ -2511,9 +2597,12 @@ ld.innerHTML='<div style="font-size:48px;margin-bottom:15px;">⚠️</div><p sty
 overlay.appendChild(header);overlay.appendChild(loading);overlay.appendChild(iframe);
 document.body.appendChild(overlay);document.body.style.overflow='hidden';
 };
+
 window.tutupPDF=function(){
 var overlay=document.getElementById('pdfOverlay');if(overlay)overlay.remove();document.body.style.overflow='';
 };
+
+// Keyboard protection
 document.addEventListener('keydown',function(e){
 if((e.ctrlKey||e.metaKey)&&e.key==='s'){e.preventDefault();showToast('🔒 Download dinonaktifkan');return false}
 if((e.ctrlKey||e.metaKey)&&e.key==='p'){e.preventDefault();showToast('🔒 Print dinonaktifkan');return false}
@@ -2521,6 +2610,7 @@ if(e.key==='F12'){e.preventDefault();return false}
 if((e.ctrlKey||e.metaKey)&&e.shiftKey&&e.key==='I'){e.preventDefault();return false}
 if((e.ctrlKey||e.metaKey)&&e.key==='u'){e.preventDefault();return false}
 });
+
 document.addEventListener('contextmenu',function(e){
 var pdfWrappers=document.querySelectorAll('.pdf-iframe-wrapper');
 for(var i=0;i<pdfWrappers.length;i++){
@@ -2529,6 +2619,10 @@ e.preventDefault();showToast('🔒 Klik kanan dinonaktifkan di area PDF viewer')
 }
 }
 });
+
+// ============================================
+// ✅ BERANDA BUTTON HANDLER
+// ============================================
 (function(){
 'use strict';
 function goToBeranda(e){
@@ -2554,6 +2648,7 @@ try{window.history.pushState(null,null,window.location.pathname);}catch(err){}
 return false;
 }
 window.showHome = goToBeranda;
+
 function pasangHandler(element){
 if(!element) return;
 if(element.getAttribute('data-beranda-fixed')==='1') return;
@@ -2572,6 +2667,7 @@ element.addEventListener('keydown',function(e){
 if(e.key==='Enter'||e.key===' '){e.preventDefault();goToBeranda(e);}
 },false);
 }
+
 function initBerandaButtons(){
 var logo=document.getElementById('logoBeranda');pasangHandler(logo);
 var btnBerandaMasjid=document.querySelector('.btn-beranda-masjid');pasangHandler(btnBerandaMasjid);
@@ -2583,6 +2679,7 @@ var txt=breadcrumbLinks[i].textContent||'';
 if(txt.indexOf('Beranda')!==-1){pasangHandler(breadcrumbLinks[i]);}
 }
 }
+
 document.addEventListener('click',function(e){
 var target=e.target;
 var berandaBtn=target.closest('#logoBeranda, .btn-beranda-masjid, [onclick*="showHome"]');
@@ -2599,6 +2696,7 @@ pasangHandler(berandaBtn);goToBeranda(e);
 }
 }
 },false);
+
 if(document.readyState==='loading'){
 document.addEventListener('DOMContentLoaded',initBerandaButtons);
 }else{
@@ -2608,113 +2706,78 @@ setTimeout(initBerandaButtons,300);
 setTimeout(initBerandaButtons,1000);
 setTimeout(initBerandaButtons,2500);
 })();
+
 // ============================================
 // ✅ ZOOM CONTROLLER: MOBILE vs DESKTOP MODE
 // ============================================
 (function(){
 'use strict';
-
-// Deteksi mode tampilan
 function detectDisplayMode(){
 var width=window.innerWidth;
 if(width<=900)return 'mobile';
 if(width<=1400)return 'desktop-tablet';
 return 'desktop-full';
 }
-
-// Atur zoom behavior berdasarkan mode
 function applyZoomBehavior(){
 var mode=detectDisplayMode();
 var meta=document.querySelector('meta[name="viewport"]');
 if(!meta)return;
-
 if(mode==='mobile'){
-// Mode Mobile: izinkan zoom out
 meta.setAttribute('content','width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=3.0');
 }else if(mode==='desktop-tablet'){
-// Mode Desktop di HP: izinkan zoom in lebih besar
 meta.setAttribute('content','width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0');
 }else{
-// Desktop full: zoom normal
 meta.setAttribute('content','width=device-width, initial-scale=1.0');
 }
 }
-
-// Terapkan saat load
 applyZoomBehavior();
-
-// Update saat resize (perubahan orientasi atau window size)
 var resizeTimer;
 window.addEventListener('resize',function(){
 clearTimeout(resizeTimer);
 resizeTimer=setTimeout(applyZoomBehavior,250);
 });
-
-// Deteksi perubahan orientasi
 window.addEventListener('orientationchange',function(){
 setTimeout(applyZoomBehavior,100);
 });
-
-// ============================================
-// ✅ PINCH-TO-ZOOM ENHANCEMENT
-// ============================================
 var initialDistance=0;
 var currentScale=1;
 var minScale=0.5;
 var maxScale=5.0;
-
 document.addEventListener('touchstart',function(e){
 if(e.touches.length===2){
-// Hitung jarak awal antara 2 jari
 initialDistance=getDistance(e.touches[0],e.touches[1]);
 }
 },{passive:true});
-
 document.addEventListener('touchmove',function(e){
 if(e.touches.length===2 && initialDistance>0){
-// Hitung jarak saat ini
 var currentDistance=getDistance(e.touches[0],e.touches[1]);
-// Hitung scale
 var scale=currentDistance/initialDistance;
-// Batasi scale
 scale=Math.max(minScale,Math.min(maxScale,scale));
-// Update current scale
 currentScale=scale;
 }
 },{passive:true});
-
 document.addEventListener('touchend',function(e){
 if(e.touches.length<2){
 initialDistance=0;
 }
 },{passive:true});
-
-// Helper: hitung jarak antara 2 titik
 function getDistance(touch1,touch2){
 var dx=touch1.clientX-touch2.clientX;
 var dy=touch1.clientY-touch2.clientY;
 return Math.sqrt(dx*dx+dy*dy);
 }
-
-// ============================================
-// ✅ DOUBLE-TAP TO ZOOM (opsional)
-// ============================================
 var lastTap=0;
 document.addEventListener('touchend',function(e){
 var currentTime=new Date().getTime();
 var tapLength=currentTime-lastTap;
 if(tapLength<300 && tapLength>0){
-// Double tap terdeteksi
 var mode=detectDisplayMode();
 var meta=document.querySelector('meta[name="viewport"]');
 if(!meta)return;
-
 if(currentScale>1.5){
-// Zoom out ke normal
 meta.setAttribute('content','width=device-width, initial-scale=1.0');
 currentScale=1;
 }else{
-// Zoom in 2x
 if(mode==='mobile'){
 meta.setAttribute('content','width=device-width, initial-scale=2.0');
 currentScale=2;
@@ -2727,8 +2790,12 @@ e.preventDefault();
 }
 lastTap=currentTime;
 },{passive:false});
-
 })();
+
+// ❌ DIHAPUS: Hack JS "PERBAIKI OTOMATIS" tidak diperlukan lagi
+// karena duplikasi <div class="marquee-bar"> sudah diperbaiki
+// di bagian HTML (Bagian 3).
+
 </script>
 </body>
 </html>
