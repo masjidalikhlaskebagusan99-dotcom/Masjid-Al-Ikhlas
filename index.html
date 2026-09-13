@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Al-Ikhlas - Layanan Jamaah Islam Kebagusan</title>
 <meta name="description" content="Website resmi Masjid Jami' Al-Ikhlas Kebagusan, Pasar Minggu, Jakarta Selatan.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -132,7 +132,7 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-g
 .sub-search{width:100%;margin-top:10px;padding:12px 18px;border-radius:25px;border:1px solid rgba(201,168,76,0.3);background:rgba(0,0,0,0.3);color:#fff;font-size:15px;outline:none}
 .sub-search:focus{border-color:#c9a84c}
 .split-container{display:flex;gap:25px;max-width:1400px;margin:0 auto;padding:0 30px 60px;align-items:flex-start}
-.split-sidebar{width:320px;flex-shrink:0;background:rgba(255,255,255,0.03);border:1px solid rgba(201,168,76,0.2);border-radius:15px;padding:15px;max-height:95vh;overflow-y:auto;position:sticky;top:80px}
+.split-sidebar{width:340px;flex-shrink:0;background:rgba(255,255,255,0.03);border:1px solid rgba(201,168,76,0.2);border-radius:15px;padding:15px;max-height:95vh;overflow-y:auto;position:sticky;top:80px}
 .split-sidebar::-webkit-scrollbar{width:6px}
 .split-sidebar::-webkit-scrollbar-track{background:rgba(0,0,0,0.2);border-radius:10px}
 .split-sidebar::-webkit-scrollbar-thumb{background:rgba(201,168,76,0.4);border-radius:10px}
@@ -375,9 +375,9 @@ padding:0 8px 30px;
 gap:8px;
 }
 .split-sidebar,.biografi-sidebar,.doa-sidebar,.sholat-sidebar{
-width:150px!important;
-min-width:150px!important;
-max-width:150px!important;
+width:160px!important;
+min-width:160px!important;
+max-width:160px!important;
 position:sticky!important;
 top:65px!important;
 max-height:88vh!important;
@@ -475,9 +475,9 @@ line-height:1.8!important;
 }
 @media (max-width:400px){
 .split-sidebar,.biografi-sidebar,.doa-sidebar,.sholat-sidebar{
-width:120px!important;
-min-width:120px!important;
-max-width:120px!important;
+width:160px!important;
+min-width:160px!important;
+max-width:1600px!important;
 }
 .split-btn,.ulama-button,.doa-button,.sholat-button{
 padding:5px 3px!important;
@@ -816,6 +816,52 @@ font-size:0.82rem;
 min-height:50px;
 }
 }
+/* ============================================
+✅ ZOOM BEHAVIOR: MOBILE vs DESKTOP MODE
+============================================ */
+/* Default: izinkan zoom */
+body{
+touch-action:manipulation;
+-webkit-text-size-adjust:100%;
+-ms-text-size-adjust:100%;
+}
+
+/* Mode Mobile: zoom out diperbolehkan */
+@media (max-width:900px){
+body{
+min-width:auto;
+overflow-x:hidden;
+}
+/* Pastikan elemen tidak terpotong saat zoom out */
+.page-content,.split-container,.masjid-page{
+max-width:100vw;
+overflow-x:auto;
+}
+}
+
+/* Mode Desktop di HP: zoom in diperbolehkan */
+@media (min-width:901px) and (max-width:1400px){
+body{
+min-width:auto;
+}
+}
+
+/* Cegah zoom hanya pada input fields (standar mobile UX) */
+input,textarea,select{
+font-size:16px!important;
+}
+
+/* Smooth zoom transition */
+*{
+transition:transform 0.1s ease-out;
+}
+
+/* Pastikan PDF viewer tetap fullscreen saat zoom */
+.pdf-viewer-container.active{
+position:fixed!important;
+inset:0!important;
+z-index:9999!important;
+}
 </style>
 </head>
 <body>
@@ -891,7 +937,7 @@ Masjid Jami' Al-Ikhlas
 </nav>
 <!-- MARQUEE -->
 <div class="marquee-bar">
-<div class="marquee-label"><span class="icon">📢</span> INFORMASI MASJID JAMI' AL-IKHLAS</div>
+<div class="marquee-label"><span class="icon">📢</span></div>
 <div class="marquee-content">
 <div class="marquee-text">
 <a href="#" onclick="showPage('silsilah'); return false;">KH. Usman</a>, Pendiri Musholla Al-Ikhlas, Kebagusan ◆ KH. M. Hamdani anak dan Penerus KH. Usman ◆ Ust. Amir Hamzah cucu KH. Usman & Anak KH. M. Hamdani Penerus & Perubah Peningkatan Musholla Menjadi Masjid Jami' Al-Ikhlas ◆
@@ -1162,6 +1208,11 @@ const dateStr=`${dayName}, ${date} ${month} ${year} · ${hijriDate} · ${hours}:
 document.getElementById('dateTimeDisplay').textContent=dateStr;
 }
 updateDateTime();setInterval(updateDateTime,60000);
+
+// ============================================
+// ✅ MARQUEE DENGAN JEDA 2 DETIK
+// ============================================
+
 (function(){
 var parentLinks=document.querySelectorAll('.nav-menu > li > a.dropdown-parent');
 for(var i=0;i<parentLinks.length;i++){
@@ -2390,6 +2441,9 @@ if(window.location.hash){var hash=window.location.hash.substring(1);setTimeout(f
 var inputs=document.querySelectorAll('input, textarea, select, button');
 for(var i=0;i<inputs.length;i++){inputs[i].style.fontSize='16px';if(inputs[i].type==='number'){inputs[i].type='text';inputs[i].setAttribute('inputmode','numeric')}}
 document.addEventListener('touchstart',function(e){
+// Izinkan pinch-to-zoom (2 jari)
+if(e.touches.length===2)return;
+// Cegah zoom hanya pada 1 jari untuk elemen non-clickable
 if(e.touches.length>1){
 var target=e.target;
 var isClickable=target.closest('#logoBeranda, .btn-beranda-masjid, a, button, [onclick*="showHome"]');
@@ -2553,6 +2607,127 @@ initBerandaButtons();
 setTimeout(initBerandaButtons,300);
 setTimeout(initBerandaButtons,1000);
 setTimeout(initBerandaButtons,2500);
+})();
+// ============================================
+// ✅ ZOOM CONTROLLER: MOBILE vs DESKTOP MODE
+// ============================================
+(function(){
+'use strict';
+
+// Deteksi mode tampilan
+function detectDisplayMode(){
+var width=window.innerWidth;
+if(width<=900)return 'mobile';
+if(width<=1400)return 'desktop-tablet';
+return 'desktop-full';
+}
+
+// Atur zoom behavior berdasarkan mode
+function applyZoomBehavior(){
+var mode=detectDisplayMode();
+var meta=document.querySelector('meta[name="viewport"]');
+if(!meta)return;
+
+if(mode==='mobile'){
+// Mode Mobile: izinkan zoom out
+meta.setAttribute('content','width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=3.0');
+}else if(mode==='desktop-tablet'){
+// Mode Desktop di HP: izinkan zoom in lebih besar
+meta.setAttribute('content','width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0');
+}else{
+// Desktop full: zoom normal
+meta.setAttribute('content','width=device-width, initial-scale=1.0');
+}
+}
+
+// Terapkan saat load
+applyZoomBehavior();
+
+// Update saat resize (perubahan orientasi atau window size)
+var resizeTimer;
+window.addEventListener('resize',function(){
+clearTimeout(resizeTimer);
+resizeTimer=setTimeout(applyZoomBehavior,250);
+});
+
+// Deteksi perubahan orientasi
+window.addEventListener('orientationchange',function(){
+setTimeout(applyZoomBehavior,100);
+});
+
+// ============================================
+// ✅ PINCH-TO-ZOOM ENHANCEMENT
+// ============================================
+var initialDistance=0;
+var currentScale=1;
+var minScale=0.5;
+var maxScale=5.0;
+
+document.addEventListener('touchstart',function(e){
+if(e.touches.length===2){
+// Hitung jarak awal antara 2 jari
+initialDistance=getDistance(e.touches[0],e.touches[1]);
+}
+},{passive:true});
+
+document.addEventListener('touchmove',function(e){
+if(e.touches.length===2 && initialDistance>0){
+// Hitung jarak saat ini
+var currentDistance=getDistance(e.touches[0],e.touches[1]);
+// Hitung scale
+var scale=currentDistance/initialDistance;
+// Batasi scale
+scale=Math.max(minScale,Math.min(maxScale,scale));
+// Update current scale
+currentScale=scale;
+}
+},{passive:true});
+
+document.addEventListener('touchend',function(e){
+if(e.touches.length<2){
+initialDistance=0;
+}
+},{passive:true});
+
+// Helper: hitung jarak antara 2 titik
+function getDistance(touch1,touch2){
+var dx=touch1.clientX-touch2.clientX;
+var dy=touch1.clientY-touch2.clientY;
+return Math.sqrt(dx*dx+dy*dy);
+}
+
+// ============================================
+// ✅ DOUBLE-TAP TO ZOOM (opsional)
+// ============================================
+var lastTap=0;
+document.addEventListener('touchend',function(e){
+var currentTime=new Date().getTime();
+var tapLength=currentTime-lastTap;
+if(tapLength<300 && tapLength>0){
+// Double tap terdeteksi
+var mode=detectDisplayMode();
+var meta=document.querySelector('meta[name="viewport"]');
+if(!meta)return;
+
+if(currentScale>1.5){
+// Zoom out ke normal
+meta.setAttribute('content','width=device-width, initial-scale=1.0');
+currentScale=1;
+}else{
+// Zoom in 2x
+if(mode==='mobile'){
+meta.setAttribute('content','width=device-width, initial-scale=2.0');
+currentScale=2;
+}else{
+meta.setAttribute('content','width=device-width, initial-scale=2.5');
+currentScale=2.5;
+}
+}
+e.preventDefault();
+}
+lastTap=currentTime;
+},{passive:false});
+
 })();
 </script>
 </body>
