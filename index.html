@@ -754,12 +754,67 @@ color:#888;font-size:0.75rem;text-align:right;font-style:italic;
 ============================================ */
 .split-container.sidebar-closed .split-sidebar{display:none}
 .split-container.sidebar-closed .split-detail{width:100%;max-width:1100px;margin:0 auto}
-.show-sidebar-btn{display:inline-flex;align-items:center;gap:8px;margin-bottom:18px;padding:11px 22px;background:linear-gradient(135deg,#c9a84c,#e8d48b);color:#1a0a2e;border:none;border-radius:25px;font-size:0.9rem;font-weight:700;cursor:pointer;transition:all 0.3s;font-family:inherit;box-shadow:0 3px 12px rgba(201,168,76,0.3);touch-action:manipulation;-webkit-tap-highlight-color:rgba(201,168,76,0.4);user-select:none;-webkit-user-select:none;pointer-events:auto}
-.show-sidebar-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(201,168,76,0.45)}
-.show-sidebar-btn:active{transform:scale(0.96)}
+.show-sidebar-btn{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+gap:8px;
+margin-bottom:18px;
+padding:14px 24px;
+background:linear-gradient(135deg,#c9a84c,#e8d48b);
+color:#1a0a2e;
+border:none;
+border-radius:30px;
+font-size:0.95rem;
+font-weight:700;
+cursor:pointer;
+transition:all 0.3s;
+font-family:inherit;
+box-shadow:0 4px 15px rgba(201,168,76,0.4);
+touch-action:manipulation;
+-webkit-tap-highlight-color:rgba(201,168,76,0.4);
+-webkit-appearance:none;
+appearance:none;
+user-select:none;
+-webkit-user-select:none;
+pointer-events:auto;
+min-height:48px;
+min-width:200px;
+position:relative;
+z-index:10;
+text-align:center;
+line-height:1.2;
+}
+.show-sidebar-btn:hover{
+transform:translateY(-2px);
+box-shadow:0 6px 20px rgba(201,168,76,0.5);
+}
+.show-sidebar-btn:active{
+transform:scale(0.96);
+opacity:0.9;
+}
 @media (max-width:900px){
 .split-container.sidebar-closed .split-detail{padding:15px!important}
-.show-sidebar-btn{padding:10px 18px;font-size:0.8rem;margin-bottom:12px;min-height:44px}
+.show-sidebar-btn{
+padding:14px 20px;
+font-size:0.88rem;
+margin-bottom:15px;
+min-height:52px;
+min-width:100%;
+max-width:320px;
+width:auto;
+display:flex;
+border-radius:28px;
+box-shadow:0 4px 18px rgba(201,168,76,0.5);
+letter-spacing:0.3px;
+}
+}
+@media (max-width:400px){
+.show-sidebar-btn{
+padding:13px 16px;
+font-size:0.82rem;
+min-height:50px;
+}
 }
 </style>
 </head>
@@ -959,7 +1014,7 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <div class="breadcrumb-dash"><a href="#" onclick="showHome(); return false;">Beranda</a> / Khazanah / <strong>Fiqih & Ushul Fiqih</strong></div>
 <div class="sub-hero"><div class="sub-arabic">الْفِقْهُ وَأُصُولُ الْفِقْهِ</div><h2>Fiqih & Ushul Fiqih</h2><p class="sub-subtitle">Memahami hukum-hukum Islam secara mendalam.</p></div>
 <div class="split-container">
-<aside class="split-sidebar"><h4>🕌 Empat Mazhab</h4><button class="split-btn" onclick="showSplitContent('fiqih','hanafi',this)"><span class="btn-icon">📗</span><span class="btn-text">Mazhab Hanafi</span></button><button class="split-btn" onclick="showSplitContent('fiqih','maliki',this)"><span class="btn-icon">📗</span><span class="btn-text">Mazhab Maliki</span></button><button class="split-btn active" onclick="showSplitContent('fiqih','syafii',this)"><span class="btn-icon">📗</span><span class="btn-text">Mazhab Syafi'i ⭐</span></button><button class="split-btn" onclick="showSplitContent('fiqih','hanbali',this)"><span class="btn-icon">📗</span><span class="btn-text">Mazhab Hanbali</span></button><h4>📐 Ushul Fiqih</h4><button class="split-btn" onclick="showSplitContent('fiqih','sumber-hukum',this)"><span class="btn-icon">📜</span><span class="btn-text">Sumber Hukum Islam</span></button><button class="split-btn" onclick="showSplitContent('fiqih','qiyas',this)"><span class="btn-icon">⚖️</span><span class="btn-text">Qiyas & Ijtihad</span></button><button class="split-btn" onclick="showSplitContent('fiqih','maqashid',this)"><span class="btn-icon">🎯</span><span class="btn-text">Maqashid Syariah</span></button></aside>
+<aside class="split-sidebar"><h4>🕌 Empat Mazhab</h4><button class="split-btn" onclick="showSplitContent('fiqih','hanafi',this)"><span class="btn-icon">📗</span><span class="btn-text">Mazhab Hanafi</span></button><button class="split-btn" onclick="showSplitContent('fiqih','maliki',this)"><span class="btn-icon">📗</span><span class="btn-text">Mazhab Maliki</span></button><button class="split-btn" onclick="showSplitContent('fiqih','syafii',this)"><span class="btn-icon">📗</span><span class="btn-text">Mazhab Syafi'i ⭐</span></button><button class="split-btn" onclick="showSplitContent('fiqih','hanbali',this)"><span class="btn-icon">📗</span><span class="btn-text">Mazhab Hanbali</span></button><h4>📐 Ushul Fiqih</h4><button class="split-btn" onclick="showSplitContent('fiqih','sumber-hukum',this)"><span class="btn-icon">📜</span><span class="btn-text">Sumber Hukum Islam</span></button><button class="split-btn" onclick="showSplitContent('fiqih','qiyas',this)"><span class="btn-icon">⚖️</span><span class="btn-text">Qiyas & Ijtihad</span></button><button class="split-btn" onclick="showSplitContent('fiqih','maqashid',this)"><span class="btn-icon">🎯</span><span class="btn-text">Maqashid Syariah</span></button></aside>
 <main class="split-detail" id="fiqihDetail"><div class="split-welcome"><div class="welcome-icon">⚖️</div><h3>Pilih Topik Fiqih</h3><p>Klik topik di panel sebelah kiri untuk mempelajari mazhab dan ushul fiqih.<br><br><em>"Barangsiapa yang dikehendaki Allah kebaikan, Allah akan pahamkan ia dalam agama (fiqih)."</em><br>— HR. Bukhari & Muslim</p></div></main>
 </div>
 </div>
@@ -1123,123 +1178,141 @@ var dropdownLinks=document.querySelectorAll('.nav-menu .dropdown li a');
 for(var k=0;k<dropdownLinks.length;k++){dropdownLinks[k].addEventListener('click',function(){tutupSemuaDropdownNavbar()})}
 })();
 // ============================================
-// ✅ SIDEBAR TOGGLE + RESET WELCOME — PENDEKATAN NODE CACHE
-// Welcome disimpan sebagai elemen DOM hidup, bukan string HTML.
-// Reset = memindahkan node welcome kembali ke tempatnya. PASTI bekerja di HP.
+// ✅ PERBAIKAN UTAMA: SIDEBAR BACK BUTTON - MOBILE COMPATIBLE
 // ============================================
-var SIDEBAR_BACK_BTN='<button class="show-sidebar-btn" type="button">☰ Kembali Tampilkan Sidebar</button>';
+var SIDEBAR_BACK_BTN='<button type="button" class="show-sidebar-btn" onclick="kembaliSidebarGlobal(this);return false;" ontouchstart="kembaliSidebarGlobal(this);return false;">☰ Kembali Tampilkan Sidebar</button>';
 var welcomeNodeCache={};
+var _sidebarBackCooldown=false;
 
-function _cariParentEl(el, className){
-if(!el)return null;
-if(el.closest)return el.closest('.'+className);
-var cur=el;
-while(cur && cur!==document){
-if(cur.classList && cur.classList.contains(className))return cur;
-cur=cur.parentElement||cur.parentNode;
-}
-return null;
-}
-
-// Simpan referensi node welcome untuk semua halaman (dipanggil saat load)
-function simpanSemuaWelcomeNode(){
-var details=document.querySelectorAll('.split-detail');
-for(var i=0;i<details.length;i++){
-var detail=details[i];
-var pageContent=_cariParentEl(detail,'page-content');
-if(!pageContent)continue;
-var pageId=pageContent.id;
-if(welcomeNodeCache[pageId])continue;
-var welcomeEl=detail.querySelector('.split-welcome');
-if(welcomeEl){
-welcomeNodeCache[pageId]=welcomeEl;
-}
-}
-}
-
-// Simpan welcome node untuk halaman tertentu (dipanggil sebelum render konten)
-function simpanWelcomeNode(btn){
+// ✅ Fungsi global yang dipanggil dari inline onclick - PALING RELIABLE di mobile
+window.kembaliSidebarGlobal=function(btn){
+if(_sidebarBackCooldown)return;
+_sidebarBackCooldown=true;
+setTimeout(function(){_sidebarBackCooldown=false;},400);
 if(!btn)return;
-var pageContent=_cariParentEl(btn,'page-content');
-if(!pageContent)return;
-var pageId=pageContent.id;
-if(welcomeNodeCache[pageId])return;
-var detail=pageContent.querySelector('.split-detail');
-if(!detail)return;
-var welcomeEl=detail.querySelector('.split-welcome');
-if(welcomeEl){
-welcomeNodeCache[pageId]=welcomeEl;
+var container=btn.closest?btn.closest('.split-container'):null;
+if(!container){
+var cur=btn.parentElement;
+while(cur&&cur!==document){
+if(cur.classList&&cur.classList.contains('split-container')){container=cur;break;}
+cur=cur.parentElement;
 }
 }
-
-// ✅ Fungsi utama tombol kembali: buka sidebar + reset ke Welcome Awal
-function kembaliSidebar(btn){
-if(!btn)return;
-var container=_cariParentEl(btn,'split-container');
 if(!container)return;
-// 1. Buka sidebar
 container.classList.remove('sidebar-closed');
-// 2. Hapus status active tombol sidebar
-var activeBtns=container.querySelectorAll('.split-btn.active');
+var activeBtns=container.querySelectorAll('.split-btn.active,.ulama-button.active,.doa-button.active,.sholat-button.active');
 for(var i=0;i<activeBtns.length;i++)activeBtns[i].classList.remove('active');
-// 3. Kembalikan welcome
-var pageContent=_cariParentEl(container,'page-content');
+var pageContent=btn.closest?btn.closest('.page-content'):null;
+if(!pageContent){
+var cur2=btn.parentElement;
+while(cur2&&cur2!==document){
+if(cur2.classList&&cur2.classList.contains('page-content')){pageContent=cur2;break;}
+cur2=cur2.parentElement;
+}
+}
 if(!pageContent)return;
 var pageId=pageContent.id;
 var welcomeNode=welcomeNodeCache[pageId];
 if(!welcomeNode)return;
-var detail=container.querySelector('.split-detail');
+var detail=container.querySelector('.split-detail,.biografi-detail,.doa-detail,.sholat-detail');
 if(!detail)return;
-// Tentukan target: untuk sholat/doa gunakan container konten mereka
 var target=detail;
 var sc=detail.querySelector('#sholatContent');
 var dc=detail.querySelector('#doaContent');
-if(sc && sc.contains(btn)){target=sc;}
-else if(dc && dc.contains(btn)){target=dc;}
-else if(sc){target=sc;}
-else if(dc){target=dc;}
-// Kosongkan target, lalu masukkan welcome node kembali
+if(sc)target=sc;
+else if(dc)target=dc;
 target.innerHTML='';
 target.appendChild(welcomeNode);
 target.style.display='block';
-}
+window.scrollTo({top:0,behavior:'smooth'});
+return false;
+};
 
+// ✅ Event delegation backup dengan capture phase (lebih reliable di mobile)
+document.addEventListener('click',function(e){
+var backBtn=e.target.closest?e.target.closest('.show-sidebar-btn'):null;
+if(backBtn){
+e.preventDefault();
+e.stopPropagation();
+window.kembaliSidebarGlobal(backBtn);
+return false;
+}
+},true);
+
+// ✅ Touch event handler backup
+document.addEventListener('touchend',function(e){
+var backBtn=e.target.closest?e.target.closest('.show-sidebar-btn'):null;
+if(backBtn){
+e.preventDefault();
+e.stopPropagation();
+window.kembaliSidebarGlobal(backBtn);
+return false;
+}
+},{passive:false});
+
+function simpanSemuaWelcomeNode(){
+var details=document.querySelectorAll('.split-detail,.biografi-detail,.doa-detail,.sholat-detail');
+for(var i=0;i<details.length;i++){
+var detail=details[i];
+var pageContent=detail.closest?detail.closest('.page-content'):null;
+if(!pageContent){
+var cur=detail.parentElement;
+while(cur&&cur!==document){
+if(cur.classList&&cur.classList.contains('page-content')){pageContent=cur;break;}
+cur=cur.parentElement;
+}
+}
+if(!pageContent)continue;
+var pageId=pageContent.id;
+if(welcomeNodeCache[pageId])continue;
+var welcomeEl=detail.querySelector('.split-welcome,.biografi-welcome,.doa-welcome,.sholat-welcome');
+if(welcomeEl){
+welcomeNodeCache[pageId]=welcomeEl;
+}
+}
+}
+function simpanWelcomeNode(btn){
+if(!btn)return;
+var pageContent=btn.closest?btn.closest('.page-content'):null;
+if(!pageContent){
+var cur=btn.parentElement;
+while(cur&&cur!==document){
+if(cur.classList&&cur.classList.contains('page-content')){pageContent=cur;break;}
+cur=cur.parentElement;
+}
+}
+if(!pageContent)return;
+var pageId=pageContent.id;
+if(welcomeNodeCache[pageId])return;
+var detail=pageContent.querySelector('.split-detail,.biografi-detail,.doa-detail,.sholat-detail');
+if(!detail)return;
+var welcomeEl=detail.querySelector('.split-welcome,.biografi-welcome,.doa-welcome,.sholat-welcome');
+if(welcomeEl){
+welcomeNodeCache[pageId]=welcomeEl;
+}
+}
 function tutupSidebarDariBtn(btn){
-var container=_cariParentEl(btn,'split-container');
+var container=btn.closest?btn.closest('.split-container'):null;
+if(!container){
+var cur=btn.parentElement;
+while(cur&&cur!==document){
+if(cur.classList&&cur.classList.contains('split-container')){container=cur;break;}
+cur=cur.parentElement;
+}
+}
 if(container)container.classList.add('sidebar-closed');
 }
-
 function pastikanSidebarTerbuka(pageId){
 var page=document.getElementById('page-'+pageId);
 if(page){var sc=page.querySelector('.split-container');if(sc)sc.classList.remove('sidebar-closed');}
 }
-
-// ✅ Event delegation untuk tombol kembali (mobile safe)
-var _kembaliSidebarTouchFired=false;
-document.addEventListener('touchend',function(e){
-var backBtn=_cariParentEl(e.target,'show-sidebar-btn');
-if(backBtn){
-_kembaliSidebarTouchFired=true;
-e.preventDefault();
-kembaliSidebar(backBtn);
-setTimeout(function(){_kembaliSidebarTouchFired=false;},400);
-}
-},{passive:false});
-document.addEventListener('click',function(e){
-var backBtn=_cariParentEl(e.target,'show-sidebar-btn');
-if(backBtn){
-if(_kembaliSidebarTouchFired){e.preventDefault();return;}
-kembaliSidebar(backBtn);
-}
-},false);
-
-// Init: simpan welcome node saat load
 if(document.readyState==='loading'){
 document.addEventListener('DOMContentLoaded',simpanSemuaWelcomeNode);
 }else{
 simpanSemuaWelcomeNode();
 }
 setTimeout(simpanSemuaWelcomeNode,500);
+setTimeout(simpanSemuaWelcomeNode,1500);
 // ============================================
 // ✅ GENERIC SPLIT CONTENT HANDLER (DIMODIFIKASI)
 // ============================================
