@@ -1161,7 +1161,21 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <div class="breadcrumb-dash"><a href="#" onclick="showHome(); return false;">Beranda</a> / <strong>Silsilah Saur Sepuh</strong></div>
 <div class="sub-hero"><div class="sub-arabic">شَجَرَةُ النَّسَب</div><h2>Silsilah Saur Sepuh Masjid Al-Ikhlas</h2><p class="sub-subtitle">Menelusuri jejak para pendiri dan penerus Musholla Al-Ikhlas.</p></div>
 <div class="split-container">
-<aside class="split-sidebar"><h4>🌳 Generasi Pendiri</h4><button class="split-btn active" onclick="showSplitContent('silsilah','gen1',this)"><span class="btn-icon">👳</span><span class="btn-text">KH. Usman (Pendiri)</span></button><button class="split-btn" onclick="showSplitContent('silsilah','gen2',this)"><span class="btn-icon">👳</span><span class="btn-text">KH. M. Hamdani (Penerus)</span></button><button class="split-btn" onclick="showSplitContent('silsilah','gen3',this)"><span class="btn-icon">👨</span><span class="btn-text">Ust. Amir Hamzah (Transformer)</span></button><h4>📜 Dokumen</h4><button class="split-btn" onclick="showSplitContent('silsilah','peta',this)"><span class="btn-icon">🗺️</span><span class="btn-text">Peta Silsilah</span></button></aside>
+<aside class="split-sidebar">
+  <input type="text" id="searchSilsilah" class="sub-search" 
+         placeholder="🔍 Cari nama saur sepuh..." 
+         onkeyup="renderSilsilahSidebar()">
+  <h4>🌳 Generasi Pendiri</h4>
+  <div id="silsilahList"></div>
+  <h4>📜 Visualisasi</h4>
+  <button class="split-btn" onclick="tampilkanPetaSilsilah(this)">
+    <span class="btn-icon">🗺️</span>
+    <span class="btn-text">Peta Silsilah</span>
+  </button>
+  <button class="split-add-btn" onclick="tambahGenerasiBaru()">
+    + Tambah Generasi Baru
+  </button>
+</aside>
 <main class="split-detail" id="silsilahDetail"><div class="split-welcome"><div class="welcome-icon">🌳</div><h3>Tiga Generasi Pendiri</h3><p>Klik nama di panel sebelah kiri untuk melihat profil lengkap.<br><br><em>"Sebaik-baik manusia adalah yang paling bermanfaat bagi manusia lainnya."</em><br>— HR. Ath-Thabrani</p></div></main>
 </div>
 </div>
@@ -1496,7 +1510,21 @@ var splitContentData = {
 'kegiatan-maulid': {title:'🌟 Maulid Nabi', content:'<p style="color:#ccc;line-height:1.8;"><strong>12 Rabiul Awal</strong></p><p style="color:#ccc;line-height:1.8;">Peringatan kelahiran Nabi Muhammad ﷺ dengan pembacaan sholawat, barzanji, dan tausiyah.</p>'},
 'kegiatan-isra-miraj': {title:'🕊️ Isra Mi\'raj', content:'<p style="color:#ccc;line-height:1.8;"><strong>27 Rajab</strong></p><p style="color:#ccc;line-height:1.8;">Peringatan perjalanan Nabi Muhammad ﷺ dari Masjidil Haram ke Masjidil Aqsha, lalu naik ke Sidratul Muntaha. Peristiwa disyariatkannya sholat 5 waktu.</p>'},
 'kegiatan-idul-fitri': {title:'🎉 Idul Fitri', content:'<p style="color:#ccc;line-height:1.8;"><strong>1 Syawal</strong></p><p style="color:#ccc;line-height:1.8;">Hari raya kemenangan setelah sebulan berpuasa. Dilaksanakan sholat Ied, halal bihalal, dan silaturahmi.</p>'},
-'kegiatan-idul-adha': {title:'🐪 Idul Adha', content:'<p style="color:#ccc;line-height:1.8;"><strong>10 Dzulhijjah</strong></p><p style="color:#ccc;line-height:1.8;">Hari raya qurban, mengenang pengorbanan Nabi Ibrahim AS. Dilaksanakan sholat Ied dan penyembelihan hewan qurban.</p>'}
+'kegiatan-idul-adha': {title:'🐪 Idul Adha', content:'<p style="color:#ccc;line-height:1.8;"><strong>10 Dzulhijjah</strong></p><p style="color:#ccc;line-height:1.8;">Hari raya qurban, mengenang pengorbanan Nabi Ibrahim AS. Dilaksanakan sholat Ied dan penyembelihan hewan qurban.</p>'},
+'ziarah-masuk': {title:'🚪 Doa Masuk Kuburan', content:'<div class="doa-card"><h3>📿 Doa Saat Masuk Kuburan</h3><div class="doa-arabic">السَّلَامُ عَلَيْكُمْ أَهْلَ الدِّيَارِ مِنَ الْمُؤْمِنِينَ وَالْمُسْلِمِينَ وَإِنَّا إِنْ شَاءَ اللَّهُ بِكُمْ لَاحِقُونَ</div><p class="doa-latin">"Assalâmu \'alaikum ahlad-diyâri minal mu\'minîna wal muslimîn, wa innâ in syâ\'allâhu bikum lâhiqûn."</p><p class="doa-translation">"Keselamatan atas kalian, wahai penghuni kubur dari kalangan orang-orang mukmin dan muslim. Dan sesungguhnya kami, jika Allah menghendaki, akan menyusul kalian."</p><p class="doa-source">📖 HR. Muslim</p></div>'},
+'ziarah-untuk-mayit': {title:'🤲 Doa Untuk Mayit', content:'<div class="doa-card"><h3>📿 Doa Untuk Mayit</h3><div class="doa-arabic">اللَّهُمَّ اغْفِرْ لَهُ وَارْحَمْهُ وَعَافِهِ وَاعْفُ عَنْهُ</div><p class="doa-latin">"Allâhummaghfir lahu warhamhu wa \'âfihi wa\'fu \'anhu."</p><p class="doa-translation">"Ya Allah, ampunilah dia, rahmatilah dia, afiatkan dia, dan maafkanlah dia."</p><p class="doa-source">📖 HR. Abu Daud, Tirmidzi</p></div>'},
+'ziarah-tata-cara': {title:'📋 Tata Cara Ziarah', content:'<ol style="color:#ccc;line-height:2;padding-left:20px;"><li>🚿 Berwudhu sebelum berangkat</li><li>🤲 Mengucapkan salam saat masuk kuburan</li><li>📖 Membaca Al-Qur\'an (Yasin, dll) untuk mayit</li><li>🤲 Mendoakan ampunan untuk mayit</li><li>🌿 Berdoa di sisi kubur dengan khusyuk</li><li>🚫 Tidak meratap atau menangis berlebihan</li></ol>'},
+'ziarah-adab': {title:'🌿 Adab Ziarah', content:'<ul style="color:#ccc;line-height:2;padding-left:20px;"><li>🌿 Niat ikhlas karena Allah</li><li>🌿 Mengingat kematian dan akhirat</li><li>🌿 Berbicara dengan sopan</li><li>🌿 Tidak duduk di atas kubur</li><li>🌿 Tidak menginjak kuburan</li><li>🌿 Mendoakan mayit dengan ikhlas</li></ul>'},
+'kahfi-ashabul': {title:'👥 Kisah 1: Ashabul Kahfi', content:'<p style="color:#ccc;line-height:1.8;">Kisah pemuda-pemuda beriman yang berlindung ke dalam gua dari kejaran raja zalim. Allah tidurkan mereka selama 309 tahun, lalu membangunkan mereka kembali.</p><div class="sub-info"><strong>Pelajaran:</strong> Keimanan kepada Allah akan dilindungi-Nya, meskipun harus bersembunyi.</div>'},
+'kahfi-jannatain': {title:'🌳 Kisah 2: Shahibul Jannatain', content:'<p style="color:#ccc;line-height:1.8;">Kisah dua orang laki-laki, salah satunya sombong dengan dua kebunnya yang subur, lalu mengingkari hari kiamat. Allah hancurkan kebunnya sebagai pelajaran.</p><div class="sub-info"><strong>Pelajaran:</strong> Harta dunia tidak kekal, jangan sombong dan jangan lupa kepada Allah.</div>'},
+'kahfi-musakhidir': {title:'🧕 Kisah 3: Musa & Khidir', content:'<p style="color:#ccc;line-height:1.8;">Kisah Nabi Musa AS yang belajar dari seorang hamba Allah yang lebih berilmu (Khidhir). Tiga peristiwa aneh yang dilakukan Khidir ternyata memiliki hikmah yang dalam.</p><div class="sub-info"><strong>Pelajaran:</strong> Jangan cepat menilai sesuatu sebelum mengetahui hikmah di baliknya.</div>'},
+'kahfi-dzulqarnain': {title:'👑 Kisah 4: Dzulqarnain', content:'<p style="color:#ccc;line-height:1.8;">Kisah raja adil yang mengelilingi bumi dari barat ke timur, membantu kaum yang tertindas, dan membangun tembaga untuk menghalangi Ya\'juj dan Ma\'juj.</p><div class="sub-info"><strong>Pelajaran:</strong> Kekuasaan harus digunakan untuk menegakkan keadilan dan membantu yang lemah.</div>'},
+'kahfi-keutamaan': {title:'✨ Keutamaan Surat Al-Kahfi', content:'<ul style="color:#ccc;line-height:2;padding-left:20px;"><li>🌟 Dibaca setiap hari Jumat</li><li>🌟 Diterangi cahaya di antara dua Jumat</li><li>🌟 Terjaga dari fitnah Dajjal</li><li>🌟 Mendapat pahala besar</li></ul><div class="sub-quote"><div class="quote-text">"Barangsiapa membaca Surat Al-Kahfi pada hari Jumat, akan diterangi cahaya di antara dua Jumat."</div><div class="quote-source">— HR. Al-Hakim & Al-Baihaqi</div></div>'},
+'ptua-ampel': {title:'🏛️ Pesantren Ampel Denta (1419)', content:'<p style="color:#ccc;line-height:1.8;"><strong>Pendiri:</strong> Sunan Ampel (Raden Rahmat)</p><p style="color:#ccc;line-height:1.8;"><strong>Lokasi:</strong> Ampel, Surabaya, Jawa Timur</p><p style="color:#ccc;line-height:1.8;"><strong>Sejarah:</strong> Pesantren pertama di Jawa, menjadi pusat dakwah Wali Songo.</p>'},
+'ptua-giri': {title:'🏛️ Pesantren Giri (1419)', content:'<p style="color:#ccc;line-height:1.8;"><strong>Pendiri:</strong> Sunan Giri (Raden Paku)</p><p style="color:#ccc;line-height:1.8;"><strong>Lokasi:</strong> Gresik, Jawa Timur</p><p style="color:#ccc;line-height:1.8;"><strong>Sejarah:</strong> Pusat dakwah Islam di Jawa Timur dan Nusantara bagian timur.</p>'},
+'ptua-sidogiri': {title:'🏛️ Pesantren Sidogiri (1745)', content:'<p style="color:#ccc;line-height:1.8;"><strong>Pendiri:</strong> Sayyid Sulaiman</p><p style="color:#ccc;line-height:1.8;"><strong>Lokasi:</strong> Pasuruan, Jawa Timur</p><p style="color:#ccc;line-height:1.8;"><strong>Sejarah:</strong> Pesantren tertua yang masih aktif di Jawa Timur.</p>'},
+'ptua-tebuireng': {title:'🏛️ Pesantren Tebuireng (1899)', content:'<p style="color:#ccc;line-height:1.8;"><strong>Pendiri:</strong> K.H. Hasyim Asy\'ari</p><p style="color:#ccc;line-height:1.8;"><strong>Lokasi:</strong> Jombang, Jawa Timur</p><p style="color:#ccc;line-height:1.8;"><strong>Sejarah:</strong> Pesantren terbesar di Jawa pada masanya, cikal bakal Nahdlatul Ulama.</p>'},
+'ptua-lirboyo': {title:'🏛️ Pesantren Lirboyo (1910)', content:'<p style="color:#ccc;line-height:1.8;"><strong>Pendiri:</strong> K.H. Moinuddin</p><p style="color:#ccc;line-height:1.8;"><strong>Lokasi:</strong> Kediri, Jawa Timur</p><p style="color:#ccc;line-height:1.8;"><strong>Sejarah:</strong> Salah satu pesantren terbesar di Indonesia.</p>'}
 };
 function showSplitContent(page, key, btn){
 var sidebar = btn.closest('.split-sidebar');
@@ -2224,12 +2252,296 @@ setTimeout(function(){iframe.src=''},300);
 
 function hideDoaPdfLoading(){var l=document.getElementById('doaPdfLoading');if(l)l.style.display='none'}
 function initDoa(){renderDoaList()}
+// ============================================
+// ✅ DATA SILSILAH SAUR SEPUH (DINAMIS - SCALABLE)
+// ============================================
+var silsilahData = [
+  {
+    generasi: 1,
+    id: 'gen1',
+    nama: 'KH. Usman',
+    arab: 'الْخَوْجَةُ عُثْمَان',
+    icon: '👳',
+    peran: 'Pendiri Musholla Al-Ikhlas',
+    lokasi: 'Kebagusan, Jakarta Selatan',
+    tahun: '1920 – 1985 M',
+    bio: 'KH. Usman adalah pendiri Musholla Al-Ikhlas di Kebagusan. Beliau meletakkan batu pertama dakwah Islam di wilayah ini, membangun musholla sederhana yang menjadi cikal bakal Masjid Jami\' Al-Ikhlas. Dengan kegigihan dan keikhlasan, beliau mengumpulkan warga untuk berjamaah dan belajar agama.',
+    warisan: [
+      'Mendirikan Musholla Al-Ikhlas (1950-an)',
+      'Merintis pengajian rutin warga Kebagusan',
+      'Meletakkan dasar dakwah Ahlussunnah wal Jamaah'
+    ],
 
+    napakTilas: [
+      { y: '1920', e: 'Lahir di <strong>Kebagusan, Jakarta Selatan</strong>', m: 1 },
+      { y: '1950', e: 'Mendirikan <strong>Musholla Al-Ikhlas</strong>', m: 1 },
+      { y: '1977', e: 'Wafat dan dimakamkan di <strong>Kebagusan</strong>', m: 1 }
+    ],
+
+    keturnan: [
+      { y: 'KH. Muhammad Hamdani, e:Anak Pertama (Alamarhun)</strong>', m: 1},
+      { y: 'H. Amenah, e:Anak Pertama (Alamarhun)</strong>', m: 1}
+  ]
+  },
+  {
+    generasi: 2,
+    id: 'gen2',
+    nama: 'KH. M. Hamdani',
+    arab: 'الْخَوْجَةُ مُحَمَّد حَمْدَانِي',
+    icon: '👳',
+    peran: 'Anak & Penerus KH. Usman',
+    lokasi: 'Kebagusan, Jakarta Selatan',
+    tahun: '1945 – 2010 M',
+    bio: 'KH. M. Hamdani adalah anak dari KH. Usman yang meneruskan perjuangan dakwah ayahnya. Beliau memakmurkan musholla, memperluas jangkauan dakwah di Kebagusan, dan menjadikan musholla sebagai pusat kegiatan umat. Di tangan beliaulah musholla mulai dikenal luas oleh warga sekitar.',
+    warisan: [
+      'Memperluas bangunan Musholla Al-Ikhlas',
+      'Mengaktifkan pengajian rutin mingguan',
+      'Merintis santunan yatim & dhuafa'
+    ],
+    napakTilas: [
+      { y: '1945', e: 'Lahir di <strong>Kebagusan</strong>', m: 1 },
+      { y: '1970', e: 'Mengambil alih kepemimpinan <strong>Musholla</strong>', m: 1 },
+      { y: '1990', e: 'Renovasi & perluasan musholla', m: 0 },
+      { y: '2000', e: 'Wafat', m: 1 }
+    ]
+  },
+  {
+    generasi: 3,
+    id: 'gen3',
+    nama: 'Ust. Amir Hamzah',
+    arab: 'الْأُسْتَاذ أَمِير حَمْزَة',
+    icon: '👨',
+    peran: 'Penerus & Transformer',
+    lokasi: 'Kebagusan, Jakarta Selatan',
+    tahun: '1975 – Sekarang',
+    bio: 'Ust. Amir Hamzah adalah cucu KH. Usman dan anak KH. M. Hamdani. Beliau adalah transformer yang mengubah status Musholla Al-Ikhlas menjadi Masjid Jami\' Al-Ikhlas dengan standar nasional & internasional. Di bawah kepemimpinannya, masjid berkembang menjadi pusat dakwah, pendidikan, dan pelayanan umat yang modern.',
+    warisan: [
+      'Meningkatkan status Musholla menjadi Masjid Jami\'',
+      'Membangun website & digitalisasi masjid',
+      'Mendirikan program pendidikan anak (TPA/PAUD)',
+      'Membentuk DKM & badan pengembangan masjid',
+      'Meluncurkan Al-Ikhlas AI untuk tanya jawab keislaman'
+    ],
+    napakTilas: [
+      { y: '1975', e: 'Lahir di <strong>Kebagusan</strong>', m: 1 },
+      { y: '2005', e: 'Mulai aktif mengelola musholla', m: 0 },
+      { y: '2015', e: 'Transformasi Musholla → <strong>Masjid Jami\'</strong>', m: 1 },
+      { y: '2024', e: 'Peluncuran website & digitalisasi', m: 0 },
+      { y: '2026', e: 'Peluncuran <strong>Al-Ikhlas AI</strong>', m: 1 }
+    ]
+  }
+  // ✅ TAMBAH GENERASI BERIKUTNYA DI SINI (gen4, gen5, ... gen-n)
+  // Contoh:
+  // ,{
+  //   generasi: 4,
+  //   id: 'gen4',
+  //   nama: '...',
+  //   arab: '...',
+  //   icon: '👨',
+  //   peran: '...',
+  //   lokasi: '...',
+  //   tahun: '...',
+  //   bio: '...',
+  //   warisan: ['...'],
+  //   napakTilas: [{ y: '...', e: '...', m: 1 }]
+  // }
+];
+// ============================================
+// ✅ RENDER SIDEBAR SILSILAH (DINAMIS)
+// ============================================
+function renderSilsilahSidebar() {
+  var list = document.getElementById('silsilahList');
+  if (!list) return;
+  var searchInput = document.getElementById('searchSilsilah');
+  var search = searchInput ? searchInput.value.toLowerCase() : '';
+
+  // Urutkan berdasarkan generasi
+  var sorted = silsilahData.slice().sort(function(a, b) {
+    return a.generasi - b.generasi;
+  });
+
+  var html = '';
+  for (var i = 0; i < sorted.length; i++) {
+    var g = sorted[i];
+    // Filter pencarian
+    if (search &&
+        g.nama.toLowerCase().indexOf(search) === -1 &&
+        g.peran.toLowerCase().indexOf(search) === -1) {
+      continue;
+    }
+    html += '<button class="split-btn" data-id="' + g.id + '" '
+         +  'onclick="tampilkanGenerasi(\'' + g.id + '\', this)">';
+    html += '<span class="btn-icon">' + g.icon + '</span>';
+    html += '<span class="btn-text">Gen ' + g.generasi + ': ' + g.nama + '</span>';
+    html += '</button>';
+  }
+
+  list.innerHTML = html || '<p style="color:#888;text-align:center;padding:15px;font-size:0.82rem;">Tidak ditemukan</p>';
+}
+
+// ============================================
+// ✅ TAMPILKAN DETAIL GENERASI
+// ============================================
+function tampilkanGenerasi(id, btn) {
+  var g = null;
+  for (var i = 0; i < silsilahData.length; i++) {
+    if (silsilahData[i].id === id) { g = silsilahData[i]; break; }
+  }
+  if (!g) return;
+
+  // Reset active state
+  var sidebar = btn.closest('.split-sidebar');
+  var allBtns = sidebar.querySelectorAll('.split-btn');
+  for (var i = 0; i < allBtns.length; i++) allBtns[i].classList.remove('active');
+  btn.classList.add('active');
+
+  var detail = document.getElementById('silsilahDetail');
+  if (!detail) return;
+  simpanWelcomeNode(btn);
+
+  // Bangun HTML warisan
+  var warisanHTML = '';
+  if (g.warisan && g.warisan.length > 0) {
+    warisanHTML = '<div class="karya-list" style="margin-top:15px;">'
+               +  '<h4>🏆 Warisan & Kontribusi</h4><ul>';
+    for (var i = 0; i < g.warisan.length; i++) {
+      warisanHTML += '<li>' + g.warisan[i] + '</li>';
+    }
+    warisanHTML += '</ul></div>';
+  }
+
+  // Bangun HTML napak tilas
+  var napakTilasHTML = '';
+  if (g.napakTilas && g.napakTilas.length > 0) {
+    napakTilasHTML = '<div class="napak-tilas"><h4>🛤️ Napak Tilas Perjalanan Hidup</h4>'
+                  +  '<div class="napak-tilas-timeline">';
+    for (var i = 0; i < g.napakTilas.length; i++) {
+      var item = g.napakTilas[i];
+      var cls = item.m ? ' milestone' : '';
+      napakTilasHTML += '<div class="napak-tilas-item' + cls + '">'
+                     +  '<div class="napak-tilas-year">' + item.y + '</div>'
+                     +  '<div class="napak-tilas-event">' + item.e + '</div>'
+                     +  '</div>';
+    }
+    napakTilasHTML += '</div></div>';
+  }
+
+  // Info tambahan
+  var infoHTML = '';
+  infoHTML += '<div class="info-item"><strong>Generasi:</strong> Ke-' + g.generasi + '</div>';
+  infoHTML += '<div class="info-item"><strong>Peran:</strong> ' + g.peran + '</div>';
+  if (g.lokasi) infoHTML += '<div class="info-item"><strong>Lokasi:</strong> ' + g.lokasi + '</div>';
+  if (g.tahun)  infoHTML += '<div class="info-item"><strong>Periode:</strong> ' + g.tahun + '</div>';
+
+  // Render card
+  var html = SIDEBAR_BACK_BTN
+          +  '<article class="ulama-card" style="grid-template-columns: 200px 1fr; margin-bottom: 0;">'
+          +    '<div class="ulama-photo" style="width:200px;height:240px;font-size:5rem;">' + g.icon + '</div>'
+          +    '<div class="ulama-info">'
+          +      '<h3 style="color:#e8d48b;font-size:1.8rem;margin-bottom:8px;">Generasi ' + g.generasi + ': ' + g.nama + '</h3>'
+          +      '<div class="arabic-name" style="font-family:\'Aref Ruqaa\',serif;font-size:1.6rem;color:#c9a84c;direction:rtl;margin-bottom:15px;line-height:1.5;">' + g.arab + '</div>'
+          +      infoHTML
+          +      '<div class="ulama-bio" style="margin-top:15px;"><p>' + g.bio + '</p></div>'
+          +      warisanHTML
+          +      napakTilasHTML
+          +    '</div>'
+          +  '</article>';
+
+  detail.innerHTML = html;
+  detail.scrollTop = 0;
+  tutupSidebarDariBtn(btn);
+}
+
+// ============================================
+// ✅ TAMPILKAN PETA SILSILAH (TIMELINE)
+// ============================================
+function tampilkanPetaSilsilah(btn) {
+  var sidebar = btn.closest('.split-sidebar');
+  var allBtns = sidebar.querySelectorAll('.split-btn');
+  for (var i = 0; i < allBtns.length; i++) allBtns[i].classList.remove('active');
+  btn.classList.add('active');
+
+  var detail = document.getElementById('silsilahDetail');
+  if (!detail) return;
+  simpanWelcomeNode(btn);
+
+  var sorted = silsilahData.slice().sort(function(a, b) {
+    return a.generasi - b.generasi;
+  });
+
+  var timelineHTML = '<div class="sub-timeline">';
+  for (var i = 0; i < sorted.length; i++) {
+    var g = sorted[i];
+    timelineHTML += '<div class="timeline-item">'
+                 +  '<div class="year">Generasi Ke-' + g.generasi + '</div>'
+                 +  '<div class="event"><strong>' + g.nama + '</strong> — ' + g.peran + '</div>'
+                 +  '</div>';
+  }
+  timelineHTML += '</div>';
+
+  var infoHTML = '<div class="sub-info" style="margin-top:20px;">'
+              +  '<strong>📌 Warisan ' + sorted.length + ' Generasi:</strong> '
+              +  'Mari kita doakan mereka semua: <em>"Allâhummaghfir lahum warhamhum wa \'âfihim wa\'fu \'anhum"</em>.'
+              +  '</div>';
+
+  var html = SIDEBAR_BACK_BTN
+          +  '<h3 style="color:#e8d48b;font-size:1.4rem;margin-bottom:15px;">🗺️ Peta Silsilah Saur Sepuh</h3>'
+          +  timelineHTML
+          +  infoHTML;
+
+  detail.innerHTML = html;
+  detail.scrollTop = 0;
+  tutupSidebarDariBtn(btn);
+}
+
+// ============================================
+// ✅ HELPER: TAMBAH GENERASI BARU
+// ============================================
+function tambahGenerasiBaru() {
+  var nextGen = silsilahData.length > 0
+    ? Math.max.apply(null, silsilahData.map(function(g){ return g.generasi; })) + 1
+    : 1;
+
+  var nama = prompt('Nama Saur Sepuh Generasi ke-' + nextGen + ':');
+  if (!nama) return;
+
+  var peran = prompt('Peran / Jabatan:') || 'Penerus Dakwah';
+  var lokasi = prompt('Lokasi:') || 'Kebagusan, Jakarta Selatan';
+  var tahun = prompt('Periode Tahun (contoh: 1990 - Sekarang):') || '-';
+
+  var newGen = {
+    generasi: nextGen,
+    id: 'gen' + nextGen,
+    nama: nama,
+    arab: '', // bisa diisi manual nanti
+    icon: '👳',
+    peran: peran,
+    lokasi: lokasi,
+    tahun: tahun,
+    bio: 'Biografi ' + nama + ' sedang dalam pengumpulan data.',
+    warisan: ['Sedang didokumentasikan'],
+    napakTilas: [
+      { y: tahun.split('–')[0] || tahun.split('-')[0] || '-', e: 'Lahir', m: 1 }
+    ]
+  };
+
+  silsilahData.push(newGen);
+  renderSilsilahSidebar();
+  showToast('✅ Generasi ke-' + nextGen + ' berhasil ditambahkan');
+}
+
+// ============================================
+// ✅ INIT HALAMAN SILSILAH
+// ============================================
+function initSilsilah() {
+  renderSilsilahSidebar();
+}
 function initHalaman(pageId){
-if(pageId==='biografi-ulama')setTimeout(initBiografi,100);
-if(pageId==='kumpulan-doa')setTimeout(initDoa,100);
-if(pageId==='sholat')setTimeout(initSholat,100);
-if(pageId==='kitab-kuning')setTimeout(initKitab,100);
+  if(pageId==='biografi-ulama')  setTimeout(initBiografi, 100);
+  if(pageId==='kumpulan-doa')    setTimeout(initDoa, 100);
+  if(pageId==='sholat')          setTimeout(initSholat, 100);
+  if(pageId==='kitab-kuning')    setTimeout(initKitab, 100);
+  if(pageId==='silsilah')        setTimeout(initSilsilah, 100); // ✅ BARU
 }
 var originalShowPage=window.showPage;
 window.showPage=function(pageId){
