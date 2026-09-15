@@ -858,6 +858,529 @@ position:fixed!important;
 inset:0!important;
 z-index:9999!important;
 }
+/* ============================================
+✅ FITUR 1: FOTO SAUR SEPUH
+============================================ */
+.silsilah-photo-wrapper{
+  position:relative;
+  width:200px;
+  height:240px;
+  border-radius:15px;
+  overflow:hidden;
+  box-shadow:0 10px 30px rgba(201,168,76,0.3);
+  background:linear-gradient(135deg,#c9a84c,#e8d48b);
+  flex-shrink:0;
+}
+.silsilah-photo-wrapper img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition:transform 0.4s ease;
+}
+.silsilah-photo-wrapper:hover img{
+  transform:scale(1.05);
+}
+.silsilah-photo-wrapper .photo-fallback{
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:5rem;
+  color:#1a0a2e;
+  background:linear-gradient(135deg,#c9a84c,#e8d48b);
+}
+.silsilah-photo-wrapper .photo-badge{
+  position:absolute;
+  bottom:8px;
+  left:8px;
+  background:rgba(26,10,46,0.85);
+  color:#e8d48b;
+  padding:4px 10px;
+  border-radius:12px;
+  font-size:0.72rem;
+  font-weight:700;
+  letter-spacing:0.5px;
+  backdrop-filter:blur(5px);
+  border:1px solid rgba(201,168,76,0.4);
+}
+
+/* ============================================
+✅ FITUR 3: DIAGRAM POHON KELUARGA (SVG)
+============================================ */
+.pohon-keluarga-container{
+  background:linear-gradient(135deg,rgba(201,168,76,0.05),rgba(45,27,78,0.4));
+  border:1px solid rgba(201,168,76,0.3);
+  border-radius:20px;
+  padding:30px 20px;
+  margin:25px 0;
+  overflow-x:auto;
+  position:relative;
+}
+.pohon-keluarga-container h4{
+  color:#e8d48b;
+  font-size:1.2rem;
+  margin-bottom:20px;
+  text-align:center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+}
+.pohon-keluarga-svg{
+  display:block;
+  margin:0 auto;
+  max-width:100%;
+  height:auto;
+  min-height:400px;
+}
+.pohon-node{
+  cursor:pointer;
+  transition:all 0.3s;
+}
+.pohon-node:hover .pohon-circle{
+  filter:brightness(1.2) drop-shadow(0 0 12px rgba(232,212,139,0.6));
+}
+.pohon-node:hover .pohon-name{
+  fill:#fff;
+  font-weight:700;
+}
+.pohon-circle{
+  transition:all 0.3s;
+}
+.pohon-line{
+  stroke:#c9a84c;
+  stroke-width:2;
+  fill:none;
+  opacity:0.6;
+  stroke-dasharray:5,3;
+  animation:dashMove 20s linear infinite;
+}
+@keyframes dashMove{
+  to{stroke-dashoffset:-100;}
+}
+.pohon-name{
+  fill:#e8d48b;
+  font-size:13px;
+  font-weight:600;
+  text-anchor:middle;
+  transition:all 0.3s;
+}
+.pohon-gen{
+  fill:#c9a84c;
+  font-size:10px;
+  text-anchor:middle;
+  letter-spacing:1px;
+}
+.pohon-icon{
+  font-size:24px;
+  text-anchor:middle;
+  dominant-baseline:central;
+}
+.pohon-legend{
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  margin-top:20px;
+  flex-wrap:wrap;
+  font-size:0.8rem;
+  color:#ccc;
+}
+.pohon-legend-item{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.pohon-legend-dot{
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  border:2px solid #c9a84c;
+}
+.pohon-legend-dot.active{
+  background:#c9a84c;
+}
+
+/* ============================================
+✅ FITUR 4: AUDIO PLAYER
+============================================ */
+.audio-player{
+  margin-top:20px;
+  padding:18px;
+  background:linear-gradient(135deg,rgba(201,168,76,0.1),rgba(45,27,78,0.5));
+  border:1px solid rgba(201,168,76,0.3);
+  border-radius:15px;
+  border-left:4px solid #c9a84c;
+}
+.audio-player-header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:12px;
+  color:#e8d48b;
+  font-weight:700;
+  font-size:0.95rem;
+}
+.audio-player-header .audio-icon{
+  width:36px;
+  height:36px;
+  background:linear-gradient(135deg,#c9a84c,#e8d48b);
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.1rem;
+  color:#1a0a2e;
+}
+.audio-player audio{
+  width:100%;
+  height:40px;
+  border-radius:25px;
+  outline:none;
+}
+.audio-player audio::-webkit-media-controls-panel{
+  background:rgba(26,10,46,0.6);
+  border-radius:25px;
+}
+.audio-meta{
+  display:flex;
+  justify-content:space-between;
+  margin-top:8px;
+  font-size:0.78rem;
+  color:#888;
+}
+
+/* ============================================
+✅ FITUR 4: VIDEO PLAYER
+============================================ */
+.video-player{
+  margin-top:20px;
+  padding:18px;
+  background:linear-gradient(135deg,rgba(201,168,76,0.08),rgba(45,27,78,0.5));
+  border:1px solid rgba(201,168,76,0.3);
+  border-radius:15px;
+  border-left:4px solid #c9a84c;
+}
+.video-player-header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:12px;
+  color:#e8d48b;
+  font-weight:700;
+  font-size:0.95rem;
+}
+.video-player-header .video-icon{
+  width:36px;
+  height:36px;
+  background:linear-gradient(135deg,#c0392b,#e74c3c);
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.1rem;
+  color:#fff;
+}
+.video-frame-wrapper{
+  position:relative;
+  width:100%;
+  padding-bottom:56.25%; /* 16:9 */
+  border-radius:12px;
+  overflow:hidden;
+  background:#000;
+  box-shadow:0 8px 25px rgba(0,0,0,0.4);
+}
+.video-frame-wrapper iframe{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  border:none;
+}
+
+/* ============================================
+✅ RESPONSIVE: MOBILE
+============================================ */
+@media (max-width:900px){
+  .silsilah-photo-wrapper{
+    width:120px;
+    height:150px;
+    margin:0 auto;
+  }
+  .silsilah-photo-wrapper .photo-fallback{
+    font-size:3rem;
+  }
+  .ulama-card{
+    grid-template-columns:1fr !important;
+    text-align:center;
+  }
+  .pohon-keluarga-svg{
+    min-height:300px;
+  }
+  .pohon-name{
+    font-size:11px;
+  }
+  .pohon-icon{
+    font-size:18px;
+  }
+  .video-frame-wrapper{
+    padding-bottom:66.66%; /* lebih tinggi di mobile */
+  }
+}
+/* ============================================
+✅ KETURUNAN ANAK - CARD LIST
+============================================ */
+.keturunan-section{
+  margin-top:25px;
+  padding:22px;
+  background:linear-gradient(135deg,rgba(201,168,76,0.06),rgba(45,27,78,0.4));
+  border:1px solid rgba(201,168,76,0.3);
+  border-radius:15px;
+  border-left:4px solid #c9a84c;
+}
+.keturunan-section h4{
+  color:#e8d48b;
+  font-size:1.15rem;
+  margin-bottom:18px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding-bottom:12px;
+  border-bottom:1px dashed rgba(201,168,76,0.3);
+}
+.keturunan-section h4 .ket-icon{
+  width:36px;
+  height:36px;
+  background:linear-gradient(135deg,#c9a84c,#e8d48b);
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.1rem;
+  color:#1a0a2e;
+}
+.keturunan-section h4 .ket-count{
+  margin-left:auto;
+  background:rgba(201,168,76,0.2);
+  color:#c9a84c;
+  padding:3px 10px;
+  border-radius:12px;
+  font-size:0.75rem;
+  font-weight:700;
+}
+.keturunan-list{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:12px;
+}
+.keturunan-card{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(201,168,76,0.2);
+  border-radius:12px;
+  padding:15px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  cursor:pointer;
+  transition:all 0.3s;
+  position:relative;
+  overflow:hidden;
+}
+.keturunan-card::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:0;
+  width:3px;
+  height:100%;
+  background:linear-gradient(to bottom,#c9a84c,#e8d48b);
+  transform:scaleY(0);
+  transition:transform 0.3s;
+  transform-origin:top;
+}
+.keturunan-card:hover{
+  background:rgba(201,168,76,0.1);
+  border-color:#c9a84c;
+  transform:translateX(5px);
+}
+.keturunan-card:hover::before{
+  transform:scaleY(1);
+}
+.keturunan-card .ket-avatar{
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#c9a84c,#e8d48b);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.5rem;
+  color:#1a0a2e;
+  flex-shrink:0;
+  overflow:hidden;
+  box-shadow:0 4px 12px rgba(201,168,76,0.3);
+}
+.keturunan-card .ket-avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.keturunan-card .ket-info{
+  flex:1;
+  min-width:0;
+}
+.keturunan-card .ket-nama{
+  color:#e8d48b;
+  font-size:0.95rem;
+  font-weight:700;
+  margin-bottom:3px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.keturunan-card .ket-label{
+  display:inline-block;
+  background:rgba(201,168,76,0.15);
+  color:#c9a84c;
+  padding:2px 8px;
+  border-radius:8px;
+  font-size:0.68rem;
+  font-weight:600;
+  margin-right:5px;
+}
+.keturunan-card .ket-hubungan{
+  display:inline-block;
+  background:rgba(46,204,113,0.15);
+  color:#2ecc71;
+  padding:2px 8px;
+  border-radius:8px;
+  font-size:0.68rem;
+  font-weight:600;
+}
+.keturunan-card .ket-tahun{
+  color:#888;
+  font-size:0.72rem;
+  margin-top:4px;
+}
+.keturunan-card .ket-arrow{
+  color:#c9a84c;
+  font-size:1rem;
+  opacity:0;
+  transition:opacity 0.3s;
+  flex-shrink:0;
+}
+.keturunan-card:hover .ket-arrow{
+  opacity:1;
+}
+.keturunan-card.has-children{
+  border-color:rgba(201,168,76,0.4);
+}
+.keturunan-card.has-children::after{
+  content:'🌱';
+  position:absolute;
+  top:8px;
+  right:8px;
+  font-size:0.8rem;
+  opacity:0.7;
+}
+.keturunan-empty{
+  text-align:center;
+  padding:20px;
+  color:#888;
+  font-size:0.88rem;
+  font-style:italic;
+}
+.keturunan-add-btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  padding:10px;
+  margin-top:12px;
+  background:transparent;
+  border:1.5px dashed rgba(201,168,76,0.3);
+  border-radius:10px;
+  color:#c9a84c;
+  cursor:pointer;
+  font-size:0.82rem;
+  font-family:inherit;
+  transition:all 0.3s;
+  width:100%;
+}
+.keturunan-add-btn:hover{
+  border-color:#c9a84c;
+  background:rgba(201,168,76,0.08);
+}
+
+/* Detail Anak Modal */
+.anak-detail-modal{
+  background:linear-gradient(135deg,rgba(201,168,76,0.08),rgba(45,27,78,0.5));
+  border:1px solid rgba(201,168,76,0.3);
+  border-radius:15px;
+  padding:20px;
+  margin-top:15px;
+  animation:fadeInContent 0.3s ease;
+}
+.anak-detail-modal .back-to-parent{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  color:#c9a84c;
+  font-size:0.85rem;
+  margin-bottom:12px;
+  cursor:pointer;
+  background:rgba(201,168,76,0.1);
+  padding:6px 12px;
+  border-radius:15px;
+  border:1px solid rgba(201,168,76,0.3);
+  transition:all 0.3s;
+}
+.anak-detail-modal .back-to-parent:hover{
+  background:rgba(201,168,76,0.2);
+}
+
+/* Breadcrumb Silsilah */
+.silsilah-breadcrumb{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-bottom:15px;
+  padding:10px 15px;
+  background:rgba(0,0,0,0.2);
+  border-radius:10px;
+  font-size:0.82rem;
+}
+.silsilah-breadcrumb .bc-item{
+  color:#c9a84c;
+  cursor:pointer;
+  transition:color 0.3s;
+}
+.silsilah-breadcrumb .bc-item:hover{
+  color:#e8d48b;
+  text-decoration:underline;
+}
+.silsilah-breadcrumb .bc-sep{
+  color:#666;
+}
+.silsilah-breadcrumb .bc-current{
+  color:#fff;
+  font-weight:600;
+}
+
+@media (max-width:900px){
+  .keturunan-list{
+    grid-template-columns:1fr;
+  }
+  .keturunan-section{
+    padding:15px;
+  }
+  .keturunan-section h4{
+    font-size:1rem;
+  }
+}
 </style>
 </head>
 <body>
@@ -1425,13 +1948,118 @@ setTimeout(simpanSemuaWelcomeNode,1500);
 // ============================================
 // ✅ GENERIC SPLIT CONTENT HANDLER
 // ============================================
+// ============================================
+// ✅ SPLIT CONTENT DATA - SEJARAH ISLAM NUSANTARA (DIPERKAYA)
+// ============================================
 var splitContentData = {
-'sejah-kerajaan': {title:'🏰 Kerajaan-Kerajaan Islam Nusantara', content:'<div class="sub-grid"><div class="sub-card"><div class="card-icon">🕌</div><h3>Samudera Pasai (1267-1521)</h3><p>Kerajaan Islam pertama di Nusantara, terletak di Aceh.</p><div class="meta">📍 Aceh · 📅 Abad ke-13</div></div><div class="sub-card"><div class="card-icon">🕌</div><h3>Demak (1475-1548)</h3><p>Kerajaan Islam pertama di Jawa, didirikan Raden Patah.</p><div class="meta">📍 Jawa Tengah · 📅 Abad ke-15</div></div><div class="sub-card"><div class="card-icon">🕌</div><h3>Mataram Islam (1587-1755)</h3><p>Kerajaan Islam terbesar di Jawa.</p><div class="meta">📍 Yogyakarta · 📅 Abad ke-16</div></div><div class="sub-card"><div class="card-icon">🕌</div><h3>Gowa-Tallo / Makassar</h3><p>Kesultanan Islam di Sulawesi Selatan.</p><div class="meta">📍 Sulawesi Selatan · 📅 Abad ke-14</div></div></div>'},
-'sejah-wali-songo': {title:'🌹 Wali Songo', content:'<div class="sub-grid"><div class="sub-card"><div class="card-icon">🌹</div><h3>Sunan Gresik</h3><p>Wali Songo pertama, penyebar Islam di Jawa.</p></div><div class="sub-card"><div class="card-icon">🌹</div><h3>Sunan Ampel</h3><p>Pendiri pesantren pertama di Ampel Denta, Surabaya.</p></div><div class="sub-card"><div class="card-icon">🌹</div><h3>Sunan Bonang</h3><p>Putra Sunan Ampel, penyebar Islam di Jawa Timur.</p></div><div class="sub-card"><div class="card-icon">🌹</div><h3>Sunan Kalijaga</h3><p>Wali paling akulturatif, menggunakan wayang untuk dakwah.</p></div><div class="sub-card"><div class="card-icon">🌹</div><h3>Sunan Gunung Jati</h3><p>Pendiri Kesultanan Cirebon dan Banten.</p></div></div>'},
-'sejah-masjid-tua': {title:'🕌 Masjid Tertua di Nusantara', content:'<div class="sub-grid"><div class="sub-card"><div class="card-icon">🕌</div><h3>Masjid Menara Kudus</h3><p>Dibangun Sunan Kudus, abad ke-16.</p></div><div class="sub-card"><div class="card-icon">🕌</div><h3>Masjid Agung Demak</h3><p>Dibangun 1479 oleh Wali Songo.</p></div><div class="sub-card"><div class="card-icon">🕌</div><h3>Masjid Ampel</h3><p>Dibangun Sunan Ampel, abad ke-15.</p></div></div>'},
-'sejah-masa-wali': {title:'🌿 Masa Wali Songo (1400-1600)', content:'<p style="color:#ccc;line-height:1.8;">Periode ini ditandai dengan dakwah Islam secara damai oleh Wali Songo melalui akulturasi budaya, seni, dan pendidikan. Islam menyebar luas di Jawa dan pulau-pulau lainnya tanpa pertumpahan darah.</p>'},
-'sejah-masa-kesultanan': {title:'👑 Masa Kesultanan (1500-1800)', content:'<p style="color:#ccc;line-height:1.8;">Periode berdirinya kesultanan-kesultanan Islam besar di Nusantara seperti Demak, Mataram Islam, Gowa-Tallo, Cirebon, Banten, Aceh Darussalam, dll.</p>'},
-'sejah-masa-kolonial': {title:'⚔️ Masa Kolonial & Perlawanan', content:'<p style="color:#ccc;line-height:1.8;">Periode perlawanan umat Islam terhadap penjajahan Belanda, dipimpin oleh para ulama seperti Pangeran Diponegoro, Imam Bonjol, Teuku Umar, dll.</p>'},
+// ==================== SEJARAH ISLAM NUSANTARA ====================
+'sejah-kerajaan': {
+  title:'🏰 Kerajaan-Kerajaan Islam Nusantara',
+  content:'<div class="sub-grid">' +
+    '<div class="sub-card"><div class="card-icon">🕌</div><h3>Samudera Pasai (1267-1521)</h3><p>Kerajaan Islam <strong>pertama di Nusantara</strong>, terletak di pesisir utara Sumatera (Aceh). Menjadi pusat perdagangan internasional dan pusat penyebaran Islam di Asia Tenggara.</p><div class="meta">📍 Aceh · 📅 Abad ke-13 · 👑 Sultan Malik as-Saleh</div></div>' +
+    '<div class="sub-card"><div class="card-icon">🕌</div><h3>Kesultanan Demak (1475-1548)</h3><p>Kerajaan Islam <strong>pertama di Pulau Jawa</strong>, didirikan oleh <strong>Raden Patah</strong> dengan dukungan Wali Songo. Menjadi pusat dakwah Islam di Jawa dan pelopor penyebaran Islam ke seluruh Nusantara.</p><div class="meta">📍 Jawa Tengah · 📅 Abad ke-15 · 👑 Raden Patah</div></div>' +
+    '<div class="sub-card"><div class="card-icon">🕌</div><h3>Kesultanan Cirebon (1445-1677)</h3><p>Didirikan oleh <strong>Sunan Gunung Jati</strong> (Syarif Hidayatullah), salah satu Wali Songo. Menjadi pusat dakwah Islam di Jawa Barat dan cikal bakal Kesultanan Banten.</p><div class="meta">📍 Jawa Barat · 📅 Abad ke-15 · 👑 Sunan Gunung Jati</div></div>' +
+    '<div class="sub-card"><div class="card-icon">🕌</div><h3>Kesultanan Banten (1526-1813)</h3><p>Didirikan oleh <strong>Sultan Maulana Hasanuddin</strong>, putra Sunan Gunung Jati. Menjadi pusat perdagangan lada internasional dan pusat dakwah Islam di ujung barat Jawa.</p><div class="meta">📍 Banten · 📅 Abad ke-16 · 👑 Maulana Hasanuddin</div></div>' +
+    '<div class="sub-card"><div class="card-icon">🕌</div><h3>Kesultanan Mataram Islam (1587-1755)</h3><p>Kerajaan Islam <strong>terbesar di Jawa</strong>, didirikan oleh <strong>Panembahan Senopati</strong>. Mencapai puncak kejayaan di masa <strong>Sultan Agung Hanyokrokusumo</strong> yang menyerang Batavia (1628-1629).</p><div class="meta">📍 Yogyakarta · 📅 Abad ke-16 · 👑 Sultan Agung</div></div>' +
+    '<div class="sub-card"><div class="card-icon">🕌</div><h3>Kesultanan Aceh Darussalam (1496-1903)</h3><p>Menjadi pusat kekuatan Islam terbesar di Nusantara bagian barat. Dijuluki <strong>"Serambi Mekkah"</strong>. Melawan penjajahan Belanda selama Perang Aceh (1873-1904).</p><div class="meta">📍 Aceh · 📅 Abad ke-15 · 👑 Sultan Iskandar Muda</div></div>' +
+    '<div class="sub-card"><div class="card-icon">🕌</div><h3>Kesultanan Gowa-Tallo / Makassar (1300-1669)</h3><p>Kesultanan Islam di Sulawesi Selatan. Mencapai puncak kejayaan di masa <strong>Sultan Hasanuddin</strong> yang dijuluki "Ayam Jantan dari Timur" karena keberaniannya melawan VOC.</p><div class="meta">📍 Sulawesi Selatan · 📅 Abad ke-14 · 👑 Sultan Hasanuddin</div></div>' +
+    '<div class="sub-card"><div class="card-icon">🕌</div><h3>Kesultanan Ternate & Tidore (1257-1914)</h3><p>Dua kesultanan Islam di Maluku yang menjadi pusat perdagangan rempah-rempah dunia. <strong>Sultan Babullah</strong> (Ternate) berhasil mengusir Portugis dari Maluku.</p><div class="meta">📍 Maluku · 📅 Abad ke-13 · 👑 Sultan Babullah</div></div>' +
+    '<div class="sub-card"><div class="card-icon">🕌</div><h3>Kesultanan Banjar (1526-1860)</h3><p>Kerajaan Islam di Kalimantan Selatan, didirikan oleh <strong>Sultan Suriansyah</strong>. Menjadi pusat dakwah Islam di Kalimantan dan memiliki tradisi keislaman yang kuat.</p><div class="meta">📍 Kalimantan Selatan · 📅 Abad ke-16 · 👑 Sultan Suriansyah</div></div>' +
+    '<div class="sub-card"><div class="card-icon">🕌</div><h3>Kesultanan Pontianak (1771-1950)</h3><p>Didirikan oleh <strong>Syarif Abdurrahman Al-Qadri</strong>, seorang habib keturunan Rasulullah ﷺ. Menjadi pusat dakwah Islam di Kalimantan Barat.</p><div class="meta">📍 Kalimantan Barat · 📅 Abad ke-18 · 👑 Syarif Abdurrahman</div></div>' +
+    '</div>' +
+    '<div class="sub-info" style="margin-top:20px;"><strong>📌 Catatan:</strong> Islam masuk ke Nusantara secara <strong>damai</strong> melalui jalur perdagangan, perkawinan, pendidikan pesantren, dan dakwah kultural oleh para ulama dan Wali Songo — bukan melalui penaklukan militer.</div>'
+},
+
+'sejah-wali-songo': {
+  title:'🌹 Wali Songo — Sembilan Wali Penyebar Islam di Jawa',
+  content:'<div class="sub-quote"><div class="quote-text">"Wali Songo adalah sembilan wali yang menjadi pelopor penyebaran Islam di Pulau Jawa melalui pendekatan kultural, akhlak mulia, dan akulturasi budaya yang bijaksana."</div><div class="quote-source">— Sejarah Islam Nusantara</div></div>' +
+    '<div class="sub-grid">' +
+    '<div class="sub-card"><div class="card-icon">🌹</div><h3>1. Sunan Gresik (Maulana Malik Ibrahim)</h3><p><strong>Wali Songo pertama.</strong> Berasal dari Samarkand (Asia Tengah). Mendirikan pesantren pertama di Gresik, Jawa Timur. Pendekatan dakwah: perdagangan & pertanian.</p><div class="meta">📍 Gresik · 📅 Wafat 1419 M</div></div>' +
+    '<div class="sub-card"><div class="card-icon">🌹</div><h3>2. Sunan Ampel (Raden Rahmat)</h3><p><strong>Pendiri pesantren pertama di Ampel Denta, Surabaya.</strong> Menciptakan konsep "Mo Limo" (Moh Main, Moh Ngombe, Moh Maling, Moh Madat, Moh Madon). Guru para Wali Songo lainnya.</p><div class="meta">📍 Surabaya · 📅 1401-1481 M</div></div>' +
+    '<div class="sub-card"><div class="card-icon">🌹</div><h3>3. Sunan Bonang (Maulana Makdum Ibrahim)</h3><p>Putra Sunan Ampel. Penyebar Islam di Jawa Timur. Menciptakan <strong>tembang "Tomong Ati"</strong> dan menggunakan gamelan untuk dakwah. Karya: <em>Suluk Wujil, Bonang</em>.</p><div class="meta">📍 Tuban · 📅 1448-1525 M</div></div>' +
+    '<div class="sub-card"><div class="card-icon">🌹</div><h3>4. Sunan Kalijaga (Raden Said)</h3><p><strong>Wali paling akulturatif.</strong> Menggunakan wayang, gamelan, dan tembang untuk dakwah. Pencipta <strong>tembang "Ilir-ilir"</strong> dan <strong>Wayang Sadat</strong>. Penguasa spiritual Kesultanan Demak.</p><div class="meta">📍 Demak · 📅 1450-1513 M</div></div>' +
+    '<div class="sub-card"><div class="card-icon">🌹</div><h3>5. Sunan Giri (Raden Paku)</h3><p>Cucu Sunan Ampel. Mendirikan pesantren di Giri, Gresik. Disebut <strong>"Paus dari Timur"</strong> oleh pedagang Eropa karena pengaruh spiritualnya yang luas hingga ke Maluku & Nusa Tenggara.</p><div class="meta">📍 Gresik · 📅 1442-1506 M</div></div>' +
+    '<div class="sub-card"><div class="card-icon">🌹</div><h3>6. Sunan Kudus (Ja\'far Shodiq)</h3><p>Panglima perang Demak yang juga ulama besar. Mendirikan <strong>Masjid Menara Kudus</strong> (masjid tertua di Jawa). Menciptakan tembang <strong>"Mijil"</strong>. Tidak menyembelih sapi untuk menghormati umat Hindu.</p><div class="meta">📍 Kudus · 📅 Wafat 1550 M</div></div>' +
+    '<div class="sub-card"><div class="card-icon">🌹</div><h3>7. Sunan Drajat (Raden Qasim)</h3><p>Putra Sunan Ampel. Terkenal dengan <strong>dakwah sosial</strong> — menekankan kepedulian pada fakir miskin, yatim piatu, dan kaum dhuafa. Pepatah: "Piwulang luhur" (ajaran luhur).</p><div class="meta">📍 Lamongan · 📅 1470-1522 M</div></div>' +
+    '<div class="sub-card"><div class="card-icon">🌹</div><h3>8. Sunan Muria (Raden Umar Said)</h3><p>Putra Sunan Kalijaga. Berdakwah di daerah pegunungan (Gunung Muria, Jawa Tengah). Mendekati masyarakat pedalaman dengan pendekatan yang lembut dan penuh hikmah.</p><div class="meta">📍 Kudus · 📅 Wafat 1511 M</div></div>' +
+    '<div class="sub-card"><div class="card-icon">🌹</div><h3>9. Sunan Gunung Jati (Syarif Hidayatullah)</h3><p><strong>Pendiri Kesultanan Cirebon & Banten.</strong> Berdarah bangsawan Mesir-Jawa. Menikahkan putrinya, <strong>Fatahillah</strong>, dengan Sultan Demak. Menyebarkan Islam di Jawa Barat.</p><div class="meta">📍 Cirebon · 📅 1448-1568 M</div></div>' +
+    '</div>' +
+    '<div class="sub-info" style="margin-top:20px;"><strong>📌 Strategi Dakwah Wali Songo:</strong><br>1️⃣ <strong>Akulturasi Budaya</strong> — menggunakan wayang, gamelan, tembang<br>2️⃣ <strong>Pendidikan Pesantren</strong> — mendirikan pesantren di berbagai daerah<br>3️⃣ <strong>Perdagangan</strong> — memanfaatkan jalur perdagangan internasional<br>4️⃣ <strong>Perkawinan</strong> — menikah dengan putri bangsawan lokal<br>5️⃣ <strong>Akhlak Mulia</strong> — keteladanan dalam kehidupan sehari-hari</div>'
+},
+
+'sejah-masjid-tua': {
+  title:'🕌 Masjid-Masjid Tertua di Nusantara',
+  content:'<div class="sub-grid">' +
+    '<div class="sub-card"><div class="card-icon">🕌</div><h3>Masjid Agung Demak (1479)</h3><p>Masjid <strong>pertama di Jawa</strong>, dibangun oleh Wali Songo dengan arsitektur khas Jawa (atap tumpang). Soko Tatal (tiang dari serpihan kayu) karya Sunan Kalijaga menjadi legenda.</p><div class="meta">📍 Demak, Jawa Tengah · 📅 1479 M</div></div>' +
+    '<div class="sub-card"><div class="card-icon">🕌</div><h3>Masjid Menara Kudus (1549)</h3><p>Dibangun oleh <strong>Sunan Kudus</strong>. Menaranya menyerupai <strong>candi Hindu</strong> — bukti akulturasi Islam-Hindu yang indah. Masih berdiri kokoh hingga kini.</p><div class="meta">📍 Kudus, Jawa Tengah · 📅 1549 M</div></div>' +
+    '<div class="sub-card"><div class="card-icon">🕌</div><h3>Masjid Ampel (1419)</h3><p>Dibangun oleh <strong>Sunan Ampel</strong> sebagai pusat pesantren pertama di Jawa. Menjadi cikal bakal kawasan Ampel di Surabaya yang hingga kini menjadi pusat ziarah.</p><div class="meta">📍 Surabaya, Jawa Timur · 📅 1419 M</div></div>' +
+    '<div class="sub-card"><div class="card-icon">🕌</div><h3>Masjid Agung Cirebon (1480)</h3><p>Dibangun oleh <strong>Sunan Gunung Jati</strong>. Arsitekturnya memadukan unsur Islam, Hindu, dan Cina. Menjadi pusat Kesultanan Cirebon.</p><div class="meta">📍 Cirebon, Jawa Barat · 📅 1480 M</div></div>' +
+    '<div class="sub-card"><div class="card-icon">🕌</div><h3>Masjid Agung Banten (1552)</h3><p>Dibangun di masa <strong>Sultan Maulana Hasanuddin</strong>. Atap tumpang 5 tingkat dan menara designed oleh arsitek Belanda, Hendrik Lucasz Cardeel.</p><div class="meta">📍 Banten, Jawa Barat · 📅 1552 M</div></div>' +
+    '<div class="sub-card"><div class="card-icon">🕌</div><h3>Masjid Raya Baiturrahman (1879)</h3><p>Masjid kebanggaan Aceh. <strong>Selamat dari tsunami 2004</strong> dan menjadi simbol ketahanan umat Islam Aceh. Arsitektur bergaya Mogul India.</p><div class="meta">📍 Banda Aceh · 📅 1879 M (rekonstruksi)</div></div>' +
+    '</div>'
+},
+
+'sejah-masa-wali': {
+  title:'🌿 Masa Wali Songo (1400-1600 M)',
+  content:'<div class="sub-quote"><div class="quote-text">"Islam datang ke Nusantara bukan dengan pedang, melainkan dengan senyum, akhlak, dan budaya. Bukan dengan paksaan, melainkan dengan keteladanan."</div><div class="quote-source">— Prof. Dr. Hamka</div></div>' +
+    '<p style="color:#ccc;line-height:1.8;margin-bottom:15px;">Periode ini ditandai dengan <strong>dakwah Islam secara damai</strong> oleh Wali Songo melalui pendekatan akulturasi budaya, seni, dan pendidikan. Islam menyebar luas di Jawa dan pulau-pulau lainnya tanpa pertumpahan darah.</p>' +
+    '<h4 style="color:#c9a84c;margin:20px 0 12px;padding-left:12px;border-left:4px solid #c9a84c;">📜 Ciri Khas Periode Wali Songo:</h4>' +
+    '<ul style="color:#ccc;line-height:2;padding-left:20px;">' +
+    '<li>🎭 <strong>Akulturasi Budaya</strong> — Wayang, gamelan, tembang digunakan sebagai media dakwah</li>' +
+    '<li>🕌 <strong>Pendirian Pesantren</strong> — Pesantren Ampel Denta, Giri, Cirebon menjadi pusat pendidikan</li>' +
+    '<li>👑 <strong>Islamisasi Kerajaan</strong> — Raja-raja Jawa memeluk Islam (Raden Patah, Trenggana, dll)</li>' +
+    '<li>🤝 <strong>Toleransi Beragama</strong> — Hidup berdampingan dengan umat Hindu-Buddha</li>' +
+    '<li>📚 <strong>Karya Sastra Islam</strong> — Suluk, hikayat, babad, dan kitab-kitab pegon (Arab-Jawa)</li>' +
+    '<li>🕌 <strong>Pembangunan Masjid</strong> — Masjid Agung Demak, Menara Kudus, dll</li>' +
+    '</ul>' +
+    '<h4 style="color:#c9a84c;margin:20px 0 12px;padding-left:12px;border-left:4px solid #c9a84c;">🎯 Tokoh Kunci:</h4>' +
+    '<div class="sub-grid">' +
+    '<div class="sub-card"><div class="card-icon">🌹</div><h3>Sultan Raden Patah</h3><p>Pendiri Kesultanan Demak (1475), murid Sunan Ampel. Raja Muslim pertama di Jawa.</p></div>' +
+    '<div class="sub-card"><div class="card-icon">🌹</div><h3>Sultan Trenggana</h3><p>Sultan Demak ke-3. Menjadikan Demak sebagai kekuatan maritim terbesar di Jawa.</p></div>' +
+    '<div class="sub-card"><div class="card-icon">🌹</div><h3>Fatahillah</h3><p>Panglima Demak-Cirebon. Mengusir Portugis dari Sunda Kelapa (1527) dan menamai ulang menjadi <strong>Jayakarta</strong> (cikal bakal Jakarta).</p></div>' +
+    '</div>'
+},
+
+'sejah-masa-kesultanan': {
+  title:'👑 Masa Kesultanan Islam (1500-1800 M)',
+  content:'<p style="color:#ccc;line-height:1.8;margin-bottom:15px;">Periode berdirinya <strong>kesultanan-kesultanan Islam besar</strong> di Nusantara. Masa ini merupakan puncak kejayaan peradaban Islam di Asia Tenggara, dengan jaringan perdagangan internasional yang luas hingga ke Timur Tengah, India, dan Cina.</p>' +
+    '<h4 style="color:#c9a84c;margin:20px 0 12px;padding-left:12px;border-left:4px solid #c9a84c;">🏛️ Kesultanan Besar:</h4>' +
+    '<div class="sub-grid">' +
+    '<div class="sub-card"><div class="card-icon">👑</div><h3>Kesultanan Demak (1475-1548)</h3><p>Kerajaan Islam pertama di Jawa. Menjadi pusat dakwah dan politik Islam di Nusantara.</p></div>' +
+    '<div class="sub-card"><div class="card-icon">👑</div><h3>Kesultanan Mataram Islam (1587-1755)</h3><p>Kerajaan Islam terbesar di Jawa. Puncak kejayaan di masa Sultan Agung.</p></div>' +
+    '<div class="sub-card"><div class="card-icon">👑</div><h3>Kesultanan Aceh Darussalam (1496-1903)</h3><p>"Serambi Mekkah". Pusat kekuatan Islam terbesar di barat Nusantara.</p></div>' +
+    '<div class="sub-card"><div class="card-icon">👑</div><h3>Kesultanan Gowa-Tallo (1300-1669)</h3><p>"Ayam Jantan dari Timur". Pusat kekuatan Islam di Indonesia Timur.</p></div>' +
+    '<div class="sub-card"><div class="card-icon">👑</div><h3>Kesultanan Ternate-Tidore (1257-1914)</h3><p>Pusat rempah-rempah dunia. Melawan Portugis & Spanyol.</p></div>' +
+    '<div class="sub-card"><div class="card-icon">👑</div><h3>Kesultanan Banjar (1526-1860)</h3><p>Pusat dakwah Islam di Kalimantan.</p></div>' +
+    '</div>' +
+    '<h4 style="color:#c9a84c;margin:20px 0 12px;padding-left:12px;border-left:4px solid #c9a84c;">📚 Capaian Peradaban:</h4>' +
+    '<ul style="color:#ccc;line-height:2;padding-left:20px;">' +
+    '<li>🕌 <strong>Arsitektur Masjid</strong> — Akulturasi Hindu-Islam (atap tumpang)</li>' +
+    '<li>📖 <strong>Karya Sastra</strong> — Babad Tanah Jawi, Hikayat Aceh, Suluk</li>' +
+    '<li>🎓 <strong>Pendidikan</strong> — Pesantren, dayah, surau berkembang pesat</li>' +
+    '<li>⚖️ <strong>Hukum Islam</strong> — Penerapan syariat di berbagai kesultanan</li>' +
+    '<li>🌏 <strong>Perdagangan Internasional</strong> — Jaringan dengan Arab, India, Cina</li>' +
+    '</ul>'
+},
+
+'sejah-masa-kolonial': {
+  title:'⚔️ Masa Kolonial & Perlawanan Umat Islam (1600-1945 M)',
+  content:'<p style="color:#ccc;line-height:1.8;margin-bottom:15px;">Periode perlawanan umat Islam terhadap penjajahan Belanda, Portugis, dan Inggris. <strong>Para ulama menjadi pemimpin perlawanan</strong> karena mereka memiliki pengaruh spiritual dan moral di tengah masyarakat.</p>' +
+    '<h4 style="color:#c9a84c;margin:20px 0 12px;padding-left:12px;border-left:4px solid #c9a84c;">🗡️ Tokoh Perlawanan Ulama:</h4>' +
+    '<div class="sub-grid">' +
+    '<div class="sub-card"><div class="card-icon">⚔️</div><h3>Pangeran Diponegoro (1785-1855)</h3><p>Pemimpin <strong>Perang Jawa (1825-1830)</strong> — perlawanan terbesar terhadap Belanda. Cucu Sultan Hamengkubuwono I. Dijuluki "Ratu Adil". Diasingkan ke Makassar hingga wafat.</p><div class="meta">📍 Jawa · 📅 Perang Jawa 1825-1830</div></div>' +
+    '<div class="sub-card"><div class="card-icon">⚔️</div><h3>Imam Bonjol (1772-1864)</h3><p>Pemimpin <strong>Perang Padri (1803-1838)</strong> di Sumatera Barat. Ulama Naqsyabandiyah yang gigih melawan Belanda. Diasingkan ke Manado hingga wafat.</p><div class="meta">📍 Sumatera Barat · 📅 Perang Padri 1803-1838</div></div>' +
+    '<div class="sub-card"><div class="card-icon">⚔️</div><h3>Teuku Umar (1854-1899)</h3><p>Pahlawan dari Aceh. Bersama istrinya, <strong>Cut Nyak Dien</strong>, memimpin perlawanan gerilya selama Perang Aceh (1873-1904).</p><div class="meta">📍 Aceh · 📅 Perang Aceh 1873-1904</div></div>' +
+    '<div class="sub-card"><div class="card-icon">⚔️</div><h3>Cut Nyak Dien (1848-1908)</h3><p>Pahlawan wanita dari Aceh. Melanjutkan perlawanan setelah suami (Teuku Umar) gugur. Diasingkan ke Sumedang hingga wafat.</p><div class="meta">📍 Aceh · 📅 Perang Aceh 1873-1904</div></div>' +
+    '<div class="sub-card"><div class="card-icon">⚔️</div><h3>Sultan Hasanuddin (1631-1670)</h3><p>Sultan Gowa ke-16. Dijuluki <strong>"Ayam Jantan dari Timur"</strong> oleh Belanda karena keberaniannya. Menolak monopoli VOC.</p><div class="meta">📍 Sulawesi Selatan · 📅 Perang Makassar 1666-1669</div></div>' +
+    '<div class="sub-card"><div class="card-icon">⚔️</div><h3>Sultan Babullah (1528-1583)</h3><p>Sultan Ternate. <strong>Berhasil mengusir Portugis dari Maluku</strong> (1575) setelah ayahnya, Sultan Hairun, dibunuh secara licik oleh Portugis.</p><div class="meta">📍 Maluku · 📅 1570-1575</div></div>' +
+    '<div class="sub-card"><div class="card-icon">⚔️</div><h3>K.H. Hasyim Asy\'ari (1871-1947)</h3><p>Pendiri <strong>Nahdlatul Ulama (1926)</strong>. Mengeluarkan <strong>Resolusi Jihad (22 Oktober 1945)</strong> yang membakar semangat arek-arek Suroboyo dalam Pertempuran 10 November 1945 (Hari Pahlawan).</p><div class="meta">📍 Jombang · 📅 Resolusi Jihad 1945</div></div>' +
+    '<div class="sub-card"><div class="card-icon">⚔️</div><h3>K.H. Ahmad Dahlan (1868-1923)</h3><p>Pendiri <strong>Muhammadiyah (1912)</strong>. Memperbarui pendidikan Islam dengan sistem modern. Tokoh pembaharu Islam Indonesia.</p><div class="meta">📍 Yogyakarta · 📅 1912</div></div>' +
+    '</div>' +
+    '<div class="sub-info" style="margin-top:20px;"><strong>📌 Hikmah Sejarah:</strong> Perlawanan umat Islam terhadap kolonialisme menunjukkan bahwa <strong>iman dan cinta tanah air</strong> adalah dua hal yang tidak terpisahkan. Para ulama menjadi garda terdepan dalam mempertahankan kemerdekaan Nusantara.</div>'
+},
+
+// ==================== KONTEN LAIN (TETAP DIPERTAHANKAN) ====================
 'tasawuf-taubat': {title:'🤲 Maqam 1: Taubat', content:'<div class="sub-quote"><div class="quote-text">"Taubat adalah kembali dari segala yang dicela oleh Allah kepada apa yang dicintai-Nya."</div><div class="quote-source">— Imam Al-Ghazali</div></div><p style="color:#ccc;line-height:1.8;">Taubat adalah maqam pertama dalam perjalanan spiritual seorang salik. Taubat berarti meninggalkan dosa, menyesali perbuatan masa lalu, dan berazam untuk tidak mengulanginya.</p>'},
 'tasawuf-wara': {title:'⏳ Maqam 2: Wara\'', content:'<p style="color:#ccc;line-height:1.8;">Wara\' adalah menjaga diri dari segala yang syubhat (meragukan) dan haram. Seorang yang wara\' akan meninggalkan hal-hal yang halal karena khawatir terjatuh pada yang haram.</p>'},
 'tasawuf-zuhud': {title:'🌸 Maqam 3: Zuhud', content:'<p style="color:#ccc;line-height:1.8;">Zuhud bukan berarti meninggalkan dunia, tetapi tidak bergantung padanya. Hati seorang zahid tetap terhubung dengan Allah, meskipun tangannya bekerja di dunia.</p>'},
@@ -2252,8 +2880,9 @@ setTimeout(function(){iframe.src=''},300);
 
 function hideDoaPdfLoading(){var l=document.getElementById('doaPdfLoading');if(l)l.style.display='none'}
 function initDoa(){renderDoaList()}
+
 // ============================================
-// ✅ DATA SILSILAH SAUR SEPUH (DINAMIS - SCALABLE)
+// ✅ DATA SILSILAH SAUR SEPUH (RECURSIVE - SUPPORT KETURUNAN)
 // ============================================
 var silsilahData = [
   {
@@ -2262,92 +2891,497 @@ var silsilahData = [
     nama: 'KH. Usman',
     arab: 'الْخَوْجَةُ عُثْمَان',
     icon: '👳',
+    foto: '',
+    fotoAlt: 'Foto KH. Usman',
+    audio: { judul: '', src: '', durasi: '' },
+    video: { judul: '', src: '', thumbnail: '' },
     peran: 'Pendiri Musholla Al-Ikhlas',
     lokasi: 'Kebagusan, Jakarta Selatan',
     tahun: '1920 – 1985 M',
-    bio: 'KH. Usman adalah pendiri Musholla Al-Ikhlas di Kebagusan. Beliau meletakkan batu pertama dakwah Islam di wilayah ini, membangun musholla sederhana yang menjadi cikal bakal Masjid Jami\' Al-Ikhlas. Dengan kegigihan dan keikhlasan, beliau mengumpulkan warga untuk berjamaah dan belajar agama.',
+    bio: 'KH. Usman adalah pendiri Musholla Al-Ikhlas di Kebagusan. Beliau meletakkan batu pertama dakwah Islam di wilayah ini.',
     warisan: [
       'Mendirikan Musholla Al-Ikhlas (1950-an)',
       'Merintis pengajian rutin warga Kebagusan',
       'Meletakkan dasar dakwah Ahlussunnah wal Jamaah'
     ],
-
     napakTilas: [
-      { y: '1920', e: 'Lahir di <strong>Kebagusan, Jakarta Selatan</strong>', m: 1 },
+      { y: '1912', e: 'Lahir di <strong>Kebagusan</strong>', m: 1 },
       { y: '1950', e: 'Mendirikan <strong>Musholla Al-Ikhlas</strong>', m: 1 },
-      { y: '1977', e: 'Wafat dan dimakamkan di <strong>Kebagusan</strong>', m: 1 }
+      { y: '1977', e: 'Wafat', m: 1 }
     ],
+    // ✅ FITUR BARU: DAFTAR KETURUNAN ANAK
+    anak: [
+      {
+        id: 'gen1-anak1',
+        nama: 'KH. M. Hamdani',
+        generasiLabel: 'Anak ke-1',
+        hubungan: 'Anak Kandung',
+        icon: '👳',
+        tahun: '1945 – 2000 (Almarhum)',
+        foto: '',
+        // Anak ini juga bisa punya anak lagi (cucu dari KH. Usman)
+        anak: [
+          {
+            id: 'gen1-anak1-anak1',
+            nama: 'Ust. Amir Hamzah',
+            generasiLabel: 'Cucu ke-1',
+            hubungan: 'Anak Kandung',
+            icon: '👨',
+            tahun: '1975 – Sekarang',
+            foto: '',
+            anak: [
+              // ✅ Cicit bisa ditambah di sini (recursive)
+              // { id: 'gen1-anak1-anak1-anak1', nama: '...', ... }
+            ]
+          },
+          {
+            id: 'gen1-anak1-anak2',
+            nama: 'Hj. Aisyah Hamdani',
+            generasiLabel: 'Cucu ke-2',
+            hubungan: 'Anak Kandung',
+            icon: '👩',
+            tahun: '1978 – Sekarang',
+            foto: '',
+            anak: []
+          }
+        ]
+      },
+      {
+        id: 'gen1-anak2',
+        nama: 'Hj. Amenah',
+        generasiLabel: 'Anak ke-2',
+        hubungan: 'Anak Kandung',
+        icon: '👩',
+        tahun: '1950 – Sekarang',
+        foto: '',
+        anak: [
+          {
+            id: 'gen1-anak2-anak1',
+            nama: 'Ust. Yusuf Abdullah',
+            generasiLabel: 'Cucu ke-3',
+            hubungan: 'Anak Kandung',
+            icon: '👨',
+            tahun: '1972 – Sekarang',
+            foto: '',
+            anak: []
+          }
+        ]
+      },
+      {
+        id: 'gen1-anak3',
+        nama: 'Rosanih',
+        generasiLabel: 'Anak ke-3',
+        hubungan: 'Anak Kandung',
+        icon: '👩',
+        tahun: '1952 – Almarhumah',
+        foto: '',
+        anak: [
+          {
+            id: 'gen1-anak3-anak1',
+            nama: 'Ust. Yusuf Abdullah',
+            generasiLabel: 'Cucu ke-3',
+            hubungan: 'Anak Kandung',
+            icon: '👨',
+            tahun: '1972 – Sekarang',
+            foto: '',
+            anak: []
+          }
+        ]
+      },
+      {
+        id : 'gen1-anak4',
+        nama : 'Rosiah',
+        generasilabel: 'Anak ke-4',
+        hubungan : 'Anak Kandung',
+        icon : '👩',
+        tahun: '1955-Almarhumah',
+        foto:'',
+        anak:[
+         <!--------------generasi cucu-->
+        ]
+      },
+      {
+        id: 'gen1-anak5',
+        nama: 'Rosemah',
+        generasilabel: 'Anak Ke-5',
+        hubungan: 'Anak Kandung',
+        icon: '👩',
+        tahun: '1963-Almarhumah',
+        foto: '',
+        anak: [
 
-    keturnan: [
-      { y: 'KH. Muhammad Hamdani, e:Anak Pertama (Alamarhun)</strong>', m: 1},
-      { y: 'H. Amenah, e:Anak Pertama (Alamarhun)</strong>', m: 1}
-  ]
-  },
-  {
-    generasi: 2,
-    id: 'gen2',
-    nama: 'KH. M. Hamdani',
-    arab: 'الْخَوْجَةُ مُحَمَّد حَمْدَانِي',
-    icon: '👳',
-    peran: 'Anak & Penerus KH. Usman',
-    lokasi: 'Kebagusan, Jakarta Selatan',
-    tahun: '1945 – 2010 M',
-    bio: 'KH. M. Hamdani adalah anak dari KH. Usman yang meneruskan perjuangan dakwah ayahnya. Beliau memakmurkan musholla, memperluas jangkauan dakwah di Kebagusan, dan menjadikan musholla sebagai pusat kegiatan umat. Di tangan beliaulah musholla mulai dikenal luas oleh warga sekitar.',
-    warisan: [
-      'Memperluas bangunan Musholla Al-Ikhlas',
-      'Mengaktifkan pengajian rutin mingguan',
-      'Merintis santunan yatim & dhuafa'
-    ],
-    napakTilas: [
-      { y: '1945', e: 'Lahir di <strong>Kebagusan</strong>', m: 1 },
-      { y: '1970', e: 'Mengambil alih kepemimpinan <strong>Musholla</strong>', m: 1 },
-      { y: '1990', e: 'Renovasi & perluasan musholla', m: 0 },
-      { y: '2000', e: 'Wafat', m: 1 }
+        ]
+      },
+      {
+        id: 'gen1-anak6',
+        nama: 'Muhammad Ali',
+        generasilabel:'Anak ke-6',
+        hubungan : 'Anak Kandung',
+        icon: '👨',
+        tahun: '1964-Almarhum'
+      },
+      {
+        id: 'gen1-anak7',
+        nama: 'Siti Rohmah',
+        generasilabel: 'Anak ke-7',
+        hubungan: 'Anak Kandung',
+        icon: '👩',
+        tahun: '1967-Sekarang',
+      },
+
     ]
   },
   {
-    generasi: 3,
+generasi: 2,
+    id: 'gen2',
+    nama: 'KH. Muhammad Hamdani',
+    arab: 'الْخَوْجَةُ مُحَمَّد حَمْدَانِي',
+    icon: '👳',
+    foto: '',
+    fotoAlt: 'Foto KH. Muhammad Hamdani',
+    audio: { judul: '', src: '', durasi: '' },
+    video: { judul: '', src: '', thumbnail: '' },
+    peran: 'Penerus KH. Usman Pendiri Musholla Al-Ikhlas',
+    lokasi: 'Kebagusan, Jakarta Selatan',
+    tahun: '1920 – 1985 M',
+    bio: 'KH. Usman adalah pendiri Musholla Al-Ikhlas di Kebagusan. Beliau meletakkan batu pertama dakwah Islam di wilayah ini.',
+    warisan: [
+      'Mendirikan Musholla Al-Ikhlas (1950-an)',
+      'Merintis pengajian rutin warga Kebagusan',
+      'Meletakkan dasar dakwah Ahlussunnah wal Jamaah'
+    ],
+    napakTilas: [
+      { y: '1920', e: 'Lahir di <strong>Kebagusan</strong>', m: 1 },
+      { y: '1950', e: 'Mendirikan <strong>Musholla Al-Ikhlas</strong>', m: 1 },
+      { y: '1985', e: 'Wafat', m: 1 }
+    ],
+    // ✅ FITUR BARU: DAFTAR KETURUNAN ANAK
+    anak: [
+      {
+        id: 'gen2-anak1',
+        nama: 'Ahmad Zaini, S.Ag',
+        generasiLabel: 'Anak ke-1',
+        hubungan: 'Anak Kandung',
+        icon: '👨',
+        tahun: '1964 – 2010 M',
+        foto: '',
+        // Anak ini juga bisa punya anak lagi (cucu dari KH. Usman)
+        anak: [
+          {
+            id: 'gen1-anak1-anak1',
+            nama: 'Ust. Amir Hamzah',
+            generasiLabel: 'Cucu ke-1',
+            hubungan: 'Anak Kandung',
+            icon: '👳',
+            tahun: '1975 – Sekarang',
+            foto: '',
+            anak: [
+              // ✅ Cicit bisa ditambah di sini (recursive)
+              // { id: 'gen1-anak1-anak1-anak1', nama: '...', ... }
+            ]
+          },
+          {
+            id: 'gen1-anak1-anak2',
+            nama: 'Hj. Aisyah Hamdani',
+            generasiLabel: 'Cucu ke-2',
+            hubungan: 'Anak Kandung',
+            icon: '👩',
+            tahun: '1978 – Sekarang',
+            foto: '',
+            anak: []
+          }
+        ]
+      },
+      {
+        id: 'gen2-anak2',
+        nama: 'Hj. Fatmah',
+        generasiLabel: 'Anak ke-2',
+        hubungan: 'Anak Kandung',
+        icon: '👩',
+        tahun: '1948 – Sekarang',
+        foto: '',
+        anak: [
+          {
+            id: 'gen2-anak2-anak1',
+            nama: 'Ust. Yusuf Abdullah',
+            generasiLabel: 'Cucu ke-3',
+            hubungan: 'Anak Kandung',
+            icon: '👨',
+            tahun: '1972 – Sekarang',
+            foto: '',
+            anak: []
+          }
+        ]
+      },
+      {
+        id: 'gen2-anak3',
+        nama: 'Arif Syarifudin',
+        generasiLabel: 'Anak ke-3',
+        hubungan: 'Anak Kandung',
+        icon: '👨',
+        tahun: '1966 – Sekarang',
+        foto: '',
+        // Anak ini juga bisa punya anak lagi (cucu dari KH. Usman)
+        anak: []
+  },
+  {
+   id: 'gen2-anak4',
+        nama: 'Fatimah',
+        generasiLabel: 'Anak ke-4',
+        hubungan: 'Anak Kandung',
+        icon: '👩',
+        tahun: '1969 – Sekarang',
+        foto: '',
+        // Anak ini juga bisa punya anak lagi (cucu dari KH. Usman)
+        anak: []
+  },
+  {
+  id: 'gen2-anak5',
+        nama: 'Mashur',
+        generasiLabel: 'Anak ke-5',
+        hubungan: 'Anak Kandung',
+        icon: '👨',
+        tahun: '19... – Sekarang',
+        foto: '',
+        // Anak ini juga bisa punya anak lagi (cucu dari KH. Usman)
+        anak: []
+  },
+  {
+  id: 'gen2-anak6',
+        nama: 'Nurhasanah',
+        generasiLabel: 'Anak ke-6',
+        hubungan: 'Anak Kandung',
+        icon: '👩',
+        tahun: '19... – Sekarang',
+        foto: '',
+        // Anak ini juga bisa punya anak lagi (cucu dari KH. Usman)
+        anak: []
+  },
+  {
+    id: 'gen2-anak7',
+        nama: 'Atika Lailah',
+        generasiLabel: 'Anak ke-7',
+        hubungan: 'Anak Kandung',
+        icon: '👩',
+        tahun: '19... – Sekarang',
+        foto: '',
+        // Anak ini juga bisa punya anak lagi (cucu dari KH. Usman)
+        anak: []
+  },
+  {
+  id: 'gen2-anak8',
+        nama: 'Syahrul Munir',
+        generasiLabel: 'Anak ke-8',
+        hubungan: 'Anak Kandung',
+        icon: '👨',
+        tahun: '19... – Sekarang',
+        foto: '',
+        // Anak ini juga bisa punya anak lagi (cucu dari KH. Usman)
+        anak: []
+  },
+  {
+  id: 'gen2-anak9',
+        nama: 'Ust. Amir Hamzah',
+        generasiLabel: 'Anak ke-9',
+        hubungan: 'Anak Kandung',
+        icon: '👳',
+        tahun: '19... – Sekarang',
+        foto: '',
+        // Anak ini juga bisa punya anak lagi (cucu dari KH. Usman)
+        anak: []
+  },
+  {
+  id: 'gen2-anak10',
+        nama: 'Taufik Hiadayatullah',
+        generasiLabel: 'Anak ke-10',
+        hubungan: 'Anak Kandung',
+        icon: '👨',
+        tahun: '19... – Sekarang',
+        foto: '',
+        // Anak ini juga bisa punya anak lagi (cucu dari KH. Usman)
+        anak: []
+  },
+]
+},
+{
+  generasi: 3,
     id: 'gen3',
     nama: 'Ust. Amir Hamzah',
     arab: 'الْأُسْتَاذ أَمِير حَمْزَة',
-    icon: '👨',
-    peran: 'Penerus & Transformer',
+    icon: '👳',
+    foto: '',
+    fotoAlt: 'Foto Ust. Amir Hamzah',
+    audio: { judul: '', src: '', durasi: '' },
+    video: { judul: '', src: '', thumbnail: '' },
+    peran: 'Penerus KH. Muhammad Hamdani Meningkatkan Nilai Ibadah dengan mengubah  Musholla Al-Ikhlas menjadi Masjid Jami\'Al-Ikhlas',
     lokasi: 'Kebagusan, Jakarta Selatan',
-    tahun: '1975 – Sekarang',
-    bio: 'Ust. Amir Hamzah adalah cucu KH. Usman dan anak KH. M. Hamdani. Beliau adalah transformer yang mengubah status Musholla Al-Ikhlas menjadi Masjid Jami\' Al-Ikhlas dengan standar nasional & internasional. Di bawah kepemimpinannya, masjid berkembang menjadi pusat dakwah, pendidikan, dan pelayanan umat yang modern.',
+    tahun: '198... – Sekarang',
+    bio: 'Ust. Amir hamzah adalah peletak dasar peningkatan nilai  ibadah dengan peningkatan fungsi Musholla Al-Ikhlas Menjadi Masjid Jami\' Al-Ikhlas. Sekaligus penerus KH. Muhammad Hamdani dengan menerusakan penanaman nilai ajaran agama, mengajar di beberapa Majlis ta\'lim di Wialayah Kebagusan & sekitarnya',
     warisan: [
-      'Meningkatkan status Musholla menjadi Masjid Jami\'',
-      'Membangun website & digitalisasi masjid',
-      'Mendirikan program pendidikan anak (TPA/PAUD)',
-      'Membentuk DKM & badan pengembangan masjid',
-      'Meluncurkan Al-Ikhlas AI untuk tanya jawab keislaman'
+      'Meningkatkan fungsi Musholla Al-Ikhlas menjadi Masjid jami\'AL-Ikhlas (2017-an)',
+      'Mengembangkan pengajian rutin warga Kebagusan',
+      'Meletakkan dasar dakwah Ahlussunnah wal Jamaah'
     ],
     napakTilas: [
-      { y: '1975', e: 'Lahir di <strong>Kebagusan</strong>', m: 1 },
-      { y: '2005', e: 'Mulai aktif mengelola musholla', m: 0 },
-      { y: '2015', e: 'Transformasi Musholla → <strong>Masjid Jami\'</strong>', m: 1 },
-      { y: '2024', e: 'Peluncuran website & digitalisasi', m: 0 },
-      { y: '2026', e: 'Peluncuran <strong>Al-Ikhlas AI</strong>', m: 1 }
-    ]
-  }
-  // ✅ TAMBAH GENERASI BERIKUTNYA DI SINI (gen4, gen5, ... gen-n)
-  // Contoh:
-  // ,{
-  //   generasi: 4,
-  //   id: 'gen4',
-  //   nama: '...',
-  //   arab: '...',
-  //   icon: '👨',
-  //   peran: '...',
-  //   lokasi: '...',
-  //   tahun: '...',
-  //   bio: '...',
-  //   warisan: ['...'],
-  //   napakTilas: [{ y: '...', e: '...', m: 1 }]
-  // }
+      { y: '198...', e: 'Lahir di <strong>Kebagusan</strong>', m: 1 },
+      { y: '2017', e: 'Meningkatkan <strong>Musholla Al-Ikhlas</strong>', m: 1 },
+      { y: '2017', e: 'Sampai Sekarang', m: 1 }
+    ],
+    // ✅ FITUR BARU: DAFTAR KETURUNAN ANAK
+}
+  
+  // ✅ Generasi lain bisa ditambahkan di sini dengan struktur sama
 ];
 // ============================================
+// ✅ HELPER: CARI ANAK BERDASARKAN ID (RECURSIVE)
+// ============================================
+function cariAnakById(parentId, anakId) {
+  // Cari parent dulu
+  var parent = null;
+  for (var i = 0; i < silsilahData.length; i++) {
+    if (silsilahData[i].id === parentId) { parent = silsilahData[i]; break; }
+  }
+  if (!parent || !parent.anak) return null;
+
+  // Cari anak secara recursive
+  function findInTree(anakList, targetId) {
+    for (var i = 0; i < anakList.length; i++) {
+      if (anakList[i].id === targetId) return anakList[i];
+      if (anakList[i].anak && anakList[i].anak.length > 0) {
+        var found = findInTree(anakList[i].anak, targetId);
+        if (found) return found;
+      }
+    }
+    return null;
+  }
+  return findInTree(parent.anak, anakId);
+}
+
+// ============================================
+// ✅ HELPER: FLATTEN TREE (untuk pencarian & statistik)
+// ============================================
+function flattenSilsilahTree() {
+  var result = [];
+  function traverse(node, depth, parentPath) {
+    var path = parentPath.concat([{ id: node.id, nama: node.nama }]);
+    result.push({
+      id: node.id,
+      nama: node.nama,
+      icon: node.icon,
+      generasiLabel: node.generasiLabel || ('Generasi ' + (node.generasi || depth + 1)),
+      hubungan: node.hubungan || '',
+      tahun: node.tahun || '',
+      depth: depth,
+      path: path,
+      hasChildren: node.anak && node.anak.length > 0,
+      totalDescendants: countDescendants(node)
+    });
+    if (node.anak) {
+      for (var i = 0; i < node.anak.length; i++) {
+        traverse(node.anak[i], depth + 1, path);
+      }
+    }
+  }
+  for (var i = 0; i < silsilahData.length; i++) {
+    traverse(silsilahData[i], 0, []);
+  }
+  return result;
+}
+
+function countDescendants(node) {
+  if (!node.anak || node.anak.length === 0) return 0;
+  var count = node.anak.length;
+  for (var i = 0; i < node.anak.length; i++) {
+    count += countDescendants(node.anak[i]);
+  }
+  return count;
+}
+
+// ============================================
+// ✅ HELPER: HITUNG TOTAL ANAK
+// ============================================
+function hitungTotalAnak(node) {
+  if (!node || !node.anak) return 0;
+  return node.anak.length;
+}
+
+// ============================================
+// ✅ FITUR 2: INTEGRASI GOOGLE SHEETS
+// ============================================
+// 📌 CARA SETUP:
+// 1. Buat Google Sheet baru dengan kolom:
+//    generasi | id | nama | arab | icon | foto | fotoAlt |
+//    peran | lokasi | tahun | bio | warisan (JSON array) |
+//    napakTilas (JSON array) | audio_judul | audio_src | audio_durasi |
+//    video_judul | video_src | video_thumbnail
+//
+// 2. Buat Apps Script (Extensions → Apps Script), paste kode di bawah:
+//
+//    function doGet(e) {
+//      var ss = SpreadsheetApp.getActiveSpreadsheet();
+//      var sheet = ss.getSheetByName('Silsilah') || ss.getSheets()[0];
+//      var data = sheet.getDataRange().getValues();
+//      var headers = data[0];
+//      var result = [];
+//      for (var i = 1; i < data.length; i++) {
+//        var obj = {};
+//        for (var j = 0; j < headers.length; j++) {
+//          obj[headers[j]] = data[i][j];
+//        }
+//        // Parse JSON fields
+//        try { obj.warisan = JSON.parse(obj.warisan || '[]'); } catch(e) { obj.warisan = []; }
+//        try { obj.napakTilas = JSON.parse(obj.napakTilas || '[]'); } catch(e) { obj.napakTilas = []; }
+//        // Build audio/video objects
+//        if (obj.audio_src) {
+//          obj.audio = { judul: obj.audio_judul || '', src: obj.audio_src, durasi: obj.audio_durasi || '' };
+//        }
+//        if (obj.video_src) {
+//          obj.video = { judul: obj.video_judul || '', src: obj.video_src, thumbnail: obj.video_thumbnail || '' };
+//        }
+//        result.push(obj);
+//      }
+//      return ContentService.createTextOutput(JSON.stringify({
+//        status: 'success',
+//        data: result
+//      })).setMimeType(ContentService.MimeType.JSON);
+//    }
+//
+// 3. Deploy → New deployment → Web app → Execute as: Me → Access: Anyone
+// 4. Copy URL deployment, paste di SILSILAH_SHEETS_URL
+
+var SILSILAH_SHEETS_URL = 'https://script.google.com/macros/s/XXXXXX/exec'; // ← GANTI URL ANDA
+var SILSILAH_SHEETS_ENABLED = false; // ← Set true jika sudah setup
+
+function loadSilsilahFromSheets() {
+  if (!SILSILAH_SHEETS_ENABLED || !SILSILAH_SHEETS_URL || SILSILAH_SHEETS_URL.indexOf('XXXXXX') !== -1) {
+    console.log('📋 Silsilah: Menggunakan data lokal (Google Sheets belum dikonfigurasi)');
+    renderSilsilahSidebar();
+    return;
+  }
+
+  fetch(SILSILAH_SHEETS_URL + '?_=' + Date.now())
+    .then(function(res) { return res.json(); })
+    .then(function(json) {
+      if (json.status === 'success' && json.data && json.data.length > 0) {
+        silsilahData = json.data;
+        console.log('✅ Silsilah: Berhasil dimuat dari Google Sheets (' + json.data.length + ' generasi)');
+        showToast('🔄 Data silsilah diperbarui dari Google Sheets');
+      } else {
+        console.warn('⚠️ Silsilah: Data kosong di Sheets, pakai data lokal');
+      }
+      renderSilsilahSidebar();
+    })
+    .catch(function(err) {
+      console.error('❌ Gagal memuat dari Sheets:', err);
+      showToast('⚠️ Gagal sinkronisasi Sheets, pakai data lokal');
+      renderSilsilahSidebar();
+    });
+}
+// ============================================
 // ✅ RENDER SIDEBAR SILSILAH (DINAMIS)
+// ============================================
+// ============================================
+// ✅ RENDER SIDEBAR SILSILAH (DENGAN PENCARIAN RECURSIVE)
 // ============================================
 function renderSilsilahSidebar() {
   var list = document.getElementById('silsilahList');
@@ -2355,32 +3389,107 @@ function renderSilsilahSidebar() {
   var searchInput = document.getElementById('searchSilsilah');
   var search = searchInput ? searchInput.value.toLowerCase() : '';
 
-  // Urutkan berdasarkan generasi
+  var html = '';
+
+  // Render akar (root generations)
   var sorted = silsilahData.slice().sort(function(a, b) {
     return a.generasi - b.generasi;
   });
 
-  var html = '';
   for (var i = 0; i < sorted.length; i++) {
     var g = sorted[i];
-    // Filter pencarian
-    if (search &&
-        g.nama.toLowerCase().indexOf(search) === -1 &&
-        g.peran.toLowerCase().indexOf(search) === -1) {
-      continue;
+    var totalDesc = countDescendants(g);
+    var matchRoot = !search ||
+      g.nama.toLowerCase().indexOf(search) !== -1 ||
+      (g.peran && g.peran.toLowerCase().indexOf(search) !== -1);
+
+    // Cek apakah ada keturunan yang match
+    var matchDescendant = false;
+    if (search && g.anak) {
+      matchDescendant = checkDescendantMatch(g.anak, search);
     }
-    html += '<button class="split-btn" data-id="' + g.id + '" '
-         +  'onclick="tampilkanGenerasi(\'' + g.id + '\', this)">';
-    html += '<span class="btn-icon">' + g.icon + '</span>';
-    html += '<span class="btn-text">Gen ' + g.generasi + ': ' + g.nama + '</span>';
-    html += '</button>';
+
+    if (matchRoot || matchDescendant) {
+      var badgeHTML = totalDesc > 0
+        ? '<span class="btn-count" title="' + totalDesc + ' keturunan">👨‍👩‍👧 ' + totalDesc + '</span>'
+        : '';
+
+      html += '<button class="split-btn" data-id="' + g.id + '" '
+           +  'onclick="tampilkanGenerasi(\'' + g.id + '\', this)">';
+      html += '<span class="btn-icon">' + g.icon + '</span>';
+      html += '<span class="btn-text">Gen ' + g.generasi + ': ' + g.nama + '</span>';
+      html += badgeHTML;
+      html += '</button>';
+
+      // Jika ada search & match di descendant, tampilkan anak yang match
+      if (search && matchDescendant) {
+        html += renderMatchingDescendants(g.anak, search, 1);
+      }
+    }
   }
 
   list.innerHTML = html || '<p style="color:#888;text-align:center;padding:15px;font-size:0.82rem;">Tidak ditemukan</p>';
 }
 
+function checkDescendantMatch(anakList, search) {
+  for (var i = 0; i < anakList.length; i++) {
+    if (anakList[i].nama.toLowerCase().indexOf(search) !== -1) return true;
+    if (anakList[i].anak && checkDescendantMatch(anakList[i].anak, search)) return true;
+  }
+  return false;
+}
+
+function renderMatchingDescendants(anakList, search, depth) {
+  var html = '';
+  var indent = depth * 15;
+  for (var i = 0; i < anakList.length; i++) {
+    var anak = anakList[i];
+    var match = anak.nama.toLowerCase().indexOf(search) !== -1;
+    var matchChild = anak.anak && checkDescendantMatch(anak.anak, search);
+
+    if (match || matchChild) {
+      html += '<button class="split-btn" style="margin-left:' + indent + 'px;font-size:0.78rem;padding:7px 10px;" '
+           +  'onclick="event.stopPropagation();tampilkanDetailAnak(\'' + (findParentId(anak) || '') + '\',\'' + anak.id + '\')">';
+      html += '<span class="btn-icon">' + (anak.icon || '👤') + '</span>';
+      html += '<span class="btn-text">' + anak.generasiLabel + ': ' + anak.nama + '</span>';
+      html += '</button>';
+    }
+
+    if (matchChild && anak.anak) {
+      html += renderMatchingDescendants(anak.anak, search, depth + 1);
+    }
+  }
+  return html;
+}
+
+function findParentId(targetAnak) {
+  function findInTree(list, target, parentId) {
+    for (var i = 0; i < list.length; i++) {
+      if (list[i] === target) return parentId;
+      if (list[i].anak) {
+        var found = findInTree(list[i].anak, target, list[i].id);
+        if (found) return found;
+      }
+    }
+    return null;
+  }
+  for (var i = 0; i < silsilahData.length; i++) {
+    if (silsilahData[i].anak) {
+      var result = findInTree(silsilahData[i].anak, targetAnak, silsilahData[i].id);
+      if (result) return result;
+    }
+  }
+  return null;
+}
+
 // ============================================
 // ✅ TAMPILKAN DETAIL GENERASI
+// ============================================
+// ============================================
+// ✅ TAMPILKAN DETAIL GENERASI (LENGKAP: FOTO + AUDIO + VIDEO)
+// ============================================
+// ============================================
+// ✅ TAMPILKAN DETAIL GENERASI (DENGAN KETURUNAN ANAK)
 // ============================================
 function tampilkanGenerasi(id, btn) {
   var g = null;
@@ -2399,61 +3508,512 @@ function tampilkanGenerasi(id, btn) {
   if (!detail) return;
   simpanWelcomeNode(btn);
 
-  // Bangun HTML warisan
+  renderDetailGenerasi(g, detail, []);
+  detail.scrollTop = 0;
+  tutupSidebarDariBtn(btn);
+}
+
+// ============================================
+// ✅ RENDER DETAIL GENERASI (REUSABLE - RECURSIVE)
+// ============================================
+function renderDetailGenerasi(g, detail, pathHistory) {
+  // ✅ FITUR 1: FOTO
+  var photoHTML = '';
+  if (g.foto && g.foto.trim() !== '' && g.foto.indexOf('XXXXXXX') === -1) {
+    photoHTML = '<div class="silsilah-photo-wrapper">' +
+      '<img src="' + g.foto + '" alt="' + (g.fotoAlt || g.nama) + '" onerror="this.parentElement.innerHTML=\'<div class=\\\'photo-fallback\\\'>\' + \'' + g.icon + '\' + \'</div>\'">' +
+      '<div class="photo-badge">📸 ' + (g.generasiLabel || 'Generasi ' + (g.generasi || '')) + '</div>' +
+      '</div>';
+  } else {
+    photoHTML = '<div class="silsilah-photo-wrapper">' +
+      '<div class="photo-fallback">' + g.icon + '</div>' +
+      '<div class="photo-badge">🎭 ' + (g.generasiLabel || 'Generasi ' + (g.generasi || '')) + '</div>' +
+      '</div>';
+  }
+
+  // Breadcrumb jika ada history
+  var breadcrumbHTML = '';
+  if (pathHistory && pathHistory.length > 0) {
+    breadcrumbHTML = '<div class="silsilah-breadcrumb">';
+    breadcrumbHTML += '<span class="bc-item" onclick="kembaliKeAkarSilsilah()">🌳 Akar</span>';
+    for (var i = 0; i < pathHistory.length; i++) {
+      breadcrumbHTML += '<span class="bc-sep">›</span>';
+      if (i === pathHistory.length - 1) {
+        breadcrumbHTML += '<span class="bc-current">' + pathHistory[i].nama + '</span>';
+      } else {
+        breadcrumbHTML += '<span class="bc-item" onclick="navigasiBreadcrumb(' + i + ')">' + pathHistory[i].nama + '</span>';
+      }
+    }
+    breadcrumbHTML += '</div>';
+    // Simpan path history untuk navigasi
+    window._currentSilsilahPath = pathHistory;
+  }
+
+  // Warisan
   var warisanHTML = '';
   if (g.warisan && g.warisan.length > 0) {
-    warisanHTML = '<div class="karya-list" style="margin-top:15px;">'
-               +  '<h4>🏆 Warisan & Kontribusi</h4><ul>';
+    warisanHTML = '<div class="karya-list" style="margin-top:15px;">' +
+      '<h4>🏆 Warisan & Kontribusi</h4><ul>';
     for (var i = 0; i < g.warisan.length; i++) {
       warisanHTML += '<li>' + g.warisan[i] + '</li>';
     }
     warisanHTML += '</ul></div>';
   }
 
-  // Bangun HTML napak tilas
+  // Napak tilas
   var napakTilasHTML = '';
   if (g.napakTilas && g.napakTilas.length > 0) {
-    napakTilasHTML = '<div class="napak-tilas"><h4>🛤️ Napak Tilas Perjalanan Hidup</h4>'
-                  +  '<div class="napak-tilas-timeline">';
+    napakTilasHTML = '<div class="napak-tilas"><h4>🛤️ Napak Tilas Perjalanan Hidup</h4>' +
+      '<div class="napak-tilas-timeline">';
     for (var i = 0; i < g.napakTilas.length; i++) {
       var item = g.napakTilas[i];
       var cls = item.m ? ' milestone' : '';
-      napakTilasHTML += '<div class="napak-tilas-item' + cls + '">'
-                     +  '<div class="napak-tilas-year">' + item.y + '</div>'
-                     +  '<div class="napak-tilas-event">' + item.e + '</div>'
-                     +  '</div>';
+      napakTilasHTML += '<div class="napak-tilas-item' + cls + '">' +
+        '<div class="napak-tilas-year">' + item.y + '</div>' +
+        '<div class="napak-tilas-event">' + item.e + '</div>' +
+        '</div>';
     }
     napakTilasHTML += '</div></div>';
   }
 
-  // Info tambahan
+  // Audio
+  var audioHTML = '';
+  if (g.audio && g.audio.src && g.audio.src.trim() !== '') {
+    audioHTML = '<div class="audio-player">' +
+      '<div class="audio-player-header">' +
+      '<div class="audio-icon">🎧</div>' +
+      '<span>' + (g.audio.judul || 'Rekaman Kisah') + '</span>' +
+      '</div>' +
+      '<audio controls preload="none" controlslist="nodownload">' +
+      '<source src="' + g.audio.src + '" type="audio/mpeg">' +
+      '</audio>' +
+      '<div class="audio-meta">' +
+      '<span>📖 Kisah Saur Sepuh</span>' +
+      '<span>⏱️ ' + (g.audio.durasi || '-') + '</span>' +
+      '</div></div>';
+  }
+
+  // Video
+  var videoHTML = '';
+  if (g.video && g.video.src && g.video.src.trim() !== '') {
+    videoHTML = '<div class="video-player">' +
+      '<div class="video-player-header">' +
+      '<div class="video-icon">🎬</div>' +
+      '<span>' + (g.video.judul || 'Video Dokumenter') + '</span>' +
+      '</div>' +
+      '<div class="video-frame-wrapper">' +
+      '<iframe src="' + g.video.src + '" allowfullscreen loading="lazy"></iframe>' +
+      '</div></div>';
+  }
+
+  // ✅ FITUR BARU: KETURUNAN ANAK
+  var keturunanHTML = '';
+  if (g.anak && g.anak.length > 0) {
+    keturunanHTML = '<div class="keturunan-section">' +
+      '<h4>' +
+      '<span class="ket-icon">👨‍👩‍👧</span>' +
+      '<span>Keturunan / Anak</span>' +
+      '<span class="ket-count">' + g.anak.length + ' orang</span>' +
+      '</h4>' +
+      '<div class="keturunan-list">';
+
+    for (var i = 0; i < g.anak.length; i++) {
+      var anak = g.anak[i];
+      var hasChildrenClass = (anak.anak && anak.anak.length > 0) ? ' has-children' : '';
+      var avatarContent = '';
+      if (anak.foto && anak.foto.trim() !== '') {
+        avatarContent = '<img src="' + anak.foto + '" alt="' + anak.nama + '" onerror="this.parentElement.innerHTML=\'' + anak.icon + '\'">';
+      } else {
+        avatarContent = anak.icon || '👤';
+      }
+
+      keturunanHTML += '<div class="keturunan-card' + hasChildrenClass + '" onclick="tampilkanDetailAnak(\'' + g.id + '\',\'' + anak.id + '\')">' +
+        '<div class="ket-avatar">' + avatarContent + '</div>' +
+        '<div class="ket-info">' +
+        '<div class="ket-nama">' + anak.nama + '</div>' +
+        '<span class="ket-label">' + (anak.generasiLabel || 'Anak ke-' + (i + 1)) + '</span>' +
+        (anak.hubungan ? '<span class="ket-hubungan">' + anak.hubungan + '</span>' : '') +
+        (anak.tahun ? '<div class="ket-tahun">📅 ' + anak.tahun + '</div>' : '') +
+        '</div>' +
+        '<span class="ket-arrow">›</span>' +
+        '</div>';
+    }
+
+    keturunanHTML += '</div>';
+    keturunanHTML += '<button class="keturunan-add-btn" onclick="tambahAnakBaru(\'' + g.id + '\')">+ Tambah Anak / Keturunan</button>';
+    keturunanHTML += '</div>';
+  } else {
+    keturunanHTML = '<div class="keturunan-section">' +
+      '<h4>' +
+      '<span class="ket-icon">👨‍👩‍👧</span>' +
+      '<span>Keturunan / Anak</span>' +
+      '</h4>' +
+      '<p class="keturunan-empty">Belum ada data keturunan. Klik tombol di bawah untuk menambahkan.</p>' +
+      '<button class="keturunan-add-btn" onclick="tambahAnakBaru(\'' + g.id + '\')">+ Tambah Anak / Keturunan</button>' +
+      '</div>';
+  }
+
+  // Info
   var infoHTML = '';
-  infoHTML += '<div class="info-item"><strong>Generasi:</strong> Ke-' + g.generasi + '</div>';
-  infoHTML += '<div class="info-item"><strong>Peran:</strong> ' + g.peran + '</div>';
+  if (g.generasi) infoHTML += '<div class="info-item"><strong>Generasi:</strong> Ke-' + g.generasi + '</div>';
+  if (g.generasiLabel) infoHTML += '<div class="info-item"><strong>Label:</strong> ' + g.generasiLabel + '</div>';
+  if (g.hubungan) infoHTML += '<div class="info-item"><strong>Hubungan:</strong> ' + g.hubungan + '</div>';
+  infoHTML += '<div class="info-item"><strong>Peran:</strong> ' + (g.peran || '-') + '</div>';
   if (g.lokasi) infoHTML += '<div class="info-item"><strong>Lokasi:</strong> ' + g.lokasi + '</div>';
   if (g.tahun)  infoHTML += '<div class="info-item"><strong>Periode:</strong> ' + g.tahun + '</div>';
 
+  // Total keturunan
+  var totalDesc = countDescendants(g);
+  var statsHTML = '';
+  if (totalDesc > 0 || (g.anak && g.anak.length > 0)) {
+    statsHTML = '<div class="sub-info" style="margin-top:15px;">' +
+      '<strong>📊 Statistik Keturunan:</strong> ' +
+      'Anak langsung: <strong>' + (g.anak ? g.anak.length : 0) + '</strong> · ' +
+      'Total keturunan: <strong>' + totalDesc + '</strong> orang' +
+      '</div>';
+  }
+
   // Render card
-  var html = SIDEBAR_BACK_BTN
-          +  '<article class="ulama-card" style="grid-template-columns: 200px 1fr; margin-bottom: 0;">'
-          +    '<div class="ulama-photo" style="width:200px;height:240px;font-size:5rem;">' + g.icon + '</div>'
-          +    '<div class="ulama-info">'
-          +      '<h3 style="color:#e8d48b;font-size:1.8rem;margin-bottom:8px;">Generasi ' + g.generasi + ': ' + g.nama + '</h3>'
-          +      '<div class="arabic-name" style="font-family:\'Aref Ruqaa\',serif;font-size:1.6rem;color:#c9a84c;direction:rtl;margin-bottom:15px;line-height:1.5;">' + g.arab + '</div>'
-          +      infoHTML
-          +      '<div class="ulama-bio" style="margin-top:15px;"><p>' + g.bio + '</p></div>'
-          +      warisanHTML
-          +      napakTilasHTML
-          +    '</div>'
-          +  '</article>';
+  var html = SIDEBAR_BACK_BTN +
+    breadcrumbHTML +
+    '<article class="ulama-card" style="grid-template-columns: 200px 1fr; margin-bottom: 0;">' +
+    photoHTML +
+    '<div class="ulama-info">' +
+    '<h3 style="color:#e8d48b;font-size:1.8rem;margin-bottom:8px;">' + (g.generasiLabel || 'Generasi ' + (g.generasi || '')) + ': ' + g.nama + '</h3>' +
+    (g.arab ? '<div class="arabic-name" style="font-family:\'Aref Ruqaa\',serif;font-size:1.6rem;color:#c9a84c;direction:rtl;margin-bottom:15px;line-height:1.5;">' + g.arab + '</div>' : '') +
+    infoHTML +
+    '<div class="ulama-bio" style="margin-top:15px;"><p>' + g.bio + '</p></div>' +
+    warisanHTML +
+    napakTilasHTML +
+    audioHTML +
+    videoHTML +
+    statsHTML +
+    keturunanHTML +
+    '</div>' +
+    '</article>';
 
   detail.innerHTML = html;
-  detail.scrollTop = 0;
-  tutupSidebarDariBtn(btn);
 }
 
 // ============================================
+// ✅ TAMPILKAN DETAIL ANAK (RECURSIVE)
+// ============================================
+function tampilkanDetailAnak(parentId, anakId) {
+  var anak = cariAnakById(parentId, anakId);
+  if (!anak) {
+    showToast('❌ Data keturunan tidak ditemukan');
+    return;
+  }
+
+  var detail = document.getElementById('silsilahDetail');
+  if (!detail) return;
+
+  // Build path history
+  var pathHistory = window._currentSilsilahPath || [];
+  var parent = null;
+  for (var i = 0; i < silsilahData.length; i++) {
+    if (silsilahData[i].id === parentId) { parent = silsilahData[i]; break; }
+  }
+  if (parent) {
+    // Cek apakah parent sudah ada di path
+    var parentInPath = false;
+    for (var i = 0; i < pathHistory.length; i++) {
+      if (pathHistory[i].id === parentId) { parentInPath = true; break; }
+    }
+    if (!parentInPath) {
+      pathHistory = pathHistory.concat([{ id: parent.id, nama: parent.nama }]);
+    }
+  }
+  pathHistory.push({ id: anak.id, nama: anak.nama });
+
+  renderDetailGenerasi(anak, detail, pathHistory);
+  detail.scrollTop = 0;
+}
+
+// ============================================
+// ✅ NAVIGASI BREADCRUMB
+// ============================================
+function navigasiBreadcrumb(index) {
+  var path = window._currentSilsilahPath || [];
+  if (index < 0 || index >= path.length) return;
+  var target = path[index];
+
+  // Cek apakah ini root (dari silsilahData)
+  for (var i = 0; i < silsilahData.length; i++) {
+    if (silsilahData[i].id === target.id) {
+      var btn = document.querySelector('[data-id="' + target.id + '"]');
+      if (btn) {
+        tampilkanGenerasi(target.id, btn);
+      } else {
+        // Render manual
+        var detail = document.getElementById('silsilahDetail');
+        renderDetailGenerasi(silsilahData[i], detail, path.slice(0, index + 1));
+      }
+      return;
+    }
+  }
+
+  // Jika bukan root, cari di tree
+  // Kita perlu tahu parent-nya - ambil dari path sebelumnya
+  if (index > 0) {
+    var parentId = path[index - 1].id;
+    var anak = cariAnakById(parentId, target.id);
+    if (anak) {
+      var detail = document.getElementById('silsilahDetail');
+      renderDetailGenerasi(anak, detail, path.slice(0, index + 1));
+    }
+  }
+}
+
+function kembaliKeAkarSilsilah() {
+  window._currentSilsilahPath = [];
+  // Tampilkan welcome
+  var detail = document.getElementById('silsilahDetail');
+  var welcomeNode = welcomeNodeCache['page-silsilah'];
+  if (welcomeNode) {
+    detail.innerHTML = '';
+    detail.appendChild(welcomeNode.cloneNode(true));
+  }
+  // Reset active button
+  var allBtns = document.querySelectorAll('#page-silsilah .split-btn.active');
+  for (var i = 0; i < allBtns.length; i++) allBtns[i].classList.remove('active');
+}
+
+// ============================================
+// ✅ TAMBAH ANAK BARU (PROMPT)
+// ============================================
+function tambahAnakBaru(parentId) {
+  // Cari parent
+  var parent = null;
+  for (var i = 0; i < silsilahData.length; i++) {
+    if (silsilahData[i].id === parentId) { parent = silsilahData[i]; break; }
+  }
+  // Jika tidak ketemu di root, cari di tree
+  if (!parent) {
+    // Cari recursive di semua anak
+    function findInTree(list, id) {
+      for (var i = 0; i < list.length; i++) {
+        if (list[i].id === id) return list[i];
+        if (list[i].anak) {
+          var found = findInTree(list[i].anak, id);
+          if (found) return found;
+        }
+      }
+      return null;
+    }
+    for (var i = 0; i < silsilahData.length; i++) {
+      if (silsilahData[i].anak) {
+        parent = findInTree(silsilahData[i].anak, parentId);
+        if (parent) break;
+      }
+    }
+  }
+
+  if (!parent) {
+    showToast('❌ Parent tidak ditemukan');
+    return;
+  }
+
+  var nama = prompt('Nama Anak / Keturunan:');
+  if (!nama) return;
+
+  var generasiLabel = prompt('Label Generasi (contoh: Anak ke-1, Cucu ke-2):') || 'Anak';
+  var hubungan = prompt('Hubungan (Anak Kandung / Menantu / Anak Angkat):') || 'Anak Kandung';
+  var tahun = prompt('Periode Tahun (contoh: 1980 - Sekarang):') || '-';
+  var icon = prompt('Icon emoji (👳 👨 👩 👦 👧):') || '👤';
+
+  if (!parent.anak) parent.anak = [];
+
+  var newAnak = {
+    id: parentId + '-anak' + (parent.anak.length + 1),
+    nama: nama,
+    generasiLabel: generasiLabel,
+    hubungan: hubungan,
+    icon: icon,
+    tahun: tahun,
+    foto: '',
+    bio: 'Biografi ' + nama + ' sedang dalam pengumpulan data.',
+    anak: []
+  };
+
+  parent.anak.push(newAnak);
+  showToast('✅ ' + nama + ' berhasil ditambahkan sebagai keturunan');
+
+  // Re-render
+  var detail = document.getElementById('silsilahDetail');
+  var pathHistory = window._currentSilsilahPath || [];
+  renderDetailGenerasi(parent, detail, pathHistory.slice(0, -1));
+}
+// ============================================
+// ✅ FITUR 3: RENDER DIAGRAM POHON KELUARGA (SVG)
+// ============================================
+// ============================================
+// ✅ RENDER DIAGRAM POHON KELUARGA (DENGAN CABANG)
+// ============================================
+function renderPohonKeluarga() {
+  if (silsilahData.length === 0) return '<p style="color:#888;text-align:center;">Belum ada data generasi</p>';
+
+  // Layout parameters
+  var nodeRadius = 40;
+  var horizontalGap = 140;
+  var verticalGap = 120;
+
+  // Hitung total nodes untuk sizing
+  var flat = flattenSilsilahTree();
+  var maxDepth = 0;
+  var maxNodesAtLevel = {};
+  for (var i = 0; i < flat.length; i++) {
+    if (flat[i].depth > maxDepth) maxDepth = flat[i].depth;
+    maxNodesAtLevel[flat[i].depth] = (maxNodesAtLevel[flat[i].depth] || 0) + 1;
+  }
+
+  var maxNodes = 0;
+  for (var k in maxNodesAtLevel) {
+    if (maxNodesAtLevel[k] > maxNodes) maxNodes = maxNodesAtLevel[k];
+  }
+
+  var svgWidth = Math.max(700, (maxDepth + 1) * horizontalGap + 100);
+  var svgHeight = Math.max(500, maxNodes * 70 + 200);
+
+  var svg = '<svg class="pohon-keluarga-svg" viewBox="0 0 ' + svgWidth + ' ' + svgHeight + '" xmlns="http://www.w3.org/2000/svg">';
+
+  // Defs
+  svg += '<defs>';
+  svg += '<radialGradient id="nodeGrad" cx="30%" cy="30%">';
+  svg += '<stop offset="0%" stop-color="#e8d48b"/>';
+  svg += '<stop offset="100%" stop-color="#c9a84c"/>';
+  svg += '</radialGradient>';
+  svg += '<radialGradient id="childGrad" cx="30%" cy="30%">';
+  svg += '<stop offset="0%" stop-color="#fff"/>';
+  svg += '<stop offset="100%" stop-color="#e8d48b"/>';
+  svg += '</radialGradient>';
+  svg += '<filter id="nodeShadow" x="-50%" y="-50%" width="200%" height="200%">';
+  svg += '<feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#c9a84c" flood-opacity="0.4"/>';
+  svg += '</filter>';
+  svg += '</defs>';
+
+  // Assign positions recursively
+  var positions = {};
+  var yCounter = {};
+
+  function assignPositions(node, depth, parentX) {
+    var level = depth;
+    if (!yCounter[level]) yCounter[level] = 80;
+    var x = 80 + depth * horizontalGap;
+    var y = yCounter[level];
+    yCounter[level] += verticalGap;
+    positions[node.id] = { x: x, y: y, data: node, depth: depth };
+
+    if (node.anak) {
+      for (var i = 0; i < node.anak.length; i++) {
+        assignPositions(node.anak[i], depth + 1, x);
+      }
+    }
+  }
+
+  for (var i = 0; i < silsilahData.length; i++) {
+    assignPositions(silsilahData[i], 0, 0);
+  }
+
+  // Draw lines first
+  for (var id in positions) {
+    var p = positions[id];
+    if (p.data.anak) {
+      for (var j = 0; j < p.data.anak.length; j++) {
+        var childId = p.data.anak[j].id;
+        if (positions[childId]) {
+          var cp = positions[childId];
+          svg += '<path class="pohon-line" d="M ' + (p.x + nodeRadius) + ' ' + p.y +
+                 ' C ' + (p.x + nodeRadius + 40) + ' ' + p.y +
+                 ' ' + (cp.x - nodeRadius - 40) + ' ' + cp.y +
+                 ' ' + (cp.x - nodeRadius) + ' ' + cp.y + '"/>';
+        }
+      }
+    }
+  }
+
+  // Draw nodes
+  for (var id in positions) {
+    var p = positions[id];
+    var g = p.data;
+    var isRoot = p.depth === 0;
+    var r = isRoot ? nodeRadius : nodeRadius - 8;
+    var grad = isRoot ? 'url(#nodeGrad)' : 'url(#childGrad)';
+
+    svg += '<g class="pohon-node" onclick="handlePohonClick(\'' + id + '\')">';
+    svg += '<circle class="pohon-circle" cx="' + p.x + '" cy="' + p.y + '" r="' + r + '" ' +
+           'fill="' + grad + '" stroke="#e8d48b" stroke-width="2.5" filter="url(#nodeShadow)"/>';
+    svg += '<text class="pohon-icon" x="' + p.x + '" y="' + p.y + '" style="font-size:' + (isRoot ? '22px' : '16px') + ';">' + g.icon + '</text>';
+
+    // Label
+    var label = g.generasiLabel || (isRoot ? 'Gen ' + g.generasi : g.nama);
+    if (label.length > 15) label = label.substring(0, 13) + '…';
+    svg += '<text class="pohon-name" x="' + p.x + '" y="' + (p.y + r + 15) + '" style="font-size:' + (isRoot ? '12px' : '10px') + ';">' + label + '</text>';
+
+    // Nama
+    var namaPendek = g.nama.length > 16 ? g.nama.substring(0, 14) + '…' : g.nama;
+    svg += '<text class="pohon-gen" x="' + p.x + '" y="' + (p.y + r + 28) + '" style="font-size:9px;">' + namaPendek + '</text>';
+
+    svg += '</g>';
+  }
+
+  svg += '</svg>';
+
+  // Legend
+  var legend = '<div class="pohon-legend">' +
+    '<div class="pohon-legend-item"><div class="pohon-legend-dot active"></div><span>Akar (Pendiri)</span></div>' +
+    '<div class="pohon-legend-item"><div class="pohon-legend-dot" style="background:#fff;"></div><span>Keturunan</span></div>' +
+    '<div class="pohon-legend-item"><span style="color:#c9a84c;">- - -</span><span>Garis Keturunan</span></div>' +
+    '</div>';
+
+  return '<div class="pohon-keluarga-container">' +
+    '<h4>🌳 Diagram Pohon Keluarga (Dengan Cabang Keturunan)</h4>' +
+    svg +
+    legend +
+    '<p style="text-align:center;color:#888;font-size:0.8rem;margin-top:15px;font-style:italic;">💡 Klik pada node untuk melihat profil lengkap</p>' +
+    '</div>';
+}
+
+function handlePohonClick(id) {
+  // Cek apakah ini root
+  for (var i = 0; i < silsilahData.length; i++) {
+    if (silsilahData[i].id === id) {
+      var btn = document.querySelector('[data-id="' + id + '"]');
+      if (btn) tampilkanGenerasi(id, btn);
+      return;
+    }
+  }
+  // Cari di tree
+  var parentId = findParentIdById(id);
+  if (parentId) {
+    tampilkanDetailAnak(parentId, id);
+  }
+}
+
+function findParentIdById(targetId) {
+  function findInTree(list, targetId, parentId) {
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].id === targetId) return parentId;
+      if (list[i].anak) {
+        var found = findInTree(list[i].anak, targetId, list[i].id);
+        if (found) return found;
+      }
+    }
+    return null;
+  }
+  for (var i = 0; i < silsilahData.length; i++) {
+    if (silsilahData[i].anak) {
+      var result = findInTree(silsilahData[i].anak, targetId, silsilahData[i].id);
+      if (result) return result;
+    }
+  }
+  return null;
+}
+// ============================================
 // ✅ TAMPILKAN PETA SILSILAH (TIMELINE)
+// ============================================
+// ============================================
+// ✅ TAMPILKAN PETA SILSILAH (+ DIAGRAM POHON SVG)
 // ============================================
 function tampilkanPetaSilsilah(btn) {
   var sidebar = btn.closest('.split-sidebar');
@@ -2469,25 +4029,40 @@ function tampilkanPetaSilsilah(btn) {
     return a.generasi - b.generasi;
   });
 
+  // ✅ FITUR 3: Diagram Pohon SVG
+  var pohonHTML = renderPohonKeluarga();
+
+  // Timeline text
   var timelineHTML = '<div class="sub-timeline">';
   for (var i = 0; i < sorted.length; i++) {
     var g = sorted[i];
-    timelineHTML += '<div class="timeline-item">'
-                 +  '<div class="year">Generasi Ke-' + g.generasi + '</div>'
-                 +  '<div class="event"><strong>' + g.nama + '</strong> — ' + g.peran + '</div>'
-                 +  '</div>';
+    timelineHTML += '<div class="timeline-item">' +
+      '<div class="year">Generasi Ke-' + g.generasi + '</div>' +
+      '<div class="event"><strong>' + g.nama + '</strong> — ' + g.peran + '</div>' +
+      '</div>';
   }
   timelineHTML += '</div>';
 
-  var infoHTML = '<div class="sub-info" style="margin-top:20px;">'
-              +  '<strong>📌 Warisan ' + sorted.length + ' Generasi:</strong> '
-              +  'Mari kita doakan mereka semua: <em>"Allâhummaghfir lahum warhamhum wa \'âfihim wa\'fu \'anhum"</em>.'
-              +  '</div>';
+  var infoHTML = '<div class="sub-info" style="margin-top:20px;">' +
+    '<strong>📌 Warisan ' + sorted.length + ' Generasi:</strong> ' +
+    'Mari kita doakan mereka semua: <em>"Allâhummaghfir lahum warhamhum wa \'âfihim wa\'fu \'anhum"</em>.' +
+    '</div>';
 
-  var html = SIDEBAR_BACK_BTN
-          +  '<h3 style="color:#e8d48b;font-size:1.4rem;margin-bottom:15px;">🗺️ Peta Silsilah Saur Sepuh</h3>'
-          +  timelineHTML
-          +  infoHTML;
+  // ✅ FITUR 2: Info status Google Sheets
+  var sheetsStatusHTML = '';
+  if (SILSILAH_SHEETS_ENABLED && SILSILAH_SHEETS_URL && SILSILAH_SHEETS_URL.indexOf('XXXXXX') === -1) {
+    sheetsStatusHTML = '<div class="sub-info" style="margin-top:15px;border-left-color:#2ecc71;">' +
+      '<strong>🔗 Google Sheets:</strong> Terhubung — Data dapat di-edit dari spreadsheet.' +
+      '</div>';
+  }
+
+  var html = SIDEBAR_BACK_BTN +
+    '<h3 style="color:#e8d48b;font-size:1.4rem;margin-bottom:15px;">🗺️ Peta Silsilah Saur Sepuh</h3>' +
+    pohonHTML +
+    '<h4 style="color:#c9a84c;margin:25px 0 15px;padding-left:12px;border-left:4px solid #c9a84c;">📜 Urutan Generasi</h4>' +
+    timelineHTML +
+    infoHTML +
+    sheetsStatusHTML;
 
   detail.innerHTML = html;
   detail.scrollTop = 0;
@@ -2533,8 +4108,12 @@ function tambahGenerasiBaru() {
 // ============================================
 // ✅ INIT HALAMAN SILSILAH
 // ============================================
+// ============================================
+// ✅ INIT HALAMAN SILSILAH (DENGAN GOOGLE SHEETS)
+// ============================================
 function initSilsilah() {
-  renderSilsilahSidebar();
+  // Coba load dari Google Sheets dulu, fallback ke data lokal
+  loadSilsilahFromSheets();
 }
 function initHalaman(pageId){
   if(pageId==='biografi-ulama')  setTimeout(initBiografi, 100);
@@ -3108,6 +4687,41 @@ lastTap=currentTime;
 // karena duplikasi <div class="marquee-bar"> sudah diperbaiki
 // di bagian HTML (Bagian 3).
 
+</script>
+<!-- PATCH PERBAIKAN SEJARAH ISLAM NUSANTARA -->
+<script>
+(function () {
+  function perbaikiSplitContentDataSejarah() {
+    if (typeof window.splitContentData === 'undefined') {
+      return;
+    }
+
+    var perbaikan = {
+      'sejarah-kerajaan': 'sejah-kerajaan',
+      'sejarah-wali-songo': 'sejah-wali-songo',
+      'sejarah-masjid-tua': 'sejah-masjid-tua',
+      'sejarah-masa-wali': 'sejah-masa-wali',
+      'sejarah-masa-kesultanan': 'sejah-masa-kesultanan',
+      'sejarah-masa-kolonial': 'sejah-masa-kolonial'
+    };
+
+    for (var keyBenar in perbaikan) {
+      if (perbaikan.hasOwnProperty(keyBenar)) {
+        var keyLama = perbaikan[keyBenar];
+
+        if (!window.splitContentData[keyBenar] && window.splitContentData[keyLama]) {
+          window.splitContentData[keyBenar] = window.splitContentData[keyLama];
+        }
+      }
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', perbaikiSplitContentDataSejarah);
+  } else {
+    perbaikiSplitContentDataSejarah();
+  }
+})();
 </script>
 </body>
 </html>
