@@ -1443,6 +1443,13 @@ z-index:9999!important;
 </ul>
 </li>
 <li>
+<a href="javascript:void(0)" class="dropdown-parent">Al-Quran &amp; Doa <span class="dropdown-arrow">▼</span></a>
+<ul class="dropdown">
+<li><a href="#" onclick="showPage('alquran-doa-quran'); return false;"><span class="menu-icon">📖</span> Al-Quran</a></li>
+<li><a href="#" onclick="showPage('alquran-doa-doa'); return false;"><span class="menu-icon">🤲</span> Doa</a></li>
+</ul>
+</li>
+<li>
 <a href="#" onclick="showPage('tentang-donasi'); return false;" style="background: linear-gradient(135deg, #c9a84c, #e8d48b); color: #1a0a2e; font-weight: 600; border-radius: 20px;">
 Masjid Jami' Al-Ikhlas
 </a>
@@ -1450,7 +1457,6 @@ Masjid Jami' Al-Ikhlas
 </ul>
 </div>
 <div class="nav-buttons">
-<a href="#" class="btn-Al-Ikhlas">+ Al-Ikhlas+</a>
 <a href="#" class="btn-halamanku">Halamanku</a>
 </div>
 </nav>
@@ -1634,7 +1640,57 @@ Peluncuran fitur Al-Ikhlas AI untuk tanya jawab keislaman bersanad
 <main class="split-detail" id="quranDetail"><div class="split-welcome"><div class="welcome-icon">📜</div><h3>Pilih Topik Al-Qur'an & Hadis</h3><p>Klik topik di panel sebelah kiri untuk mempelajari kitab-kitab induk.<br><br><em>"Aku tinggalkan untuk kalian dua perkara, kalian tidak akan tersesat selama berpegang teguh pada keduanya: Kitab Allah dan Sunnah Nabi-Nya."</em><br>— HR. Malik</p></div></main>
 </div>
 </div>
+<div class="page-content" id="page-alquran-doa-quran">
+<div class="breadcrumb-dash"><a href="#" onclick="showHome(); return false;">Beranda</a> / Al-Quran &amp; Doa / <strong>Al-Quran</strong></div>
+<div class="sub-hero"><div class="sub-arabic">الْقُرْآنُ الْكَرِيْم</div><h2>Al-Quran</h2><p class="sub-subtitle">Pilih surah di panel sebelah kiri untuk melihat informasi dan konten surah.</p></div>
+<div class="split-container">
+<aside class="split-sidebar">
+<input type="text" id="searchQuran" class="sub-search" placeholder="🔍 Cari nama surah..." onkeyup="renderQuranSidebar()">
+<h4>📖 114 Surah</h4>
+<div id="quranSurahList"></div>
+</aside>
+<main class="split-detail" id="quranMenuDetail">
+<div class="split-welcome">
+<div class="welcome-icon">📖</div>
+<h3>Pilih Surah</h3>
+<p>Klik nama surah di panel sebelah kiri untuk melihat detail surah.<br><br><em>"Sebaik-baik kalian adalah yang belajar Al-Qur'an dan mengajarkannya."</em><br>— HR. Bukhari</p>
+</div>
+</main>
+</div>
+</div>
 
+<div class="page-content" id="page-alquran-doa-doa">
+<div class="breadcrumb-dash"><a href="#" onclick="showHome(); return false;">Beranda</a> / Al-Quran &amp; Doa / <strong>Doa</strong></div>
+<div class="sub-hero"><div class="sub-arabic">الدُّعَاءُ</div><h2>Doa</h2><p class="sub-subtitle">Pilih kategori doa di panel sebelah kiri untuk melihat doa-doa terkait.</p></div>
+<div class="split-container">
+<aside class="split-sidebar">
+<h4>🤲 Kategori Doa</h4>
+<button class="split-btn" onclick="showDoaMenu('keseharian',this)"><span class="btn-icon">🤲</span><span class="btn-text">Doa Keseharian</span></button>
+<button class="split-btn" onclick="showDoaMenu('rizki',this)"><span class="btn-icon">💰</span><span class="btn-text">Doa Rizki</span></button>
+<button class="split-btn" onclick="showDoaMenu('tolak-bala',this)"><span class="btn-icon">🛡️</span><span class="btn-text">Doa Tolak Bala</span></button>
+<button class="split-btn" onclick="showDoaMenu('kesehatan',this)"><span class="btn-icon">🩺</span><span class="btn-text">Doa Kesehatan</span></button>
+<button class="split-btn" onclick="showDoaMenu('perjalanan',this)"><span class="btn-icon">🚗</span><span class="btn-text">Doa Perjalanan</span></button>
+<button class="split-btn" onclick="showDoaMenu('ilmu',this)"><span class="btn-icon">📚</span><span class="btn-text">Doa Ilmu</span></button>
+<button class="split-btn" onclick="showDoaMenu('waktu-tertentu',this)"><span class="btn-icon">⏰</span><span class="btn-text">Doa Waktu Tertentu</span></button>
+<button class="split-btn" onclick="showDoaMenu('kualitas-diri',this)"><span class="btn-icon">✨</span><span class="btn-text">Doa Kualitas Diri</span></button>
+<button class="split-btn" onclick="showDoaMenu('pernikahan',this)"><span class="btn-icon">💍</span><span class="btn-text">Doa Pernikahan &amp; Rumah Tangga</span></button>
+<button class="split-btn" onclick="showDoaMenu('hamil',this)"><span class="btn-icon">🤰</span><span class="btn-text">Doa Hamil &amp; Persalinan</span></button>
+<button class="split-btn" onclick="showDoaMenu('wudhu',this)"><span class="btn-icon">🚿</span><span class="btn-text">Doa Wudlu</span></button>
+<button class="split-btn" onclick="showDoaMenu('nabi-quran',this)"><span class="btn-icon">🕋</span><span class="btn-text">Doa Para Nabi Dalam Al-Quran</span></button>
+<button class="split-btn" onclick="showDoaMenu('baca-quran',this)"><span class="btn-icon">📖</span><span class="btn-text">Doa Baca Quran</span></button>
+<button class="split-btn" onclick="showDoaMenu('sholat',this)"><span class="btn-icon">🕌</span><span class="btn-text">Doa Sholat</span></button>
+<button class="split-btn" onclick="showDoaMenu('haji-umrah',this)"><span class="btn-icon">🕋</span><span class="btn-text">Doa Haji &amp; Umrah</span></button>
+<button class="split-btn" onclick="showDoaMenu('kematian',this)"><span class="btn-icon">🕊️</span><span class="btn-text">Doa Kematian</span></button>
+</aside>
+<main class="split-detail" id="doaMenuDetail">
+<div class="split-welcome">
+<div class="welcome-icon">🤲</div>
+<h3>Pilih Kategori Doa</h3>
+<p>Klik kategori doa di panel sebelah kiri untuk melihat doa-doa terkait.<br><br><em>"Dan Tuhanmu berfirman: Berdoalah kepada-Ku, niscaya akan Aku perkenankan bagimu."</em><br>— QS. Ghafir: 60</p>
+</div>
+</main>
+</div>
+</div>
 <div class="page-content" id="page-pesantren">
 <div class="breadcrumb-dash"><a href="#" onclick="showHome(); return false;">Beranda</a> / Komunitas / <strong>Pesantren</strong></div>
 <div class="sub-hero"><div class="sub-arabic">الْمَعَاهِدُ الدِّينِيَّة</div><h2>Pesantren</h2><p class="sub-subtitle">Lembaga pendidikan Islam tertua di Nusantara.</p></div>
@@ -4722,6 +4778,406 @@ lastTap=currentTime;
     perbaikiSplitContentDataSejarah();
   }
 })();
+</script>
+<script>
+// ============================================
+// ✅ MENU TAMBAHAN: AL-QURAN & DOA
+// ============================================
+
+var quranSurahData = [
+[1,"Al-Fatihah","الفاتحة","Pembukaan",7,"Makkiyah"],
+[2,"Al-Baqarah","البقرة","Sapi Betina",286,"Madaniyah"],
+[3,"Ali 'Imran","آل عمران","Keluarga Imran",200,"Madaniyah"],
+[4,"An-Nisa'","النساء","Wanita",176,"Madaniyah"],
+[5,"Al-Ma'idah","المائدة","Hidangan",120,"Madaniyah"],
+[6,"Al-An'am","الأنعام","Binatang Ternak",165,"Makkiyah"],
+[7,"Al-A'raf","الأعراف","Tempat Tertinggi",206,"Makkiyah"],
+[8,"Al-Anfal","الأنفال","Rampasan Perang",75,"Madaniyah"],
+[9,"At-Taubah","التوبة","Pengampunan",129,"Madaniyah"],
+[10,"Yunus","يونس","Nabi Yunus",109,"Makkiyah"],
+[11,"Hud","هود","Nabi Hud",123,"Makkiyah"],
+[12,"Yusuf","يوسف","Nabi Yusuf",111,"Makkiyah"],
+[13,"Ar-Ra'd","الرعد","Guruh",43,"Madaniyah"],
+[14,"Ibrahim","إبراهيم","Nabi Ibrahim",52,"Makkiyah"],
+[15,"Al-Hijr","الحجر","Hijr",99,"Makkiyah"],
+[16,"An-Nahl","النحل","Lebah",128,"Makkiyah"],
+[17,"Al-Isra'","الإسراء","Perjalanan Malam",111,"Makkiyah"],
+[18,"Al-Kahf","الكهف","Gua",110,"Makkiyah"],
+[19,"Maryam","مريم","Maryam",98,"Makkiyah"],
+[20,"Ta Ha","طه","Tha Ha",135,"Makkiyah"],
+[21,"Al-Anbiya'","الأنبياء","Nabi-Nabi",112,"Makkiyah"],
+[22,"Al-Hajj","الحج","Haji",78,"Madaniyah"],
+[23,"Al-Mu'minun","المؤمنون","Orang Mukmin",118,"Makkiyah"],
+[24,"An-Nur","النور","Cahaya",64,"Madaniyah"],
+[25,"Al-Furqan","الفرقان","Pembeda",77,"Makkiyah"],
+[26,"Asy-Syu'ara'","الشعراء","Para Penyair",227,"Makkiyah"],
+[27,"An-Naml","النمل","Semut",93,"Makkiyah"],
+[28,"Al-Qasas","القصص","Kisah-Kisah",88,"Makkiyah"],
+[29,"Al-'Ankabut","العنكبوت","Laba-Laba",69,"Makkiyah"],
+[30,"Ar-Rum","الروم","Romawi",60,"Makkiyah"],
+[31,"Luqman","لقمان","Luqman",34,"Makkiyah"],
+[32,"As-Sajdah","السجدة","Sujud",30,"Makkiyah"],
+[33,"Al-Ahzab","الأحزاب","Golongan Bersekutu",73,"Madaniyah"],
+[34,"Saba'","سبأ","Saba'",54,"Makkiyah"],
+[35,"Fatir","فاطر","Pencipta",45,"Makkiyah"],
+[36,"Ya Sin","يس","Ya Sin",83,"Makkiyah"],
+[37,"As-Saffat","الصافات","Yang Bersaf-Saf",182,"Makkiyah"],
+[38,"Sad","ص","Sad",88,"Makkiyah"],
+[39,"Az-Zumar","الزمر","Rombongan",75,"Makkiyah"],
+[40,"Ghafir","غافر","Yang Mengampuni",85,"Makkiyah"],
+[41,"Fussilat","فصلت","Yang Dijelaskan",54,"Makkiyah"],
+[42,"Asy-Syura","الشورى","Musyawarah",53,"Makkiyah"],
+[43,"Az-Zukhruf","الزخرف","Perhiasan",89,"Makkiyah"],
+[44,"Ad-Dukhan","الدخان","Kabut",59,"Makkiyah"],
+[45,"Al-Jasiyah","الجاثية","Berlutut",37,"Makkiyah"],
+[46,"Al-Ahqaf","الأحقاف","Bukit Pasir",35,"Makkiyah"],
+[47,"Muhammad","محمد","Nabi Muhammad",38,"Madaniyah"],
+[48,"Al-Fath","الفتح","Kemenangan",29,"Madaniyah"],
+[49,"Al-Hujurat","الحجرات","Kamar-Kamar",18,"Madaniyah"],
+[50,"Qaf","ق","Qaf",45,"Makkiyah"],
+[51,"Az-Zariyat","الذاريات","Yang Menerbangkan",60,"Makkiyah"],
+[52,"At-Tur","الطور","Bukit Tur",49,"Makkiyah"],
+[53,"An-Najm","النجم","Bintang",62,"Makkiyah"],
+[54,"Al-Qamar","القمر","Bulan",55,"Makkiyah"],
+[55,"Ar-Rahman","الرحمن","Maha Pengasih",78,"Madaniyah"],
+[56,"Al-Waqi'ah","الواقعة","Hari Kiamat",96,"Makkiyah"],
+[57,"Al-Hadid","الحديد","Besi",29,"Madaniyah"],
+[58,"Al-Mujadalah","المجادلة","Wanita Menggugat",22,"Madaniyah"],
+[59,"Al-Hasyr","الحشر","Pengusiran",24,"Madaniyah"],
+[60,"Al-Mumtahanah","الممتحنة","Wanita Diuji",13,"Madaniyah"],
+[61,"As-Saff","الصف","Barisan",14,"Madaniyah"],
+[62,"Al-Jumu'ah","الجمعة","Jumat",11,"Madaniyah"],
+[63,"Al-Munafiqun","المنافقون","Orang Munafik",11,"Madaniyah"],
+[64,"At-Tagabun","التغابن","Pengungkapan Kesalahan",18,"Madaniyah"],
+[65,"At-Talaq","الطلاق","Talak",12,"Madaniyah"],
+[66,"At-Tahrim","التحريم","Pengharaman",12,"Madaniyah"],
+[67,"Al-Mulk","الملك","Kerajaan",30,"Makkiyah"],
+[68,"Al-Qalam","القلم","Pena",52,"Makkiyah"],
+[69,"Al-Haqqah","الحاقة","Hari Kiamat",52,"Makkiyah"],
+[70,"Al-Ma'arij","المعارج","Tempat Naik",44,"Makkiyah"],
+[71,"Nuh","نوح","Nabi Nuh",28,"Makkiyah"],
+[72,"Al-Jinn","الجن","Jin",28,"Makkiyah"],
+[73,"Al-Muzzammil","المزمل","Orang Berselimut",20,"Makkiyah"],
+[74,"Al-Muddassir","المدثر","Orang Berkemul",56,"Makkiyah"],
+[75,"Al-Qiyamah","القيامة","Kiamat",40,"Makkiyah"],
+[76,"Al-Insan","الإنسان","Manusia",31,"Madaniyah"],
+[77,"Al-Mursalat","المرسلات","Yang Diutus",50,"Makkiyah"],
+[78,"An-Naba'","النبأ","Berita Besar",40,"Makkiyah"],
+[79,"An-Nazi'at","النازعات","Yang Mencabut",46,"Makkiyah"],
+[80,"'Abasa","عبس","Bermuka Masam",42,"Makkiyah"],
+[81,"At-Takwir","التكوير","Penggulungan",29,"Makkiyah"],
+[82,"Al-Infitar","الانفطار","Terbelah",19,"Makkiyah"],
+[83,"Al-Mutaffifin","المطففين","Orang Curang",36,"Makkiyah"],
+[84,"Al-Insyiqaq","الانشقاق","Terbelah",25,"Makkiyah"],
+[85,"Al-Buruj","البروج","Gugusan Bintang",22,"Makkiyah"],
+[86,"At-Tariq","الطارق","Yang Datang Malam",17,"Makkiyah"],
+[87,"Al-A'la","الأعلى","Maha Tinggi",19,"Makkiyah"],
+[88,"Al-Gasyiyah","الغاشية","Hari Pembalasan",26,"Makkiyah"],
+[89,"Al-Fajr","الفجر","Fajar",30,"Makkiyah"],
+[90,"Al-Balad","البلد","Negeri",20,"Makkiyah"],
+[91,"Asy-Syams","الشمس","Matahari",15,"Makkiyah"],
+[92,"Al-Lail","الليل","Malam",21,"Makkiyah"],
+[93,"Ad-Duha","الضحى","Waktu Duha",11,"Makkiyah"],
+[94,"Asy-Syarh","الشرح","Kelapangan",8,"Makkiyah"],
+[95,"At-Tin","التين","Buah Tin",8,"Makkiyah"],
+[96,"Al-'Alaq","العلق","Segumpal Darah",19,"Makkiyah"],
+[97,"Al-Qadr","القدر","Kemuliaan",5,"Makkiyah"],
+[98,"Al-Bayyinah","البينة","Bukti Nyata",8,"Madaniyah"],
+[99,"Az-Zalzalah","الزلزلة","Guncangan",8,"Madaniyah"],
+[100,"Al-'Adiyat","العاديات","Kuda Perang",11,"Makkiyah"],
+[101,"Al-Qari'ah","القارعة","Hari Kiamat",11,"Makkiyah"],
+[102,"At-Takasur","التكاثر","Bermegah-Megahan",8,"Makkiyah"],
+[103,"Al-'Asr","العصر","Masa",3,"Makkiyah"],
+[104,"Al-Humazah","الهمزة","Pengumpat",9,"Makkiyah"],
+[105,"Al-Fil","الفيل","Gajah",5,"Makkiyah"],
+[106,"Quraisy","قريش","Quraisy",4,"Makkiyah"],
+[107,"Al-Ma'un","الماعون","Barang Berguna",7,"Makkiyah"],
+[108,"Al-Kausar","الكوثر","Nikmat Berlimpah",3,"Makkiyah"],
+[109,"Al-Kafirun","الكافرون","Orang Kafir",6,"Makkiyah"],
+[110,"An-Nasr","النصر","Pertolongan",3,"Madaniyah"],
+[111,"Al-Masad","المسد","Sabut",5,"Makkiyah"],
+[112,"Al-Ikhlas","الإخلاص","Ikhlas",4,"Makkiyah"],
+[113,"Al-Falaq","الفلق","Waktu Subuh",5,"Makkiyah"],
+[114,"An-Nas","الناس","Manusia",6,"Makkiyah"]
+];
+
+function renderQuranSidebar(){
+var list = document.getElementById('quranSurahList');
+if(!list) return;
+
+var searchInput = document.getElementById('searchQuran');
+var search = searchInput ? searchInput.value.toLowerCase() : '';
+var html = '';
+
+for(var i=0;i<quranSurahData.length;i++){
+var s = quranSurahData[i];
+var cocok = !search ||
+String(s[1]).toLowerCase().indexOf(search) !== -1 ||
+String(s[3]).toLowerCase().indexOf(search) !== -1 ||
+String(s[0]).indexOf(search) !== -1;
+
+if(!cocok) continue;
+
+html += '<button class="split-btn" onclick="tampilkanSurah(' + s[0] + ',this)">';
+html += '<span class="btn-icon">📖</span>';
+html += '<span class="btn-text">' + s[0] + '. ' + s[1] + '</span>';
+html += '<span class="btn-count">' + s[4] + '</span>';
+html += '</button>';
+}
+
+list.innerHTML = html || '<p style="color:#888;text-align:center;padding:15px;font-size:0.82rem;">Tidak ditemukan</p>';
+}
+
+function tampilkanSurah(no, btn){
+var s = null;
+for(var i=0;i<quranSurahData.length;i++){
+if(quranSurahData[i][0] === no){
+s = quranSurahData[i];
+break;
+}
+}
+if(!s) return;
+
+var sidebar = btn.closest('.split-sidebar');
+if(sidebar){
+var allBtns = sidebar.querySelectorAll('.split-btn');
+for(var i=0;i<allBtns.length;i++) allBtns[i].classList.remove('active');
+btn.classList.add('active');
+}
+
+var detail = document.getElementById('quranMenuDetail');
+if(!detail) return;
+
+simpanWelcomeNode(btn);
+
+var html = SIDEBAR_BACK_BTN;
+html += '<h3 style="color:#e8d48b;font-size:1.4rem;margin-bottom:15px;">📖 Surah ' + s[1] + '</h3>';
+html += '<div class="sub-hero" style="padding:20px 0;">';
+html += '<div class="sub-arabic" style="font-size:2rem;margin-bottom:0;">' + s[2] + '</div>';
+html += '</div>';
+html += '<div class="sub-info"><strong>Arti:</strong> ' + s[3] + '<br><strong>Jumlah Ayat:</strong> ' + s[4] + '<br><strong>Golongan:</strong> ' + s[5] + '</div>';
+html += '<p style="color:#ccc;line-height:1.8;">Konten ayat, terjemahan, audio, dan tafsir Surah ' + s[1] + ' dapat ditambahkan pada bagian ini sesuai kebutuhan.</p>';
+
+detail.innerHTML = html;
+detail.scrollTop = 0;
+tutupSidebarDariBtn(btn);
+}
+
+var doaMenuKategoriData = {
+'keseharian': {title:'🤲 Doa Keseharian', content:`
+<div class="doa-card">
+<h3>🚪 Doa Keluar Rumah</h3>
+<div class="doa-arabic">بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ</div>
+<p class="doa-latin">Bismillahi tawakkaltu 'alallahi wa la haula wa la quwwata illa billah</p>
+<p class="doa-translation">Dengan nama Allah, aku bertawakal kepada Allah. Tiada daya dan kekuatan kecuali dengan pertolongan Allah.</p>
+<p class="doa-source">📖 HR. Abu Daud &amp; Tirmidzi</p>
+</div>
+`},
+
+'rizki': {title:'💰 Doa Rizki', content:`
+<div class="doa-card">
+<h3>💵 Doa Memohon Rizki yang Baik</h3>
+<div class="doa-arabic">اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا وَرِزْقًا طَيِّبًا وَعَمَلًا مُتَقَبَّلًا</div>
+<p class="doa-latin">Allahumma inni as'aluka 'ilman nafi'an wa rizqan thayyiban wa 'amalan mutaqabbalan</p>
+<p class="doa-translation">Ya Allah, aku memohon kepada-Mu ilmu yang bermanfaat, rizki yang baik, dan amal yang diterima.</p>
+<p class="doa-source">📖 HR. Ibnu Majah</p>
+</div>
+`},
+
+'tolak-bala': {title:'🛡️ Doa Tolak Bala', content:`
+<div class="doa-card">
+<h3>🛡️ Doa Perlindungan dari Bala</h3>
+<div class="doa-arabic">بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ</div>
+<p class="doa-latin">Bismillahilladzi la yadhurru ma'asmihi syai'un fil ardhi wa la fis-sama'i wa huwas-sami'ul 'alim</p>
+<p class="doa-translation">Dengan nama Allah yang dengan nama-Nya tidak ada sesuatu pun yang membahayakan di bumi maupun di langit, dan Dia Maha Mendengar lagi Maha Mengetahui.</p>
+<p class="doa-source">📖 HR. Abu Daud &amp; Tirmidzi</p>
+</div>
+`},
+
+'kesehatan': {title:'🩺 Doa Kesehatan', content:`
+<div class="doa-card">
+<h3>🩺 Doa Memohon Kesembuhan</h3>
+<div class="doa-arabic">اللَّهُمَّ رَبَّ النَّاسِ أَذْهِبِ الْبَأْسَ اشْفِ أَنْتَ الشَّافِي لَا شِفَاءَ إِلَّا شِفَاؤُكَ شِفَاءً لَا يُغَادِرُ سَقَمًا</div>
+<p class="doa-latin">Allahumma rabban-nas adzhibil ba'sa isyfi antasy-syafi la syifa'a illa syifa'uka syifa'an la yughadiru saqaman</p>
+<p class="doa-translation">Ya Allah, Tuhan manusia, hilangkanlah penyakit ini, sembuhkanlah, Engkau Maha Penyembuh. Tidak ada kesembuhan kecuali kesembuhan dari-Mu, kesembuhan yang tidak meninggalkan penyakit.</p>
+<p class="doa-source">📖 HR. Bukhari &amp; Muslim</p>
+</div>
+`},
+
+'perjalanan': {title:'🚗 Doa Perjalanan', content:`
+<div class="doa-card">
+<h3>🚗 Doa Naik Kendaraan / Perjalanan</h3>
+<div class="doa-arabic">سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ وَإِنَّا إِلَى رَبِّنَا لَمُنْقَلِبُونَ</div>
+<p class="doa-latin">Subhanalladzi sakhkhara lana hadza wa ma kunna lahu muqrinin wa inna ila rabbina lamunqalibun</p>
+<p class="doa-translation">Maha Suci Allah yang telah menundukkan semua ini bagi kami, padahal kami tidak mampu menguasainya, dan sesungguhnya hanya kepada Tuhan kami-lah kami kembali.</p>
+<p class="doa-source">📖 QS. Az-Zukhruf: 13-14</p>
+</div>
+`},
+
+'ilmu': {title:'📚 Doa Ilmu', content:`
+<div class="doa-card">
+<h3>📚 Doa Menambah Ilmu</h3>
+<div class="doa-arabic">رَبِّ زِدْنِي عِلْمًا</div>
+<p class="doa-latin">Rabbi zidni 'ilma</p>
+<p class="doa-translation">Ya Tuhanku, tambahkanlah ilmu kepadaku.</p>
+<p class="doa-source">📖 QS. Thaha: 114</p>
+</div>
+`},
+
+'waktu-tertentu': {title:'⏰ Doa Waktu Tertentu', content:`
+<div class="doa-card">
+<h3>🌅 Doa Pagi</h3>
+<div class="doa-arabic">اللَّهُمَّ بِكَ أَصْبَحْنَا وَبِكَ أَمْسَيْنَا وَبِكَ نَحْيَا وَبِكَ نَمُوتُ وَإِلَيْكَ النُّشُورُ</div>
+<p class="doa-latin">Allahumma bika ashbahna wa bika amsaina wa bika nahya wa bika namutu wa ilaikan-nusyur</p>
+<p class="doa-translation">Ya Allah, dengan-Mu kami memasuki pagi, dengan-Mu kami memasuki petang, dengan-Mu kami hidup, dengan-Mu kami mati, dan kepada-Mu kami kembali.</p>
+<p class="doa-source">📖 HR. Tirmidzi</p>
+</div>
+`},
+
+'kualitas-diri': {title:'✨ Doa Kualitas Diri', content:`
+<div class="doa-card">
+<h3>✨ Doa Membersihkan Jiwa</h3>
+<div class="doa-arabic">اللَّهُمَّ آتِ نَفْسِي تَقْوَاهَا وَزَكِّهَا أَنْتَ خَيْرُ مَنْ زَكَّاهَا أَنْتَ وَلِيُّهَا وَمَوْلَاهَا</div>
+<p class="doa-latin">Allahumma ati nafsi taqwaha wa zakkiha anta khairu man zakkaha anta waliyyuha wa maulaha</p>
+<p class="doa-translation">Ya Allah, berikanlah ketakwaan pada jiwaku dan bersihkanlah ia. Engkaulah sebaik-baik Zat yang membersihkannya, Engkau Pelindung dan Pemeliharanya.</p>
+<p class="doa-source">📖 HR. Muslim</p>
+</div>
+`},
+
+'pernikahan': {title:'💍 Doa Pernikahan & Rumah Tangga', content:`
+<div class="doa-card">
+<h3>💍 Doa Keluarga Sakinah</h3>
+<div class="doa-arabic">رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا</div>
+<p class="doa-latin">Rabbana hab lana min azwajina wa dzurriyatina qurrata a'yun waj'alna lil-muttaqina imama</p>
+<p class="doa-translation">Ya Tuhan kami, anugerahkanlah kepada kami pasangan dan keturunan kami sebagai penyejuk hati, dan jadikanlah kami pemimpin bagi orang-orang yang bertakwa.</p>
+<p class="doa-source">📖 QS. Al-Furqan: 74</p>
+</div>
+`},
+
+'hamil': {title:'🤰 Doa Hamil & Persalinan', content:`
+<div class="doa-card">
+<h3>🤰 Doa Memohon Keturunan yang Baik</h3>
+<div class="doa-arabic">رَبِّ هَبْ لِي مِنْ لَدُنْكَ ذُرِّيَّةً طَيِّبَةً إِنَّكَ سَمِيعُ الدُّعَاءِ</div>
+<p class="doa-latin">Rabbi hab li min ladunka dzurriyyatan thayyibah innaka sami'ud-du'a</p>
+<p class="doa-translation">Ya Tuhanku, berilah aku keturunan yang baik dari sisi-Mu. Sesungguhnya Engkau Maha Mendengar doa.</p>
+<p class="doa-source">📖 QS. Ali 'Imran: 38</p>
+</div>
+`},
+
+'wudhu': {title:'🚿 Doa Wudlu', content:`
+<div class="doa-card">
+<h3>🚿 Doa Sebelum Wudlu</h3>
+<div class="doa-arabic">بِسْمِ اللَّهِ</div>
+<p class="doa-latin">Bismillah</p>
+<p class="doa-translation">Dengan nama Allah.</p>
+<p class="doa-source">📖 HR. Abu Daud</p>
+</div>
+<div class="doa-card">
+<h3>✨ Doa Sesudah Wudlu</h3>
+<div class="doa-arabic">أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ</div>
+<p class="doa-latin">Asyhadu alla ilaha illallahu wahdahu la syarika lahu wa asyhadu anna Muhammadan 'abduhu wa rasuluh</p>
+<p class="doa-translation">Aku bersaksi bahwa tiada Tuhan selain Allah, Maha Esa, tiada sekutu bagi-Nya, dan aku bersaksi bahwa Muhammad adalah hamba dan utusan-Nya.</p>
+<p class="doa-source">📖 HR. Muslim</p>
+</div>
+`},
+
+'nabi-quran': {title:'🕋 Doa Para Nabi Dalam Al-Quran', content:`
+<div class="doa-card">
+<h3>🐋 Doa Nabi Yunus AS</h3>
+<div class="doa-arabic">لَا إِلَهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ</div>
+<p class="doa-latin">La ilaha illa anta subhanaka inni kuntu minazh-zhalimin</p>
+<p class="doa-translation">Tidak ada Tuhan selain Engkau, Maha Suci Engkau. Sesungguhnya aku termasuk orang-orang yang zalim.</p>
+<p class="doa-source">📖 QS. Al-Anbiya: 87</p>
+</div>
+`},
+
+'baca-quran': {title:'📖 Doa Baca Quran', content:`
+<div class="doa-card">
+<h3>📖 Doa Memohon Manfaat saat Membaca Al-Quran</h3>
+<div class="doa-arabic">اللَّهُمَّ انْفَعْنِي بِمَا عَلَّمْتَنِي وَعَلِّمْنِي مَا يَنْفَعُنِي وَزِدْنِي عِلْمًا</div>
+<p class="doa-latin">Allahumma-nfa'ni bima 'allamtani wa 'allimni ma yanfa'uni wa zidni 'ilma</p>
+<p class="doa-translation">Ya Allah, berilah aku manfaat dari apa yang telah Engkau ajarkan kepadaku, ajarilah aku apa yang bermanfaat bagiku, dan tambahkanlah ilmu kepadaku.</p>
+<p class="doa-source">📖 HR. Tirmidzi</p>
+</div>
+`},
+
+'sholat': {title:'🕌 Doa Sholat', content:`
+<div class="doa-card">
+<h3>🕌 Doa Sesudah Sholat</h3>
+<div class="doa-arabic">اللَّهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ</div>
+<p class="doa-latin">Allahumma antas-salamu wa minkas-salamu tabarakta ya dzal-jalali wal-ikram</p>
+<p class="doa-translation">Ya Allah, Engkau Maha Sejahtera, dan dari-Mu kesejahteraan. Maha Berkah Engkau, wahai Tuhan pemilik keagungan dan kemuliaan.</p>
+<p class="doa-source">📖 HR. Muslim</p>
+</div>
+`},
+
+'haji-umrah': {title:'🕋 Doa Haji & Umrah', content:`
+<div class="doa-card">
+<h3>🕋 Talbiyah</h3>
+<div class="doa-arabic">لَبَّيْكَ اللَّهُمَّ لَبَّيْكَ، لَبَّيْكَ لَا شَرِيكَ لَكَ لَبَّيْكَ، إِنَّ الْحَمْدَ وَالنِّعْمَةَ لَكَ وَالْمُلْكَ، لَا شَرِيكَ لَكَ</div>
+<p class="doa-latin">Labbaik Allahumma labbaik, labbaik la syarika laka labbaik, innal-hamda wan-ni'mata laka wal-mulk, la syarika lak</p>
+<p class="doa-translation">Aku memenuhi panggilan-Mu ya Allah, aku memenuhi panggilan-Mu. Aku memenuhi panggilan-Mu, tiada sekutu bagi-Mu, aku memenuhi panggilan-Mu. Sesungguhnya segala puji, nikmat, dan kerajaan adalah milik-Mu, tiada sekutu bagi-Mu.</p>
+<p class="doa-source">📖 HR. Bukhari &amp; Muslim</p>
+</div>
+`},
+
+'kematian': {title:'🕊️ Doa Kematian', content:`
+<div class="doa-card">
+<h3>🕊️ Doa untuk Mayit</h3>
+<div class="doa-arabic">اللَّهُمَّ اغْفِرْ لَهُ وَارْحَمْهُ وَعَافِهِ وَاعْفُ عَنْهُ</div>
+<p class="doa-latin">Allahummaghfirlahu warhamhu wa 'afihi wa'fu 'anhu</p>
+<p class="doa-translation">Ya Allah, ampunilah dia, rahmatilah dia, selamatkanlah dia, dan maafkanlah dia.</p>
+<p class="doa-source">📖 HR. Muslim</p>
+</div>
+`}
+};
+
+function showDoaMenu(key, btn){
+var sidebar = btn.closest('.split-sidebar');
+if(sidebar){
+var allBtns = sidebar.querySelectorAll('.split-btn');
+for(var i=0;i<allBtns.length;i++) allBtns[i].classList.remove('active');
+btn.classList.add('active');
+}
+
+var detail = document.getElementById('doaMenuDetail');
+if(!detail) return;
+
+simpanWelcomeNode(btn);
+
+var data = doaMenuKategoriData[key];
+
+if(!data){
+detail.innerHTML = SIDEBAR_BACK_BTN + '<div style="text-align:center;padding:80px 30px;color:#888;"><div style="font-size:5rem;margin-bottom:20px;opacity:0.5;">⚠️</div><h3 style="color:#c9a84c;font-size:1.5rem;margin-bottom:10px;">Konten Belum Tersedia</h3><p style="font-size:0.95rem;line-height:1.7;">Konten ini sedang dalam pengembangan.</p></div>';
+}else{
+detail.innerHTML = SIDEBAR_BACK_BTN + '<h3 style="color:#e8d48b;font-size:1.4rem;margin-bottom:15px;">' + data.title + '</h3>' + data.content;
+}
+
+detail.scrollTop = 0;
+tutupSidebarDariBtn(btn);
+}
+
+// Render sidebar Quran saat halaman dibuka
+(function(){
+var _prevShowPageQuran = window.showPage;
+window.showPage = function(pageId){
+if(_prevShowPageQuran){
+_prevShowPageQuran(pageId);
+}
+if(pageId === 'alquran-doa-quran'){
+setTimeout(renderQuranSidebar, 100);
+}
+};
+})();
+
+// Pastikan sidebar Quran sudah terisi saat script dimuat
+if(document.readyState === 'loading'){
+document.addEventListener('DOMContentLoaded', function(){
+renderQuranSidebar();
+});
+}else{
+renderQuranSidebar();
+}
 </script>
 </body>
 </html>
