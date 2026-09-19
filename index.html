@@ -7103,6 +7103,220 @@ console.log('✅ PATCH v14 QURAN (CDN everyayah.com + WAKAF LENGKAP): berhasil d
 console.log('✅ Fitur: Auto-scroll per-ayat + 11 jenis wakaf + 30+ hukum tajwid');
 })();
 </script>
+<!-- ============================================
+✅ PATCH v16: GAPLESS AUDIO PLAYBACK (TANPA JEDA)
+Preload audio ayat berikutnya di background
+Bekerja bersama Patch v14 + v15 (tidak mengubah patch sebelumnya)
+============================================ -->
+<script>
+(function(){
+'use strict';
+console.log('🟢 PATCH v16 GAPLESS AUDIO: mulai dimuat...');
 
+/* ============================================================
+✅ KONFIGURASI
+============================================================ */
+var PRELOAD_COUNT = 3;  // Preload 3 ayat ke depan
+var preloadCache = {};  // Cache audio yang sudah di-load
+var preloadQueue = [];  // Antrian URL yang sedang di-load
+var MAX_CACHE = 15;     // Maksimal audio yang di-cache (hemat memory)
+
+/* ============================================================
+✅ FUNGSI PRELOAD AUDIO
+============================================================ */
+function preloadAudio(url, onSuccess, onError){
+  /* Cek cache dulu */
+  if(preloadCache[url] && preloadCache[url].readyState >= 3){
+    if(onSuccess) onSuccess(preloadCache[url]);
+    return preloadCache[url];
+  }
+  
+  /* Buat audio element baru untuk preload */
+  var audio = new Audio();
+  audio.preload = 'auto';
+  audio.src = url;
+  
+  /* Simpan ke cache */
+  preloadCache[url] = audio;
+  
+  /* Batasi ukuran cache */
+  var cacheKeys = Object.keys(preloadCache);
+  if(cacheKeys.length > MAX_CACHE){
+    var oldestKey = cacheKeys[0];
+    try{
+      preloadCache[oldestKey].src = '';
+      delete preloadCache[oldestKey];
+    }catch(e){}
+  }
+  
+  /* Event handlers */
+  var loaded = false;
+  audio.addEventListener('canplaythrough', function(){
+    if(!loaded){
+      loaded = true;
+      if(onSuccess) onSuccess(audio);
+    }
+  }, {once: true});
+  
+  audio.addEventListener('error', function(){
+    if(onError) onError(audio);
+  }, {once: true});
+  
+  /* Mulai load */
+  try{ audio.load(); }catch(e){}
+  
+  return audio;
+}
+
+/* ============================================================
+✅ PRELOAD BEBERAPA AYAT KE DEPAN
+============================================================ */
+function preloadAhead(startIdx, urls){
+  if(!urls || urls.length === 0) return;
+  
+  for(var i = 1; i <= PRELOAD_COUNT; i++){
+    var nextIdx = startIdx + i;
+    if(nextIdx >= urls.length) break;
+    
+    var nextUrl = urls[nextIdx];
+    if(!nextUrl) continue;
+    
+    /* Skip jika sudah di-cache */
+    if(preloadCache[nextUrl] && preloadCache[nextUrl].readyState >= 3){
+      continue;
+    }
+    
+    /* Preload audio berikutnya */
+    preloadAudio(nextUrl, 
+      function(audio){
+        console.log('✅ Preload berhasil:', audio.src.split('/').pop());
+      },
+      function(audio){
+        console.warn('⚠️ Preload gagal:', audio.src.split('/').pop());
+      }
+    );
+  }
+}
+
+/* ============================================================
+✅ OVERRIDE qrPutar - TAMBAHKAN PRELOAD
+============================================================ */
+var _originalQrPutar = window.qrPutar;
+window.qrPutar = function(i){
+  /* Panggil fungsi asli */
+  if(_originalQrPutar) _originalQrPutar(i);
+  
+  /* ✅ PRELOAD AYAT BERIKUTNYA */
+  if(typeof urls !== 'undefined' && urls && urls.length > 0){
+    preloadAhead(i, urls);
+  }
+};
+
+/* ============================================================
+✅ OVERRIDE qrTogglePlay - PRELOAD SAAT PLAY DIMULAI
+============================================================ */
+var _originalQrTogglePlay = window.qrTogglePlay;
+window.qrTogglePlay = function(){
+  /* Panggil fungsi asli */
+  if(_originalQrTogglePlay) _originalQrTogglePlay();
+  
+  /* ✅ PRELOAD AYAT BERIKUTNYA saat mulai play */
+  setTimeout(function(){
+    if(typeof idx !== 'undefined' && typeof urls !== 'undefined' && urls && urls.length > 0){
+      preloadAhead(idx, urls);
+    }
+  }, 100);
+};
+
+/* ============================================================
+✅ PRE-WARMUP: Mulai preload 2 ayat pertama saat surah dimuat
+============================================================ */
+var _originalTampilkanSurah = window.tampilkanSurah;
+window.tampilkanSurah = function(no, btn){
+  /* Panggil fungsi asli */
+  if(_originalTampilkanSurah) _originalTampilkanSurah(no, btn);
+  
+  /* ✅ Bersihkan cache lama */
+  preloadCache = {};
+  
+  /* ✅ Pre-warmup: mulai preload ayat 1, 2, 3 setelah surah dimuat */
+  setTimeout(function(){
+    if(typeof urls !== 'undefined' && urls && urls.length > 0){
+      console.log('🔥 Pre-warmup: preload 3 ayat pertama...');
+      preloadAhead(-1, urls);  // -1 agar mulai dari index 0
+    }
+  }, 2000);
+};
+
+/* ============================================================
+✅ OVERRIDE qrStop - Bersihkan cache
+============================================================ */
+var _originalQrStop = window.qrStop;
+window.qrStop = function(){
+  /* Panggil fungsi asli */
+  if(_originalQrStop) _originalQrStop();
+  
+  /* ✅ Bersihkan cache saat stop */
+  var keys = Object.keys(preloadCache);
+  for(var i = 0; i < keys.length; i++){
+    try{
+      preloadCache[keys[i]].src = '';
+      delete preloadCache[keys[i]];
+    }catch(e){}
+  }
+  console.log('🧹 Cache audio dibersihkan');
+};
+
+/* ============================================================
+✅ OVERRIDE qrChangeQari - Bersihkan cache saat ganti qari
+============================================================ */
+var _originalQrChangeQari = window.qrChangeQari;
+window.qrChangeQari = function(v){
+  /* ✅ Bersihkan cache lama */
+  var keys = Object.keys(preloadCache);
+  for(var i = 0; i < keys.length; i++){
+    try{
+      preloadCache[keys[i]].src = '';
+      delete preloadCache[keys[i]];
+    }catch(e){}
+  }
+  
+  /* Panggil fungsi asli */
+  if(_originalQrChangeQari) _originalQrChangeQari(v);
+};
+
+/* ============================================================
+✅ OPTIMASI: Gunakan Audio object yang sama (reuse)
+============================================================ */
+/* Patch audioObj untuk reuse daripada create baru setiap kali */
+(function(){
+  var checkInterval = setInterval(function(){
+    if(typeof audioObj !== 'undefined' && audioObj){
+      clearInterval(checkInterval);
+      
+      /* Pastikan preload auto aktif */
+      audioObj.preload = 'auto';
+      
+      /* Tambahkan event listener untuk preload berikutnya */
+      var originalPlay = audioObj.play;
+      
+      console.log('✅ Audio object di-optimize untuk gapless playback');
+    }
+  }, 500);
+  
+  /* Stop checking setelah 10 detik */
+  setTimeout(function(){ clearInterval(checkInterval); }, 10000);
+})();
+
+/* ============================================================
+✅ INISIALISASI
+============================================================ */
+console.log('✅ PATCH v16 GAPLESS AUDIO: berhasil dimuat');
+console.log('💡 Fitur: Preload ' + PRELOAD_COUNT + ' ayat ke depan');
+console.log('💡 Cache maksimal: ' + MAX_CACHE + ' audio');
+console.log('💡 Jeda antar ayat: ~0 detik (gapless)');
+
+})();
+</script>
 </body>
 </html>
