@@ -15238,5 +15238,569 @@ _lastWidth = w;
 });
 })();
 </script>
+<!-- ============================================
+✅ PATCH v19: SIDEBAR RESIZABLE MOBILE + DESKTOP
+- Mengaktifkan resize sidebar di HP (touch drag)
+- Handle lebih besar di mobile (12px) untuk touch
+- Min/max width disesuaikan per device
+- Tombol reset muncul di semua device
+- Layout tetap rapi saat resize
+============================================ -->
+<style>
+/* ============================================
+✅ OVERRIDE: AKTIFKAN RESIZE DI MOBILE
+(Menghapus display:none dari Patch v18)
+============================================ */
+@media (max-width:900px){
+/* Handle resize AKTIF di mobile */
+.sidebar-resize-handle{
+display:block !important;
+visibility:visible !important;
+opacity:1 !important;
+pointer-events:auto !important;
+/* Perbesar handle untuk touch (min 44px target) */
+width:14px !important;
+background:linear-gradient(to right,
+transparent 0%,
+rgba(201,168,76,0.25) 40%,
+rgba(201,168,76,0.5) 50%,
+rgba(201,168,76,0.25) 60%,
+transparent 100%) !important;
+}
+
+/* Garis indikator di tengah handle */
+.sidebar-resize-handle::before{
+content:'' !important;
+position:absolute !important;
+top:50% !important;
+left:50% !important;
+transform:translate(-50%,-50%) !important;
+width:3px !important;
+height:50px !important;
+background:rgba(201,168,76,0.7) !important;
+border-radius:3px !important;
+opacity:1 !important;
+box-shadow:0 0 8px rgba(201,168,76,0.4) !important;
+}
+
+/* Tombol reset AKTIF di mobile */
+.sidebar-reset-btn{
+display:flex !important;
+visibility:visible !important;
+opacity:0.85 !important;
+pointer-events:auto !important;
+padding:8px 10px !important;
+font-size:0.72rem !important;
+margin-top:6px !important;
+margin-bottom:4px !important;
+}
+
+/* Hint AKTIF di mobile (selalu tampil, bukan hanya hover) */
+.sidebar-resize-hint{
+display:block !important;
+opacity:0.75 !important;
+pointer-events:none !important;
+position:relative !important;
+bottom:auto !important;
+left:auto !important;
+right:auto !important;
+margin-top:8px !important;
+padding:6px 8px !important;
+font-size:0.65rem !important;
+}
+
+/* Sidebar mobile: width auto (bisa di-resize) */
+.split-sidebar,
+.biografi-sidebar,
+.doa-sidebar,
+.sholat-sidebar{
+width:auto !important;
+min-width:100px !important;
+max-width:75vw !important;
+/* Hapus max-width fix agar bisa di-resize */
+}
+
+/* Pastikan split-container tetap flex di mobile */
+.split-container,
+.biografi-split-container,
+.doa-split-container,
+.sholat-split-container{
+flex-direction:row !important;
+align-items:flex-start !important;
+}
+
+/* Detail area menyesuaikan */
+.split-detail,
+.biografi-detail,
+.doa-detail,
+.sholat-detail{
+flex:1 !important;
+min-width:0 !important;
+}
+
+/* Saat sidebar ditutup, tetap hidden */
+.split-container.sidebar-closed .split-sidebar,
+.biografi-split-container.sidebar-closed .biografi-sidebar,
+.doa-split-container.sidebar-closed .doa-sidebar,
+.sholat-split-container.sidebar-closed .sholat-sidebar{
+display:none !important;
+}
+}
+
+/* ============================================
+✅ HANDLE RESIZE - TOUCH FRIENDLY (MOBILE)
+============================================ */
+@media (max-width:900px){
+.sidebar-resize-handle:hover,
+.sidebar-resize-handle:active{
+width:18px !important;
+background:linear-gradient(to right,
+transparent 0%,
+rgba(201,168,76,0.4) 40%,
+rgba(201,168,76,0.8) 50%,
+rgba(201,168,76,0.4) 60%,
+transparent 100%) !important;
+}
+
+.sidebar-resize-handle:hover::before,
+.sidebar-resize-handle:active::before{
+height:70px !important;
+background:#e8d48b !important;
+box-shadow:0 0 15px rgba(201,168,76,0.7) !important;
+}
+
+.sidebar-resize-handle.dragging{
+width:20px !important;
+background:linear-gradient(to right,
+transparent 0%,
+rgba(201,168,76,0.6) 40%,
+rgba(201,168,76,1) 50%,
+rgba(201,168,76,0.6) 60%,
+transparent 100%) !important;
+}
+
+.sidebar-resize-handle.dragging::before{
+height:90px !important;
+background:#fff !important;
+box-shadow:0 0 20px rgba(232,212,139,0.9) !important;
+}
+}
+
+/* ============================================
+✅ INDICATOR LEBAR - MOBILE FRIENDLY
+============================================ */
+@media (max-width:900px){
+.sidebar-width-indicator{
+padding:10px 16px !important;
+font-size:0.82rem !important;
+border-radius:10px !important;
+top:80px !important;
+left:50% !important;
+transform:translateX(-50%) !important;
+}
+
+.sidebar-width-indicator .width-value{
+font-size:1rem !important;
+min-width:50px !important;
+}
+}
+
+/* ============================================
+✅ SCROLLBAR CUSTOM DI SIDEBAR MOBILE
+============================================ */
+@media (max-width:900px){
+.split-sidebar::-webkit-scrollbar,
+.biografi-sidebar::-webkit-scrollbar,
+.doa-sidebar::-webkit-scrollbar,
+.sholat-sidebar::-webkit-scrollbar{
+width:4px !important;
+}
+}
+
+/* ============================================
+✅ ANIMASI FEEDBACK SAAT RESIZE DI MOBILE
+============================================ */
+@keyframes sidebarMobilePulse{
+0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,0.5);}
+50%{box-shadow:0 0 0 8px rgba(201,168,76,0);}
+}
+
+@media (max-width:900px){
+.sidebar-resizing .split-sidebar,
+.sidebar-resizing .biografi-sidebar,
+.sidebar-resizing .doa-sidebar,
+.sidebar-resizing .sholat-sidebar{
+animation:sidebarMobilePulse 1s ease-in-out infinite;
+}
+}
+
+/* ============================================
+✅ VERY SMALL SCREEN (< 400px)
+============================================ */
+@media (max-width:400px){
+.sidebar-resize-handle{
+width:16px !important;
+}
+
+.sidebar-reset-btn{
+font-size:0.65rem !important;
+padding:6px 8px !important;
+}
+
+.sidebar-resize-hint{
+font-size:0.6rem !important;
+}
+}
+</style>
+
+<script>
+(function(){
+'use strict';
+console.log('🟢 PATCH v19 SIDEBAR RESIZABLE MOBILE+DESKTOP: mulai dimuat...');
+
+/* ============================================================
+✅ KONFIGURASI PER DEVICE
+============================================================ */
+var isMobile = window.innerWidth <= 900;
+
+var CONFIG_MOBILE = {
+defaultLarge: 160,   // sidebar besar di mobile
+defaultSmall: 140,   // sidebar kecil di mobile
+minWidth: 100,       // min 100px (masih bisa dilihat)
+maxWidthPercent: 75, // max 75% viewport width
+storageKey: 'alikhlas_sidebar_widths_mobile'
+};
+
+var CONFIG_DESKTOP = {
+defaultLarge: 380,
+defaultSmall: 300,
+minWidth: 180,
+maxWidth: 600,
+storageKey: 'alikhlas_sidebar_widths'
+};
+
+var CONFIG = isMobile ? CONFIG_MOBILE : CONFIG_DESKTOP;
+
+/* ============================================================
+✅ LOAD PREFERENSI (PER DEVICE)
+============================================================ */
+function loadPreferences(){
+try{
+var data = localStorage.getItem(CONFIG.storageKey);
+if(data) return JSON.parse(data);
+}catch(e){}
+return {};
+}
+
+function savePreferences(prefs){
+try{
+localStorage.setItem(CONFIG.storageKey, JSON.stringify(prefs));
+}catch(e){}
+}
+
+var preferences = loadPreferences();
+
+/* ============================================================
+✅ HELPER
+============================================================ */
+function isSmallSidebar(sidebar){
+var selectors = ['.biografi-sidebar', '.doa-sidebar', '.sholat-sidebar'];
+for(var i = 0; i < selectors.length; i++){
+if(sidebar.matches && sidebar.matches(selectors[i])) return true;
+}
+return false;
+}
+
+function getDefaultWidth(sidebar){
+return isSmallSidebar(sidebar) ? CONFIG.defaultSmall : CONFIG.defaultLarge;
+}
+
+function getSidebarId(sidebar){
+var page = sidebar.closest('.page-content');
+var pageId = page ? page.id : 'default';
+var type = isSmallSidebar(sidebar) ? 'small' : 'large';
+return pageId + '_' + type;
+}
+
+function getMaxWidth(){
+if(isMobile){
+return Math.floor(window.innerWidth * (CONFIG.maxWidthPercent / 100));
+}
+return CONFIG.maxWidth;
+}
+
+/* ============================================================
+✅ TERAPKAN LEBAR TERSIMPAN
+============================================================ */
+function applySavedWidth(sidebar){
+var id = getSidebarId(sidebar);
+var savedWidth = preferences[id];
+var defaultWidth = getDefaultWidth(sidebar);
+var width = savedWidth || defaultWidth;
+
+var maxW = getMaxWidth();
+width = Math.max(CONFIG.minWidth, Math.min(maxW, width));
+
+sidebar.style.width = width + 'px';
+sidebar.style.minWidth = width + 'px';
+sidebar.style.maxWidth = width + 'px';
+sidebar.style.flexShrink = '0';
+}
+
+/* ============================================================
+✅ TAMBAHKAN HANDLE RESIZE (JIKA BELUM ADA)
+============================================================ */
+function addResizeHandle(sidebar){
+if(sidebar.querySelector('.sidebar-resize-handle')) return;
+
+var computedPos = window.getComputedStyle(sidebar).position;
+if(computedPos === 'static'){
+sidebar.style.position = 'relative';
+}
+
+// Handle
+var handle = document.createElement('div');
+handle.className = 'sidebar-resize-handle';
+handle.setAttribute('title', 'Geser untuk mengubah lebar sidebar');
+sidebar.appendChild(handle);
+
+// Hint
+var hint = document.createElement('div');
+hint.className = 'sidebar-resize-hint';
+hint.innerHTML = isMobile
+? '💡 <strong>Geser tepi kanan</strong> untuk ubah lebar'
+: '💡 <strong>Geser tepi kanan</strong> untuk mengubah lebar<br>atau klik tombol reset di bawah';
+sidebar.appendChild(hint);
+
+// Tombol Reset
+var resetBtn = document.createElement('button');
+resetBtn.className = 'sidebar-reset-btn';
+resetBtn.innerHTML = '<span class="reset-icon">↺</span> Reset Lebar';
+resetBtn.setAttribute('type', 'button');
+resetBtn.addEventListener('click', function(e){
+e.preventDefault();
+e.stopPropagation();
+resetSidebarWidth(sidebar);
+});
+
+var searchInput = sidebar.querySelector('.sub-search');
+if(searchInput && searchInput.nextSibling){
+sidebar.insertBefore(resetBtn, searchInput.nextSibling);
+} else {
+sidebar.insertBefore(resetBtn, sidebar.firstChild);
+}
+
+// Event listeners
+handle.addEventListener('mousedown', function(e){ startResize(e, sidebar, handle); });
+handle.addEventListener('touchstart', function(e){ startResize(e, sidebar, handle); }, {passive: false});
+}
+
+/* ============================================================
+✅ FUNGSI RESET
+============================================================ */
+function resetSidebarWidth(sidebar){
+var defaultWidth = getDefaultWidth(sidebar);
+var id = getSidebarId(sidebar);
+
+delete preferences[id];
+savePreferences(preferences);
+
+sidebar.style.width = defaultWidth + 'px';
+sidebar.style.minWidth = defaultWidth + 'px';
+sidebar.style.maxWidth = defaultWidth + 'px';
+
+sidebar.classList.add('sidebar-resetting');
+setTimeout(function(){
+sidebar.classList.remove('sidebar-resetting');
+}, 600);
+
+if(typeof showToast === 'function'){
+showToast('↺ Lebar sidebar direset ke ' + defaultWidth + 'px');
+}
+}
+
+/* ============================================================
+✅ FUNGSI RESIZE (DRAG + TOUCH)
+============================================================ */
+var isResizing = false;
+var currentSidebar = null;
+var currentHandle = null;
+var startX = 0;
+var startWidth = 0;
+
+var indicator = document.getElementById('sidebarWidthIndicator');
+var indicatorValue = document.getElementById('sidebarWidthValue');
+
+// Buat indicator jika belum ada
+if(!indicator){
+indicator = document.createElement('div');
+indicator.className = 'sidebar-width-indicator';
+indicator.id = 'sidebarWidthIndicator';
+indicator.innerHTML = '<span>📏 Lebar:</span><span class="width-value" id="sidebarWidthValue">0px</span>';
+document.body.appendChild(indicator);
+indicatorValue = document.getElementById('sidebarWidthValue');
+}
+
+function startResize(e, sidebar, handle){
+e.preventDefault();
+e.stopPropagation();
+
+isResizing = true;
+currentSidebar = sidebar;
+currentHandle = handle;
+
+var touch = e.touches ? e.touches[0] : e;
+startX = touch.clientX;
+startWidth = sidebar.offsetWidth;
+
+handle.classList.add('dragging');
+document.body.classList.add('sidebar-resizing');
+indicator.classList.add('show');
+
+updateWidthIndicator(startWidth);
+
+// Bind global events
+document.addEventListener('mousemove', doResize);
+document.addEventListener('touchmove', doResize, {passive: false});
+document.addEventListener('mouseup', stopResize);
+document.addEventListener('touchend', stopResize);
+document.addEventListener('touchcancel', stopResize);
+}
+
+function doResize(e){
+if(!isResizing || !currentSidebar) return;
+e.preventDefault();
+
+var touch = e.touches ? e.touches[0] : e;
+var deltaX = touch.clientX - startX;
+var newWidth = startWidth + deltaX;
+
+var maxW = getMaxWidth();
+newWidth = Math.max(CONFIG.minWidth, Math.min(maxW, newWidth));
+
+currentSidebar.style.width = newWidth + 'px';
+currentSidebar.style.minWidth = newWidth + 'px';
+currentSidebar.style.maxWidth = newWidth + 'px';
+
+updateWidthIndicator(newWidth);
+}
+
+function stopResize(e){
+if(!isResizing) return;
+
+isResizing = false;
+
+if(currentHandle) currentHandle.classList.remove('dragging');
+document.body.classList.remove('sidebar-resizing');
+indicator.classList.remove('show');
+
+if(currentSidebar){
+var finalWidth = currentSidebar.offsetWidth;
+var id = getSidebarId(currentSidebar);
+preferences[id] = finalWidth;
+savePreferences(preferences);
+console.log('💾 Lebar sidebar disimpan:', id, '=', finalWidth + 'px');
+}
+
+document.removeEventListener('mousemove', doResize);
+document.removeEventListener('touchmove', doResize);
+document.removeEventListener('mouseup', stopResize);
+document.removeEventListener('touchend', stopResize);
+document.removeEventListener('touchcancel', stopResize);
+
+currentSidebar = null;
+currentHandle = null;
+}
+
+function updateWidthIndicator(width){
+if(indicatorValue){
+indicatorValue.textContent = Math.round(width) + 'px';
+}
+}
+
+/* ============================================================
+✅ INISIALISASI SEMUA SIDEBAR
+============================================================ */
+function initAllSidebars(){
+var selectors = [
+'.split-sidebar',
+'.biografi-sidebar',
+'.doa-sidebar',
+'.sholat-sidebar'
+];
+var totalAdded = 0;
+
+for(var i = 0; i < selectors.length; i++){
+var sidebars = document.querySelectorAll(selectors[i]);
+for(var j = 0; j < sidebars.length; j++){
+var sidebar = sidebars[j];
+applySavedWidth(sidebar);
+addResizeHandle(sidebar);
+totalAdded++;
+}
+}
+
+if(totalAdded > 0){
+console.log('✅ ' + totalAdded + ' sidebar diinisialisasi (mode: ' + (isMobile ? 'MOBILE' : 'DESKTOP') + ')');
+}
+}
+
+/* ============================================================
+✅ HANDLE ORIENTATION CHANGE / RESIZE WINDOW
+============================================================ */
+var resizeTimer;
+window.addEventListener('resize', function(){
+clearTimeout(resizeTimer);
+resizeTimer = setTimeout(function(){
+var newIsMobile = window.innerWidth <= 900;
+if(newIsMobile !== isMobile){
+// Device mode berubah (rotate HP atau resize window)
+isMobile = newIsMobile;
+CONFIG = isMobile ? CONFIG_MOBILE : CONFIG_DESKTOP;
+preferences = loadPreferences();
+
+// Re-apply semua sidebar
+var allSidebars = document.querySelectorAll(
+'.split-sidebar, .biografi-sidebar, .doa-sidebar, .sholat-sidebar'
+);
+for(var i = 0; i < allSidebars.length; i++){
+applySavedWidth(allSidebars[i]);
+}
+console.log('🔄 Mode berubah:', isMobile ? 'MOBILE' : 'DESKTOP');
+}
+}, 250);
+});
+
+/* ============================================================
+✅ HOOK KE showPage
+============================================================ */
+var _origShowPage = window.showPage;
+window.showPage = function(pageId){
+if(_origShowPage) _origShowPage(pageId);
+setTimeout(initAllSidebars, 200);
+};
+
+/* ============================================================
+✅ INIT
+============================================================ */
+function init(){
+initAllSidebars();
+console.log('✅ PATCH v19 SIDEBAR RESIZABLE MOBILE+DESKTOP: berhasil dimuat');
+console.log('💡 Mode:', isMobile ? 'MOBILE (touch)' : 'DESKTOP (mouse)');
+console.log('💡 Min width:', CONFIG.minWidth + 'px');
+console.log('💡 Max width:', isMobile ? CONFIG.maxWidthPercent + '% viewport' : CONFIG.maxWidth + 'px');
+}
+
+if(document.readyState === 'loading'){
+document.addEventListener('DOMContentLoaded', init);
+} else {
+init();
+}
+
+setTimeout(init, 500);
+setTimeout(init, 1500);
+
+})();
+</script>
 </body>
 </html>
