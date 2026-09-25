@@ -8834,5 +8834,5638 @@ console.log('💡 Loading akan otomatis hilang setelah 2.5 detik');
 console.log('💡 Fungsi hePreviewPdf TIDAK diubah (aman)');
 })();
 </script>
+<!-- ============================================
+✅ PATCH: EMBED PDF NAHWU (6 SLOT + /preview)
+- Preview pakai URL /preview
+- Tombol download & print ditutup
+- 6 slot default, bisa ditambah
+- Lokasi: Halaman Kitab Kuning > Kategori Nahwu
+============================================ -->
+<style>
+/* ====== WRAPPER EMBED NAHWU ====== */
+.nahwu-embed-wrapper{
+margin-top:15px;
+padding:15px;
+background:linear-gradient(135deg,rgba(201,168,76,0.08),rgba(45,27,78,0.4));
+border:1px solid rgba(201,168,76,0.3);
+border-radius:12px;
+border-left:4px solid #c9a84c;
+}
+.nahwu-embed-wrapper h5{
+color:#e8d48b;
+font-size:0.95rem;
+margin:0 0 12px 0;
+display:flex;
+align-items:center;
+gap:8px;
+padding-bottom:10px;
+border-bottom:1px dashed rgba(201,168,76,0.3);
+}
+.nahwu-embed-wrapper h5 .ne-icon{
+width:28px;height:28px;
+background:linear-gradient(135deg,#c9a84c,#e8d48b);
+border-radius:8px;
+display:flex;align-items:center;justify-content:center;
+font-size:0.95rem;color:#1a0a2e;
+}
+.nahwu-embed-wrapper h5 .ne-count{
+margin-left:auto;
+background:rgba(201,168,76,0.2);
+color:#c9a84c;
+padding:2px 10px;
+border-radius:12px;
+font-size:0.72rem;
+font-weight:700;
+}
+/* ====== GRID KARTU EMBED ====== */
+.nahwu-embed-grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+gap:10px;
+margin-bottom:10px;
+}
+.nahwu-embed-card{
+background:rgba(255,255,255,0.04);
+border:1px solid rgba(201,168,76,0.2);
+border-radius:10px;
+padding:12px;
+transition:all 0.3s;
+position:relative;
+cursor:pointer;
+overflow:hidden;
+}
+.nahwu-embed-card::before{
+content:'';
+position:absolute;
+top:0;left:0;
+width:3px;height:100%;
+background:linear-gradient(to bottom,#c9a84c,#e8d48b);
+transform:scaleY(0);
+transition:transform 0.3s;
+transform-origin:top;
+}
+.nahwu-embed-card:hover{
+background:rgba(201,168,76,0.08);
+border-color:#c9a84c;
+transform:translateY(-3px);
+box-shadow:0 8px 20px rgba(201,168,76,0.15);
+}
+.nahwu-embed-card:hover::before{
+transform:scaleY(1);
+}
+.nahwu-embed-card .ne-card-icon{
+width:42px;height:42px;
+background:linear-gradient(135deg,#c9a84c,#e8d48b);
+border-radius:10px;
+display:flex;align-items:center;justify-content:center;
+font-size:1.3rem;color:#1a0a2e;
+margin-bottom:8px;
+}
+.nahwu-embed-card .ne-card-title{
+color:#e8d48b;
+font-size:0.88rem;
+font-weight:700;
+margin-bottom:4px;
+line-height:1.3;
+}
+.nahwu-embed-card .ne-card-desc{
+color:#aaa;
+font-size:0.72rem;
+line-height:1.5;
+margin-bottom:8px;
+}
+.nahwu-embed-card .ne-card-actions{
+display:flex;
+gap:6px;
+flex-wrap:wrap;
+}
+.nahwu-embed-card .ne-btn{
+padding:5px 10px;
+border-radius:15px;
+font-size:0.7rem;
+font-weight:600;
+cursor:pointer;
+border:none;
+transition:all 0.2s;
+font-family:inherit;
+display:inline-flex;
+align-items:center;
+gap:4px;
+}
+.nahwu-embed-card .ne-btn.preview{
+background:linear-gradient(135deg,#c9a84c,#e8d48b);
+color:#1a0a2e;
+}
+.nahwu-embed-card .ne-btn.preview:hover{
+transform:translateY(-1px);
+box-shadow:0 3px 10px rgba(201,168,76,0.4);
+}
+.nahwu-embed-card .ne-btn.edit{
+background:rgba(255,255,255,0.08);
+color:#c9a84c;
+border:1px solid rgba(201,168,76,0.3);
+}
+.nahwu-embed-card .ne-btn.edit:hover{
+background:rgba(201,168,76,0.15);
+}
+.nahwu-embed-card .ne-btn.delete{
+background:rgba(231,76,60,0.15);
+color:#e74c3c;
+border:1px solid rgba(231,76,60,0.3);
+}
+.nahwu-embed-card .ne-btn.delete:hover{
+background:rgba(231,76,60,0.25);
+}
+.nahwu-embed-card .ne-badge{
+position:absolute;
+top:8px;right:8px;
+background:rgba(46,204,113,0.2);
+color:#2ecc71;
+padding:2px 8px;
+border-radius:8px;
+font-size:0.62rem;
+font-weight:700;
+}
+.nahwu-embed-card.empty{
+border-style:dashed;
+background:transparent;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+min-height:140px;
+color:#888;
+}
+.nahwu-embed-card.empty:hover{
+border-color:#c9a84c;
+color:#c9a84c;
+background:rgba(201,168,76,0.05);
+}
+.nahwu-embed-card.empty .ne-plus{
+font-size:2rem;
+margin-bottom:5px;
+}
+/* ====== TOMBOL TAMBAH FILE ====== */
+.nahwu-add-file-btn{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:6px;
+width:100%;
+padding:10px;
+margin-top:8px;
+background:transparent;
+border:1.5px dashed rgba(201,168,76,0.3);
+border-radius:10px;
+color:#c9a84c;
+cursor:pointer;
+font-size:0.82rem;
+font-family:inherit;
+transition:all 0.3s;
+}
+.nahwu-add-file-btn:hover{
+border-color:#c9a84c;
+background:rgba(201,168,76,0.08);
+}
+/* ====== PDF PREVIEW OVERLAY NAHWU ====== */
+.ne-pdf-overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.95);
+z-index:99999;
+display:none;
+flex-direction:column;
+}
+.ne-pdf-overlay.active{
+display:flex;
+animation:neFadeIn 0.3s ease;
+}
+@keyframes neFadeIn{
+from{opacity:0}
+to{opacity:1}
+}
+.ne-pdf-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px 20px;
+background:linear-gradient(135deg,#1a0a2e,#2d1b4e);
+border-bottom:2px solid #c9a84c;
+flex-wrap:wrap;
+gap:10px;
+flex-shrink:0;
+}
+.ne-pdf-title{
+color:#e8d48b;
+font-size:1.1rem;
+font-weight:600;
+display:flex;
+align-items:center;
+gap:10px;
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
+max-width:60%;
+}
+.ne-pdf-title::before{
+content:'📝';
+font-size:1.3rem;
+}
+.ne-pdf-actions{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+}
+.ne-pdf-btn{
+background:linear-gradient(135deg,#c9a84c,#e8d48b);
+color:#1a0a2e;
+border:none;
+padding:8px 16px;
+border-radius:20px;
+font-size:0.85rem;
+font-weight:600;
+cursor:pointer;
+transition:all 0.3s;
+display:inline-flex;
+align-items:center;
+gap:6px;
+font-family:inherit;
+}
+.ne-pdf-btn:hover{
+transform:translateY(-2px);
+box-shadow:0 5px 15px rgba(201,168,76,0.4);
+}
+.ne-pdf-btn.danger{
+background:linear-gradient(135deg,#c0392b,#e74c3c);
+color:#fff;
+}
+.ne-pdf-iframe-wrap{
+position:relative;
+flex:1;
+background:#1a0a2e;
+overflow:hidden;
+min-height:0;
+}
+.ne-pdf-iframe-wrap iframe{
+width:100%;
+height:100%;
+border:none;
+background:#fff;
+}
+/* ====== OVERLAY PENUTUP TOOLBAR DOWNLOAD/PRINT ====== */
+.ne-toolbar-blocker{
+position:absolute;
+top:0;
+left:0;
+right:0;
+height:55px;
+background:linear-gradient(to bottom,
+rgba(26,10,46,0.98) 0%,
+rgba(26,10,46,0.92) 75%,
+rgba(26,10,46,0) 100%);
+z-index:25;
+pointer-events:auto;
+cursor:not-allowed;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+.ne-toolbar-blocker::before{
+content:'🔒 Download & Print Dinonaktifkan';
+color:#c9a84c;
+font-size:0.78rem;
+font-weight:700;
+letter-spacing:1px;
+text-shadow:0 2px 6px rgba(0,0,0,0.9);
+pointer-events:none;
+background:rgba(26,10,46,0.7);
+padding:4px 14px;
+border-radius:12px;
+border:1px solid rgba(201,168,76,0.3);
+}
+.ne-toolbar-blocker::after{
+content:'';
+position:absolute;
+bottom:0;left:0;right:0;
+height:1px;
+background:linear-gradient(90deg,transparent,#c9a84c,transparent);
+}
+/* ====== LOADING STATE ====== */
+.ne-pdf-loading{
+position:absolute;
+top:50%;left:50%;
+transform:translate(-50%,-50%);
+color:#c9a84c;
+font-size:1rem;
+text-align:center;
+z-index:10;
+background:rgba(26,10,46,0.95);
+padding:30px;
+border-radius:15px;
+min-width:280px;
+border:1px solid rgba(201,168,76,0.3);
+}
+.ne-pdf-loading::before{
+content:'⏳';
+display:block;
+font-size:3rem;
+margin-bottom:10px;
+animation:neSpin 2s linear infinite;
+}
+@keyframes neSpin{
+from{transform:rotate(0deg)}
+to{transform:rotate(360deg)}
+}
+/* ====== RESPONSIVE ====== */
+@media (max-width:900px){
+.nahwu-embed-grid{
+grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+gap:8px;
+}
+.nahwu-embed-card{
+padding:10px;
+}
+.nahwu-embed-card .ne-card-icon{
+width:36px;height:36px;
+font-size:1.1rem;
+}
+.nahwu-embed-card .ne-card-title{
+font-size:0.8rem;
+}
+.nahwu-embed-card .ne-card-desc{
+font-size:0.68rem;
+}
+.ne-pdf-title{
+font-size:0.95rem;
+max-width:55%;
+}
+.ne-pdf-btn{
+padding:7px 12px;
+font-size:0.78rem;
+}
+}
+@media (max-width:400px){
+.nahwu-embed-grid{
+grid-template-columns:1fr;
+}
+}
+</style>
+
+<!-- Container Overlay PDF Preview Nahwu -->
+<div class="ne-pdf-overlay" id="nePdfOverlay">
+<div class="ne-pdf-header">
+<div class="ne-pdf-title" id="nePdfTitle">Memuat Dokumen...</div>
+<div class="ne-pdf-actions">
+<button class="ne-pdf-btn danger" onclick="neClosePdf()">✕ Tutup</button>
+</div>
+</div>
+<div class="ne-pdf-iframe-wrap">
+<div class="ne-pdf-loading" id="nePdfLoading">Memuat dokumen...</div>
+<iframe id="nePdfIframe" src="" title="PDF Preview Nahwu"></iframe>
+<div class="ne-toolbar-blocker"></div>
+</div>
+</div>
+
+<script>
+(function(){
+'use strict';
+console.log('🟢 PATCH EMBED PDF NAHWU: mulai dimuat...');
+
+/* ============================================================
+✅ DATA EMBED PDF NAHWU (6 SLOT DEFAULT)
+Pengguna bisa menambah slot lewat tombol "+ Tambah File PDF"
+Format URL: gunakan URL Google Drive / hosting dengan akhiran /preview
+Contoh: https://drive.google.com/file/d/FILE_ID/preview
+============================================================ */
+var nahwuEmbeds = [
+{
+id: 'ne-1',
+judul: 'Al-Ajurrumiyyah',
+deskripsi: 'Matan nahwu paling dasar untuk pemula',
+icon: '📗',
+url: 'https://drive.google.com/file/d/CONTOH_ID_1/preview',
+tersedia: true
+},
+{
+id: 'ne-2',
+judul: 'Nadhom Imrithi',
+deskripsi: 'Nadhom nahwu tingkat menengah (171 bait)',
+icon: '📗',
+url: 'https://drive.google.com/file/d/CONTOH_ID_2/preview',
+tersedia: true
+},
+{
+id: 'ne-3',
+judul: 'Alfiyyah Ibnu Malik',
+deskripsi: 'Nadhom nahwu-sharaf 1000 bait karya Ibnu Malik',
+icon: '📗',
+url: 'https://drive.google.com/file/d/CONTOH_ID_3/preview',
+tersedia: true
+},
+{
+id: 'ne-4',
+judul: 'Mutammimah Al-Ajurrumiyyah',
+deskripsi: 'Pelengkap kitab Al-Ajurrumiyyah oleh Al-Hathab',
+icon: '📗',
+url: 'https://drive.google.com/file/d/CONTOH_ID_4/preview',
+tersedia: true
+},
+{
+id: 'ne-5',
+judul: 'Tuhfatun Nubha',
+deskripsi: 'Syarah nadhom Imrithi oleh Ibnu Hisyam',
+icon: '📗',
+url: 'https://drive.google.com/file/d/CONTOH_ID_5/preview',
+tersedia: true
+},
+{
+id: 'ne-6',
+judul: 'Nadhom Ibnu Aqil',
+deskripsi: 'Nadhom syarah Alfiyyah oleh Ibnu Aqil',
+icon: '📗',
+url: 'https://drive.google.com/file/d/CONTOH_ID_6/preview',
+tersedia: true
+}
+];
+
+/* ============================================================
+✅ RENDER UI EMBED NAHWU
+============================================================ */
+function renderNahwuEmbeds(){
+var container = document.getElementById('kitabNahwu');
+if(!container) return;
+
+// Hapus wrapper lama jika ada
+var oldWrapper = document.getElementById('nahwuEmbedWrapper');
+if(oldWrapper) oldWrapper.remove();
+
+// Buat wrapper baru
+var wrapper = document.createElement('div');
+wrapper.id = 'nahwuEmbedWrapper';
+wrapper.className = 'nahwu-embed-wrapper';
+
+var html = '<h5>' +
+'<span class="ne-icon">📝</span>' +
+'<span>Preview PDF Kitab Nahwu</span>' +
+'<span class="ne-count">' + nahwuEmbeds.length + ' File</span>' +
+'</h5>';
+
+html += '<div class="nahwu-embed-grid">';
+
+// Render kartu untuk setiap file
+for(var i = 0; i < nahwuEmbeds.length; i++){
+var e = nahwuEmbeds[i];
+html += '<div class="nahwu-embed-card" data-id="' + e.id + '">';
+if(e.tersedia){
+html += '<span class="ne-badge">✅ Tersedia</span>';
+}
+html += '<div class="ne-card-icon">' + (e.icon || '📖') + '</div>';
+html += '<div class="ne-card-title">' + e.judul + '</div>';
+html += '<div class="ne-card-desc">' + (e.deskripsi || '') + '</div>';
+html += '<div class="ne-card-actions">';
+if(e.tersedia){
+html += '<button class="ne-btn preview" onclick="nePreviewPdf(\'' + e.id + '\')">👁️ Preview</button>';
+}
+html += '<button class="ne-btn edit" onclick="neEditPdf(\'' + e.id + '\')">✏️ Edit</button>';
+html += '<button class="ne-btn delete" onclick="neDeletePdf(\'' + e.id + '\')">🗑️</button>';
+html += '</div>';
+html += '</div>';
+}
+
+html += '</div>';
+
+// Tombol tambah file
+html += '<button class="nahwu-add-file-btn" onclick="neAddNewPdf()">+ Tambah File PDF Baru</button>';
+
+wrapper.innerHTML = html;
+container.appendChild(wrapper);
+}
+
+/* ============================================================
+✅ PREVIEW PDF (PAKAI /preview)
+============================================================ */
+window.nePreviewPdf = function(id){
+var embed = null;
+for(var i = 0; i < nahwuEmbeds.length; i++){
+if(nahwuEmbeds[i].id === id){
+embed = nahwuEmbeds[i];
+break;
+}
+}
+if(!embed || !embed.tersedia){
+if(typeof showToast === 'function') showToast('⚠️ File tidak tersedia');
+return;
+}
+
+var overlay = document.getElementById('nePdfOverlay');
+var title = document.getElementById('nePdfTitle');
+var iframe = document.getElementById('nePdfIframe');
+var loading = document.getElementById('nePdfLoading');
+
+if(!overlay || !iframe) return;
+
+title.textContent = embed.judul;
+loading.style.display = 'block';
+loading.innerHTML = '<div style="font-size:48px;margin-bottom:15px;">⏳</div>' +
+'<p style="font-size:15px;font-weight:bold;">Memuat: ' + embed.judul + '</p>' +
+'<p style="font-size:12px;color:#888;margin-top:8px;">Mode Preview (Download & Print dinonaktifkan)</p>';
+
+// ✅ URL dengan akhiran /preview
+var previewUrl = embed.url;
+// Pastikan URL berakhiran /preview
+if(previewUrl.indexOf('/preview') === -1){
+// Jika URL Google Drive format lama, konversi
+if(previewUrl.indexOf('drive.google.com/file/d/') !== -1){
+var fileId = previewUrl.match(/\/d\/([^\/]+)/);
+if(fileId && fileId[1]){
+previewUrl = 'https://drive.google.com/file/d/' + fileId[1] + '/preview';
+}
+}
+}
+
+// ✅ FUNGSI UNTUK MENYEMBUNYIKAN LOADING
+function hideLoading(){
+if(loading && loading.style.display !== 'none'){
+loading.style.display = 'none';
+console.log('✅ Loading spinner disembunyikan untuk:', embed.judul);
+}
+}
+
+// ✅ EVENT LISTENER: SEMBUNYIKAN LOADING SAAT IFRAME LOAD
+iframe.onload = null;
+iframe.onerror = null;
+
+iframe.onload = function(){
+console.log('✅ Iframe loaded:', previewUrl);
+setTimeout(hideLoading, 300);
+};
+
+iframe.onerror = function(){
+console.warn('⚠️ Iframe error, menyembunyikan loading...');
+hideLoading();
+};
+
+iframe.src = previewUrl;
+overlay.classList.add('active');
+document.body.style.overflow = 'hidden';
+
+// ✅ FALLBACK TIMEOUT 1: SEMBUNYIKAN LOADING SETELAH 2.5 DETIK
+setTimeout(function(){
+if(loading && loading.style.display !== 'none'){
+console.log('⏱️ Fallback timeout 1: paksa sembunyikan loading setelah 2.5 detik');
+hideLoading();
+}
+}, 2500);
+
+// ✅ FALLBACK TIMEOUT 2: CEK APAKAH PDF GAGAL LOAD
+setTimeout(function(){
+try{
+var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+if(iframeDoc && iframeDoc.body && iframeDoc.body.innerHTML === ''){
+loading.style.display = 'block';
+loading.innerHTML = '<div style="font-size:48px;margin-bottom:15px;">⚠️</div>' +
+'<p style="font-size:15px;font-weight:bold;">PDF tidak dapat dimuat</p>' +
+'<p style="font-size:12px;color:#888;margin-top:8px;">Periksa URL atau koneksi internet</p>' +
+'<button onclick="neClosePdf()" style="margin-top:15px;padding:10px 20px;background:#c9a84c;color:#1a0a2e;border:none;border-radius:20px;font-weight:bold;cursor:pointer;">Tutup</button>';
+}
+}catch(e){
+// Cross-origin error = iframe berhasil load (normal untuk Google Drive)
+console.log('✅ PDF loaded (cross-origin, normal untuk Google Drive)');
+}
+}, 15000);
+};
+
+/* ============================================================
+✅ TUTUP PREVIEW
+============================================================ */
+window.neClosePdf = function(){
+var overlay = document.getElementById('nePdfOverlay');
+var iframe = document.getElementById('nePdfIframe');
+var loading = document.getElementById('nePdfLoading');
+
+if(overlay) overlay.classList.remove('active');
+if(iframe){
+iframe.onload = null;
+iframe.onerror = null;
+iframe.src = '';
+}
+// Reset loading ke state awal
+if(loading){
+loading.style.display = 'block';
+loading.innerHTML = 'Memuat dokumen...';
+}
+document.body.style.overflow = '';
+};
+
+/* ============================================================
+✅ EDIT URL/JUDUL PDF
+============================================================ */
+window.neEditPdf = function(id){
+var embed = null;
+var idx = -1;
+for(var i = 0; i < nahwuEmbeds.length; i++){
+if(nahwuEmbeds[i].id === id){
+embed = nahwuEmbeds[i];
+idx = i;
+break;
+}
+}
+if(!embed) return;
+
+var newJudul = prompt('Judul Kitab Nahwu:', embed.judul);
+if(newJudul === null) return;
+var newUrl = prompt('URL Preview PDF (akhiri dengan /preview):\nContoh: https://drive.google.com/file/d/FILE_ID/preview', embed.url);
+if(newUrl === null) return;
+var newDesc = prompt('Deskripsi singkat:', embed.deskripsi);
+if(newDesc === null) return;
+var newIcon = prompt('Icon emoji (📗 📕 📙 📘 📖):', embed.icon);
+if(newIcon === null) return;
+
+nahwuEmbeds[idx].judul = newJudul || embed.judul;
+nahwuEmbeds[idx].url = newUrl || embed.url;
+nahwuEmbeds[idx].deskripsi = newDesc || embed.deskripsi;
+nahwuEmbeds[idx].icon = newIcon || embed.icon;
+nahwuEmbeds[idx].tersedia = (nahwuEmbeds[idx].url && nahwuEmbeds[idx].url.trim() !== '');
+
+renderNahwuEmbeds();
+if(typeof showToast === 'function') showToast('✅ File "' + nahwuEmbeds[idx].judul + '" berhasil diperbarui');
+};
+
+/* ============================================================
+✅ TAMBAH FILE PDF BARU
+============================================================ */
+window.neAddNewPdf = function(){
+var judul = prompt('Judul Kitab Nahwu Baru:');
+if(!judul) return;
+var url = prompt('URL Preview PDF (akhiri dengan /preview):\nContoh: https://drive.google.com/file/d/FILE_ID/preview');
+if(!url) url = '';
+var desc = prompt('Deskripsi singkat:') || '';
+var icon = prompt('Icon emoji (📗 📕 📙 📘 📖):') || '📗';
+
+var newId = 'ne-' + Date.now();
+nahwuEmbeds.push({
+id: newId,
+judul: judul,
+deskripsi: desc,
+icon: icon,
+url: url,
+tersedia: (url && url.trim() !== '')
+});
+
+renderNahwuEmbeds();
+if(typeof showToast === 'function') showToast('✅ File "' + judul + '" berhasil ditambahkan');
+};
+
+/* ============================================================
+✅ HAPUS FILE PDF
+============================================================ */
+window.neDeletePdf = function(id){
+var idx = -1;
+var nama = '';
+for(var i = 0; i < nahwuEmbeds.length; i++){
+if(nahwuEmbeds[i].id === id){
+idx = i;
+nama = nahwuEmbeds[i].judul;
+break;
+}
+}
+if(idx === -1) return;
+
+if(!confirm('Hapus file "' + nama + '"?')) return;
+
+nahwuEmbeds.splice(idx, 1);
+renderNahwuEmbeds();
+if(typeof showToast === 'function') showToast('🗑️ File "' + nama + '" dihapus');
+};
+
+/* ============================================================
+✅ BLOKIR DOWNLOAD & PRINT DI PREVIEW NAHWU
+============================================================ */
+function blokirDownloadPrintNahwu(e){
+var overlay = document.getElementById('nePdfOverlay');
+if(!overlay || !overlay.classList.contains('active')) return;
+
+// Blokir Ctrl+S (Save/Download)
+if((e.ctrlKey || e.metaKey) && e.key === 's'){
+e.preventDefault();
+if(typeof showToast === 'function') showToast('🔒 Download dinonaktifkan di preview');
+return false;
+}
+// Blokir Ctrl+P (Print)
+if((e.ctrlKey || e.metaKey) && e.key === 'p'){
+e.preventDefault();
+if(typeof showToast === 'function') showToast('🔒 Print dinonaktifkan di preview');
+return false;
+}
+}
+
+document.addEventListener('keydown', blokirDownloadPrintNahwu);
+
+// Blokir klik kanan di area preview Nahwu
+document.addEventListener('contextmenu', function(e){
+var overlay = document.getElementById('nePdfOverlay');
+if(overlay && overlay.classList.contains('active')){
+var iframeWrap = document.querySelector('.ne-pdf-iframe-wrap');
+if(iframeWrap && iframeWrap.contains(e.target)){
+e.preventDefault();
+if(typeof showToast === 'function') showToast('🔒 Klik kanan dinonaktifkan');
+return false;
+}
+}
+});
+
+/* ============================================================
+✅ INISIALISASI
+============================================================ */
+function initEmbedNahwu(){
+// Render setelah DOM siap
+if(document.readyState === 'loading'){
+document.addEventListener('DOMContentLoaded', function(){
+setTimeout(renderNahwuEmbeds, 500);
+});
+} else {
+setTimeout(renderNahwuEmbeds, 500);
+}
+
+// Re-render saat halaman Kitab Kuning dibuka
+var _origShowPage = window.showPage;
+window.showPage = function(pageId){
+if(_origShowPage) _origShowPage(pageId);
+if(pageId === 'kitab-kuning'){
+setTimeout(renderNahwuEmbeds, 300);
+}
+};
+}
+
+initEmbedNahwu();
+
+console.log('✅ PATCH EMBED PDF NAHWU: berhasil dimuat');
+console.log('💡 6 slot PDF tersedia di kategori Nahwu');
+console.log('💡 Preview pakai URL /preview, download & print ditutup');
+})();
+</script>
+<!-- ============================================
+✅ PATCH: EMBED PDF SHARAF (6 SLOT + /preview)
+- Preview pakai URL /preview
+- Tombol download & print ditutup
+- 6 slot default, bisa ditambah
+- Lokasi: Halaman Kitab Kuning > Kategori Sharaf
+============================================ -->
+<style>
+/* ====== WRAPPER EMBED SHARAF ====== */
+.sharaf-embed-wrapper{
+margin-top:15px;
+padding:15px;
+background:linear-gradient(135deg,rgba(201,168,76,0.08),rgba(45,27,78,0.4));
+border:1px solid rgba(201,168,76,0.3);
+border-radius:12px;
+border-left:4px solid #c9a84c;
+}
+.sharaf-embed-wrapper h5{
+color:#e8d48b;
+font-size:0.95rem;
+margin:0 0 12px 0;
+display:flex;
+align-items:center;
+gap:8px;
+padding-bottom:10px;
+border-bottom:1px dashed rgba(201,168,76,0.3);
+}
+.sharaf-embed-wrapper h5 .se-icon{
+width:28px;height:28px;
+background:linear-gradient(135deg,#c9a84c,#e8d48b);
+border-radius:8px;
+display:flex;align-items:center;justify-content:center;
+font-size:0.95rem;color:#1a0a2e;
+}
+.sharaf-embed-wrapper h5 .se-count{
+margin-left:auto;
+background:rgba(201,168,76,0.2);
+color:#c9a84c;
+padding:2px 10px;
+border-radius:12px;
+font-size:0.72rem;
+font-weight:700;
+}
+/* ====== GRID KARTU EMBED ====== */
+.sharaf-embed-grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+gap:10px;
+margin-bottom:10px;
+}
+.sharaf-embed-card{
+background:rgba(255,255,255,0.04);
+border:1px solid rgba(201,168,76,0.2);
+border-radius:10px;
+padding:12px;
+transition:all 0.3s;
+position:relative;
+cursor:pointer;
+overflow:hidden;
+}
+.sharaf-embed-card::before{
+content:'';
+position:absolute;
+top:0;left:0;
+width:3px;height:100%;
+background:linear-gradient(to bottom,#c9a84c,#e8d48b);
+transform:scaleY(0);
+transition:transform 0.3s;
+transform-origin:top;
+}
+.sharaf-embed-card:hover{
+background:rgba(201,168,76,0.08);
+border-color:#c9a84c;
+transform:translateY(-3px);
+box-shadow:0 8px 20px rgba(201,168,76,0.15);
+}
+.sharaf-embed-card:hover::before{
+transform:scaleY(1);
+}
+.sharaf-embed-card .se-card-icon{
+width:42px;height:42px;
+background:linear-gradient(135deg,#c9a84c,#e8d48b);
+border-radius:10px;
+display:flex;align-items:center;justify-content:center;
+font-size:1.3rem;color:#1a0a2e;
+margin-bottom:8px;
+}
+.sharaf-embed-card .se-card-title{
+color:#e8d48b;
+font-size:0.88rem;
+font-weight:700;
+margin-bottom:4px;
+line-height:1.3;
+}
+.sharaf-embed-card .se-card-desc{
+color:#aaa;
+font-size:0.72rem;
+line-height:1.5;
+margin-bottom:8px;
+}
+.sharaf-embed-card .se-card-actions{
+display:flex;
+gap:6px;
+flex-wrap:wrap;
+}
+.sharaf-embed-card .se-btn{
+padding:5px 10px;
+border-radius:15px;
+font-size:0.7rem;
+font-weight:600;
+cursor:pointer;
+border:none;
+transition:all 0.2s;
+font-family:inherit;
+display:inline-flex;
+align-items:center;
+gap:4px;
+}
+.sharaf-embed-card .se-btn.preview{
+background:linear-gradient(135deg,#c9a84c,#e8d48b);
+color:#1a0a2e;
+}
+.sharaf-embed-card .se-btn.preview:hover{
+transform:translateY(-1px);
+box-shadow:0 3px 10px rgba(201,168,76,0.4);
+}
+.sharaf-embed-card .se-btn.edit{
+background:rgba(255,255,255,0.08);
+color:#c9a84c;
+border:1px solid rgba(201,168,76,0.3);
+}
+.sharaf-embed-card .se-btn.edit:hover{
+background:rgba(201,168,76,0.15);
+}
+.sharaf-embed-card .se-btn.delete{
+background:rgba(231,76,60,0.15);
+color:#e74c3c;
+border:1px solid rgba(231,76,60,0.3);
+}
+.sharaf-embed-card .se-btn.delete:hover{
+background:rgba(231,76,60,0.25);
+}
+.sharaf-embed-card .se-badge{
+position:absolute;
+top:8px;right:8px;
+background:rgba(46,204,113,0.2);
+color:#2ecc71;
+padding:2px 8px;
+border-radius:8px;
+font-size:0.62rem;
+font-weight:700;
+}
+.sharaf-embed-card.empty{
+border-style:dashed;
+background:transparent;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+min-height:140px;
+color:#888;
+}
+.sharaf-embed-card.empty:hover{
+border-color:#c9a84c;
+color:#c9a84c;
+background:rgba(201,168,76,0.05);
+}
+.sharaf-embed-card.empty .se-plus{
+font-size:2rem;
+margin-bottom:5px;
+}
+/* ====== TOMBOL TAMBAH FILE ====== */
+.sharaf-add-file-btn{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:6px;
+width:100%;
+padding:10px;
+margin-top:8px;
+background:transparent;
+border:1.5px dashed rgba(201,168,76,0.3);
+border-radius:10px;
+color:#c9a84c;
+cursor:pointer;
+font-size:0.82rem;
+font-family:inherit;
+transition:all 0.3s;
+}
+.sharaf-add-file-btn:hover{
+border-color:#c9a84c;
+background:rgba(201,168,76,0.08);
+}
+/* ====== PDF PREVIEW OVERLAY SHARAF ====== */
+.se-pdf-overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.95);
+z-index:99999;
+display:none;
+flex-direction:column;
+}
+.se-pdf-overlay.active{
+display:flex;
+animation:seFadeIn 0.3s ease;
+}
+@keyframes seFadeIn{
+from{opacity:0}
+to{opacity:1}
+}
+.se-pdf-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px 20px;
+background:linear-gradient(135deg,#1a0a2e,#2d1b4e);
+border-bottom:2px solid #c9a84c;
+flex-wrap:wrap;
+gap:10px;
+flex-shrink:0;
+}
+.se-pdf-title{
+color:#e8d48b;
+font-size:1.1rem;
+font-weight:600;
+display:flex;
+align-items:center;
+gap:10px;
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
+max-width:60%;
+}
+.se-pdf-title::before{
+content:'🔤';
+font-size:1.3rem;
+}
+.se-pdf-actions{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+}
+.se-pdf-btn{
+background:linear-gradient(135deg,#c9a84c,#e8d48b);
+color:#1a0a2e;
+border:none;
+padding:8px 16px;
+border-radius:20px;
+font-size:0.85rem;
+font-weight:600;
+cursor:pointer;
+transition:all 0.3s;
+display:inline-flex;
+align-items:center;
+gap:6px;
+font-family:inherit;
+}
+.se-pdf-btn:hover{
+transform:translateY(-2px);
+box-shadow:0 5px 15px rgba(201,168,76,0.4);
+}
+.se-pdf-btn.danger{
+background:linear-gradient(135deg,#c0392b,#e74c3c);
+color:#fff;
+}
+.se-pdf-iframe-wrap{
+position:relative;
+flex:1;
+background:#1a0a2e;
+overflow:hidden;
+min-height:0;
+}
+.se-pdf-iframe-wrap iframe{
+width:100%;
+height:100%;
+border:none;
+background:#fff;
+}
+/* ====== OVERLAY PENUTUP TOOLBAR DOWNLOAD/PRINT ====== */
+.se-toolbar-blocker{
+position:absolute;
+top:0;
+left:0;
+right:0;
+height:55px;
+background:linear-gradient(to bottom,
+rgba(26,10,46,0.98) 0%,
+rgba(26,10,46,0.92) 75%,
+rgba(26,10,46,0) 100%);
+z-index:25;
+pointer-events:auto;
+cursor:not-allowed;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+.se-toolbar-blocker::before{
+content:'🔒 Download & Print Dinonaktifkan';
+color:#c9a84c;
+font-size:0.78rem;
+font-weight:700;
+letter-spacing:1px;
+text-shadow:0 2px 6px rgba(0,0,0,0.9);
+pointer-events:none;
+background:rgba(26,10,46,0.7);
+padding:4px 14px;
+border-radius:12px;
+border:1px solid rgba(201,168,76,0.3);
+}
+.se-toolbar-blocker::after{
+content:'';
+position:absolute;
+bottom:0;left:0;right:0;
+height:1px;
+background:linear-gradient(90deg,transparent,#c9a84c,transparent);
+}
+/* ====== LOADING STATE ====== */
+.se-pdf-loading{
+position:absolute;
+top:50%;left:50%;
+transform:translate(-50%,-50%);
+color:#c9a84c;
+font-size:1rem;
+text-align:center;
+z-index:10;
+background:rgba(26,10,46,0.95);
+padding:30px;
+border-radius:15px;
+min-width:280px;
+border:1px solid rgba(201,168,76,0.3);
+}
+.se-pdf-loading::before{
+content:'⏳';
+display:block;
+font-size:3rem;
+margin-bottom:10px;
+animation:seSpin 2s linear infinite;
+}
+@keyframes seSpin{
+from{transform:rotate(0deg)}
+to{transform:rotate(360deg)}
+}
+/* ====== RESPONSIVE ====== */
+@media (max-width:900px){
+.sharaf-embed-grid{
+grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+gap:8px;
+}
+.sharaf-embed-card{
+padding:10px;
+}
+.sharaf-embed-card .se-card-icon{
+width:36px;height:36px;
+font-size:1.1rem;
+}
+.sharaf-embed-card .se-card-title{
+font-size:0.8rem;
+}
+.sharaf-embed-card .se-card-desc{
+font-size:0.68rem;
+}
+.se-pdf-title{
+font-size:0.95rem;
+max-width:55%;
+}
+.se-pdf-btn{
+padding:7px 12px;
+font-size:0.78rem;
+}
+}
+@media (max-width:400px){
+.sharaf-embed-grid{
+grid-template-columns:1fr;
+}
+}
+</style>
+
+<!-- Container Overlay PDF Preview Sharaf -->
+<div class="se-pdf-overlay" id="sePdfOverlay">
+<div class="se-pdf-header">
+<div class="se-pdf-title" id="sePdfTitle">Memuat Dokumen...</div>
+<div class="se-pdf-actions">
+<button class="se-pdf-btn danger" onclick="seClosePdf()">✕ Tutup</button>
+</div>
+</div>
+<div class="se-pdf-iframe-wrap">
+<div class="se-pdf-loading" id="sePdfLoading">Memuat dokumen...</div>
+<iframe id="sePdfIframe" src="" title="PDF Preview Sharaf"></iframe>
+<div class="se-toolbar-blocker"></div>
+</div>
+</div>
+
+<script>
+(function(){
+'use strict';
+console.log('🟢 PATCH EMBED PDF SHARAF: mulai dimuat...');
+
+/* ============================================================
+✅ DATA EMBED PDF SHARAF (6 SLOT DEFAULT)
+Pengguna bisa menambah slot lewat tombol "+ Tambah File PDF"
+Format URL: gunakan URL Google Drive / hosting dengan akhiran /preview
+Contoh: https://drive.google.com/file/d/FILE_ID/preview
+============================================================ */
+var sharafEmbeds = [
+{
+id: 'se-1',
+judul: 'Al-Amtsilah At-Tashrifiyyah',
+deskripsi: 'Kitab dasar ilmu sharaf (morfologi Arab)',
+icon: '📗',
+url: 'https://drive.google.com/file/d/CONTOH_ID_1/preview',
+tersedia: true
+},
+{
+id: 'se-2',
+judul: 'Kailani (Al-Kailani)',
+deskripsi: 'Kitab sharaf tingkat menengah',
+icon: '📗',
+url: 'https://drive.google.com/file/d/CONTOH_ID_2/preview',
+tersedia: true
+},
+{
+id: 'se-3',
+judul: 'Shorof Al-Izzi',
+deskripsi: 'Kitab sharaf klasik karya Imam Al-Izzi',
+icon: '📗',
+url: 'https://drive.google.com/file/d/CONTOH_ID_3/preview',
+tersedia: true
+},
+{
+id: 'se-4',
+judul: 'Nadhom Al-Maqshur wal Mamdud',
+deskripsi: 'Nadhom tentang isim maqshur dan mamdud',
+icon: '📗',
+url: 'https://drive.google.com/file/d/CONTOH_ID_4/preview',
+tersedia: true
+},
+{
+id: 'se-5',
+judul: 'Amsilati (Kitab Sharaf Praktis)',
+deskripsi: 'Kitab sharaf praktis metode Amsilati',
+icon: '📗',
+url: 'https://drive.google.com/file/d/CONTOH_ID_5/preview',
+tersedia: true
+},
+{
+id: 'se-6',
+judul: 'Tashrif Al-Izzi',
+deskripsi: 'Tashrif lengkap dari kitab Al-Izzi',
+icon: '📗',
+url: 'https://drive.google.com/file/d/CONTOH_ID_6/preview',
+tersedia: true
+}
+];
+
+/* ============================================================
+✅ RENDER UI EMBED SHARAF
+============================================================ */
+function renderSharafEmbeds(){
+var container = document.getElementById('kitabSharaf');
+if(!container) return;
+
+// Hapus wrapper lama jika ada
+var oldWrapper = document.getElementById('sharafEmbedWrapper');
+if(oldWrapper) oldWrapper.remove();
+
+// Buat wrapper baru
+var wrapper = document.createElement('div');
+wrapper.id = 'sharafEmbedWrapper';
+wrapper.className = 'sharaf-embed-wrapper';
+
+var html = '<h5>' +
+'<span class="se-icon">🔤</span>' +
+'<span>Preview PDF Kitab Sharaf</span>' +
+'<span class="se-count">' + sharafEmbeds.length + ' File</span>' +
+'</h5>';
+
+html += '<div class="sharaf-embed-grid">';
+
+// Render kartu untuk setiap file
+for(var i = 0; i < sharafEmbeds.length; i++){
+var e = sharafEmbeds[i];
+html += '<div class="sharaf-embed-card" data-id="' + e.id + '">';
+if(e.tersedia){
+html += '<span class="se-badge">✅ Tersedia</span>';
+}
+html += '<div class="se-card-icon">' + (e.icon || '📖') + '</div>';
+html += '<div class="se-card-title">' + e.judul + '</div>';
+html += '<div class="se-card-desc">' + (e.deskripsi || '') + '</div>';
+html += '<div class="se-card-actions">';
+if(e.tersedia){
+html += '<button class="se-btn preview" onclick="sePreviewPdf(\'' + e.id + '\')">👁️ Preview</button>';
+}
+html += '<button class="se-btn edit" onclick="seEditPdf(\'' + e.id + '\')">✏️ Edit</button>';
+html += '<button class="se-btn delete" onclick="seDeletePdf(\'' + e.id + '\')">🗑️</button>';
+html += '</div>';
+html += '</div>';
+}
+
+html += '</div>';
+
+// Tombol tambah file
+html += '<button class="sharaf-add-file-btn" onclick="seAddNewPdf()">+ Tambah File PDF Baru</button>';
+
+wrapper.innerHTML = html;
+container.appendChild(wrapper);
+}
+
+/* ============================================================
+✅ PREVIEW PDF (PAKAI /preview)
+============================================================ */
+window.sePreviewPdf = function(id){
+var embed = null;
+for(var i = 0; i < sharafEmbeds.length; i++){
+if(sharafEmbeds[i].id === id){
+embed = sharafEmbeds[i];
+break;
+}
+}
+if(!embed || !embed.tersedia){
+if(typeof showToast === 'function') showToast('⚠️ File tidak tersedia');
+return;
+}
+
+var overlay = document.getElementById('sePdfOverlay');
+var title = document.getElementById('sePdfTitle');
+var iframe = document.getElementById('sePdfIframe');
+var loading = document.getElementById('sePdfLoading');
+
+if(!overlay || !iframe) return;
+
+title.textContent = embed.judul;
+loading.style.display = 'block';
+loading.innerHTML = '<div style="font-size:48px;margin-bottom:15px;">⏳</div>' +
+'<p style="font-size:15px;font-weight:bold;">Memuat: ' + embed.judul + '</p>' +
+'<p style="font-size:12px;color:#888;margin-top:8px;">Mode Preview (Download & Print dinonaktifkan)</p>';
+
+// ✅ URL dengan akhiran /preview
+var previewUrl = embed.url;
+// Pastikan URL berakhiran /preview
+if(previewUrl.indexOf('/preview') === -1){
+// Jika URL Google Drive format lama, konversi
+if(previewUrl.indexOf('drive.google.com/file/d/') !== -1){
+var fileId = previewUrl.match(/\/d\/([^\/]+)/);
+if(fileId && fileId[1]){
+previewUrl = 'https://drive.google.com/file/d/' + fileId[1] + '/preview';
+}
+}
+}
+
+// ✅ FUNGSI UNTUK MENYEMBUNYIKAN LOADING
+function hideLoading(){
+if(loading && loading.style.display !== 'none'){
+loading.style.display = 'none';
+console.log('✅ Loading spinner disembunyikan untuk:', embed.judul);
+}
+}
+
+// ✅ EVENT LISTENER: SEMBUNYIKAN LOADING SAAT IFRAME LOAD
+iframe.onload = null;
+iframe.onerror = null;
+
+iframe.onload = function(){
+console.log('✅ Iframe loaded:', previewUrl);
+setTimeout(hideLoading, 300);
+};
+
+iframe.onerror = function(){
+console.warn('⚠️ Iframe error, menyembunyikan loading...');
+hideLoading();
+};
+
+iframe.src = previewUrl;
+overlay.classList.add('active');
+document.body.style.overflow = 'hidden';
+
+// ✅ FALLBACK TIMEOUT 1: SEMBUNYIKAN LOADING SETELAH 2.5 DETIK
+setTimeout(function(){
+if(loading && loading.style.display !== 'none'){
+console.log('⏱️ Fallback timeout 1: paksa sembunyikan loading setelah 2.5 detik');
+hideLoading();
+}
+}, 2500);
+
+// ✅ FALLBACK TIMEOUT 2: CEK APAKAH PDF GAGAL LOAD
+setTimeout(function(){
+try{
+var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+if(iframeDoc && iframeDoc.body && iframeDoc.body.innerHTML === ''){
+loading.style.display = 'block';
+loading.innerHTML = '<div style="font-size:48px;margin-bottom:15px;">⚠️</div>' +
+'<p style="font-size:15px;font-weight:bold;">PDF tidak dapat dimuat</p>' +
+'<p style="font-size:12px;color:#888;margin-top:8px;">Periksa URL atau koneksi internet</p>' +
+'<button onclick="seClosePdf()" style="margin-top:15px;padding:10px 20px;background:#c9a84c;color:#1a0a2e;border:none;border-radius:20px;font-weight:bold;cursor:pointer;">Tutup</button>';
+}
+}catch(e){
+// Cross-origin error = iframe berhasil load (normal untuk Google Drive)
+console.log('✅ PDF loaded (cross-origin, normal untuk Google Drive)');
+}
+}, 15000);
+};
+
+/* ============================================================
+✅ TUTUP PREVIEW
+============================================================ */
+window.seClosePdf = function(){
+var overlay = document.getElementById('sePdfOverlay');
+var iframe = document.getElementById('sePdfIframe');
+var loading = document.getElementById('sePdfLoading');
+
+if(overlay) overlay.classList.remove('active');
+if(iframe){
+iframe.onload = null;
+iframe.onerror = null;
+iframe.src = '';
+}
+// Reset loading ke state awal
+if(loading){
+loading.style.display = 'block';
+loading.innerHTML = 'Memuat dokumen...';
+}
+document.body.style.overflow = '';
+};
+
+/* ============================================================
+✅ EDIT URL/JUDUL PDF
+============================================================ */
+window.seEditPdf = function(id){
+var embed = null;
+var idx = -1;
+for(var i = 0; i < sharafEmbeds.length; i++){
+if(sharafEmbeds[i].id === id){
+embed = sharafEmbeds[i];
+idx = i;
+break;
+}
+}
+if(!embed) return;
+
+var newJudul = prompt('Judul Kitab Sharaf:', embed.judul);
+if(newJudul === null) return;
+var newUrl = prompt('URL Preview PDF (akhiri dengan /preview):\nContoh: https://drive.google.com/file/d/FILE_ID/preview', embed.url);
+if(newUrl === null) return;
+var newDesc = prompt('Deskripsi singkat:', embed.deskripsi);
+if(newDesc === null) return;
+var newIcon = prompt('Icon emoji (📗 📕 📙 📘 📖):', embed.icon);
+if(newIcon === null) return;
+
+sharafEmbeds[idx].judul = newJudul || embed.judul;
+sharafEmbeds[idx].url = newUrl || embed.url;
+sharafEmbeds[idx].deskripsi = newDesc || embed.deskripsi;
+sharafEmbeds[idx].icon = newIcon || embed.icon;
+sharafEmbeds[idx].tersedia = (sharafEmbeds[idx].url && sharafEmbeds[idx].url.trim() !== '');
+
+renderSharafEmbeds();
+if(typeof showToast === 'function') showToast('✅ File "' + sharafEmbeds[idx].judul + '" berhasil diperbarui');
+};
+
+/* ============================================================
+✅ TAMBAH FILE PDF BARU
+============================================================ */
+window.seAddNewPdf = function(){
+var judul = prompt('Judul Kitab Sharaf Baru:');
+if(!judul) return;
+var url = prompt('URL Preview PDF (akhiri dengan /preview):\nContoh: https://drive.google.com/file/d/FILE_ID/preview');
+if(!url) url = '';
+var desc = prompt('Deskripsi singkat:') || '';
+var icon = prompt('Icon emoji (📗 📕 📙 📘 📖):') || '📗';
+
+var newId = 'se-' + Date.now();
+sharafEmbeds.push({
+id: newId,
+judul: judul,
+deskripsi: desc,
+icon: icon,
+url: url,
+tersedia: (url && url.trim() !== '')
+});
+
+renderSharafEmbeds();
+if(typeof showToast === 'function') showToast('✅ File "' + judul + '" berhasil ditambahkan');
+};
+
+/* ============================================================
+✅ HAPUS FILE PDF
+============================================================ */
+window.seDeletePdf = function(id){
+var idx = -1;
+var nama = '';
+for(var i = 0; i < sharafEmbeds.length; i++){
+if(sharafEmbeds[i].id === id){
+idx = i;
+nama = sharafEmbeds[i].judul;
+break;
+}
+}
+if(idx === -1) return;
+
+if(!confirm('Hapus file "' + nama + '"?')) return;
+
+sharafEmbeds.splice(idx, 1);
+renderSharafEmbeds();
+if(typeof showToast === 'function') showToast('🗑️ File "' + nama + '" dihapus');
+};
+
+/* ============================================================
+✅ BLOKIR DOWNLOAD & PRINT DI PREVIEW SHARAF
+============================================================ */
+function blokirDownloadPrintSharaf(e){
+var overlay = document.getElementById('sePdfOverlay');
+if(!overlay || !overlay.classList.contains('active')) return;
+
+// Blokir Ctrl+S (Save/Download)
+if((e.ctrlKey || e.metaKey) && e.key === 's'){
+e.preventDefault();
+if(typeof showToast === 'function') showToast('🔒 Download dinonaktifkan di preview');
+return false;
+}
+// Blokir Ctrl+P (Print)
+if((e.ctrlKey || e.metaKey) && e.key === 'p'){
+e.preventDefault();
+if(typeof showToast === 'function') showToast('🔒 Print dinonaktifkan di preview');
+return false;
+}
+}
+
+document.addEventListener('keydown', blokirDownloadPrintSharaf);
+
+// Blokir klik kanan di area preview Sharaf
+document.addEventListener('contextmenu', function(e){
+var overlay = document.getElementById('sePdfOverlay');
+if(overlay && overlay.classList.contains('active')){
+var iframeWrap = document.querySelector('.se-pdf-iframe-wrap');
+if(iframeWrap && iframeWrap.contains(e.target)){
+e.preventDefault();
+if(typeof showToast === 'function') showToast('🔒 Klik kanan dinonaktifkan');
+return false;
+}
+}
+});
+
+/* ============================================================
+✅ INISIALISASI
+============================================================ */
+function initEmbedSharaf(){
+// Render setelah DOM siap
+if(document.readyState === 'loading'){
+document.addEventListener('DOMContentLoaded', function(){
+setTimeout(renderSharafEmbeds, 500);
+});
+} else {
+setTimeout(renderSharafEmbeds, 500);
+}
+
+// Re-render saat halaman Kitab Kuning dibuka
+var _origShowPage = window.showPage;
+window.showPage = function(pageId){
+if(_origShowPage) _origShowPage(pageId);
+if(pageId === 'kitab-kuning'){
+setTimeout(renderSharafEmbeds, 300);
+}
+};
+}
+
+initEmbedSharaf();
+
+console.log('✅ PATCH EMBED PDF SHARAF: berhasil dimuat');
+console.log('💡 6 slot PDF tersedia di kategori Sharaf');
+console.log('💡 Preview pakai URL /preview, download & print ditutup');
+})();
+</script>
+<!-- ============================================
+✅ PATCH: EMBED PDF AQIDAH & TAUHID (6 SLOT + /preview)
+- Preview pakai URL /preview
+- Tombol download & print ditutup
+- 6 slot default, bisa ditambah
+- Lokasi: Halaman Kitab Kuning > Kategori Aqidah & Tauhid
+============================================ -->
+<style>
+/* ====== WRAPPER EMBED AQIDAH ====== */
+.aqidah-embed-wrapper{
+margin-top:15px;
+padding:15px;
+background:linear-gradient(135deg,rgba(201,168,76,0.08),rgba(45,27,78,0.4));
+border:1px solid rgba(201,168,76,0.3);
+border-radius:12px;
+border-left:4px solid #c9a84c;
+}
+.aqidah-embed-wrapper h5{
+color:#e8d48b;
+font-size:0.95rem;
+margin:0 0 12px 0;
+display:flex;
+align-items:center;
+gap:8px;
+padding-bottom:10px;
+border-bottom:1px dashed rgba(201,168,76,0.3);
+}
+.aqidah-embed-wrapper h5 .at-icon{
+width:28px;height:28px;
+background:linear-gradient(135deg,#c9a84c,#e8d48b);
+border-radius:8px;
+display:flex;align-items:center;justify-content:center;
+font-size:0.95rem;color:#1a0a2e;
+}
+.aqidah-embed-wrapper h5 .at-count{
+margin-left:auto;
+background:rgba(201,168,76,0.2);
+color:#c9a84c;
+padding:2px 10px;
+border-radius:12px;
+font-size:0.72rem;
+font-weight:700;
+}
+/* ====== GRID KARTU EMBED ====== */
+.aqidah-embed-grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+gap:10px;
+margin-bottom:10px;
+}
+.aqidah-embed-card{
+background:rgba(255,255,255,0.04);
+border:1px solid rgba(201,168,76,0.2);
+border-radius:10px;
+padding:12px;
+transition:all 0.3s;
+position:relative;
+cursor:pointer;
+overflow:hidden;
+}
+.aqidah-embed-card::before{
+content:'';
+position:absolute;
+top:0;left:0;
+width:3px;height:100%;
+background:linear-gradient(to bottom,#c9a84c,#e8d48b);
+transform:scaleY(0);
+transition:transform 0.3s;
+transform-origin:top;
+}
+.aqidah-embed-card:hover{
+background:rgba(201,168,76,0.08);
+border-color:#c9a84c;
+transform:translateY(-3px);
+box-shadow:0 8px 20px rgba(201,168,76,0.15);
+}
+.aqidah-embed-card:hover::before{
+transform:scaleY(1);
+}
+.aqidah-embed-card .at-card-icon{
+width:42px;height:42px;
+background:linear-gradient(135deg,#c9a84c,#e8d48b);
+border-radius:10px;
+display:flex;align-items:center;justify-content:center;
+font-size:1.3rem;color:#1a0a2e;
+margin-bottom:8px;
+}
+.aqidah-embed-card .at-card-title{
+color:#e8d48b;
+font-size:0.88rem;
+font-weight:700;
+margin-bottom:4px;
+line-height:1.3;
+}
+.aqidah-embed-card .at-card-desc{
+color:#aaa;
+font-size:0.72rem;
+line-height:1.5;
+margin-bottom:8px;
+}
+.aqidah-embed-card .at-card-actions{
+display:flex;
+gap:6px;
+flex-wrap:wrap;
+}
+.aqidah-embed-card .at-btn{
+padding:5px 10px;
+border-radius:15px;
+font-size:0.7rem;
+font-weight:600;
+cursor:pointer;
+border:none;
+transition:all 0.2s;
+font-family:inherit;
+display:inline-flex;
+align-items:center;
+gap:4px;
+}
+.aqidah-embed-card .at-btn.preview{
+background:linear-gradient(135deg,#c9a84c,#e8d48b);
+color:#1a0a2e;
+}
+.aqidah-embed-card .at-btn.preview:hover{
+transform:translateY(-1px);
+box-shadow:0 3px 10px rgba(201,168,76,0.4);
+}
+.aqidah-embed-card .at-btn.edit{
+background:rgba(255,255,255,0.08);
+color:#c9a84c;
+border:1px solid rgba(201,168,76,0.3);
+}
+.aqidah-embed-card .at-btn.edit:hover{
+background:rgba(201,168,76,0.15);
+}
+.aqidah-embed-card .at-btn.delete{
+background:rgba(231,76,60,0.15);
+color:#e74c3c;
+border:1px solid rgba(231,76,60,0.3);
+}
+.aqidah-embed-card .at-btn.delete:hover{
+background:rgba(231,76,60,0.25);
+}
+.aqidah-embed-card .at-badge{
+position:absolute;
+top:8px;right:8px;
+background:rgba(46,204,113,0.2);
+color:#2ecc71;
+padding:2px 8px;
+border-radius:8px;
+font-size:0.62rem;
+font-weight:700;
+}
+.aqidah-embed-card.empty{
+border-style:dashed;
+background:transparent;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+min-height:140px;
+color:#888;
+}
+.aqidah-embed-card.empty:hover{
+border-color:#c9a84c;
+color:#c9a84c;
+background:rgba(201,168,76,0.05);
+}
+.aqidah-embed-card.empty .at-plus{
+font-size:2rem;
+margin-bottom:5px;
+}
+/* ====== TOMBOL TAMBAH FILE ====== */
+.aqidah-add-file-btn{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:6px;
+width:100%;
+padding:10px;
+margin-top:8px;
+background:transparent;
+border:1.5px dashed rgba(201,168,76,0.3);
+border-radius:10px;
+color:#c9a84c;
+cursor:pointer;
+font-size:0.82rem;
+font-family:inherit;
+transition:all 0.3s;
+}
+.aqidah-add-file-btn:hover{
+border-color:#c9a84c;
+background:rgba(201,168,76,0.08);
+}
+/* ====== PDF PREVIEW OVERLAY AQIDAH ====== */
+.at-pdf-overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.95);
+z-index:99999;
+display:none;
+flex-direction:column;
+}
+.at-pdf-overlay.active{
+display:flex;
+animation:atFadeIn 0.3s ease;
+}
+@keyframes atFadeIn{
+from{opacity:0}
+to{opacity:1}
+}
+.at-pdf-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px 20px;
+background:linear-gradient(135deg,#1a0a2e,#2d1b4e);
+border-bottom:2px solid #c9a84c;
+flex-wrap:wrap;
+gap:10px;
+flex-shrink:0;
+}
+.at-pdf-title{
+color:#e8d48b;
+font-size:1.1rem;
+font-weight:600;
+display:flex;
+align-items:center;
+gap:10px;
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
+max-width:60%;
+}
+.at-pdf-title::before{
+content:'🕌';
+font-size:1.3rem;
+}
+.at-pdf-actions{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+}
+.at-pdf-btn{
+background:linear-gradient(135deg,#c9a84c,#e8d48b);
+color:#1a0a2e;
+border:none;
+padding:8px 16px;
+border-radius:20px;
+font-size:0.85rem;
+font-weight:600;
+cursor:pointer;
+transition:all 0.3s;
+display:inline-flex;
+align-items:center;
+gap:6px;
+font-family:inherit;
+}
+.at-pdf-btn:hover{
+transform:translateY(-2px);
+box-shadow:0 5px 15px rgba(201,168,76,0.4);
+}
+.at-pdf-btn.danger{
+background:linear-gradient(135deg,#c0392b,#e74c3c);
+color:#fff;
+}
+.at-pdf-iframe-wrap{
+position:relative;
+flex:1;
+background:#1a0a2e;
+overflow:hidden;
+min-height:0;
+}
+.at-pdf-iframe-wrap iframe{
+width:100%;
+height:100%;
+border:none;
+background:#fff;
+}
+/* ====== OVERLAY PENUTUP TOOLBAR DOWNLOAD/PRINT ====== */
+.at-toolbar-blocker{
+position:absolute;
+top:0;
+left:0;
+right:0;
+height:55px;
+background:linear-gradient(to bottom,
+rgba(26,10,46,0.98) 0%,
+rgba(26,10,46,0.92) 75%,
+rgba(26,10,46,0) 100%);
+z-index:25;
+pointer-events:auto;
+cursor:not-allowed;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+.at-toolbar-blocker::before{
+content:'🔒 Download & Print Dinonaktifkan';
+color:#c9a84c;
+font-size:0.78rem;
+font-weight:700;
+letter-spacing:1px;
+text-shadow:0 2px 6px rgba(0,0,0,0.9);
+pointer-events:none;
+background:rgba(26,10,46,0.7);
+padding:4px 14px;
+border-radius:12px;
+border:1px solid rgba(201,168,76,0.3);
+}
+.at-toolbar-blocker::after{
+content:'';
+position:absolute;
+bottom:0;left:0;right:0;
+height:1px;
+background:linear-gradient(90deg,transparent,#c9a84c,transparent);
+}
+/* ====== LOADING STATE ====== */
+.at-pdf-loading{
+position:absolute;
+top:50%;left:50%;
+transform:translate(-50%,-50%);
+color:#c9a84c;
+font-size:1rem;
+text-align:center;
+z-index:10;
+background:rgba(26,10,46,0.95);
+padding:30px;
+border-radius:15px;
+min-width:280px;
+border:1px solid rgba(201,168,76,0.3);
+}
+.at-pdf-loading::before{
+content:'⏳';
+display:block;
+font-size:3rem;
+margin-bottom:10px;
+animation:atSpin 2s linear infinite;
+}
+@keyframes atSpin{
+from{transform:rotate(0deg)}
+to{transform:rotate(360deg)}
+}
+/* ====== RESPONSIVE ====== */
+@media (max-width:900px){
+.aqidah-embed-grid{
+grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+gap:8px;
+}
+.aqidah-embed-card{
+padding:10px;
+}
+.aqidah-embed-card .at-card-icon{
+width:36px;height:36px;
+font-size:1.1rem;
+}
+.aqidah-embed-card .at-card-title{
+font-size:0.8rem;
+}
+.aqidah-embed-card .at-card-desc{
+font-size:0.68rem;
+}
+.at-pdf-title{
+font-size:0.95rem;
+max-width:55%;
+}
+.at-pdf-btn{
+padding:7px 12px;
+font-size:0.78rem;
+}
+}
+@media (max-width:400px){
+.aqidah-embed-grid{
+grid-template-columns:1fr;
+}
+}
+</style>
+
+<!-- Container Overlay PDF Preview Aqidah -->
+<div class="at-pdf-overlay" id="atPdfOverlay">
+<div class="at-pdf-header">
+<div class="at-pdf-title" id="atPdfTitle">Memuat Dokumen...</div>
+<div class="at-pdf-actions">
+<button class="at-pdf-btn danger" onclick="atClosePdf()">✕ Tutup</button>
+</div>
+</div>
+<div class="at-pdf-iframe-wrap">
+<div class="at-pdf-loading" id="atPdfLoading">Memuat dokumen...</div>
+<iframe id="atPdfIframe" src="" title="PDF Preview Aqidah"></iframe>
+<div class="at-toolbar-blocker"></div>
+</div>
+</div>
+
+<script>
+(function(){
+'use strict';
+console.log('🟢 PATCH EMBED PDF AQIDAH & TAUHID: mulai dimuat...');
+
+/* ============================================================
+✅ DATA EMBED PDF AQIDAH & TAUHID (6 SLOT DEFAULT)
+Pengguna bisa menambah slot lewat tombol "+ Tambah File PDF"
+Format URL: gunakan URL Google Drive / hosting dengan akhiran /preview
+Contoh: https://drive.google.com/file/d/FILE_ID/preview
+============================================================ */
+var aqidahEmbeds = [
+{
+id: 'at-1',
+judul: 'Aqidatul Awam',
+deskripsi: 'Kitab dasar aqidah Asy\'ariyah berbentuk nadhom untuk orang awam',
+icon: '🕌',
+url: 'https://drive.google.com/file/d/CONTOH_ID_1/preview',
+tersedia: true
+},
+{
+id: 'at-2',
+judul: 'Ummul Barâhîn',
+deskripsi: 'Kitab aqidah Asy\'ariyah tingkat menengah karya Imam As-Sanusi',
+icon: '🕌',
+url: 'https://drive.google.com/file/d/CONTOH_ID_2/preview',
+tersedia: true
+},
+{
+id: 'at-3',
+judul: 'Al-\'Aqidah Ath-Thahawiyah',
+deskripsi: 'Kitab aqidah Ahlussunnah karya Imam Ath-Thahawi',
+icon: '🕌',
+url: 'https://drive.google.com/file/d/CONTOH_ID_3/preview',
+tersedia: true
+},
+{
+id: 'at-4',
+judul: 'Al-Fiqh Al-Akbar',
+deskripsi: 'Kitab aqidah tertua karya Imam Abu Hanifah',
+icon: '🕌',
+url: 'https://drive.google.com/file/d/CONTOH_ID_4/preview',
+tersedia: true
+},
+{
+id: 'at-5',
+judul: 'Kifayatul Awam',
+deskripsi: 'Kitab aqidah Asy\'ariyah tingkat lanjutan',
+icon: '🕌',
+url: 'https://drive.google.com/file/d/CONTOH_ID_5/preview',
+tersedia: true
+},
+{
+id: 'at-6',
+judul: 'Al-\'Aqidah An-Nasafiyah',
+deskripsi: 'Kitab aqidah Asy\'ariyah karya Imam An-Nasafi',
+icon: '🕌',
+url: 'https://drive.google.com/file/d/CONTOH_ID_6/preview',
+tersedia: true
+}
+];
+
+/* ============================================================
+✅ RENDER UI EMBED AQIDAH
+============================================================ */
+function renderAqidahEmbeds(){
+var container = document.getElementById('kitabAqidahTauhid');
+if(!container) return;
+
+// Hapus wrapper lama jika ada
+var oldWrapper = document.getElementById('aqidahEmbedWrapper');
+if(oldWrapper) oldWrapper.remove();
+
+// Buat wrapper baru
+var wrapper = document.createElement('div');
+wrapper.id = 'aqidahEmbedWrapper';
+wrapper.className = 'aqidah-embed-wrapper';
+
+var html = '<h5>' +
+'<span class="at-icon">🕌</span>' +
+'<span>Preview PDF Kitab Aqidah & Tauhid</span>' +
+'<span class="at-count">' + aqidahEmbeds.length + ' File</span>' +
+'</h5>';
+
+html += '<div class="aqidah-embed-grid">';
+
+// Render kartu untuk setiap file
+for(var i = 0; i < aqidahEmbeds.length; i++){
+var e = aqidahEmbeds[i];
+html += '<div class="aqidah-embed-card" data-id="' + e.id + '">';
+if(e.tersedia){
+html += '<span class="at-badge">✅ Tersedia</span>';
+}
+html += '<div class="at-card-icon">' + (e.icon || '📖') + '</div>';
+html += '<div class="at-card-title">' + e.judul + '</div>';
+html += '<div class="at-card-desc">' + (e.deskripsi || '') + '</div>';
+html += '<div class="at-card-actions">';
+if(e.tersedia){
+html += '<button class="at-btn preview" onclick="atPreviewPdf(\'' + e.id + '\')">👁️ Preview</button>';
+}
+html += '<button class="at-btn edit" onclick="atEditPdf(\'' + e.id + '\')">✏️ Edit</button>';
+html += '<button class="at-btn delete" onclick="atDeletePdf(\'' + e.id + '\')">🗑️</button>';
+html += '</div>';
+html += '</div>';
+}
+
+html += '</div>';
+
+// Tombol tambah file
+html += '<button class="aqidah-add-file-btn" onclick="atAddNewPdf()">+ Tambah File PDF Baru</button>';
+
+wrapper.innerHTML = html;
+container.appendChild(wrapper);
+}
+
+/* ============================================================
+✅ PREVIEW PDF (PAKAI /preview)
+============================================================ */
+window.atPreviewPdf = function(id){
+var embed = null;
+for(var i = 0; i < aqidahEmbeds.length; i++){
+if(aqidahEmbeds[i].id === id){
+embed = aqidahEmbeds[i];
+break;
+}
+}
+if(!embed || !embed.tersedia){
+if(typeof showToast === 'function') showToast('⚠️ File tidak tersedia');
+return;
+}
+
+var overlay = document.getElementById('atPdfOverlay');
+var title = document.getElementById('atPdfTitle');
+var iframe = document.getElementById('atPdfIframe');
+var loading = document.getElementById('atPdfLoading');
+
+if(!overlay || !iframe) return;
+
+title.textContent = embed.judul;
+loading.style.display = 'block';
+loading.innerHTML = '<div style="font-size:48px;margin-bottom:15px;">⏳</div>' +
+'<p style="font-size:15px;font-weight:bold;">Memuat: ' + embed.judul + '</p>' +
+'<p style="font-size:12px;color:#888;margin-top:8px;">Mode Preview (Download & Print dinonaktifkan)</p>';
+
+// ✅ URL dengan akhiran /preview
+var previewUrl = embed.url;
+// Pastikan URL berakhiran /preview
+if(previewUrl.indexOf('/preview') === -1){
+// Jika URL Google Drive format lama, konversi
+if(previewUrl.indexOf('drive.google.com/file/d/') !== -1){
+var fileId = previewUrl.match(/\/d\/([^\/]+)/);
+if(fileId && fileId[1]){
+previewUrl = 'https://drive.google.com/file/d/' + fileId[1] + '/preview';
+}
+}
+}
+
+// ✅ FUNGSI UNTUK MENYEMBUNYIKAN LOADING
+function hideLoading(){
+if(loading && loading.style.display !== 'none'){
+loading.style.display = 'none';
+console.log('✅ Loading spinner disembunyikan untuk:', embed.judul);
+}
+}
+
+// ✅ EVENT LISTENER: SEMBUNYIKAN LOADING SAAT IFRAME LOAD
+iframe.onload = null;
+iframe.onerror = null;
+
+iframe.onload = function(){
+console.log('✅ Iframe loaded:', previewUrl);
+setTimeout(hideLoading, 300);
+};
+
+iframe.onerror = function(){
+console.warn('⚠️ Iframe error, menyembunyikan loading...');
+hideLoading();
+};
+
+iframe.src = previewUrl;
+overlay.classList.add('active');
+document.body.style.overflow = 'hidden';
+
+// ✅ FALLBACK TIMEOUT 1: SEMBUNYIKAN LOADING SETELAH 2.5 DETIK
+setTimeout(function(){
+if(loading && loading.style.display !== 'none'){
+console.log('⏱️ Fallback timeout 1: paksa sembunyikan loading setelah 2.5 detik');
+hideLoading();
+}
+}, 2500);
+
+// ✅ FALLBACK TIMEOUT 2: CEK APAKAH PDF GAGAL LOAD
+setTimeout(function(){
+try{
+var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+if(iframeDoc && iframeDoc.body && iframeDoc.body.innerHTML === ''){
+loading.style.display = 'block';
+loading.innerHTML = '<div style="font-size:48px;margin-bottom:15px;">⚠️</div>' +
+'<p style="font-size:15px;font-weight:bold;">PDF tidak dapat dimuat</p>' +
+'<p style="font-size:12px;color:#888;margin-top:8px;">Periksa URL atau koneksi internet</p>' +
+'<button onclick="atClosePdf()" style="margin-top:15px;padding:10px 20px;background:#c9a84c;color:#1a0a2e;border:none;border-radius:20px;font-weight:bold;cursor:pointer;">Tutup</button>';
+}
+}catch(e){
+// Cross-origin error = iframe berhasil load (normal untuk Google Drive)
+console.log('✅ PDF loaded (cross-origin, normal untuk Google Drive)');
+}
+}, 15000);
+};
+
+/* ============================================================
+✅ TUTUP PREVIEW
+============================================================ */
+window.atClosePdf = function(){
+var overlay = document.getElementById('atPdfOverlay');
+var iframe = document.getElementById('atPdfIframe');
+var loading = document.getElementById('atPdfLoading');
+
+if(overlay) overlay.classList.remove('active');
+if(iframe){
+iframe.onload = null;
+iframe.onerror = null;
+iframe.src = '';
+}
+// Reset loading ke state awal
+if(loading){
+loading.style.display = 'block';
+loading.innerHTML = 'Memuat dokumen...';
+}
+document.body.style.overflow = '';
+};
+
+/* ============================================================
+✅ EDIT URL/JUDUL PDF
+============================================================ */
+window.atEditPdf = function(id){
+var embed = null;
+var idx = -1;
+for(var i = 0; i < aqidahEmbeds.length; i++){
+if(aqidahEmbeds[i].id === id){
+embed = aqidahEmbeds[i];
+idx = i;
+break;
+}
+}
+if(!embed) return;
+
+var newJudul = prompt('Judul Kitab Aqidah:', embed.judul);
+if(newJudul === null) return;
+var newUrl = prompt('URL Preview PDF (akhiri dengan /preview):\nContoh: https://drive.google.com/file/d/FILE_ID/preview', embed.url);
+if(newUrl === null) return;
+var newDesc = prompt('Deskripsi singkat:', embed.deskripsi);
+if(newDesc === null) return;
+var newIcon = prompt('Icon emoji (🕌 🕋 📗 📕 📙 📘 📖):', embed.icon);
+if(newIcon === null) return;
+
+aqidahEmbeds[idx].judul = newJudul || embed.judul;
+aqidahEmbeds[idx].url = newUrl || embed.url;
+aqidahEmbeds[idx].deskripsi = newDesc || embed.deskripsi;
+aqidahEmbeds[idx].icon = newIcon || embed.icon;
+aqidahEmbeds[idx].tersedia = (aqidahEmbeds[idx].url && aqidahEmbeds[idx].url.trim() !== '');
+
+renderAqidahEmbeds();
+if(typeof showToast === 'function') showToast('✅ File "' + aqidahEmbeds[idx].judul + '" berhasil diperbarui');
+};
+
+/* ============================================================
+✅ TAMBAH FILE PDF BARU
+============================================================ */
+window.atAddNewPdf = function(){
+var judul = prompt('Judul Kitab Aqidah Baru:');
+if(!judul) return;
+var url = prompt('URL Preview PDF (akhiri dengan /preview):\nContoh: https://drive.google.com/file/d/FILE_ID/preview');
+if(!url) url = '';
+var desc = prompt('Deskripsi singkat:') || '';
+var icon = prompt('Icon emoji (🕌 🕋 📗 📕 📙 📘 📖):') || '🕌';
+
+var newId = 'at-' + Date.now();
+aqidahEmbeds.push({
+id: newId,
+judul: judul,
+deskripsi: desc,
+icon: icon,
+url: url,
+tersedia: (url && url.trim() !== '')
+});
+
+renderAqidahEmbeds();
+if(typeof showToast === 'function') showToast('✅ File "' + judul + '" berhasil ditambahkan');
+};
+
+/* ============================================================
+✅ HAPUS FILE PDF
+============================================================ */
+window.atDeletePdf = function(id){
+var idx = -1;
+var nama = '';
+for(var i = 0; i < aqidahEmbeds.length; i++){
+if(aqidahEmbeds[i].id === id){
+idx = i;
+nama = aqidahEmbeds[i].judul;
+break;
+}
+}
+if(idx === -1) return;
+
+if(!confirm('Hapus file "' + nama + '"?')) return;
+
+aqidahEmbeds.splice(idx, 1);
+renderAqidahEmbeds();
+if(typeof showToast === 'function') showToast('🗑️ File "' + nama + '" dihapus');
+};
+
+/* ============================================================
+✅ BLOKIR DOWNLOAD & PRINT DI PREVIEW AQIDAH
+============================================================ */
+function blokirDownloadPrintAqidah(e){
+var overlay = document.getElementById('atPdfOverlay');
+if(!overlay || !overlay.classList.contains('active')) return;
+
+// Blokir Ctrl+S (Save/Download)
+if((e.ctrlKey || e.metaKey) && e.key === 's'){
+e.preventDefault();
+if(typeof showToast === 'function') showToast('🔒 Download dinonaktifkan di preview');
+return false;
+}
+// Blokir Ctrl+P (Print)
+if((e.ctrlKey || e.metaKey) && e.key === 'p'){
+e.preventDefault();
+if(typeof showToast === 'function') showToast('🔒 Print dinonaktifkan di preview');
+return false;
+}
+}
+
+document.addEventListener('keydown', blokirDownloadPrintAqidah);
+
+// Blokir klik kanan di area preview Aqidah
+document.addEventListener('contextmenu', function(e){
+var overlay = document.getElementById('atPdfOverlay');
+if(overlay && overlay.classList.contains('active')){
+var iframeWrap = document.querySelector('.at-pdf-iframe-wrap');
+if(iframeWrap && iframeWrap.contains(e.target)){
+e.preventDefault();
+if(typeof showToast === 'function') showToast('🔒 Klik kanan dinonaktifkan');
+return false;
+}
+}
+});
+
+/* ============================================================
+✅ INISIALISASI
+============================================================ */
+function initEmbedAqidah(){
+// Render setelah DOM siap
+if(document.readyState === 'loading'){
+document.addEventListener('DOMContentLoaded', function(){
+setTimeout(renderAqidahEmbeds, 500);
+});
+} else {
+setTimeout(renderAqidahEmbeds, 500);
+}
+
+// Re-render saat halaman Kitab Kuning dibuka
+var _origShowPage = window.showPage;
+window.showPage = function(pageId){
+if(_origShowPage) _origShowPage(pageId);
+if(pageId === 'kitab-kuning'){
+setTimeout(renderAqidahEmbeds, 300);
+}
+};
+}
+
+initEmbedAqidah();
+
+console.log('✅ PATCH EMBED PDF AQIDAH & TAUHID: berhasil dimuat');
+console.log('💡 6 slot PDF tersedia di kategori Aqidah & Tauhid');
+console.log('💡 Preview pakai URL /preview, download & print ditutup');
+})();
+</script>
+<!-- ============================================
+✅ PATCH: EMBED PDF TASAWUF & AKHLAK (6 SLOT + /preview)
+- Preview pakai URL /preview
+- Tombol download & print ditutup
+- 6 slot default, bisa ditambah
+- Lokasi: Halaman Kitab Kuning > Kategori Tasawuf & Akhlak
+============================================ -->
+<style>
+/* ====== WRAPPER EMBED TASAWUF ====== */
+.tasawuf-embed-wrapper{
+margin-top:15px;
+padding:15px;
+background:linear-gradient(135deg,rgba(201,168,76,0.08),rgba(45,27,78,0.4));
+border:1px solid rgba(201,168,76,0.3);
+border-radius:12px;
+border-left:4px solid #c9a84c;
+}
+.tasawuf-embed-wrapper h5{
+color:#e8d48b;
+font-size:0.95rem;
+margin:0 0 12px 0;
+display:flex;
+align-items:center;
+gap:8px;
+padding-bottom:10px;
+border-bottom:1px dashed rgba(201,168,76,0.3);
+}
+.tasawuf-embed-wrapper h5 .ta-icon{
+width:28px;height:28px;
+background:linear-gradient(135deg,#c9a84c,#e8d48b);
+border-radius:8px;
+display:flex;align-items:center;justify-content:center;
+font-size:0.95rem;color:#1a0a2e;
+}
+.tasawuf-embed-wrapper h5 .ta-count{
+margin-left:auto;
+background:rgba(201,168,76,0.2);
+color:#c9a84c;
+padding:2px 10px;
+border-radius:12px;
+font-size:0.72rem;
+font-weight:700;
+}
+/* ====== GRID KARTU EMBED ====== */
+.tasawuf-embed-grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+gap:10px;
+margin-bottom:10px;
+}
+.tasawuf-embed-card{
+background:rgba(255,255,255,0.04);
+border:1px solid rgba(201,168,76,0.2);
+border-radius:10px;
+padding:12px;
+transition:all 0.3s;
+position:relative;
+cursor:pointer;
+overflow:hidden;
+}
+.tasawuf-embed-card::before{
+content:'';
+position:absolute;
+top:0;left:0;
+width:3px;height:100%;
+background:linear-gradient(to bottom,#c9a84c,#e8d48b);
+transform:scaleY(0);
+transition:transform 0.3s;
+transform-origin:top;
+}
+.tasawuf-embed-card:hover{
+background:rgba(201,168,76,0.08);
+border-color:#c9a84c;
+transform:translateY(-3px);
+box-shadow:0 8px 20px rgba(201,168,76,0.15);
+}
+.tasawuf-embed-card:hover::before{
+transform:scaleY(1);
+}
+.tasawuf-embed-card .ta-card-icon{
+width:42px;height:42px;
+background:linear-gradient(135deg,#c9a84c,#e8d48b);
+border-radius:10px;
+display:flex;align-items:center;justify-content:center;
+font-size:1.3rem;color:#1a0a2e;
+margin-bottom:8px;
+}
+.tasawuf-embed-card .ta-card-title{
+color:#e8d48b;
+font-size:0.88rem;
+font-weight:700;
+margin-bottom:4px;
+line-height:1.3;
+}
+.tasawuf-embed-card .ta-card-desc{
+color:#aaa;
+font-size:0.72rem;
+line-height:1.5;
+margin-bottom:8px;
+}
+.tasawuf-embed-card .ta-card-actions{
+display:flex;
+gap:6px;
+flex-wrap:wrap;
+}
+.tasawuf-embed-card .ta-btn{
+padding:5px 10px;
+border-radius:15px;
+font-size:0.7rem;
+font-weight:600;
+cursor:pointer;
+border:none;
+transition:all 0.2s;
+font-family:inherit;
+display:inline-flex;
+align-items:center;
+gap:4px;
+}
+.tasawuf-embed-card .ta-btn.preview{
+background:linear-gradient(135deg,#c9a84c,#e8d48b);
+color:#1a0a2e;
+}
+.tasawuf-embed-card .ta-btn.preview:hover{
+transform:translateY(-1px);
+box-shadow:0 3px 10px rgba(201,168,76,0.4);
+}
+.tasawuf-embed-card .ta-btn.edit{
+background:rgba(255,255,255,0.08);
+color:#c9a84c;
+border:1px solid rgba(201,168,76,0.3);
+}
+.tasawuf-embed-card .ta-btn.edit:hover{
+background:rgba(201,168,76,0.15);
+}
+.tasawuf-embed-card .ta-btn.delete{
+background:rgba(231,76,60,0.15);
+color:#e74c3c;
+border:1px solid rgba(231,76,60,0.3);
+}
+.tasawuf-embed-card .ta-btn.delete:hover{
+background:rgba(231,76,60,0.25);
+}
+.tasawuf-embed-card .ta-badge{
+position:absolute;
+top:8px;right:8px;
+background:rgba(46,204,113,0.2);
+color:#2ecc71;
+padding:2px 8px;
+border-radius:8px;
+font-size:0.62rem;
+font-weight:700;
+}
+.tasawuf-embed-card.empty{
+border-style:dashed;
+background:transparent;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+min-height:140px;
+color:#888;
+}
+.tasawuf-embed-card.empty:hover{
+border-color:#c9a84c;
+color:#c9a84c;
+background:rgba(201,168,76,0.05);
+}
+.tasawuf-embed-card.empty .ta-plus{
+font-size:2rem;
+margin-bottom:5px;
+}
+/* ====== TOMBOL TAMBAH FILE ====== */
+.tasawuf-add-file-btn{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:6px;
+width:100%;
+padding:10px;
+margin-top:8px;
+background:transparent;
+border:1.5px dashed rgba(201,168,76,0.3);
+border-radius:10px;
+color:#c9a84c;
+cursor:pointer;
+font-size:0.82rem;
+font-family:inherit;
+transition:all 0.3s;
+}
+.tasawuf-add-file-btn:hover{
+border-color:#c9a84c;
+background:rgba(201,168,76,0.08);
+}
+/* ====== PDF PREVIEW OVERLAY TASAWUF ====== */
+.ta-pdf-overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.95);
+z-index:99999;
+display:none;
+flex-direction:column;
+}
+.ta-pdf-overlay.active{
+display:flex;
+animation:taFadeIn 0.3s ease;
+}
+@keyframes taFadeIn{
+from{opacity:0}
+to{opacity:1}
+}
+.ta-pdf-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px 20px;
+background:linear-gradient(135deg,#1a0a2e,#2d1b4e);
+border-bottom:2px solid #c9a84c;
+flex-wrap:wrap;
+gap:10px;
+flex-shrink:0;
+}
+.ta-pdf-title{
+color:#e8d48b;
+font-size:1.1rem;
+font-weight:600;
+display:flex;
+align-items:center;
+gap:10px;
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
+max-width:60%;
+}
+.ta-pdf-title::before{
+content:'🌿';
+font-size:1.3rem;
+}
+.ta-pdf-actions{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+}
+.ta-pdf-btn{
+background:linear-gradient(135deg,#c9a84c,#e8d48b);
+color:#1a0a2e;
+border:none;
+padding:8px 16px;
+border-radius:20px;
+font-size:0.85rem;
+font-weight:600;
+cursor:pointer;
+transition:all 0.3s;
+display:inline-flex;
+align-items:center;
+gap:6px;
+font-family:inherit;
+}
+.ta-pdf-btn:hover{
+transform:translateY(-2px);
+box-shadow:0 5px 15px rgba(201,168,76,0.4);
+}
+.ta-pdf-btn.danger{
+background:linear-gradient(135deg,#c0392b,#e74c3c);
+color:#fff;
+}
+.ta-pdf-iframe-wrap{
+position:relative;
+flex:1;
+background:#1a0a2e;
+overflow:hidden;
+min-height:0;
+}
+.ta-pdf-iframe-wrap iframe{
+width:100%;
+height:100%;
+border:none;
+background:#fff;
+}
+/* ====== OVERLAY PENUTUP TOOLBAR DOWNLOAD/PRINT ====== */
+.ta-toolbar-blocker{
+position:absolute;
+top:0;
+left:0;
+right:0;
+height:55px;
+background:linear-gradient(to bottom,
+rgba(26,10,46,0.98) 0%,
+rgba(26,10,46,0.92) 75%,
+rgba(26,10,46,0) 100%);
+z-index:25;
+pointer-events:auto;
+cursor:not-allowed;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+.ta-toolbar-blocker::before{
+content:'🔒 Download & Print Dinonaktifkan';
+color:#c9a84c;
+font-size:0.78rem;
+font-weight:700;
+letter-spacing:1px;
+text-shadow:0 2px 6px rgba(0,0,0,0.9);
+pointer-events:none;
+background:rgba(26,10,46,0.7);
+padding:4px 14px;
+border-radius:12px;
+border:1px solid rgba(201,168,76,0.3);
+}
+.ta-toolbar-blocker::after{
+content:'';
+position:absolute;
+bottom:0;left:0;right:0;
+height:1px;
+background:linear-gradient(90deg,transparent,#c9a84c,transparent);
+}
+/* ====== LOADING STATE ====== */
+.ta-pdf-loading{
+position:absolute;
+top:50%;left:50%;
+transform:translate(-50%,-50%);
+color:#c9a84c;
+font-size:1rem;
+text-align:center;
+z-index:10;
+background:rgba(26,10,46,0.95);
+padding:30px;
+border-radius:15px;
+min-width:280px;
+border:1px solid rgba(201,168,76,0.3);
+}
+.ta-pdf-loading::before{
+content:'⏳';
+display:block;
+font-size:3rem;
+margin-bottom:10px;
+animation:taSpin 2s linear infinite;
+}
+@keyframes taSpin{
+from{transform:rotate(0deg)}
+to{transform:rotate(360deg)}
+}
+/* ====== RESPONSIVE ====== */
+@media (max-width:900px){
+.tasawuf-embed-grid{
+grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+gap:8px;
+}
+.tasawuf-embed-card{
+padding:10px;
+}
+.tasawuf-embed-card .ta-card-icon{
+width:36px;height:36px;
+font-size:1.1rem;
+}
+.tasawuf-embed-card .ta-card-title{
+font-size:0.8rem;
+}
+.tasawuf-embed-card .ta-card-desc{
+font-size:0.68rem;
+}
+.ta-pdf-title{
+font-size:0.95rem;
+max-width:55%;
+}
+.ta-pdf-btn{
+padding:7px 12px;
+font-size:0.78rem;
+}
+}
+@media (max-width:400px){
+.tasawuf-embed-grid{
+grid-template-columns:1fr;
+}
+}
+</style>
+
+<!-- Container Overlay PDF Preview Tasawuf -->
+<div class="ta-pdf-overlay" id="taPdfOverlay">
+<div class="ta-pdf-header">
+<div class="ta-pdf-title" id="taPdfTitle">Memuat Dokumen...</div>
+<div class="ta-pdf-actions">
+<button class="ta-pdf-btn danger" onclick="taClosePdf()">✕ Tutup</button>
+</div>
+</div>
+<div class="ta-pdf-iframe-wrap">
+<div class="ta-pdf-loading" id="taPdfLoading">Memuat dokumen...</div>
+<iframe id="taPdfIframe" src="" title="PDF Preview Tasawuf"></iframe>
+<div class="ta-toolbar-blocker"></div>
+</div>
+</div>
+
+<script>
+(function(){
+'use strict';
+console.log('🟢 PATCH EMBED PDF TASAWUF & AKHLAK: mulai dimuat...');
+
+/* ============================================================
+✅ DATA EMBED PDF TASAWUF & AKHLAK (6 SLOT DEFAULT)
+Pengguna bisa menambah slot lewat tombol "+ Tambah File PDF"
+Format URL: gunakan URL Google Drive / hosting dengan akhiran /preview
+Contoh: https://drive.google.com/file/d/FILE_ID/preview
+============================================================ */
+var tasawufEmbeds = [
+{
+id: 'ta-1',
+judul: 'Ihyâ\' Ulûmiddîn',
+deskripsi: 'Karya agung Imam Al-Ghazali tentang penyucian jiwa & tazkiyatun nafs (20 jilid)',
+icon: '🌿',
+url: 'https://drive.google.com/file/d/CONTOH_ID_1/preview',
+tersedia: true
+},
+{
+id: 'ta-2',
+judul: 'Al-Hikam Al-\'Athâ\'iyyah',
+deskripsi: '300 hikmah spiritual karya Ibnu Atha\'illah As-Sakandari tentang ma\'rifatullah',
+icon: '🌿',
+url: 'https://drive.google.com/file/d/CONTOH_ID_2/preview',
+tersedia: true
+},
+{
+id: 'ta-3',
+judul: 'Bidyâyatul Hidâyah',
+deskripsi: 'Kitab panduan ibadah & akhlak karya Imam Al-Ghazali untuk pemula',
+icon: '🌿',
+url: 'https://drive.google.com/file/d/CONTOH_ID_3/preview',
+tersedia: true
+},
+{
+id: 'ta-4',
+judul: 'Minhâjul \'Âbidîn',
+deskripsi: 'Kitab tazkiyatun nafs & akhlak karya Imam Al-Ghazali setelah Ihya\'',
+icon: '🌿',
+url: 'https://drive.google.com/file/d/CONTOH_ID_4/preview',
+tersedia: true
+},
+{
+id: 'ta-5',
+judul: 'Risâlah Al-Qushairiyyah',
+deskripsi: 'Kitab tasawuf klasik karya Imam Al-Qushairi tentang maqamat & ahwal',
+icon: '🌿',
+url: 'https://drive.google.com/file/d/CONTOH_ID_5/preview',
+tersedia: true
+},
+{
+id: 'ta-6',
+judul: 'Ta\'lîm Muta\'allim',
+deskripsi: 'Kitab adab menuntut ilmu karya Imam Az-Zarnuji, wajib bagi penuntut ilmu',
+icon: '🌿',
+url: 'https://drive.google.com/file/d/CONTOH_ID_6/preview',
+tersedia: true
+}
+];
+
+/* ============================================================
+✅ RENDER UI EMBED TASAWUF
+============================================================ */
+function renderTasawufEmbeds(){
+var container = document.getElementById('kitabTasawufAkhlak');
+if(!container) return;
+
+// Hapus wrapper lama jika ada
+var oldWrapper = document.getElementById('tasawufEmbedWrapper');
+if(oldWrapper) oldWrapper.remove();
+
+// Buat wrapper baru
+var wrapper = document.createElement('div');
+wrapper.id = 'tasawufEmbedWrapper';
+wrapper.className = 'tasawuf-embed-wrapper';
+
+var html = '<h5>' +
+'<span class="ta-icon">🌿</span>' +
+'<span>Preview PDF Kitab Tasawuf & Akhlak</span>' +
+'<span class="ta-count">' + tasawufEmbeds.length + ' File</span>' +
+'</h5>';
+
+html += '<div class="tasawuf-embed-grid">';
+
+// Render kartu untuk setiap file
+for(var i = 0; i < tasawufEmbeds.length; i++){
+var e = tasawufEmbeds[i];
+html += '<div class="tasawuf-embed-card" data-id="' + e.id + '">';
+if(e.tersedia){
+html += '<span class="ta-badge">✅ Tersedia</span>';
+}
+html += '<div class="ta-card-icon">' + (e.icon || '📖') + '</div>';
+html += '<div class="ta-card-title">' + e.judul + '</div>';
+html += '<div class="ta-card-desc">' + (e.deskripsi || '') + '</div>';
+html += '<div class="ta-card-actions">';
+if(e.tersedia){
+html += '<button class="ta-btn preview" onclick="taPreviewPdf(\'' + e.id + '\')">👁️ Preview</button>';
+}
+html += '<button class="ta-btn edit" onclick="taEditPdf(\'' + e.id + '\')">✏️ Edit</button>';
+html += '<button class="ta-btn delete" onclick="taDeletePdf(\'' + e.id + '\')">🗑️</button>';
+html += '</div>';
+html += '</div>';
+}
+
+html += '</div>';
+
+// Tombol tambah file
+html += '<button class="tasawuf-add-file-btn" onclick="taAddNewPdf()">+ Tambah File PDF Baru</button>';
+
+wrapper.innerHTML = html;
+container.appendChild(wrapper);
+}
+
+/* ============================================================
+✅ PREVIEW PDF (PAKAI /preview)
+============================================================ */
+window.taPreviewPdf = function(id){
+var embed = null;
+for(var i = 0; i < tasawufEmbeds.length; i++){
+if(tasawufEmbeds[i].id === id){
+embed = tasawufEmbeds[i];
+break;
+}
+}
+if(!embed || !embed.tersedia){
+if(typeof showToast === 'function') showToast('⚠️ File tidak tersedia');
+return;
+}
+
+var overlay = document.getElementById('taPdfOverlay');
+var title = document.getElementById('taPdfTitle');
+var iframe = document.getElementById('taPdfIframe');
+var loading = document.getElementById('taPdfLoading');
+
+if(!overlay || !iframe) return;
+
+title.textContent = embed.judul;
+loading.style.display = 'block';
+loading.innerHTML = '<div style="font-size:48px;margin-bottom:15px;">⏳</div>' +
+'<p style="font-size:15px;font-weight:bold;">Memuat: ' + embed.judul + '</p>' +
+'<p style="font-size:12px;color:#888;margin-top:8px;">Mode Preview (Download & Print dinonaktifkan)</p>';
+
+// ✅ URL dengan akhiran /preview
+var previewUrl = embed.url;
+// Pastikan URL berakhiran /preview
+if(previewUrl.indexOf('/preview') === -1){
+// Jika URL Google Drive format lama, konversi
+if(previewUrl.indexOf('drive.google.com/file/d/') !== -1){
+var fileId = previewUrl.match(/\/d\/([^\/]+)/);
+if(fileId && fileId[1]){
+previewUrl = 'https://drive.google.com/file/d/' + fileId[1] + '/preview';
+}
+}
+}
+
+// ✅ FUNGSI UNTUK MENYEMBUNYIKAN LOADING
+function hideLoading(){
+if(loading && loading.style.display !== 'none'){
+loading.style.display = 'none';
+console.log('✅ Loading spinner disembunyikan untuk:', embed.judul);
+}
+}
+
+// ✅ EVENT LISTENER: SEMBUNYIKAN LOADING SAAT IFRAME LOAD
+iframe.onload = null;
+iframe.onerror = null;
+
+iframe.onload = function(){
+console.log('✅ Iframe loaded:', previewUrl);
+setTimeout(hideLoading, 300);
+};
+
+iframe.onerror = function(){
+console.warn('⚠️ Iframe error, menyembunyikan loading...');
+hideLoading();
+};
+
+iframe.src = previewUrl;
+overlay.classList.add('active');
+document.body.style.overflow = 'hidden';
+
+// ✅ FALLBACK TIMEOUT 1: SEMBUNYIKAN LOADING SETELAH 2.5 DETIK
+setTimeout(function(){
+if(loading && loading.style.display !== 'none'){
+console.log('⏱️ Fallback timeout 1: paksa sembunyikan loading setelah 2.5 detik');
+hideLoading();
+}
+}, 2500);
+
+// ✅ FALLBACK TIMEOUT 2: CEK APAKAH PDF GAGAL LOAD
+setTimeout(function(){
+try{
+var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+if(iframeDoc && iframeDoc.body && iframeDoc.body.innerHTML === ''){
+loading.style.display = 'block';
+loading.innerHTML = '<div style="font-size:48px;margin-bottom:15px;">⚠️</div>' +
+'<p style="font-size:15px;font-weight:bold;">PDF tidak dapat dimuat</p>' +
+'<p style="font-size:12px;color:#888;margin-top:8px;">Periksa URL atau koneksi internet</p>' +
+'<button onclick="taClosePdf()" style="margin-top:15px;padding:10px 20px;background:#c9a84c;color:#1a0a2e;border:none;border-radius:20px;font-weight:bold;cursor:pointer;">Tutup</button>';
+}
+}catch(e){
+// Cross-origin error = iframe berhasil load (normal untuk Google Drive)
+console.log('✅ PDF loaded (cross-origin, normal untuk Google Drive)');
+}
+}, 15000);
+};
+
+/* ============================================================
+✅ TUTUP PREVIEW
+============================================================ */
+window.taClosePdf = function(){
+var overlay = document.getElementById('taPdfOverlay');
+var iframe = document.getElementById('taPdfIframe');
+var loading = document.getElementById('taPdfLoading');
+
+if(overlay) overlay.classList.remove('active');
+if(iframe){
+iframe.onload = null;
+iframe.onerror = null;
+iframe.src = '';
+}
+// Reset loading ke state awal
+if(loading){
+loading.style.display = 'block';
+loading.innerHTML = 'Memuat dokumen...';
+}
+document.body.style.overflow = '';
+};
+
+/* ============================================================
+✅ EDIT URL/JUDUL PDF
+============================================================ */
+window.taEditPdf = function(id){
+var embed = null;
+var idx = -1;
+for(var i = 0; i < tasawufEmbeds.length; i++){
+if(tasawufEmbeds[i].id === id){
+embed = tasawufEmbeds[i];
+idx = i;
+break;
+}
+}
+if(!embed) return;
+
+var newJudul = prompt('Judul Kitab Tasawuf:', embed.judul);
+if(newJudul === null) return;
+var newUrl = prompt('URL Preview PDF (akhiri dengan /preview):\nContoh: https://drive.google.com/file/d/FILE_ID/preview', embed.url);
+if(newUrl === null) return;
+var newDesc = prompt('Deskripsi singkat:', embed.deskripsi);
+if(newDesc === null) return;
+var newIcon = prompt('Icon emoji (🌿 🌟 📗 📕 📙 📘 📖):', embed.icon);
+if(newIcon === null) return;
+
+tasawufEmbeds[idx].judul = newJudul || embed.judul;
+tasawufEmbeds[idx].url = newUrl || embed.url;
+tasawufEmbeds[idx].deskripsi = newDesc || embed.deskripsi;
+tasawufEmbeds[idx].icon = newIcon || embed.icon;
+tasawufEmbeds[idx].tersedia = (tasawufEmbeds[idx].url && tasawufEmbeds[idx].url.trim() !== '');
+
+renderTasawufEmbeds();
+if(typeof showToast === 'function') showToast('✅ File "' + tasawufEmbeds[idx].judul + '" berhasil diperbarui');
+};
+
+/* ============================================================
+✅ TAMBAH FILE PDF BARU
+============================================================ */
+window.taAddNewPdf = function(){
+var judul = prompt('Judul Kitab Tasawuf/Akhlak Baru:');
+if(!judul) return;
+var url = prompt('URL Preview PDF (akhiri dengan /preview):\nContoh: https://drive.google.com/file/d/FILE_ID/preview');
+if(!url) url = '';
+var desc = prompt('Deskripsi singkat:') || '';
+var icon = prompt('Icon emoji (🌿 🌟 📗 📕 📙 📘 📖):') || '🌿';
+
+var newId = 'ta-' + Date.now();
+tasawufEmbeds.push({
+id: newId,
+judul: judul,
+deskripsi: desc,
+icon: icon,
+url: url,
+tersedia: (url && url.trim() !== '')
+});
+
+renderTasawufEmbeds();
+if(typeof showToast === 'function') showToast('✅ File "' + judul + '" berhasil ditambahkan');
+};
+
+/* ============================================================
+✅ HAPUS FILE PDF
+============================================================ */
+window.taDeletePdf = function(id){
+var idx = -1;
+var nama = '';
+for(var i = 0; i < tasawufEmbeds.length; i++){
+if(tasawufEmbeds[i].id === id){
+idx = i;
+nama = tasawufEmbeds[i].judul;
+break;
+}
+}
+if(idx === -1) return;
+
+if(!confirm('Hapus file "' + nama + '"?')) return;
+
+tasawufEmbeds.splice(idx, 1);
+renderTasawufEmbeds();
+if(typeof showToast === 'function') showToast('🗑️ File "' + nama + '" dihapus');
+};
+
+/* ============================================================
+✅ BLOKIR DOWNLOAD & PRINT DI PREVIEW TASAWUF
+============================================================ */
+function blokirDownloadPrintTasawuf(e){
+var overlay = document.getElementById('taPdfOverlay');
+if(!overlay || !overlay.classList.contains('active')) return;
+
+// Blokir Ctrl+S (Save/Download)
+if((e.ctrlKey || e.metaKey) && e.key === 's'){
+e.preventDefault();
+if(typeof showToast === 'function') showToast('🔒 Download dinonaktifkan di preview');
+return false;
+}
+// Blokir Ctrl+P (Print)
+if((e.ctrlKey || e.metaKey) && e.key === 'p'){
+e.preventDefault();
+if(typeof showToast === 'function') showToast('🔒 Print dinonaktifkan di preview');
+return false;
+}
+}
+
+document.addEventListener('keydown', blokirDownloadPrintTasawuf);
+
+// Blokir klik kanan di area preview Tasawuf
+document.addEventListener('contextmenu', function(e){
+var overlay = document.getElementById('taPdfOverlay');
+if(overlay && overlay.classList.contains('active')){
+var iframeWrap = document.querySelector('.ta-pdf-iframe-wrap');
+if(iframeWrap && iframeWrap.contains(e.target)){
+e.preventDefault();
+if(typeof showToast === 'function') showToast('🔒 Klik kanan dinonaktifkan');
+return false;
+}
+}
+});
+
+/* ============================================================
+✅ INISIALISASI
+============================================================ */
+function initEmbedTasawuf(){
+// Render setelah DOM siap
+if(document.readyState === 'loading'){
+document.addEventListener('DOMContentLoaded', function(){
+setTimeout(renderTasawufEmbeds, 500);
+});
+} else {
+setTimeout(renderTasawufEmbeds, 500);
+}
+
+// Re-render saat halaman Kitab Kuning dibuka
+var _origShowPage = window.showPage;
+window.showPage = function(pageId){
+if(_origShowPage) _origShowPage(pageId);
+if(pageId === 'kitab-kuning'){
+setTimeout(renderTasawufEmbeds, 300);
+}
+};
+}
+
+initEmbedTasawuf();
+
+console.log('✅ PATCH EMBED PDF TASAWUF & AKHLAK: berhasil dimuat');
+console.log('💡 6 slot PDF tersedia di kategori Tasawuf & Akhlak');
+console.log('💡 Preview pakai URL /preview, download & print ditutup');
+})();
+</script>
+<!-- ============================================
+✅ PATCH: EMBED PDF TAFSIR (6 SLOT + /preview)
+- Preview pakai URL /preview
+- Tombol download & print ditutup
+- 6 slot default, bisa ditambah
+- Lokasi: Halaman Kitab Kuning > Kategori Tafsir
+============================================ -->
+<style>
+/* ====== WRAPPER EMBED TAFSIR ====== */
+.tafsir-embed-wrapper{
+margin-top:15px;
+padding:15px;
+background:linear-gradient(135deg,rgba(201,168,76,0.08),rgba(45,27,78,0.4));
+border:1px solid rgba(201,168,76,0.3);
+border-radius:12px;
+border-left:4px solid #c9a84c;
+}
+.tafsir-embed-wrapper h5{
+color:#e8d48b;
+font-size:0.95rem;
+margin:0 0 12px 0;
+display:flex;
+align-items:center;
+gap:8px;
+padding-bottom:10px;
+border-bottom:1px dashed rgba(201,168,76,0.3);
+}
+.tafsir-embed-wrapper h5 .tf-icon{
+width:28px;height:28px;
+background:linear-gradient(135deg,#c9a84c,#e8d48b);
+border-radius:8px;
+display:flex;align-items:center;justify-content:center;
+font-size:0.95rem;color:#1a0a2e;
+}
+.tafsir-embed-wrapper h5 .tf-count{
+margin-left:auto;
+background:rgba(201,168,76,0.2);
+color:#c9a84c;
+padding:2px 10px;
+border-radius:12px;
+font-size:0.72rem;
+font-weight:700;
+}
+/* ====== GRID KARTU EMBED ====== */
+.tafsir-embed-grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+gap:10px;
+margin-bottom:10px;
+}
+.tafsir-embed-card{
+background:rgba(255,255,255,0.04);
+border:1px solid rgba(201,168,76,0.2);
+border-radius:10px;
+padding:12px;
+transition:all 0.3s;
+position:relative;
+cursor:pointer;
+overflow:hidden;
+}
+.tafsir-embed-card::before{
+content:'';
+position:absolute;
+top:0;left:0;
+width:3px;height:100%;
+background:linear-gradient(to bottom,#c9a84c,#e8d48b);
+transform:scaleY(0);
+transition:transform 0.3s;
+transform-origin:top;
+}
+.tafsir-embed-card:hover{
+background:rgba(201,168,76,0.08);
+border-color:#c9a84c;
+transform:translateY(-3px);
+box-shadow:0 8px 20px rgba(201,168,76,0.15);
+}
+.tafsir-embed-card:hover::before{
+transform:scaleY(1);
+}
+.tafsir-embed-card .tf-card-icon{
+width:42px;height:42px;
+background:linear-gradient(135deg,#c9a84c,#e8d48b);
+border-radius:10px;
+display:flex;align-items:center;justify-content:center;
+font-size:1.3rem;color:#1a0a2e;
+margin-bottom:8px;
+}
+.tafsir-embed-card .tf-card-title{
+color:#e8d48b;
+font-size:0.88rem;
+font-weight:700;
+margin-bottom:4px;
+line-height:1.3;
+}
+.tafsir-embed-card .tf-card-desc{
+color:#aaa;
+font-size:0.72rem;
+line-height:1.5;
+margin-bottom:8px;
+}
+.tafsir-embed-card .tf-card-actions{
+display:flex;
+gap:6px;
+flex-wrap:wrap;
+}
+.tafsir-embed-card .tf-btn{
+padding:5px 10px;
+border-radius:15px;
+font-size:0.7rem;
+font-weight:600;
+cursor:pointer;
+border:none;
+transition:all 0.2s;
+font-family:inherit;
+display:inline-flex;
+align-items:center;
+gap:4px;
+}
+.tafsir-embed-card .tf-btn.preview{
+background:linear-gradient(135deg,#c9a84c,#e8d48b);
+color:#1a0a2e;
+}
+.tafsir-embed-card .tf-btn.preview:hover{
+transform:translateY(-1px);
+box-shadow:0 3px 10px rgba(201,168,76,0.4);
+}
+.tafsir-embed-card .tf-btn.edit{
+background:rgba(255,255,255,0.08);
+color:#c9a84c;
+border:1px solid rgba(201,168,76,0.3);
+}
+.tafsir-embed-card .tf-btn.edit:hover{
+background:rgba(201,168,76,0.15);
+}
+.tafsir-embed-card .tf-btn.delete{
+background:rgba(231,76,60,0.15);
+color:#e74c3c;
+border:1px solid rgba(231,76,60,0.3);
+}
+.tafsir-embed-card .tf-btn.delete:hover{
+background:rgba(231,76,60,0.25);
+}
+.tafsir-embed-card .tf-badge{
+position:absolute;
+top:8px;right:8px;
+background:rgba(46,204,113,0.2);
+color:#2ecc71;
+padding:2px 8px;
+border-radius:8px;
+font-size:0.62rem;
+font-weight:700;
+}
+.tafsir-embed-card.empty{
+border-style:dashed;
+background:transparent;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+min-height:140px;
+color:#888;
+}
+.tafsir-embed-card.empty:hover{
+border-color:#c9a84c;
+color:#c9a84c;
+background:rgba(201,168,76,0.05);
+}
+.tafsir-embed-card.empty .tf-plus{
+font-size:2rem;
+margin-bottom:5px;
+}
+/* ====== TOMBOL TAMBAH FILE ====== */
+.tafsir-add-file-btn{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:6px;
+width:100%;
+padding:10px;
+margin-top:8px;
+background:transparent;
+border:1.5px dashed rgba(201,168,76,0.3);
+border-radius:10px;
+color:#c9a84c;
+cursor:pointer;
+font-size:0.82rem;
+font-family:inherit;
+transition:all 0.3s;
+}
+.tafsir-add-file-btn:hover{
+border-color:#c9a84c;
+background:rgba(201,168,76,0.08);
+}
+/* ====== PDF PREVIEW OVERLAY TAFSIR ====== */
+.tf-pdf-overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.95);
+z-index:99999;
+display:none;
+flex-direction:column;
+}
+.tf-pdf-overlay.active{
+display:flex;
+animation:tfFadeIn 0.3s ease;
+}
+@keyframes tfFadeIn{
+from{opacity:0}
+to{opacity:1}
+}
+.tf-pdf-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px 20px;
+background:linear-gradient(135deg,#1a0a2e,#2d1b4e);
+border-bottom:2px solid #c9a84c;
+flex-wrap:wrap;
+gap:10px;
+flex-shrink:0;
+}
+.tf-pdf-title{
+color:#e8d48b;
+font-size:1.1rem;
+font-weight:600;
+display:flex;
+align-items:center;
+gap:10px;
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
+max-width:60%;
+}
+.tf-pdf-title::before{
+content:'📜';
+font-size:1.3rem;
+}
+.tf-pdf-actions{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+}
+.tf-pdf-btn{
+background:linear-gradient(135deg,#c9a84c,#e8d48b);
+color:#1a0a2e;
+border:none;
+padding:8px 16px;
+border-radius:20px;
+font-size:0.85rem;
+font-weight:600;
+cursor:pointer;
+transition:all 0.3s;
+display:inline-flex;
+align-items:center;
+gap:6px;
+font-family:inherit;
+}
+.tf-pdf-btn:hover{
+transform:translateY(-2px);
+box-shadow:0 5px 15px rgba(201,168,76,0.4);
+}
+.tf-pdf-btn.danger{
+background:linear-gradient(135deg,#c0392b,#e74c3c);
+color:#fff;
+}
+.tf-pdf-iframe-wrap{
+position:relative;
+flex:1;
+background:#1a0a2e;
+overflow:hidden;
+min-height:0;
+}
+.tf-pdf-iframe-wrap iframe{
+width:100%;
+height:100%;
+border:none;
+background:#fff;
+}
+/* ====== OVERLAY PENUTUP TOOLBAR DOWNLOAD/PRINT ====== */
+.tf-toolbar-blocker{
+position:absolute;
+top:0;
+left:0;
+right:0;
+height:55px;
+background:linear-gradient(to bottom,
+rgba(26,10,46,0.98) 0%,
+rgba(26,10,46,0.92) 75%,
+rgba(26,10,46,0) 100%);
+z-index:25;
+pointer-events:auto;
+cursor:not-allowed;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+.tf-toolbar-blocker::before{
+content:'🔒 Download & Print Dinonaktifkan';
+color:#c9a84c;
+font-size:0.78rem;
+font-weight:700;
+letter-spacing:1px;
+text-shadow:0 2px 6px rgba(0,0,0,0.9);
+pointer-events:none;
+background:rgba(26,10,46,0.7);
+padding:4px 14px;
+border-radius:12px;
+border:1px solid rgba(201,168,76,0.3);
+}
+.tf-toolbar-blocker::after{
+content:'';
+position:absolute;
+bottom:0;left:0;right:0;
+height:1px;
+background:linear-gradient(90deg,transparent,#c9a84c,transparent);
+}
+/* ====== LOADING STATE ====== */
+.tf-pdf-loading{
+position:absolute;
+top:50%;left:50%;
+transform:translate(-50%,-50%);
+color:#c9a84c;
+font-size:1rem;
+text-align:center;
+z-index:10;
+background:rgba(26,10,46,0.95);
+padding:30px;
+border-radius:15px;
+min-width:280px;
+border:1px solid rgba(201,168,76,0.3);
+}
+.tf-pdf-loading::before{
+content:'⏳';
+display:block;
+font-size:3rem;
+margin-bottom:10px;
+animation:tfSpin 2s linear infinite;
+}
+@keyframes tfSpin{
+from{transform:rotate(0deg)}
+to{transform:rotate(360deg)}
+}
+/* ====== RESPONSIVE ====== */
+@media (max-width:900px){
+.tafsir-embed-grid{
+grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+gap:8px;
+}
+.tafsir-embed-card{
+padding:10px;
+}
+.tafsir-embed-card .tf-card-icon{
+width:36px;height:36px;
+font-size:1.1rem;
+}
+.tafsir-embed-card .tf-card-title{
+font-size:0.8rem;
+}
+.tafsir-embed-card .tf-card-desc{
+font-size:0.68rem;
+}
+.tf-pdf-title{
+font-size:0.95rem;
+max-width:55%;
+}
+.tf-pdf-btn{
+padding:7px 12px;
+font-size:0.78rem;
+}
+}
+@media (max-width:400px){
+.tafsir-embed-grid{
+grid-template-columns:1fr;
+}
+}
+</style>
+
+<!-- Container Overlay PDF Preview Tafsir -->
+<div class="tf-pdf-overlay" id="tfPdfOverlay">
+<div class="tf-pdf-header">
+<div class="tf-pdf-title" id="tfPdfTitle">Memuat Dokumen...</div>
+<div class="tf-pdf-actions">
+<button class="tf-pdf-btn danger" onclick="tfClosePdf()">✕ Tutup</button>
+</div>
+</div>
+<div class="tf-pdf-iframe-wrap">
+<div class="tf-pdf-loading" id="tfPdfLoading">Memuat dokumen...</div>
+<iframe id="tfPdfIframe" src="" title="PDF Preview Tafsir"></iframe>
+<div class="tf-toolbar-blocker"></div>
+</div>
+</div>
+
+<script>
+(function(){
+'use strict';
+console.log('🟢 PATCH EMBED PDF TAFSIR: mulai dimuat...');
+
+/* ============================================================
+✅ DATA EMBED PDF TAFSIR (6 SLOT DEFAULT)
+Pengguna bisa menambah slot lewat tombol "+ Tambah File PDF"
+Format URL: gunakan URL Google Drive / hosting dengan akhiran /preview
+Contoh: https://drive.google.com/file/d/FILE_ID/preview
+============================================================ */
+var tafsirEmbeds = [
+{
+id: 'tf-1',
+judul: 'Tafsîr Al-Jalâlain',
+deskripsi: 'Tafsir ringkas oleh dua Imam Jalal (Al-Mahalli & As-Suyuthi), paling populer di pesantren Nusantara',
+icon: '📜',
+url: 'https://drive.google.com/file/d/CONTOH_ID_1/preview',
+tersedia: true
+},
+{
+id: 'tf-2',
+judul: 'Tafsîr Ibnu Katsîr',
+deskripsi: 'Tafsir Al-Qur\'an bil ma\'tsur paling komprehensif karya Imam Ibnu Katsir (30 juz)',
+icon: '📜',
+url: 'https://drive.google.com/file/d/CONTOH_ID_2/preview',
+tersedia: true
+},
+{
+id: 'tf-3',
+judul: 'Tafsîr Al-Munîr',
+deskripsi: 'Tafsir karya Syeikh Nawawi Al-Bantani — ulama Nusantara paling produktif di Haramain',
+icon: '📜',
+url: 'https://drive.google.com/file/d/CONTOH_ID_3/preview',
+tersedia: true
+},
+{
+id: 'tf-4',
+judul: 'Tafsîr Al-Qurthubi',
+deskripsi: 'Tafsir ahkâm (hukum) paling lengkap karya Imam Al-Qurthubi, rujukan utama fiqih ayat',
+icon: '📜',
+url: 'https://drive.google.com/file/d/CONTOH_ID_4/preview',
+tersedia: true
+},
+{
+id: 'tf-5',
+judul: 'Jâmi\'ul Bayân (Ath-Thabari)',
+deskripsi: 'Tafsir tertua & paling otoritatif karya Imam Ath-Thabari, induk segala tafsir',
+icon: '📜',
+url: 'https://drive.google.com/file/d/CONTOH_ID_5/preview',
+tersedia: true
+},
+{
+id: 'tf-6',
+judul: 'Tafsîr Al-Baghawi (Ma\'âlimut Tanzîl)',
+deskripsi: 'Tafsir pertengahan yang ringkas namun padat, karya Imam Al-Baghawi',
+icon: '📜',
+url: 'https://drive.google.com/file/d/CONTOH_ID_6/preview',
+tersedia: true
+}
+];
+
+/* ============================================================
+✅ RENDER UI EMBED TAFSIR
+============================================================ */
+function renderTafsirEmbeds(){
+var container = document.getElementById('kitabTafsir');
+if(!container) return;
+
+// Hapus wrapper lama jika ada
+var oldWrapper = document.getElementById('tafsirEmbedWrapper');
+if(oldWrapper) oldWrapper.remove();
+
+// Buat wrapper baru
+var wrapper = document.createElement('div');
+wrapper.id = 'tafsirEmbedWrapper';
+wrapper.className = 'tafsir-embed-wrapper';
+
+var html = '<h5>' +
+'<span class="tf-icon">📜</span>' +
+'<span>Preview PDF Kitab Tafsir</span>' +
+'<span class="tf-count">' + tafsirEmbeds.length + ' File</span>' +
+'</h5>';
+
+html += '<div class="tafsir-embed-grid">';
+
+// Render kartu untuk setiap file
+for(var i = 0; i < tafsirEmbeds.length; i++){
+var e = tafsirEmbeds[i];
+html += '<div class="tafsir-embed-card" data-id="' + e.id + '">';
+if(e.tersedia){
+html += '<span class="tf-badge">✅ Tersedia</span>';
+}
+html += '<div class="tf-card-icon">' + (e.icon || '📖') + '</div>';
+html += '<div class="tf-card-title">' + e.judul + '</div>';
+html += '<div class="tf-card-desc">' + (e.deskripsi || '') + '</div>';
+html += '<div class="tf-card-actions">';
+if(e.tersedia){
+html += '<button class="tf-btn preview" onclick="tfPreviewPdf(\'' + e.id + '\')">👁️ Preview</button>';
+}
+html += '<button class="tf-btn edit" onclick="tfEditPdf(\'' + e.id + '\')">✏️ Edit</button>';
+html += '<button class="tf-btn delete" onclick="tfDeletePdf(\'' + e.id + '\')">🗑️</button>';
+html += '</div>';
+html += '</div>';
+}
+
+html += '</div>';
+
+// Tombol tambah file
+html += '<button class="tafsir-add-file-btn" onclick="tfAddNewPdf()">+ Tambah File PDF Baru</button>';
+
+wrapper.innerHTML = html;
+container.appendChild(wrapper);
+}
+
+/* ============================================================
+✅ PREVIEW PDF (PAKAI /preview)
+============================================================ */
+window.tfPreviewPdf = function(id){
+var embed = null;
+for(var i = 0; i < tafsirEmbeds.length; i++){
+if(tafsirEmbeds[i].id === id){
+embed = tafsirEmbeds[i];
+break;
+}
+}
+if(!embed || !embed.tersedia){
+if(typeof showToast === 'function') showToast('⚠️ File tidak tersedia');
+return;
+}
+
+var overlay = document.getElementById('tfPdfOverlay');
+var title = document.getElementById('tfPdfTitle');
+var iframe = document.getElementById('tfPdfIframe');
+var loading = document.getElementById('tfPdfLoading');
+
+if(!overlay || !iframe) return;
+
+title.textContent = embed.judul;
+loading.style.display = 'block';
+loading.innerHTML = '<div style="font-size:48px;margin-bottom:15px;">⏳</div>' +
+'<p style="font-size:15px;font-weight:bold;">Memuat: ' + embed.judul + '</p>' +
+'<p style="font-size:12px;color:#888;margin-top:8px;">Mode Preview (Download & Print dinonaktifkan)</p>';
+
+// ✅ URL dengan akhiran /preview
+var previewUrl = embed.url;
+// Pastikan URL berakhiran /preview
+if(previewUrl.indexOf('/preview') === -1){
+// Jika URL Google Drive format lama, konversi
+if(previewUrl.indexOf('drive.google.com/file/d/') !== -1){
+var fileId = previewUrl.match(/\/d\/([^\/]+)/);
+if(fileId && fileId[1]){
+previewUrl = 'https://drive.google.com/file/d/' + fileId[1] + '/preview';
+}
+}
+}
+
+// ✅ FUNGSI UNTUK MENYEMBUNYIKAN LOADING
+function hideLoading(){
+if(loading && loading.style.display !== 'none'){
+loading.style.display = 'none';
+console.log('✅ Loading spinner disembunyikan untuk:', embed.judul);
+}
+}
+
+// ✅ EVENT LISTENER: SEMBUNYIKAN LOADING SAAT IFRAME LOAD
+iframe.onload = null;
+iframe.onerror = null;
+
+iframe.onload = function(){
+console.log('✅ Iframe loaded:', previewUrl);
+setTimeout(hideLoading, 300);
+};
+
+iframe.onerror = function(){
+console.warn('⚠️ Iframe error, menyembunyikan loading...');
+hideLoading();
+};
+
+iframe.src = previewUrl;
+overlay.classList.add('active');
+document.body.style.overflow = 'hidden';
+
+// ✅ FALLBACK TIMEOUT 1: SEMBUNYIKAN LOADING SETELAH 2.5 DETIK
+setTimeout(function(){
+if(loading && loading.style.display !== 'none'){
+console.log('⏱️ Fallback timeout 1: paksa sembunyikan loading setelah 2.5 detik');
+hideLoading();
+}
+}, 2500);
+
+// ✅ FALLBACK TIMEOUT 2: CEK APAKAH PDF GAGAL LOAD
+setTimeout(function(){
+try{
+var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+if(iframeDoc && iframeDoc.body && iframeDoc.body.innerHTML === ''){
+loading.style.display = 'block';
+loading.innerHTML = '<div style="font-size:48px;margin-bottom:15px;">⚠️</div>' +
+'<p style="font-size:15px;font-weight:bold;">PDF tidak dapat dimuat</p>' +
+'<p style="font-size:12px;color:#888;margin-top:8px;">Periksa URL atau koneksi internet</p>' +
+'<button onclick="tfClosePdf()" style="margin-top:15px;padding:10px 20px;background:#c9a84c;color:#1a0a2e;border:none;border-radius:20px;font-weight:bold;cursor:pointer;">Tutup</button>';
+}
+}catch(e){
+// Cross-origin error = iframe berhasil load (normal untuk Google Drive)
+console.log('✅ PDF loaded (cross-origin, normal untuk Google Drive)');
+}
+}, 15000);
+};
+
+/* ============================================================
+✅ TUTUP PREVIEW
+============================================================ */
+window.tfClosePdf = function(){
+var overlay = document.getElementById('tfPdfOverlay');
+var iframe = document.getElementById('tfPdfIframe');
+var loading = document.getElementById('tfPdfLoading');
+
+if(overlay) overlay.classList.remove('active');
+if(iframe){
+iframe.onload = null;
+iframe.onerror = null;
+iframe.src = '';
+}
+// Reset loading ke state awal
+if(loading){
+loading.style.display = 'block';
+loading.innerHTML = 'Memuat dokumen...';
+}
+document.body.style.overflow = '';
+};
+
+/* ============================================================
+✅ EDIT URL/JUDUL PDF
+============================================================ */
+window.tfEditPdf = function(id){
+var embed = null;
+var idx = -1;
+for(var i = 0; i < tafsirEmbeds.length; i++){
+if(tafsirEmbeds[i].id === id){
+embed = tafsirEmbeds[i];
+idx = i;
+break;
+}
+}
+if(!embed) return;
+
+var newJudul = prompt('Judul Kitab Tafsir:', embed.judul);
+if(newJudul === null) return;
+var newUrl = prompt('URL Preview PDF (akhiri dengan /preview):\nContoh: https://drive.google.com/file/d/FILE_ID/preview', embed.url);
+if(newUrl === null) return;
+var newDesc = prompt('Deskripsi singkat:', embed.deskripsi);
+if(newDesc === null) return;
+var newIcon = prompt('Icon emoji (📜 📗 📕 📙 📘 📖):', embed.icon);
+if(newIcon === null) return;
+
+tafsirEmbeds[idx].judul = newJudul || embed.judul;
+tafsirEmbeds[idx].url = newUrl || embed.url;
+tafsirEmbeds[idx].deskripsi = newDesc || embed.deskripsi;
+tafsirEmbeds[idx].icon = newIcon || embed.icon;
+tafsirEmbeds[idx].tersedia = (tafsirEmbeds[idx].url && tafsirEmbeds[idx].url.trim() !== '');
+
+renderTafsirEmbeds();
+if(typeof showToast === 'function') showToast('✅ File "' + tafsirEmbeds[idx].judul + '" berhasil diperbarui');
+};
+
+/* ============================================================
+✅ TAMBAH FILE PDF BARU
+============================================================ */
+window.tfAddNewPdf = function(){
+var judul = prompt('Judul Kitab Tafsir Baru:');
+if(!judul) return;
+var url = prompt('URL Preview PDF (akhiri dengan /preview):\nContoh: https://drive.google.com/file/d/FILE_ID/preview');
+if(!url) url = '';
+var desc = prompt('Deskripsi singkat:') || '';
+var icon = prompt('Icon emoji (📜 📗 📕 📙 📘 📖):') || '📜';
+
+var newId = 'tf-' + Date.now();
+tafsirEmbeds.push({
+id: newId,
+judul: judul,
+deskripsi: desc,
+icon: icon,
+url: url,
+tersedia: (url && url.trim() !== '')
+});
+
+renderTafsirEmbeds();
+if(typeof showToast === 'function') showToast('✅ File "' + judul + '" berhasil ditambahkan');
+};
+
+/* ============================================================
+✅ HAPUS FILE PDF
+============================================================ */
+window.tfDeletePdf = function(id){
+var idx = -1;
+var nama = '';
+for(var i = 0; i < tafsirEmbeds.length; i++){
+if(tafsirEmbeds[i].id === id){
+idx = i;
+nama = tafsirEmbeds[i].judul;
+break;
+}
+}
+if(idx === -1) return;
+
+if(!confirm('Hapus file "' + nama + '"?')) return;
+
+tafsirEmbeds.splice(idx, 1);
+renderTafsirEmbeds();
+if(typeof showToast === 'function') showToast('🗑️ File "' + nama + '" dihapus');
+};
+
+/* ============================================================
+✅ BLOKIR DOWNLOAD & PRINT DI PREVIEW TAFSIR
+============================================================ */
+function blokirDownloadPrintTafsir(e){
+var overlay = document.getElementById('tfPdfOverlay');
+if(!overlay || !overlay.classList.contains('active')) return;
+
+// Blokir Ctrl+S (Save/Download)
+if((e.ctrlKey || e.metaKey) && e.key === 's'){
+e.preventDefault();
+if(typeof showToast === 'function') showToast('🔒 Download dinonaktifkan di preview');
+return false;
+}
+// Blokir Ctrl+P (Print)
+if((e.ctrlKey || e.metaKey) && e.key === 'p'){
+e.preventDefault();
+if(typeof showToast === 'function') showToast('🔒 Print dinonaktifkan di preview');
+return false;
+}
+}
+
+document.addEventListener('keydown', blokirDownloadPrintTafsir);
+
+// Blokir klik kanan di area preview Tafsir
+document.addEventListener('contextmenu', function(e){
+var overlay = document.getElementById('tfPdfOverlay');
+if(overlay && overlay.classList.contains('active')){
+var iframeWrap = document.querySelector('.tf-pdf-iframe-wrap');
+if(iframeWrap && iframeWrap.contains(e.target)){
+e.preventDefault();
+if(typeof showToast === 'function') showToast('🔒 Klik kanan dinonaktifkan');
+return false;
+}
+}
+});
+
+/* ============================================================
+✅ INISIALISASI
+============================================================ */
+function initEmbedTafsir(){
+// Render setelah DOM siap
+if(document.readyState === 'loading'){
+document.addEventListener('DOMContentLoaded', function(){
+setTimeout(renderTafsirEmbeds, 500);
+});
+} else {
+setTimeout(renderTafsirEmbeds, 500);
+}
+
+// Re-render saat halaman Kitab Kuning dibuka
+var _origShowPage = window.showPage;
+window.showPage = function(pageId){
+if(_origShowPage) _origShowPage(pageId);
+if(pageId === 'kitab-kuning'){
+setTimeout(renderTafsirEmbeds, 300);
+}
+};
+}
+
+initEmbedTafsir();
+
+console.log('✅ PATCH EMBED PDF TAFSIR: berhasil dimuat');
+console.log('💡 6 slot PDF tersedia di kategori Tafsir');
+console.log('💡 Preview pakai URL /preview, download & print ditutup');
+})();
+</script>
+<!-- ============================================
+✅ PATCH: EMBED PDF FIQIH (6 SLOT + /preview)
+- Preview pakai URL /preview
+- Tombol download & print ditutup
+- 6 slot default, bisa ditambah
+- Lokasi: Halaman Kitab Kuning > Kategori Fiqih (Mazhab Syafi'i)
+============================================ -->
+<style>
+/* ====== WRAPPER EMBED FIQIH ====== */
+.fiqih-embed-wrapper{
+margin-top:15px;
+padding:15px;
+background:linear-gradient(135deg,rgba(201,168,76,0.08),rgba(45,27,78,0.4));
+border:1px solid rgba(201,168,76,0.3);
+border-radius:12px;
+border-left:4px solid #c9a84c;
+}
+.fiqih-embed-wrapper h5{
+color:#e8d48b;
+font-size:0.95rem;
+margin:0 0 12px 0;
+display:flex;
+align-items:center;
+gap:8px;
+padding-bottom:10px;
+border-bottom:1px dashed rgba(201,168,76,0.3);
+}
+.fiqih-embed-wrapper h5 .fq-icon{
+width:28px;height:28px;
+background:linear-gradient(135deg,#c9a84c,#e8d48b);
+border-radius:8px;
+display:flex;align-items:center;justify-content:center;
+font-size:0.95rem;color:#1a0a2e;
+}
+.fiqih-embed-wrapper h5 .fq-count{
+margin-left:auto;
+background:rgba(201,168,76,0.2);
+color:#c9a84c;
+padding:2px 10px;
+border-radius:12px;
+font-size:0.72rem;
+font-weight:700;
+}
+/* ====== GRID KARTU EMBED ====== */
+.fiqih-embed-grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+gap:10px;
+margin-bottom:10px;
+}
+.fiqih-embed-card{
+background:rgba(255,255,255,0.04);
+border:1px solid rgba(201,168,76,0.2);
+border-radius:10px;
+padding:12px;
+transition:all 0.3s;
+position:relative;
+cursor:pointer;
+overflow:hidden;
+}
+.fiqih-embed-card::before{
+content:'';
+position:absolute;
+top:0;left:0;
+width:3px;height:100%;
+background:linear-gradient(to bottom,#c9a84c,#e8d48b);
+transform:scaleY(0);
+transition:transform 0.3s;
+transform-origin:top;
+}
+.fiqih-embed-card:hover{
+background:rgba(201,168,76,0.08);
+border-color:#c9a84c;
+transform:translateY(-3px);
+box-shadow:0 8px 20px rgba(201,168,76,0.15);
+}
+.fiqih-embed-card:hover::before{
+transform:scaleY(1);
+}
+.fiqih-embed-card .fq-card-icon{
+width:42px;height:42px;
+background:linear-gradient(135deg,#c9a84c,#e8d48b);
+border-radius:10px;
+display:flex;align-items:center;justify-content:center;
+font-size:1.3rem;color:#1a0a2e;
+margin-bottom:8px;
+}
+.fiqih-embed-card .fq-card-title{
+color:#e8d48b;
+font-size:0.88rem;
+font-weight:700;
+margin-bottom:4px;
+line-height:1.3;
+}
+.fiqih-embed-card .fq-card-desc{
+color:#aaa;
+font-size:0.72rem;
+line-height:1.5;
+margin-bottom:8px;
+}
+.fiqih-embed-card .fq-card-actions{
+display:flex;
+gap:6px;
+flex-wrap:wrap;
+}
+.fiqih-embed-card .fq-btn{
+padding:5px 10px;
+border-radius:15px;
+font-size:0.7rem;
+font-weight:600;
+cursor:pointer;
+border:none;
+transition:all 0.2s;
+font-family:inherit;
+display:inline-flex;
+align-items:center;
+gap:4px;
+}
+.fiqih-embed-card .fq-btn.preview{
+background:linear-gradient(135deg,#c9a84c,#e8d48b);
+color:#1a0a2e;
+}
+.fiqih-embed-card .fq-btn.preview:hover{
+transform:translateY(-1px);
+box-shadow:0 3px 10px rgba(201,168,76,0.4);
+}
+.fiqih-embed-card .fq-btn.edit{
+background:rgba(255,255,255,0.08);
+color:#c9a84c;
+border:1px solid rgba(201,168,76,0.3);
+}
+.fiqih-embed-card .fq-btn.edit:hover{
+background:rgba(201,168,76,0.15);
+}
+.fiqih-embed-card .fq-btn.delete{
+background:rgba(231,76,60,0.15);
+color:#e74c3c;
+border:1px solid rgba(231,76,60,0.3);
+}
+.fiqih-embed-card .fq-btn.delete:hover{
+background:rgba(231,76,60,0.25);
+}
+.fiqih-embed-card .fq-badge{
+position:absolute;
+top:8px;right:8px;
+background:rgba(46,204,113,0.2);
+color:#2ecc71;
+padding:2px 8px;
+border-radius:8px;
+font-size:0.62rem;
+font-weight:700;
+}
+.fiqih-embed-card.empty{
+border-style:dashed;
+background:transparent;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+min-height:140px;
+color:#888;
+}
+.fiqih-embed-card.empty:hover{
+border-color:#c9a84c;
+color:#c9a84c;
+background:rgba(201,168,76,0.05);
+}
+.fiqih-embed-card.empty .fq-plus{
+font-size:2rem;
+margin-bottom:5px;
+}
+/* ====== TOMBOL TAMBAH FILE ====== */
+.fiqih-add-file-btn{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:6px;
+width:100%;
+padding:10px;
+margin-top:8px;
+background:transparent;
+border:1.5px dashed rgba(201,168,76,0.3);
+border-radius:10px;
+color:#c9a84c;
+cursor:pointer;
+font-size:0.82rem;
+font-family:inherit;
+transition:all 0.3s;
+}
+.fiqih-add-file-btn:hover{
+border-color:#c9a84c;
+background:rgba(201,168,76,0.08);
+}
+/* ====== PDF PREVIEW OVERLAY FIQIH ====== */
+.fq-pdf-overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.95);
+z-index:99999;
+display:none;
+flex-direction:column;
+}
+.fq-pdf-overlay.active{
+display:flex;
+animation:fqFadeIn 0.3s ease;
+}
+@keyframes fqFadeIn{
+from{opacity:0}
+to{opacity:1}
+}
+.fq-pdf-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px 20px;
+background:linear-gradient(135deg,#1a0a2e,#2d1b4e);
+border-bottom:2px solid #c9a84c;
+flex-wrap:wrap;
+gap:10px;
+flex-shrink:0;
+}
+.fq-pdf-title{
+color:#e8d48b;
+font-size:1.1rem;
+font-weight:600;
+display:flex;
+align-items:center;
+gap:10px;
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
+max-width:60%;
+}
+.fq-pdf-title::before{
+content:'⚖️';
+font-size:1.3rem;
+}
+.fq-pdf-actions{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+}
+.fq-pdf-btn{
+background:linear-gradient(135deg,#c9a84c,#e8d48b);
+color:#1a0a2e;
+border:none;
+padding:8px 16px;
+border-radius:20px;
+font-size:0.85rem;
+font-weight:600;
+cursor:pointer;
+transition:all 0.3s;
+display:inline-flex;
+align-items:center;
+gap:6px;
+font-family:inherit;
+}
+.fq-pdf-btn:hover{
+transform:translateY(-2px);
+box-shadow:0 5px 15px rgba(201,168,76,0.4);
+}
+.fq-pdf-btn.danger{
+background:linear-gradient(135deg,#c0392b,#e74c3c);
+color:#fff;
+}
+.fq-pdf-iframe-wrap{
+position:relative;
+flex:1;
+background:#1a0a2e;
+overflow:hidden;
+min-height:0;
+}
+.fq-pdf-iframe-wrap iframe{
+width:100%;
+height:100%;
+border:none;
+background:#fff;
+}
+/* ====== OVERLAY PENUTUP TOOLBAR DOWNLOAD/PRINT ====== */
+.fq-toolbar-blocker{
+position:absolute;
+top:0;
+left:0;
+right:0;
+height:55px;
+background:linear-gradient(to bottom,
+rgba(26,10,46,0.98) 0%,
+rgba(26,10,46,0.92) 75%,
+rgba(26,10,46,0) 100%);
+z-index:25;
+pointer-events:auto;
+cursor:not-allowed;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+.fq-toolbar-blocker::before{
+content:'🔒 Download & Print Dinonaktifkan';
+color:#c9a84c;
+font-size:0.78rem;
+font-weight:700;
+letter-spacing:1px;
+text-shadow:0 2px 6px rgba(0,0,0,0.9);
+pointer-events:none;
+background:rgba(26,10,46,0.7);
+padding:4px 14px;
+border-radius:12px;
+border:1px solid rgba(201,168,76,0.3);
+}
+.fq-toolbar-blocker::after{
+content:'';
+position:absolute;
+bottom:0;left:0;right:0;
+height:1px;
+background:linear-gradient(90deg,transparent,#c9a84c,transparent);
+}
+/* ====== LOADING STATE ====== */
+.fq-pdf-loading{
+position:absolute;
+top:50%;left:50%;
+transform:translate(-50%,-50%);
+color:#c9a84c;
+font-size:1rem;
+text-align:center;
+z-index:10;
+background:rgba(26,10,46,0.95);
+padding:30px;
+border-radius:15px;
+min-width:280px;
+border:1px solid rgba(201,168,76,0.3);
+}
+.fq-pdf-loading::before{
+content:'⏳';
+display:block;
+font-size:3rem;
+margin-bottom:10px;
+animation:fqSpin 2s linear infinite;
+}
+@keyframes fqSpin{
+from{transform:rotate(0deg)}
+to{transform:rotate(360deg)}
+}
+/* ====== RESPONSIVE ====== */
+@media (max-width:900px){
+.fiqih-embed-grid{
+grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+gap:8px;
+}
+.fiqih-embed-card{
+padding:10px;
+}
+.fiqih-embed-card .fq-card-icon{
+width:36px;height:36px;
+font-size:1.1rem;
+}
+.fiqih-embed-card .fq-card-title{
+font-size:0.8rem;
+}
+.fiqih-embed-card .fq-card-desc{
+font-size:0.68rem;
+}
+.fq-pdf-title{
+font-size:0.95rem;
+max-width:55%;
+}
+.fq-pdf-btn{
+padding:7px 12px;
+font-size:0.78rem;
+}
+}
+@media (max-width:400px){
+.fiqih-embed-grid{
+grid-template-columns:1fr;
+}
+}
+</style>
+
+<!-- Container Overlay PDF Preview Fiqih -->
+<div class="fq-pdf-overlay" id="fqPdfOverlay">
+<div class="fq-pdf-header">
+<div class="fq-pdf-title" id="fqPdfTitle">Memuat Dokumen...</div>
+<div class="fq-pdf-actions">
+<button class="fq-pdf-btn danger" onclick="fqClosePdf()">✕ Tutup</button>
+</div>
+</div>
+<div class="fq-pdf-iframe-wrap">
+<div class="fq-pdf-loading" id="fqPdfLoading">Memuat dokumen...</div>
+<iframe id="fqPdfIframe" src="" title="PDF Preview Fiqih"></iframe>
+<div class="fq-toolbar-blocker"></div>
+</div>
+</div>
+
+<script>
+(function(){
+'use strict';
+console.log('🟢 PATCH EMBED PDF FIQIH: mulai dimuat...');
+
+/* ============================================================
+✅ DATA EMBED PDF FIQIH (6 SLOT DEFAULT)
+Pengguna bisa menambah slot lewat tombol "+ Tambah File PDF"
+Format URL: gunakan URL Google Drive / hosting dengan akhiran /preview
+Contoh: https://drive.google.com/file/d/FILE_ID/preview
+============================================================ */
+var fiqihEmbeds = [
+{
+id: 'fq-1',
+judul: 'Safînatun Najâh',
+deskripsi: 'Kitab fiqih Syafi\'i paling dasar, diajarkan di hampir seluruh pesantren Nusantara',
+icon: '⚖️',
+url: 'https://drive.google.com/file/d/CONTOH_ID_1/preview',
+tersedia: true
+},
+{
+id: 'fq-2',
+judul: 'Fathul Qarîb',
+deskripsi: 'Syarah (penjelasan) ringkas dari kitab Taqrîb karya Imam Ibnu Qasim Al-Ghazzi',
+icon: '⚖️',
+url: 'https://drive.google.com/file/d/CONTOH_ID_2/preview',
+tersedia: true
+},
+{
+id: 'fq-3',
+judul: 'Taqrîb (Matan Abu Syuja\')',
+deskripsi: 'Matan fiqih Syafi\'i ringkas karya Imam Abu Syuja\' Al-Ashfahani',
+icon: '⚖️',
+url: 'https://drive.google.com/file/d/CONTOH_ID_3/preview',
+tersedia: true
+},
+{
+id: 'fq-4',
+judul: 'Al-Umm',
+deskripsi: 'Karya agung & induk Mazhab Syafi\'i oleh Imam Muhammad bin Idris Asy-Syafi\'i',
+icon: '⚖️',
+url: 'https://drive.google.com/file/d/CONTOH_ID_4/preview',
+tersedia: true
+},
+{
+id: 'fq-5',
+judul: 'Minhâjut Thâlibîn',
+deskripsi: 'Kitab fiqih Syafi\'i tingkat lanjut karya Imam An-Nawawi, rujukan utama mazhab',
+icon: '⚖️',
+url: 'https://drive.google.com/file/d/CONTOH_ID_5/preview',
+tersedia: true
+},
+{
+id: 'fq-6',
+judul: 'I\'ânatut Thâlibîn',
+deskripsi: 'Syarah Fathul Mu\'în karya Sayyid Abu Bakar bin Muhammad Syatha Ad-Dimyathi',
+icon: '⚖️',
+url: 'https://drive.google.com/file/d/CONTOH_ID_6/preview',
+tersedia: true
+}
+];
+
+/* ============================================================
+✅ RENDER UI EMBED FIQIH
+============================================================ */
+function renderFiqihEmbeds(){
+var container = document.getElementById('kitabFiqih');
+if(!container) return;
+
+// Hapus wrapper lama jika ada
+var oldWrapper = document.getElementById('fiqihEmbedWrapper');
+if(oldWrapper) oldWrapper.remove();
+
+// Buat wrapper baru
+var wrapper = document.createElement('div');
+wrapper.id = 'fiqihEmbedWrapper';
+wrapper.className = 'fiqih-embed-wrapper';
+
+var html = '<h5>' +
+'<span class="fq-icon">⚖️</span>' +
+'<span>Preview PDF Kitab Fiqih (Mazhab Syafi\'i)</span>' +
+'<span class="fq-count">' + fiqihEmbeds.length + ' File</span>' +
+'</h5>';
+
+html += '<div class="fiqih-embed-grid">';
+
+// Render kartu untuk setiap file
+for(var i = 0; i < fiqihEmbeds.length; i++){
+var e = fiqihEmbeds[i];
+html += '<div class="fiqih-embed-card" data-id="' + e.id + '">';
+if(e.tersedia){
+html += '<span class="fq-badge">✅ Tersedia</span>';
+}
+html += '<div class="fq-card-icon">' + (e.icon || '📖') + '</div>';
+html += '<div class="fq-card-title">' + e.judul + '</div>';
+html += '<div class="fq-card-desc">' + (e.deskripsi || '') + '</div>';
+html += '<div class="fq-card-actions">';
+if(e.tersedia){
+html += '<button class="fq-btn preview" onclick="fqPreviewPdf(\'' + e.id + '\')">👁️ Preview</button>';
+}
+html += '<button class="fq-btn edit" onclick="fqEditPdf(\'' + e.id + '\')">✏️ Edit</button>';
+html += '<button class="fq-btn delete" onclick="fqDeletePdf(\'' + e.id + '\')">🗑️</button>';
+html += '</div>';
+html += '</div>';
+}
+
+html += '</div>';
+
+// Tombol tambah file
+html += '<button class="fiqih-add-file-btn" onclick="fqAddNewPdf()">+ Tambah File PDF Baru</button>';
+
+wrapper.innerHTML = html;
+container.appendChild(wrapper);
+}
+
+/* ============================================================
+✅ PREVIEW PDF (PAKAI /preview)
+============================================================ */
+window.fqPreviewPdf = function(id){
+var embed = null;
+for(var i = 0; i < fiqihEmbeds.length; i++){
+if(fiqihEmbeds[i].id === id){
+embed = fiqihEmbeds[i];
+break;
+}
+}
+if(!embed || !embed.tersedia){
+if(typeof showToast === 'function') showToast('⚠️ File tidak tersedia');
+return;
+}
+
+var overlay = document.getElementById('fqPdfOverlay');
+var title = document.getElementById('fqPdfTitle');
+var iframe = document.getElementById('fqPdfIframe');
+var loading = document.getElementById('fqPdfLoading');
+
+if(!overlay || !iframe) return;
+
+title.textContent = embed.judul;
+loading.style.display = 'block';
+loading.innerHTML = '<div style="font-size:48px;margin-bottom:15px;">⏳</div>' +
+'<p style="font-size:15px;font-weight:bold;">Memuat: ' + embed.judul + '</p>' +
+'<p style="font-size:12px;color:#888;margin-top:8px;">Mode Preview (Download & Print dinonaktifkan)</p>';
+
+// ✅ URL dengan akhiran /preview
+var previewUrl = embed.url;
+// Pastikan URL berakhiran /preview
+if(previewUrl.indexOf('/preview') === -1){
+// Jika URL Google Drive format lama, konversi
+if(previewUrl.indexOf('drive.google.com/file/d/') !== -1){
+var fileId = previewUrl.match(/\/d\/([^\/]+)/);
+if(fileId && fileId[1]){
+previewUrl = 'https://drive.google.com/file/d/' + fileId[1] + '/preview';
+}
+}
+}
+
+// ✅ FUNGSI UNTUK MENYEMBUNYIKAN LOADING
+function hideLoading(){
+if(loading && loading.style.display !== 'none'){
+loading.style.display = 'none';
+console.log('✅ Loading spinner disembunyikan untuk:', embed.judul);
+}
+}
+
+// ✅ EVENT LISTENER: SEMBUNYIKAN LOADING SAAT IFRAME LOAD
+iframe.onload = null;
+iframe.onerror = null;
+
+iframe.onload = function(){
+console.log('✅ Iframe loaded:', previewUrl);
+setTimeout(hideLoading, 300);
+};
+
+iframe.onerror = function(){
+console.warn('⚠️ Iframe error, menyembunyikan loading...');
+hideLoading();
+};
+
+iframe.src = previewUrl;
+overlay.classList.add('active');
+document.body.style.overflow = 'hidden';
+
+// ✅ FALLBACK TIMEOUT 1: SEMBUNYIKAN LOADING SETELAH 2.5 DETIK
+setTimeout(function(){
+if(loading && loading.style.display !== 'none'){
+console.log('⏱️ Fallback timeout 1: paksa sembunyikan loading setelah 2.5 detik');
+hideLoading();
+}
+}, 2500);
+
+// ✅ FALLBACK TIMEOUT 2: CEK APAKAH PDF GAGAL LOAD
+setTimeout(function(){
+try{
+var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+if(iframeDoc && iframeDoc.body && iframeDoc.body.innerHTML === ''){
+loading.style.display = 'block';
+loading.innerHTML = '<div style="font-size:48px;margin-bottom:15px;">⚠️</div>' +
+'<p style="font-size:15px;font-weight:bold;">PDF tidak dapat dimuat</p>' +
+'<p style="font-size:12px;color:#888;margin-top:8px;">Periksa URL atau koneksi internet</p>' +
+'<button onclick="fqClosePdf()" style="margin-top:15px;padding:10px 20px;background:#c9a84c;color:#1a0a2e;border:none;border-radius:20px;font-weight:bold;cursor:pointer;">Tutup</button>';
+}
+}catch(e){
+// Cross-origin error = iframe berhasil load (normal untuk Google Drive)
+console.log('✅ PDF loaded (cross-origin, normal untuk Google Drive)');
+}
+}, 15000);
+};
+
+/* ============================================================
+✅ TUTUP PREVIEW
+============================================================ */
+window.fqClosePdf = function(){
+var overlay = document.getElementById('fqPdfOverlay');
+var iframe = document.getElementById('fqPdfIframe');
+var loading = document.getElementById('fqPdfLoading');
+
+if(overlay) overlay.classList.remove('active');
+if(iframe){
+iframe.onload = null;
+iframe.onerror = null;
+iframe.src = '';
+}
+// Reset loading ke state awal
+if(loading){
+loading.style.display = 'block';
+loading.innerHTML = 'Memuat dokumen...';
+}
+document.body.style.overflow = '';
+};
+
+/* ============================================================
+✅ EDIT URL/JUDUL PDF
+============================================================ */
+window.fqEditPdf = function(id){
+var embed = null;
+var idx = -1;
+for(var i = 0; i < fiqihEmbeds.length; i++){
+if(fiqihEmbeds[i].id === id){
+embed = fiqihEmbeds[i];
+idx = i;
+break;
+}
+}
+if(!embed) return;
+
+var newJudul = prompt('Judul Kitab Fiqih:', embed.judul);
+if(newJudul === null) return;
+var newUrl = prompt('URL Preview PDF (akhiri dengan /preview):\nContoh: https://drive.google.com/file/d/FILE_ID/preview', embed.url);
+if(newUrl === null) return;
+var newDesc = prompt('Deskripsi singkat:', embed.deskripsi);
+if(newDesc === null) return;
+var newIcon = prompt('Icon emoji (⚖️ 📗 📕 📙 📘 📖):', embed.icon);
+if(newIcon === null) return;
+
+fiqihEmbeds[idx].judul = newJudul || embed.judul;
+fiqihEmbeds[idx].url = newUrl || embed.url;
+fiqihEmbeds[idx].deskripsi = newDesc || embed.deskripsi;
+fiqihEmbeds[idx].icon = newIcon || embed.icon;
+fiqihEmbeds[idx].tersedia = (fiqihEmbeds[idx].url && fiqihEmbeds[idx].url.trim() !== '');
+
+renderFiqihEmbeds();
+if(typeof showToast === 'function') showToast('✅ File "' + fiqihEmbeds[idx].judul + '" berhasil diperbarui');
+};
+
+/* ============================================================
+✅ TAMBAH FILE PDF BARU
+============================================================ */
+window.fqAddNewPdf = function(){
+var judul = prompt('Judul Kitab Fiqih Baru:');
+if(!judul) return;
+var url = prompt('URL Preview PDF (akhiri dengan /preview):\nContoh: https://drive.google.com/file/d/FILE_ID/preview');
+if(!url) url = '';
+var desc = prompt('Deskripsi singkat:') || '';
+var icon = prompt('Icon emoji (⚖️ 📗 📕 📙 📘 📖):') || '⚖️';
+
+var newId = 'fq-' + Date.now();
+fiqihEmbeds.push({
+id: newId,
+judul: judul,
+deskripsi: desc,
+icon: icon,
+url: url,
+tersedia: (url && url.trim() !== '')
+});
+
+renderFiqihEmbeds();
+if(typeof showToast === 'function') showToast('✅ File "' + judul + '" berhasil ditambahkan');
+};
+
+/* ============================================================
+✅ HAPUS FILE PDF
+============================================================ */
+window.fqDeletePdf = function(id){
+var idx = -1;
+var nama = '';
+for(var i = 0; i < fiqihEmbeds.length; i++){
+if(fiqihEmbeds[i].id === id){
+idx = i;
+nama = fiqihEmbeds[i].judul;
+break;
+}
+}
+if(idx === -1) return;
+
+if(!confirm('Hapus file "' + nama + '"?')) return;
+
+fiqihEmbeds.splice(idx, 1);
+renderFiqihEmbeds();
+if(typeof showToast === 'function') showToast('🗑️ File "' + nama + '" dihapus');
+};
+
+/* ============================================================
+✅ BLOKIR DOWNLOAD & PRINT DI PREVIEW FIQIH
+============================================================ */
+function blokirDownloadPrintFiqih(e){
+var overlay = document.getElementById('fqPdfOverlay');
+if(!overlay || !overlay.classList.contains('active')) return;
+
+// Blokir Ctrl+S (Save/Download)
+if((e.ctrlKey || e.metaKey) && e.key === 's'){
+e.preventDefault();
+if(typeof showToast === 'function') showToast('🔒 Download dinonaktifkan di preview');
+return false;
+}
+// Blokir Ctrl+P (Print)
+if((e.ctrlKey || e.metaKey) && e.key === 'p'){
+e.preventDefault();
+if(typeof showToast === 'function') showToast('🔒 Print dinonaktifkan di preview');
+return false;
+}
+}
+
+document.addEventListener('keydown', blokirDownloadPrintFiqih);
+
+// Blokir klik kanan di area preview Fiqih
+document.addEventListener('contextmenu', function(e){
+var overlay = document.getElementById('fqPdfOverlay');
+if(overlay && overlay.classList.contains('active')){
+var iframeWrap = document.querySelector('.fq-pdf-iframe-wrap');
+if(iframeWrap && iframeWrap.contains(e.target)){
+e.preventDefault();
+if(typeof showToast === 'function') showToast('🔒 Klik kanan dinonaktifkan');
+return false;
+}
+}
+});
+
+/* ============================================================
+✅ INISIALISASI
+============================================================ */
+function initEmbedFiqih(){
+// Render setelah DOM siap
+if(document.readyState === 'loading'){
+document.addEventListener('DOMContentLoaded', function(){
+setTimeout(renderFiqihEmbeds, 500);
+});
+} else {
+setTimeout(renderFiqihEmbeds, 500);
+}
+
+// Re-render saat halaman Kitab Kuning dibuka
+var _origShowPage = window.showPage;
+window.showPage = function(pageId){
+if(_origShowPage) _origShowPage(pageId);
+if(pageId === 'kitab-kuning'){
+setTimeout(renderFiqihEmbeds, 300);
+}
+};
+}
+
+initEmbedFiqih();
+
+console.log('✅ PATCH EMBED PDF FIQIH: berhasil dimuat');
+console.log('💡 6 slot PDF tersedia di kategori Fiqih (Mazhab Syafi\'i)');
+console.log('💡 Preview pakai URL /preview, download & print ditutup');
+})();
+</script>
+<!-- ============================================
+✅ PATCH: EMBED PDF USHUL FIQIH (6 SLOT + /preview)
+- Preview pakai URL /preview
+- Tombol download & print ditutup
+- 6 slot default, bisa ditambah
+- Lokasi: Halaman Kitab Kuning > Kategori Ushul Fiqih
+============================================ -->
+<style>
+/* ====== WRAPPER EMBED USHUL FIQIH ====== */
+.ushul-embed-wrapper{
+margin-top:15px;
+padding:15px;
+background:linear-gradient(135deg,rgba(201,168,76,0.08),rgba(45,27,78,0.4));
+border:1px solid rgba(201,168,76,0.3);
+border-radius:12px;
+border-left:4px solid #c9a84c;
+}
+.ushul-embed-wrapper h5{
+color:#e8d48b;
+font-size:0.95rem;
+margin:0 0 12px 0;
+display:flex;
+align-items:center;
+gap:8px;
+padding-bottom:10px;
+border-bottom:1px dashed rgba(201,168,76,0.3);
+}
+.ushul-embed-wrapper h5 .uf-icon{
+width:28px;height:28px;
+background:linear-gradient(135deg,#c9a84c,#e8d48b);
+border-radius:8px;
+display:flex;align-items:center;justify-content:center;
+font-size:0.95rem;color:#1a0a2e;
+}
+.ushul-embed-wrapper h5 .uf-count{
+margin-left:auto;
+background:rgba(201,168,76,0.2);
+color:#c9a84c;
+padding:2px 10px;
+border-radius:12px;
+font-size:0.72rem;
+font-weight:700;
+}
+/* ====== GRID KARTU EMBED ====== */
+.ushul-embed-grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+gap:10px;
+margin-bottom:10px;
+}
+.ushul-embed-card{
+background:rgba(255,255,255,0.04);
+border:1px solid rgba(201,168,76,0.2);
+border-radius:10px;
+padding:12px;
+transition:all 0.3s;
+position:relative;
+cursor:pointer;
+overflow:hidden;
+}
+.ushul-embed-card::before{
+content:'';
+position:absolute;
+top:0;left:0;
+width:3px;height:100%;
+background:linear-gradient(to bottom,#c9a84c,#e8d48b);
+transform:scaleY(0);
+transition:transform 0.3s;
+transform-origin:top;
+}
+.ushul-embed-card:hover{
+background:rgba(201,168,76,0.08);
+border-color:#c9a84c;
+transform:translateY(-3px);
+box-shadow:0 8px 20px rgba(201,168,76,0.15);
+}
+.ushul-embed-card:hover::before{
+transform:scaleY(1);
+}
+.ushul-embed-card .uf-card-icon{
+width:42px;height:42px;
+background:linear-gradient(135deg,#c9a84c,#e8d48b);
+border-radius:10px;
+display:flex;align-items:center;justify-content:center;
+font-size:1.3rem;color:#1a0a2e;
+margin-bottom:8px;
+}
+.ushul-embed-card .uf-card-title{
+color:#e8d48b;
+font-size:0.88rem;
+font-weight:700;
+margin-bottom:4px;
+line-height:1.3;
+}
+.ushul-embed-card .uf-card-desc{
+color:#aaa;
+font-size:0.72rem;
+line-height:1.5;
+margin-bottom:8px;
+}
+.ushul-embed-card .uf-card-actions{
+display:flex;
+gap:6px;
+flex-wrap:wrap;
+}
+.ushul-embed-card .uf-btn{
+padding:5px 10px;
+border-radius:15px;
+font-size:0.7rem;
+font-weight:600;
+cursor:pointer;
+border:none;
+transition:all 0.2s;
+font-family:inherit;
+display:inline-flex;
+align-items:center;
+gap:4px;
+}
+.ushul-embed-card .uf-btn.preview{
+background:linear-gradient(135deg,#c9a84c,#e8d48b);
+color:#1a0a2e;
+}
+.ushul-embed-card .uf-btn.preview:hover{
+transform:translateY(-1px);
+box-shadow:0 3px 10px rgba(201,168,76,0.4);
+}
+.ushul-embed-card .uf-btn.edit{
+background:rgba(255,255,255,0.08);
+color:#c9a84c;
+border:1px solid rgba(201,168,76,0.3);
+}
+.ushul-embed-card .uf-btn.edit:hover{
+background:rgba(201,168,76,0.15);
+}
+.ushul-embed-card .uf-btn.delete{
+background:rgba(231,76,60,0.15);
+color:#e74c3c;
+border:1px solid rgba(231,76,60,0.3);
+}
+.ushul-embed-card .uf-btn.delete:hover{
+background:rgba(231,76,60,0.25);
+}
+.ushul-embed-card .uf-badge{
+position:absolute;
+top:8px;right:8px;
+background:rgba(46,204,113,0.2);
+color:#2ecc71;
+padding:2px 8px;
+border-radius:8px;
+font-size:0.62rem;
+font-weight:700;
+}
+.ushul-embed-card.empty{
+border-style:dashed;
+background:transparent;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+min-height:140px;
+color:#888;
+}
+.ushul-embed-card.empty:hover{
+border-color:#c9a84c;
+color:#c9a84c;
+background:rgba(201,168,76,0.05);
+}
+.ushul-embed-card.empty .uf-plus{
+font-size:2rem;
+margin-bottom:5px;
+}
+/* ====== TOMBOL TAMBAH FILE ====== */
+.ushul-add-file-btn{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:6px;
+width:100%;
+padding:10px;
+margin-top:8px;
+background:transparent;
+border:1.5px dashed rgba(201,168,76,0.3);
+border-radius:10px;
+color:#c9a84c;
+cursor:pointer;
+font-size:0.82rem;
+font-family:inherit;
+transition:all 0.3s;
+}
+.ushul-add-file-btn:hover{
+border-color:#c9a84c;
+background:rgba(201,168,76,0.08);
+}
+/* ====== PDF PREVIEW OVERLAY USHUL FIQIH ====== */
+.uf-pdf-overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.95);
+z-index:99999;
+display:none;
+flex-direction:column;
+}
+.uf-pdf-overlay.active{
+display:flex;
+animation:ufFadeIn 0.3s ease;
+}
+@keyframes ufFadeIn{
+from{opacity:0}
+to{opacity:1}
+}
+.uf-pdf-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px 20px;
+background:linear-gradient(135deg,#1a0a2e,#2d1b4e);
+border-bottom:2px solid #c9a84c;
+flex-wrap:wrap;
+gap:10px;
+flex-shrink:0;
+}
+.uf-pdf-title{
+color:#e8d48b;
+font-size:1.1rem;
+font-weight:600;
+display:flex;
+align-items:center;
+gap:10px;
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
+max-width:60%;
+}
+.uf-pdf-title::before{
+content:'📐';
+font-size:1.3rem;
+}
+.uf-pdf-actions{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+}
+.uf-pdf-btn{
+background:linear-gradient(135deg,#c9a84c,#e8d48b);
+color:#1a0a2e;
+border:none;
+padding:8px 16px;
+border-radius:20px;
+font-size:0.85rem;
+font-weight:600;
+cursor:pointer;
+transition:all 0.3s;
+display:inline-flex;
+align-items:center;
+gap:6px;
+font-family:inherit;
+}
+.uf-pdf-btn:hover{
+transform:translateY(-2px);
+box-shadow:0 5px 15px rgba(201,168,76,0.4);
+}
+.uf-pdf-btn.danger{
+background:linear-gradient(135deg,#c0392b,#e74c3c);
+color:#fff;
+}
+.uf-pdf-iframe-wrap{
+position:relative;
+flex:1;
+background:#1a0a2e;
+overflow:hidden;
+min-height:0;
+}
+.uf-pdf-iframe-wrap iframe{
+width:100%;
+height:100%;
+border:none;
+background:#fff;
+}
+/* ====== OVERLAY PENUTUP TOOLBAR DOWNLOAD/PRINT ====== */
+.uf-toolbar-blocker{
+position:absolute;
+top:0;
+left:0;
+right:0;
+height:55px;
+background:linear-gradient(to bottom,
+rgba(26,10,46,0.98) 0%,
+rgba(26,10,46,0.92) 75%,
+rgba(26,10,46,0) 100%);
+z-index:25;
+pointer-events:auto;
+cursor:not-allowed;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+.uf-toolbar-blocker::before{
+content:'🔒 Download & Print Dinonaktifkan';
+color:#c9a84c;
+font-size:0.78rem;
+font-weight:700;
+letter-spacing:1px;
+text-shadow:0 2px 6px rgba(0,0,0,0.9);
+pointer-events:none;
+background:rgba(26,10,46,0.7);
+padding:4px 14px;
+border-radius:12px;
+border:1px solid rgba(201,168,76,0.3);
+}
+.uf-toolbar-blocker::after{
+content:'';
+position:absolute;
+bottom:0;left:0;right:0;
+height:1px;
+background:linear-gradient(90deg,transparent,#c9a84c,transparent);
+}
+/* ====== LOADING STATE ====== */
+.uf-pdf-loading{
+position:absolute;
+top:50%;left:50%;
+transform:translate(-50%,-50%);
+color:#c9a84c;
+font-size:1rem;
+text-align:center;
+z-index:10;
+background:rgba(26,10,46,0.95);
+padding:30px;
+border-radius:15px;
+min-width:280px;
+border:1px solid rgba(201,168,76,0.3);
+}
+.uf-pdf-loading::before{
+content:'⏳';
+display:block;
+font-size:3rem;
+margin-bottom:10px;
+animation:ufSpin 2s linear infinite;
+}
+@keyframes ufSpin{
+from{transform:rotate(0deg)}
+to{transform:rotate(360deg)}
+}
+/* ====== RESPONSIVE ====== */
+@media (max-width:900px){
+.ushul-embed-grid{
+grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+gap:8px;
+}
+.ushul-embed-card{
+padding:10px;
+}
+.ushul-embed-card .uf-card-icon{
+width:36px;height:36px;
+font-size:1.1rem;
+}
+.ushul-embed-card .uf-card-title{
+font-size:0.8rem;
+}
+.ushul-embed-card .uf-card-desc{
+font-size:0.68rem;
+}
+.uf-pdf-title{
+font-size:0.95rem;
+max-width:55%;
+}
+.uf-pdf-btn{
+padding:7px 12px;
+font-size:0.78rem;
+}
+}
+@media (max-width:400px){
+.ushul-embed-grid{
+grid-template-columns:1fr;
+}
+}
+</style>
+
+<!-- Container Overlay PDF Preview Ushul Fiqih -->
+<div class="uf-pdf-overlay" id="ufPdfOverlay">
+<div class="uf-pdf-header">
+<div class="uf-pdf-title" id="ufPdfTitle">Memuat Dokumen...</div>
+<div class="uf-pdf-actions">
+<button class="uf-pdf-btn danger" onclick="ufClosePdf()">✕ Tutup</button>
+</div>
+</div>
+<div class="uf-pdf-iframe-wrap">
+<div class="uf-pdf-loading" id="ufPdfLoading">Memuat dokumen...</div>
+<iframe id="ufPdfIframe" src="" title="PDF Preview Ushul Fiqih"></iframe>
+<div class="uf-toolbar-blocker"></div>
+</div>
+</div>
+
+<script>
+(function(){
+'use strict';
+console.log('🟢 PATCH EMBED PDF USHUL FIQIH: mulai dimuat...');
+
+/* ============================================================
+✅ DATA EMBED PDF USHUL FIQIH (6 SLOT DEFAULT)
+Pengguna bisa menambah slot lewat tombol "+ Tambah File PDF"
+Format URL: gunakan URL Google Drive / hosting dengan akhiran /preview
+Contoh: https://drive.google.com/file/d/FILE_ID/preview
+============================================================ */
+var ushulEmbeds = [
+{
+id: 'uf-1',
+judul: 'Ar-Risâlah',
+deskripsi: 'Kitab ushul fiqih pertama dalam sejarah Islam, karya Imam Asy-Syafi\'i — peletak dasar metodologi istinbath hukum',
+icon: '📐',
+url: 'https://drive.google.com/file/d/CONTOH_ID_1/preview',
+tersedia: true
+},
+{
+id: 'uf-2',
+judul: 'Al-Waraqât',
+deskripsi: 'Matan ushul fiqih paling ringkas karya Imam Al-Haramain Al-Juwaini, diajarkan di hampir seluruh pesantren',
+icon: '📐',
+url: 'https://drive.google.com/file/d/CONTOH_ID_2/preview',
+tersedia: true
+},
+{
+id: 'uf-3',
+judul: 'Al-Luma\' fî Ushûlil Fiqh',
+deskripsi: 'Kitab ushul fiqih Mazhab Syafi\'i tingkat menengah karya Imam Asy-Syirazi, penjelas metode istinbath',
+icon: '📐',
+url: 'https://drive.google.com/file/d/CONTOH_ID_3/preview',
+tersedia: true
+},
+{
+id: 'uf-4',
+judul: 'Al-Mustashfâ min \'Ilmil Ushûl',
+deskripsi: 'Kitab ushul fiqih komprehensif karya Imam Al-Ghazali, memadukan logika (mantiq) dengan ushul fiqih',
+icon: '📐',
+url: 'https://drive.google.com/file/d/CONTOH_ID_4/preview',
+tersedia: true
+},
+{
+id: 'uf-5',
+judul: 'Jam\'ul Jawâmi\'',
+deskripsi: 'Kitab ushul fiqih tingkat lanjut karya Imam As-Subki, puncak literatur ushul fiqih Mazhab Syafi\'i',
+icon: '📐',
+url: 'https://drive.google.com/file/d/CONTOH_ID_5/preview',
+tersedia: true
+},
+{
+id: 'uf-6',
+judul: 'Al-Ihkâm fî Ushûlil Ahkâm',
+deskripsi: 'Kitab ushul fiqih perbandingan mazhab karya Imam Al-Amidi, membahas khilafiyah antar mazhab secara mendalam',
+icon: '📐',
+url: 'https://drive.google.com/file/d/CONTOH_ID_6/preview',
+tersedia: true
+}
+];
+
+/* ============================================================
+✅ RENDER UI EMBED USHUL FIQIH
+============================================================ */
+function renderUshulEmbeds(){
+var container = document.getElementById('kitabUshul');
+if(!container) return;
+
+// Hapus wrapper lama jika ada
+var oldWrapper = document.getElementById('ushulEmbedWrapper');
+if(oldWrapper) oldWrapper.remove();
+
+// Buat wrapper baru
+var wrapper = document.createElement('div');
+wrapper.id = 'ushulEmbedWrapper';
+wrapper.className = 'ushul-embed-wrapper';
+
+var html = '<h5>' +
+'<span class="uf-icon">📐</span>' +
+'<span>Preview PDF Kitab Ushul Fiqih</span>' +
+'<span class="uf-count">' + ushulEmbeds.length + ' File</span>' +
+'</h5>';
+
+html += '<div class="ushul-embed-grid">';
+
+// Render kartu untuk setiap file
+for(var i = 0; i < ushulEmbeds.length; i++){
+var e = ushulEmbeds[i];
+html += '<div class="ushul-embed-card" data-id="' + e.id + '">';
+if(e.tersedia){
+html += '<span class="uf-badge">✅ Tersedia</span>';
+}
+html += '<div class="uf-card-icon">' + (e.icon || '📖') + '</div>';
+html += '<div class="uf-card-title">' + e.judul + '</div>';
+html += '<div class="uf-card-desc">' + (e.deskripsi || '') + '</div>';
+html += '<div class="uf-card-actions">';
+if(e.tersedia){
+html += '<button class="uf-btn preview" onclick="ufPreviewPdf(\'' + e.id + '\')">👁️ Preview</button>';
+}
+html += '<button class="uf-btn edit" onclick="ufEditPdf(\'' + e.id + '\')">✏️ Edit</button>';
+html += '<button class="uf-btn delete" onclick="ufDeletePdf(\'' + e.id + '\')">🗑️</button>';
+html += '</div>';
+html += '</div>';
+}
+
+html += '</div>';
+
+// Tombol tambah file
+html += '<button class="ushul-add-file-btn" onclick="ufAddNewPdf()">+ Tambah File PDF Baru</button>';
+
+wrapper.innerHTML = html;
+container.appendChild(wrapper);
+}
+
+/* ============================================================
+✅ PREVIEW PDF (PAKAI /preview)
+============================================================ */
+window.ufPreviewPdf = function(id){
+var embed = null;
+for(var i = 0; i < ushulEmbeds.length; i++){
+if(ushulEmbeds[i].id === id){
+embed = ushulEmbeds[i];
+break;
+}
+}
+if(!embed || !embed.tersedia){
+if(typeof showToast === 'function') showToast('⚠️ File tidak tersedia');
+return;
+}
+
+var overlay = document.getElementById('ufPdfOverlay');
+var title = document.getElementById('ufPdfTitle');
+var iframe = document.getElementById('ufPdfIframe');
+var loading = document.getElementById('ufPdfLoading');
+
+if(!overlay || !iframe) return;
+
+title.textContent = embed.judul;
+loading.style.display = 'block';
+loading.innerHTML = '<div style="font-size:48px;margin-bottom:15px;">⏳</div>' +
+'<p style="font-size:15px;font-weight:bold;">Memuat: ' + embed.judul + '</p>' +
+'<p style="font-size:12px;color:#888;margin-top:8px;">Mode Preview (Download & Print dinonaktifkan)</p>';
+
+// ✅ URL dengan akhiran /preview
+var previewUrl = embed.url;
+// Pastikan URL berakhiran /preview
+if(previewUrl.indexOf('/preview') === -1){
+// Jika URL Google Drive format lama, konversi
+if(previewUrl.indexOf('drive.google.com/file/d/') !== -1){
+var fileId = previewUrl.match(/\/d\/([^\/]+)/);
+if(fileId && fileId[1]){
+previewUrl = 'https://drive.google.com/file/d/' + fileId[1] + '/preview';
+}
+}
+}
+
+// ✅ FUNGSI UNTUK MENYEMBUNYIKAN LOADING
+function hideLoading(){
+if(loading && loading.style.display !== 'none'){
+loading.style.display = 'none';
+console.log('✅ Loading spinner disembunyikan untuk:', embed.judul);
+}
+}
+
+// ✅ EVENT LISTENER: SEMBUNYIKAN LOADING SAAT IFRAME LOAD
+iframe.onload = null;
+iframe.onerror = null;
+
+iframe.onload = function(){
+console.log('✅ Iframe loaded:', previewUrl);
+setTimeout(hideLoading, 300);
+};
+
+iframe.onerror = function(){
+console.warn('⚠️ Iframe error, menyembunyikan loading...');
+hideLoading();
+};
+
+iframe.src = previewUrl;
+overlay.classList.add('active');
+document.body.style.overflow = 'hidden';
+
+// ✅ FALLBACK TIMEOUT 1: SEMBUNYIKAN LOADING SETELAH 2.5 DETIK
+setTimeout(function(){
+if(loading && loading.style.display !== 'none'){
+console.log('⏱️ Fallback timeout 1: paksa sembunyikan loading setelah 2.5 detik');
+hideLoading();
+}
+}, 2500);
+
+// ✅ FALLBACK TIMEOUT 2: CEK APAKAH PDF GAGAL LOAD
+setTimeout(function(){
+try{
+var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+if(iframeDoc && iframeDoc.body && iframeDoc.body.innerHTML === ''){
+loading.style.display = 'block';
+loading.innerHTML = '<div style="font-size:48px;margin-bottom:15px;">⚠️</div>' +
+'<p style="font-size:15px;font-weight:bold;">PDF tidak dapat dimuat</p>' +
+'<p style="font-size:12px;color:#888;margin-top:8px;">Periksa URL atau koneksi internet</p>' +
+'<button onclick="ufClosePdf()" style="margin-top:15px;padding:10px 20px;background:#c9a84c;color:#1a0a2e;border:none;border-radius:20px;font-weight:bold;cursor:pointer;">Tutup</button>';
+}
+}catch(e){
+// Cross-origin error = iframe berhasil load (normal untuk Google Drive)
+console.log('✅ PDF loaded (cross-origin, normal untuk Google Drive)');
+}
+}, 15000);
+};
+
+/* ============================================================
+✅ TUTUP PREVIEW
+============================================================ */
+window.ufClosePdf = function(){
+var overlay = document.getElementById('ufPdfOverlay');
+var iframe = document.getElementById('ufPdfIframe');
+var loading = document.getElementById('ufPdfLoading');
+
+if(overlay) overlay.classList.remove('active');
+if(iframe){
+iframe.onload = null;
+iframe.onerror = null;
+iframe.src = '';
+}
+// Reset loading ke state awal
+if(loading){
+loading.style.display = 'block';
+loading.innerHTML = 'Memuat dokumen...';
+}
+document.body.style.overflow = '';
+};
+
+/* ============================================================
+✅ EDIT URL/JUDUL PDF
+============================================================ */
+window.ufEditPdf = function(id){
+var embed = null;
+var idx = -1;
+for(var i = 0; i < ushulEmbeds.length; i++){
+if(ushulEmbeds[i].id === id){
+embed = ushulEmbeds[i];
+idx = i;
+break;
+}
+}
+if(!embed) return;
+
+var newJudul = prompt('Judul Kitab Ushul Fiqih:', embed.judul);
+if(newJudul === null) return;
+var newUrl = prompt('URL Preview PDF (akhiri dengan /preview):\nContoh: https://drive.google.com/file/d/FILE_ID/preview', embed.url);
+if(newUrl === null) return;
+var newDesc = prompt('Deskripsi singkat:', embed.deskripsi);
+if(newDesc === null) return;
+var newIcon = prompt('Icon emoji (📐 📗 📕 📙 📘 📖):', embed.icon);
+if(newIcon === null) return;
+
+ushulEmbeds[idx].judul = newJudul || embed.judul;
+ushulEmbeds[idx].url = newUrl || embed.url;
+ushulEmbeds[idx].deskripsi = newDesc || embed.deskripsi;
+ushulEmbeds[idx].icon = newIcon || embed.icon;
+ushulEmbeds[idx].tersedia = (ushulEmbeds[idx].url && ushulEmbeds[idx].url.trim() !== '');
+
+renderUshulEmbeds();
+if(typeof showToast === 'function') showToast('✅ File "' + ushulEmbeds[idx].judul + '" berhasil diperbarui');
+};
+
+/* ============================================================
+✅ TAMBAH FILE PDF BARU
+============================================================ */
+window.ufAddNewPdf = function(){
+var judul = prompt('Judul Kitab Ushul Fiqih Baru:');
+if(!judul) return;
+var url = prompt('URL Preview PDF (akhiri dengan /preview):\nContoh: https://drive.google.com/file/d/FILE_ID/preview');
+if(!url) url = '';
+var desc = prompt('Deskripsi singkat:') || '';
+var icon = prompt('Icon emoji (📐 📗 📕 📙 📘 📖):') || '📐';
+
+var newId = 'uf-' + Date.now();
+ushulEmbeds.push({
+id: newId,
+judul: judul,
+deskripsi: desc,
+icon: icon,
+url: url,
+tersedia: (url && url.trim() !== '')
+});
+
+renderUshulEmbeds();
+if(typeof showToast === 'function') showToast('✅ File "' + judul + '" berhasil ditambahkan');
+};
+
+/* ============================================================
+✅ HAPUS FILE PDF
+============================================================ */
+window.ufDeletePdf = function(id){
+var idx = -1;
+var nama = '';
+for(var i = 0; i < ushulEmbeds.length; i++){
+if(ushulEmbeds[i].id === id){
+idx = i;
+nama = ushulEmbeds[i].judul;
+break;
+}
+}
+if(idx === -1) return;
+
+if(!confirm('Hapus file "' + nama + '"?')) return;
+
+ushulEmbeds.splice(idx, 1);
+renderUshulEmbeds();
+if(typeof showToast === 'function') showToast('🗑️ File "' + nama + '" dihapus');
+};
+
+/* ============================================================
+✅ BLOKIR DOWNLOAD & PRINT DI PREVIEW USHUL FIQIH
+============================================================ */
+function blokirDownloadPrintUshul(e){
+var overlay = document.getElementById('ufPdfOverlay');
+if(!overlay || !overlay.classList.contains('active')) return;
+
+// Blokir Ctrl+S (Save/Download)
+if((e.ctrlKey || e.metaKey) && e.key === 's'){
+e.preventDefault();
+if(typeof showToast === 'function') showToast('🔒 Download dinonaktifkan di preview');
+return false;
+}
+// Blokir Ctrl+P (Print)
+if((e.ctrlKey || e.metaKey) && e.key === 'p'){
+e.preventDefault();
+if(typeof showToast === 'function') showToast('🔒 Print dinonaktifkan di preview');
+return false;
+}
+}
+
+document.addEventListener('keydown', blokirDownloadPrintUshul);
+
+// Blokir klik kanan di area preview Ushul Fiqih
+document.addEventListener('contextmenu', function(e){
+var overlay = document.getElementById('ufPdfOverlay');
+if(overlay && overlay.classList.contains('active')){
+var iframeWrap = document.querySelector('.uf-pdf-iframe-wrap');
+if(iframeWrap && iframeWrap.contains(e.target)){
+e.preventDefault();
+if(typeof showToast === 'function') showToast('🔒 Klik kanan dinonaktifkan');
+return false;
+}
+}
+});
+
+/* ============================================================
+✅ INISIALISASI
+============================================================ */
+function initEmbedUshul(){
+// Render setelah DOM siap
+if(document.readyState === 'loading'){
+document.addEventListener('DOMContentLoaded', function(){
+setTimeout(renderUshulEmbeds, 500);
+});
+} else {
+setTimeout(renderUshulEmbeds, 500);
+}
+
+// Re-render saat halaman Kitab Kuning dibuka
+var _origShowPage = window.showPage;
+window.showPage = function(pageId){
+if(_origShowPage) _origShowPage(pageId);
+if(pageId === 'kitab-kuning'){
+setTimeout(renderUshulEmbeds, 300);
+}
+};
+}
+
+initEmbedUshul();
+
+console.log('✅ PATCH EMBED PDF USHUL FIQIH: berhasil dimuat');
+console.log('💡 6 slot PDF tersedia di kategori Ushul Fiqih');
+console.log('💡 Preview pakai URL /preview, download & print ditutup');
+})();
+</script>
+<!-- ============================================
+✅ PATCH: HAPUS TOMBOL DELETE DI PREVIEW PDF
+- Menghapus tombol 🗑️ dari semua 8 kategori
+- Berlaku untuk: Hadits, Nahwu, Sharaf, Aqidah,
+  Tasawuf, Tafsir, Fiqih, Ushul Fiqih
+- Tombol Preview & Edit tetap berfungsi normal
+============================================ -->
+<style>
+/* ====== SEMBUNYIKAN TOMBOL DELETE (BACKUP CSS) ====== */
+.hadits-embed-card .hec-btn.delete,
+.nahwu-embed-card .ne-btn.delete,
+.sharaf-embed-card .se-btn.delete,
+.aqidah-embed-card .at-btn.delete,
+.tasawuf-embed-card .ta-btn.delete,
+.tafsir-embed-card .tf-btn.delete,
+.fiqih-embed-card .fq-btn.delete,
+.ushul-embed-card .uf-btn.delete {
+  display: none !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+</style>
+
+<script>
+(function(){
+'use strict';
+console.log('🟢 PATCH HAPUS TOMBOL DELETE PDF: mulai dimuat...');
+
+/* ============================================================
+✅ DAFTAR SELECTOR TOMBOL DELETE SEMUA KATEGORI
+============================================================ */
+var deleteSelectors = [
+  '.hadits-embed-card .hec-btn.delete',
+  '.nahwu-embed-card .ne-btn.delete',
+  '.sharaf-embed-card .se-btn.delete',
+  '.aqidah-embed-card .at-btn.delete',
+  '.tasawuf-embed-card .ta-btn.delete',
+  '.tafsir-embed-card .tf-btn.delete',
+  '.fiqih-embed-card .fq-btn.delete',
+  '.ushul-embed-card .uf-btn.delete'
+];
+
+/* ============================================================
+✅ FUNGSI: HAPUS TOMBOL DELETE DARI DOM
+============================================================ */
+function hapusTombolDelete(){
+  var totalHapus = 0;
+  for(var i = 0; i < deleteSelectors.length; i++){
+    var btns = document.querySelectorAll(deleteSelectors[i]);
+    for(var j = 0; j < btns.length; j++){
+      try{
+        btns[j].parentNode.removeChild(btns[j]);
+        totalHapus++;
+      }catch(e){}
+    }
+  }
+  if(totalHapus > 0){
+    console.log('✅ ' + totalHapus + ' tombol delete berhasil dihapus dari DOM');
+  }
+  return totalHapus;
+}
+
+/* ============================================================
+✅ OVERRIDE: renderHaditsEmbeds (HAPUS TOMBOL DELETE)
+============================================================ */
+if(typeof window.renderHaditsEmbeds === 'undefined'){
+  // Fungsi belum ada, tidak perlu override
+} else {
+  var _origRenderHadits = window.renderHaditsEmbeds;
+  window.renderHaditsEmbeds = function(){
+    _origRenderHadits();
+    setTimeout(hapusTombolDelete, 50);
+  };
+}
+
+/* ============================================================
+✅ OVERRIDE: renderNahwuEmbeds (HAPUS TOMBOL DELETE)
+============================================================ */
+if(typeof window.renderNahwuEmbeds !== 'undefined'){
+  var _origRenderNahwu = window.renderNahwuEmbeds;
+  window.renderNahwuEmbeds = function(){
+    _origRenderNahwu();
+    setTimeout(hapusTombolDelete, 50);
+  };
+}
+
+/* ============================================================
+✅ OVERRIDE: renderSharafEmbeds (HAPUS TOMBOL DELETE)
+============================================================ */
+if(typeof window.renderSharafEmbeds !== 'undefined'){
+  var _origRenderSharaf = window.renderSharafEmbeds;
+  window.renderSharafEmbeds = function(){
+    _origRenderSharaf();
+    setTimeout(hapusTombolDelete, 50);
+  };
+}
+
+/* ============================================================
+✅ OVERRIDE: renderAqidahEmbeds (HAPUS TOMBOL DELETE)
+============================================================ */
+if(typeof window.renderAqidahEmbeds !== 'undefined'){
+  var _origRenderAqidah = window.renderAqidahEmbeds;
+  window.renderAqidahEmbeds = function(){
+    _origRenderAqidah();
+    setTimeout(hapusTombolDelete, 50);
+  };
+}
+
+/* ============================================================
+✅ OVERRIDE: renderTasawufEmbeds (HAPUS TOMBOL DELETE)
+============================================================ */
+if(typeof window.renderTasawufEmbeds !== 'undefined'){
+  var _origRenderTasawuf = window.renderTasawufEmbeds;
+  window.renderTasawufEmbeds = function(){
+    _origRenderTasawuf();
+    setTimeout(hapusTombolDelete, 50);
+  };
+}
+
+/* ============================================================
+✅ OVERRIDE: renderTafsirEmbeds (HAPUS TOMBOL DELETE)
+============================================================ */
+if(typeof window.renderTafsirEmbeds !== 'undefined'){
+  var _origRenderTafsir = window.renderTafsirEmbeds;
+  window.renderTafsirEmbeds = function(){
+    _origRenderTafsir();
+    setTimeout(hapusTombolDelete, 50);
+  };
+}
+
+/* ============================================================
+✅ OVERRIDE: renderFiqihEmbeds (HAPUS TOMBOL DELETE)
+============================================================ */
+if(typeof window.renderFiqihEmbeds !== 'undefined'){
+  var _origRenderFiqih = window.renderFiqihEmbeds;
+  window.renderFiqihEmbeds = function(){
+    _origRenderFiqih();
+    setTimeout(hapusTombolDelete, 50);
+  };
+}
+
+/* ============================================================
+✅ OVERRIDE: renderUshulEmbeds (HAPUS TOMBOL DELETE)
+============================================================ */
+if(typeof window.renderUshulEmbeds !== 'undefined'){
+  var _origRenderUshul = window.renderUshulEmbeds;
+  window.renderUshulEmbeds = function(){
+    _origRenderUshul();
+    setTimeout(hapusTombolDelete, 50);
+  };
+}
+
+/* ============================================================
+✅ NONAKTIFKAN FUNGSI DELETE (AMAN - TIDAK BISA DIPANGGIL)
+============================================================ */
+var deleteFunctions = [
+  'heDeletePdf', 'neDeletePdf', 'seDeletePdf', 'atDeletePdf',
+  'taDeletePdf', 'tfDeletePdf', 'fqDeletePdf', 'ufDeletePdf'
+];
+for(var i = 0; i < deleteFunctions.length; i++){
+  if(typeof window[deleteFunctions[i]] !== 'undefined'){
+    window[deleteFunctions[i]] = function(){
+      console.log('🔒 Fungsi hapus dinonaktifkan oleh patch keamanan');
+      if(typeof showToast === 'function'){
+        showToast('🔒 Fitur hapus file dinonaktifkan');
+      }
+      return false;
+    };
+  }
+}
+
+/* ============================================================
+✅ OBSERVER: DETEKSI PERUBAHAN DOM (UNTUK DYNAMIC CONTENT)
+============================================================ */
+function startObserver(){
+  var targetNodes = [
+    document.getElementById('kitabHadits'),
+    document.getElementById('kitabNahwu'),
+    document.getElementById('kitabSharaf'),
+    document.getElementById('kitabAqidahTauhid'),
+    document.getElementById('kitabTasawufAkhlak'),
+    document.getElementById('kitabTafsir'),
+    document.getElementById('kitabFiqih'),
+    document.getElementById('kitabUshul')
+  ];
+
+  for(var i = 0; i < targetNodes.length; i++){
+    if(!targetNodes[i]) continue;
+    try{
+      var observer = new MutationObserver(function(){
+        setTimeout(hapusTombolDelete, 50);
+      });
+      observer.observe(targetNodes[i], {
+        childList: true,
+        subtree: true
+      });
+    }catch(e){}
+  }
+  console.log('✅ Observer DOM aktif untuk semua kategori');
+}
+
+/* ============================================================
+✅ INISIALISASI
+============================================================ */
+function initPatch(){
+  // Hapus tombol delete yang sudah ada
+  hapusTombolDelete();
+  
+  // Mulai observer
+  startObserver();
+  
+  // Jalankan ulang setiap 2 detik (backup) untuk menangkap perubahan
+  setInterval(hapusTombolDelete, 2000);
+  
+  console.log('✅ PATCH HAPUS TOMBOL DELETE PDF: berhasil dimuat');
+  console.log('💡 Tombol 🗑️ telah dihapus dari 8 kategori Kitab Kuning');
+  console.log('💡 Tombol 👁️ Preview dan ✏️ Edit tetap berfungsi normal');
+}
+
+if(document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', initPatch);
+} else {
+  initPatch();
+}
+
+// Jalankan juga setelah halaman Kitab Kuning dibuka
+var _origShowPage = window.showPage;
+window.showPage = function(pageId){
+  if(_origShowPage) _origShowPage(pageId);
+  if(pageId === 'kitab-kuning'){
+    setTimeout(hapusTombolDelete, 500);
+    setTimeout(hapusTombolDelete, 1500);
+  }
+};
+
+})();
+</script>
 </body>
 </html>
