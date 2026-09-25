@@ -478,7 +478,7 @@ line-height:1.8!important;
 .split-sidebar,.biografi-sidebar,.doa-sidebar,.sholat-sidebar{
 width:160px!important;
 min-width:160px!important;
-max-width:1600px!important;
+max-width:160px!important;
 }
 .split-btn,.ulama-button,.doa-button,.sholat-button{
 padding:5px 3px!important;
@@ -14703,7 +14703,7 @@ console.log('🟢 PATCH v18 SIDEBAR RESIZABLE: mulai dimuat...');
 ============================================================ */
 var CONFIG = {
 // Default width
-defaultLarge: 500,   // sidebar besar (split-sidebar)
+defaultLarge: 380,   // sidebar besar (split-sidebar)
 defaultSmall: 300,   // sidebar kecil (biografi, doa, sholat)
 // Batas min/max
 minWidth: 180,
@@ -15057,6 +15057,185 @@ init();
 setTimeout(init, 500);
 setTimeout(init, 1500);
 
+})();
+</script>
+<!-- ============================================
+✅ PATCH v18.1: PERBAIKAN SIDEBAR MOBILE
+- Fix typo max-width:1600px → 160px
+- Sidebar mobile lebih rapi & konsisten
+- Handle resize tetap hidden di mobile
+============================================ -->
+<style>
+/* ============================================
+✅ FIX: TABLET MODE (600px - 900px)
+Sidebar sedikit lebih lebar agar nyaman di tablet
+============================================ */
+@media (min-width:601px) and (max-width:900px){
+.split-sidebar,
+.biografi-sidebar,
+.doa-sidebar,
+.sholat-sidebar{
+width:200px !important;
+min-width:200px !important;
+max-width:200px !important;
+}
+}
+
+/* ============================================
+✅ FIX: MOBILE KECIL (< 400px)
+Perbaikan typo + sidebar tetap compact
+============================================ */
+@media (max-width:400px){
+.split-sidebar,
+.biografi-sidebar,
+.doa-sidebar,
+.sholat-sidebar{
+width:140px !important;
+min-width:140px !important;
+max-width:140px !important;   /* ← FIX TYPO */
+padding:8px !important;
+}
+
+/* Tombol di sidebar lebih compact */
+.split-btn,
+.ulama-button,
+.doa-button,
+.sholat-button{
+padding:6px 4px !important;
+font-size:0.62rem !important;
+gap:3px !important;
+margin-bottom:3px !important;
+}
+
+.split-btn .btn-icon,
+.ulama-button .btn-icon,
+.doa-button .btn-icon,
+.sholat-button .btn-icon{
+font-size:0.78rem !important;
+}
+
+.split-btn .btn-text,
+.ulama-button .btn-text,
+.doa-button .btn-text,
+.sholat-button .btn-text{
+font-size:0.58rem !important;
+line-height:1.15 !important;
+}
+
+/* Search box lebih kecil */
+.sub-search{
+padding:7px 10px !important;
+font-size:11px !important;
+}
+
+/* Heading sidebar */
+.split-sidebar h4,
+.biografi-sidebar h4,
+.doa-sidebar h4,
+.sholat-sidebar h4{
+font-size:0.6rem !important;
+margin:8px 0 5px !important;
+padding-bottom:3px !important;
+}
+}
+
+/* ============================================
+✅ FIX: MOBILE SEDANG (401px - 600px)
+============================================ */
+@media (min-width:401px) and (max-width:600px){
+.split-sidebar,
+.biografi-sidebar,
+.doa-sidebar,
+.sholat-sidebar{
+width:160px !important;
+min-width:160px !important;
+max-width:160px !important;
+}
+}
+
+/* ============================================
+✅ PENTING: PAKSA HIDE RESIZE HANDLE DI MOBILE
+Meskipun Patch v18 sudah handle, ini backup
+============================================ */
+@media (max-width:900px){
+.sidebar-resize-handle,
+.sidebar-reset-btn,
+.sidebar-resize-hint,
+.sidebar-width-indicator{
+display:none !important;
+visibility:hidden !important;
+opacity:0 !important;
+pointer-events:none !important;
+}
+
+/* Cegah user accidentally trigger resize di mobile */
+.split-sidebar,
+.biografi-sidebar,
+.doa-sidebar,
+.sholat-sidebar{
+touch-action:pan-y !important;
+}
+}
+
+/* ============================================
+✅ LANDSCAPE MODE DI HP
+Sidebar sedikit lebih lebar saat HP landscape
+============================================ */
+@media (max-width:900px) and (orientation:landscape){
+.split-sidebar,
+.biografi-sidebar,
+.doa-sidebar,
+.sholat-sidebar{
+width:180px !important;
+min-width:180px !important;
+max-width:180px !important;
+}
+}
+</style>
+
+<script>
+(function(){
+'use strict';
+console.log('✅ PATCH v18.1 SIDEBAR MOBILE FIX: dimuat');
+
+// ✅ Deteksi & log mode layar
+function logScreenMode(){
+var w = window.innerWidth;
+var mode = w <= 400 ? '📱 Mobile Kecil' :
+w <= 600 ? '📱 Mobile' :
+w <= 900 ? '📱 Tablet' :
+'💻 Desktop';
+console.log('📐 Mode layar:', mode, '(' + w + 'px)');
+}
+
+if(document.readyState === 'loading'){
+document.addEventListener('DOMContentLoaded', logScreenMode);
+} else {
+logScreenMode();
+}
+
+// ✅ Force reset sidebar width ke default mobile saat resize ke mobile
+var _lastWidth = window.innerWidth;
+window.addEventListener('resize', function(){
+var w = window.innerWidth;
+var wasDesktop = _lastWidth > 900;
+var nowMobile = w <= 900;
+
+// Jika dari desktop → mobile, reset width ke default mobile
+if(wasDesktop && nowMobile){
+var sidebars = document.querySelectorAll(
+'.split-sidebar, .biografi-sidebar, .doa-sidebar, .sholat-sidebar'
+);
+for(var i = 0; i < sidebars.length; i++){
+sidebars[i].style.width = '';
+sidebars[i].style.minWidth = '';
+sidebars[i].style.maxWidth = '';
+}
+console.log('🔄 Sidebar direset ke mode mobile');
+}
+
+_lastWidth = w;
+});
 })();
 </script>
 </body>
