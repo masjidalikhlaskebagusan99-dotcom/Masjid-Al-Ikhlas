@@ -14466,593 +14466,828 @@ window.showPage = function(pageId){
 };
 
 })();
-
 </script>
 <!-- ============================================
-✅ PATCH v20: FIX SIDEBAR DRAG TIDAK BISA GESER
-- Menggunakan event delegation di document level
-- Override handler dari Patch v18/v19
-- CSS touch-action: none + user-select: none
-- Z-index handle dinaikkan
-- Support mouse + touch + pointer events
-- Fallback: tombol toggle resize manual
+✅ PATCH FINAL: SIDEBAR RESIZE (ANTI-ZOOM & ANTI-ERROR)
+FIX: Mencegah halaman zoom saat klik tombol di HP.
+FIX: Mengalahkan CSS !important bawaan template.
+CARA: Menggunakan tombol besar (bukan drag) di HP, 
+      dan touch-action: manipulation untuk mematikan double-tap zoom.
+============================================ -->
+<style>
+/* ====== KONTROL RESIZE (TOMBOL BESAR) ====== */
+.sidebar-resize-controls {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding: 8px;
+    background: rgba(201, 168, 76, 0.08);
+    border-radius: 10px;
+    border: 1px solid rgba(201, 168, 76, 0.25);
+}
+.sidebar-resize-btn {
+    flex: 1;
+    min-height: 48px; /* CRITICAL: Mencegah double-tap zoom di iOS/Android */
+    background: rgba(201, 168, 76, 0.12);
+    border: 1px solid rgba(201, 168, 76, 0.4);
+    border-radius: 8px;
+    color: #e8d48b;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    /* CRITICAL: Mengizinkan klik, tapi MEMATIKAN double-tap zoom */
+    touch-action: manipulation !important;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+}
+.sidebar-resize-btn:active {
+    background: rgba(201, 168, 76, 0.35);
+    transform: scale(0.94);
+}
+.sidebar-resize-btn.reset {
+    font-size: 0.85rem;
+    color: #c9a84c;
+}
+
+/* ====== HANDLE DRAG (HANYA DESKTOP) ====== */
+.sidebar-drag-handle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 8px;
+    height: 100%;
+    cursor: col-resize;
+    z-index: 100;
+    background: linear-gradient(to right, transparent, rgba(201,168,76,0.3), transparent);
+    display: none; /* Default hidden, aktif di desktop via media query */
+}
+.sidebar-drag-handle::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 3px;
+    height: 40px;
+    background: #c9a84c;
+    border-radius: 3px;
+    opacity: 0.6;
+}
+.sidebar-drag-handle:hover::before {
+    opacity: 1;
+    height: 60px;
+    background: #e8d48b;
+}
+
+/* Aktifkan drag handle HANYA di layar > 900px */
+@media (min-width: 901px) {
+    .sidebar-drag-handle {
+        display: block;
+    }
+}
+
+/* ====== PAKSA SIDEBAR RELATIVE ====== */
+.split-sidebar, .biografi-sidebar, .doa-sidebar, .sholat-sidebar {
+    position: relative !important;
+    overflow: visible !important;
+}
+</style>
+
+<script>
+(function(){
+    'use strict';
+    console.log('🟢 PATCH FINAL SIDEBAR RESIZE: dimuat...');
+
+    // Konfigurasi
+    var isMobile = window.innerWidth <= 900;
+    var STEP = isMobile ? 30 : 40;
+    var MIN_W = isMobile ? 100 : 180;
+    var MAX_W = isMobile ? Math.floor(window.innerWidth * 0.85) : 600;
+
+    // Fungsi inti: Ubah lebar dengan mengalahkan !important
+    function setSidebarWidth(sidebar, width) {
+        if (!sidebar) return;
+        width = Math.max(MIN_W, Math.min(MAX_W, Math.round(width)));
+        
+        // PAKSA override CSS !important bawaan template
+        sidebar.style.setProperty('width', width + 'px', 'important');
+        sidebar.style.setProperty('min-width', width + 'px', 'important');
+        sidebar.style.setProperty('max-width', width + 'px', 'important');
+        
+        // Simpan preferensi
+        var id = sidebar.classList.contains('split-sidebar') ? 'main' : 'sub';
+        localStorage.setItem('sb_w_' + id, width);
+        
+        // Feedback visual
+        if (typeof showToast === 'function') {
+            showToast('📏 Lebar sidebar: ' + width + 'px');
+        }
+    }
+
+    // Fungsi mendapatkan lebar tersimpan atau default
+    function getSavedWidth(sidebar) {
+        var id = sidebar.classList.contains('split-sidebar') ? 'main' : 'sub';
+        var saved = localStorage.getItem('sb_w_' + id);
+        if (saved) return parseInt(saved, 10);
+        return isMobile ? (id === 'main' ? 160 : 140) : (id === 'main' ? 340 : 260);
+    }
+
+    // Pasang kontrol ke sidebar
+    function setupSidebar(sidebar) {
+        if (sidebar.getAttribute('data-sb-fixed') === '1') return;
+        sidebar.setAttribute('data-sb-fixed', '1');
+
+        // Terapkan lebar awal
+        setSidebarWidth(sidebar, getSavedWidth(sidebar));
+
+        // Buat container tombol
+        var controls = document.createElement('div');
+        controls.className = 'sidebar-resize-controls';
+        controls.innerHTML = `
+            <button class="sidebar-resize-btn" data-action="minus" title="Perkecil">−</button>
+            <button class="sidebar-resize-btn reset" data-action="reset" title="Reset Default">↺</button>
+            <button class="sidebar-resize-btn" data-action="plus" title="Perbesar">+</button>
+        `;
+
+        // Sisipkan di awal sidebar (setelah search jika ada)
+        var search = sidebar.querySelector('.sub-search');
+        if (search && search.nextSibling) {
+            sidebar.insertBefore(controls, search.nextSibling);
+        } else {
+            sidebar.insertBefore(controls, sidebar.firstChild);
+        }
+
+        // Event listener untuk tombol (menggunakan 'click' yang aman dengan touch-action: manipulation)
+        controls.addEventListener('click', function(e) {
+            var btn = e.target.closest('.sidebar-resize-btn');
+            if (!btn) return;
+            
+            // PENTING: Mencegah event bubbling yang bisa memicu zoom
+            e.preventDefault();
+            e.stopPropagation();
+
+            var action = btn.getAttribute('data-action');
+            var currentW = sidebar.offsetWidth;
+
+            if (action === 'minus') {
+                setSidebarWidth(sidebar, currentW - STEP);
+            } else if (action === 'plus') {
+                setSidebarWidth(sidebar, currentW + STEP);
+            } else if (action === 'reset') {
+                var def = isMobile ? (sidebar.classList.contains('split-sidebar') ? 160 : 140) : (sidebar.classList.contains('split-sidebar') ? 340 : 260);
+                setSidebarWidth(sidebar, def);
+            }
+        });
+
+        // ===== DRAG HANDLE (Hanya Desktop) =====
+        if (!isMobile) {
+            var handle = document.createElement('div');
+            handle.className = 'sidebar-drag-handle';
+            sidebar.appendChild(handle);
+
+            var isDragging = false;
+            var startX = 0;
+            var startW = 0;
+
+            handle.addEventListener('mousedown', function(e) {
+                isDragging = true;
+                startX = e.clientX;
+                startW = sidebar.offsetWidth;
+                document.body.style.cursor = 'col-resize';
+                document.body.style.userSelect = 'none';
+                e.preventDefault();
+            });
+
+            document.addEventListener('mousemove', function(e) {
+                if (!isDragging) return;
+                var delta = e.clientX - startX;
+                setSidebarWidth(sidebar, startW + delta);
+            });
+
+            document.addEventListener('mouseup', function() {
+                if (isDragging) {
+                    isDragging = false;
+                    document.body.style.cursor = '';
+                    document.body.style.userSelect = '';
+                }
+            });
+        }
+    }
+
+    // Inisialisasi semua sidebar
+    function init() {
+        var selectors = ['.split-sidebar', '.biografi-sidebar', '.doa-sidebar', '.sholat-sidebar'];
+        selectors.forEach(function(sel) {
+            document.querySelectorAll(sel).forEach(function(sb) {
+                setupSidebar(sb);
+            });
+        });
+    }
+
+    // Jalankan saat DOM siap
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+
+    // Re-init saat halaman berganti (untuk SPA)
+    var _origShowPage = window.showPage;
+    window.showPage = function(pageId) {
+        if (_origShowPage) _origShowPage(pageId);
+        setTimeout(init, 200);
+    };
+
+    console.log('✅ PATCH FINAL SIDEBAR RESIZE: Aktif. Tombol anti-zoom diterapkan.');
+})();
+</script>
+<!-- ============================================
+✅ PATCH v26: SMART ZOOM AMAN (TIDAK MERUSAK SIDEBAR)
+- Zoom HP tetap bekerja tanpa merusak sidebar
+- Rule spesifik per-elemen (BUKAN universal)
+- Sidebar di-KECUALIKAN dari semua rule zoom
+- Kompatibel dengan Patch v24 (sidebar resize)
 ============================================ -->
 <style>
 /* ============================================
-✅ FIX CSS: HANDLE RESIZE LEBIH KUAT
+✅ RULE 1: HTML & BODY - BATAS VIEWPORT
 ============================================ */
-.sidebar-resize-handle{
-position:absolute !important;
-top:0 !important;
-right:0 !important;
-width:10px !important;
-height:100% !important;
-background:linear-gradient(to right,
-transparent 0%,
-rgba(201,168,76,0.2) 30%,
-rgba(201,168,76,0.6) 50%,
-rgba(201,168,76,0.2) 70%,
-transparent 100%) !important;
-cursor:col-resize !important;
-z-index:9999 !important;
-touch-action:none !important;
-user-select:none !important;
--webkit-user-select:none !important;
--webkit-touch-callout:none !important;
-pointer-events:auto !important;
-transition:width 0.2s,background 0.2s !important;
-}
-.sidebar-resize-handle::before{
-content:'' !important;
-position:absolute !important;
-top:50% !important;
-left:50% !important;
-transform:translate(-50%,-50%) !important;
-width:4px !important;
-height:60px !important;
-background:#c9a84c !important;
-border-radius:4px !important;
-opacity:0.8 !important;
-box-shadow:0 0 12px rgba(201,168,76,0.8),0 0 20px rgba(201,168,76,0.4) !important;
-animation:handleGlow 2s ease-in-out infinite !important;
-pointer-events:none !important;
-}
-@keyframes handleGlow{
-0%,100%{box-shadow:0 0 12px rgba(201,168,76,0.8),0 0 20px rgba(201,168,76,0.4);}
-50%{box-shadow:0 0 18px rgba(232,212,139,1),0 0 30px rgba(201,168,76,0.6);}
-}
-.sidebar-resize-handle:hover{
-width:14px !important;
-background:linear-gradient(to right,
-transparent 0%,
-rgba(201,168,76,0.4) 30%,
-rgba(232,212,139,0.9) 50%,
-rgba(201,168,76,0.4) 70%,
-transparent 100%) !important;
-}
-.sidebar-resize-handle:hover::before{
-width:5px !important;
-height:80px !important;
-background:#e8d48b !important;
-opacity:1 !important;
-}
-.sidebar-resize-handle.dragging{
-width:16px !important;
-background:linear-gradient(to right,
-transparent 0%,
-rgba(232,212,139,0.6) 30%,
-rgba(255,255,255,1) 50%,
-rgba(232,212,139,0.6) 70%,
-transparent 100%) !important;
-}
-.sidebar-resize-handle.dragging::before{
-width:6px !important;
-height:100px !important;
-background:#fff !important;
-box-shadow:0 0 25px rgba(255,255,255,0.9),0 0 40px rgba(232,212,139,0.7) !important;
+html, body{
+width:100%;
+max-width:100vw;
+overflow-x:hidden;
+position:relative;
 }
 
 /* ============================================
-✅ FIX: PARENT SIDEBAR WAJIB RELATIVE
+✅ RULE 2: CONTAINER UTAMA - SELALU FIT
+(HANYA container, BUKAN sidebar)
+============================================ */
+.page-content,
+.split-container,
+.biografi-split-container,
+.doa-split-container,
+.sholat-split-container,
+.masjid-page,
+.masjid-page .m-container,
+.sub-container,
+.hero,
+.sub-hero,
+.navbar,
+.top-bar,
+.marquee-bar,
+.split-detail,
+.biografi-detail,
+.doa-detail,
+.sholat-detail{
+max-width:100%;
+overflow-x:hidden;
+box-sizing:border-box;
+}
+
+/* ============================================
+✅ RULE 3: SIDEBAR - KEBAL ZOOM (DILINDUNGI)
+Ini PENTING: sidebar TIDAK boleh terpengaruh
 ============================================ */
 .split-sidebar,
 .biografi-sidebar,
 .doa-sidebar,
 .sholat-sidebar{
-position:relative !important;
-overflow:visible !important;
+overflow-y:auto !important;
+overflow-x:hidden !important;
+box-sizing:border-box !important;
+/* Jangan tambah max-width:100% di sini! */
+/* Biarkan patch v24 yang atur lebar sidebar */
 }
 
 /* ============================================
-✅ FIX: BODY STATE SAAT DRAG
+✅ RULE 4: MOBILE - SIDEBAR TETAP RESPONSIVE
 ============================================ */
-body.sidebar-resizing{
-cursor:col-resize !important;
-user-select:none !important;
--webkit-user-select:none !important;
+@media (max-width:900px){
+.split-sidebar,
+.biografi-sidebar,
+.doa-sidebar,
+.sholat-sidebar{
+flex-shrink:0 !important;
+/* Biarkan lebar sesuai patch v24 (160px/140px) */
 }
-body.sidebar-resizing *{
-cursor:col-resize !important;
+.split-detail,
+.biografi-detail,
+.doa-detail,
+.sholat-detail{
+min-width:0 !important;
+flex:1 1 0 !important;
+overflow-x:hidden !important;
 }
-body.sidebar-resizing iframe{
-pointer-events:none !important;
 }
 
 /* ============================================
-✅ TOMBOL ALTERNATIF: +/- LEBAR (FALLBACK)
+✅ RULE 5: NAVBAR & TOP BAR - FULL WIDTH
 ============================================ */
-.sidebar-width-controls{
-display:flex;
-gap:6px;
-margin-top:8px;
-margin-bottom:4px;
-}
-.sidebar-width-btn{
-flex:1;
-padding:8px;
-background:rgba(201,168,76,0.12);
-border:1px solid rgba(201,168,76,0.4);
-border-radius:8px;
-color:#c9a84c;
-cursor:pointer;
-font-size:0.85rem;
-font-weight:700;
-font-family:inherit;
-transition:all 0.2s;
-touch-action:manipulation;
--webkit-tap-highlight-color:rgba(201,168,76,0.3);
-user-select:none;
--webkit-user-select:none;
-}
-.sidebar-width-btn:hover{
-background:rgba(201,168,76,0.25);
-border-color:#c9a84c;
-color:#e8d48b;
-transform:translateY(-1px);
-}
-.sidebar-width-btn:active{
-transform:scale(0.95);
-}
-.sidebar-width-btn.wider{
-background:linear-gradient(135deg,rgba(46,204,113,0.15),rgba(46,204,113,0.08));
-border-color:rgba(46,204,113,0.5);
-color:#2ecc71;
-}
-.sidebar-width-btn.narrower{
-background:linear-gradient(135deg,rgba(231,76,60,0.15),rgba(231,76,60,0.08));
-border-color:rgba(231,76,60,0.5);
-color:#e74c3c;
+.navbar,
+.top-bar,
+.marquee-bar{
+width:100%;
+max-width:100vw;
+left:0;
+right:0;
+box-sizing:border-box;
 }
 
 /* ============================================
-✅ INDICATOR LEBAR (FIXED POSITION)
+✅ RULE 6: FLOATING ELEMENTS - BOUNDARY
 ============================================ */
-.sidebar-width-indicator{
-position:fixed !important;
-top:100px !important;
-left:50% !important;
-transform:translateX(-50%) !important;
-background:rgba(26,10,46,0.98) !important;
-color:#e8d48b !important;
-padding:14px 24px !important;
-border-radius:14px !important;
-border:2px solid #c9a84c !important;
-font-size:0.95rem !important;
-font-weight:700 !important;
-z-index:99999 !important;
-pointer-events:none !important;
-opacity:0 !important;
-transition:opacity 0.2s !important;
-box-shadow:0 10px 30px rgba(0,0,0,0.6),0 0 20px rgba(201,168,76,0.3) !important;
-display:flex !important;
-align-items:center !important;
-gap:12px !important;
-backdrop-filter:blur(10px) !important;
+.qr-floating-stop,
+.share-fab,
+.show-all-btn,
+.pdf-viewer-container,
+.he-pdf-overlay,
+.ne-pdf-overlay,
+.se-pdf-overlay,
+.at-pdf-overlay,
+.ta-pdf-overlay,
+.tf-pdf-overlay,
+.fq-pdf-overlay,
+.uf-pdf-overlay{
+max-width:100vw;
+max-height:100vh;
+box-sizing:border-box;
 }
-.sidebar-width-indicator.show{
-opacity:1 !important;
+
+/* ============================================
+✅ RULE 7: MEDIA - RESPONSIVE
+============================================ */
+img, video, iframe, svg, canvas{
+max-width:100%;
+height:auto;
 }
-.sidebar-width-indicator .width-value{
-color:#c9a84c !important;
-font-size:1.2rem !important;
-font-family:'Courier New',monospace !important;
-min-width:60px !important;
-text-align:center !important;
+
+/* ============================================
+✅ RULE 8: TABEL - SCROLL DI DALAM WRAPPER
+============================================ */
+.table-wrapper{
+width:100%;
+max-width:100%;
+overflow-x:auto;
+overflow-y:hidden;
+-webkit-overflow-scrolling:touch;
+box-sizing:border-box;
+}
+
+/* ============================================
+✅ RULE 9: TEXT WRAP
+============================================ */
+h1, h2, h3, h4, h5, h6, p, li{
+word-wrap:break-word;
+overflow-wrap:break-word;
+}
+
+/* ============================================
+✅ RULE 10: SEARCH CONTAINER
+============================================ */
+.search-container{
+max-width:min(700px, 100%);
+width:100%;
+box-sizing:border-box;
+}
+
+/* ============================================
+✅ RULE 11: PDF VIEWER FULLSCREEN
+============================================ */
+.pdf-viewer-container.active,
+.he-pdf-overlay.active,
+.ne-pdf-overlay.active,
+.se-pdf-overlay.active,
+.at-pdf-overlay.active,
+.ta-pdf-overlay.active,
+.tf-pdf-overlay.active,
+.fq-pdf-overlay.active,
+.uf-pdf-overlay.active{
+width:100vw;
+height:100vh;
+max-width:100vw;
+max-height:100vh;
+left:0;
+top:0;
+}
+
+/* ============================================
+✅ RULE 12: MODAL DONASI
+============================================ */
+#modalDonasi > div{
+max-width:min(500px, 95vw);
+width:100%;
+margin:20px auto;
+box-sizing:border-box;
+}
+
+/* ============================================
+✅ RULE 13: GRID RESPONSIVE
+============================================ */
+.sub-grid,
+.grid,
+.hadits-embed-grid,
+.nahwu-embed-grid,
+.sharaf-embed-grid,
+.aqidah-embed-grid,
+.tasawuf-embed-grid,
+.tafsir-embed-grid,
+.fiqih-embed-grid,
+.ushul-embed-grid,
+.keturunan-list{
+grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr));
+gap:10px;
+width:100%;
+box-sizing:border-box;
 }
 </style>
 
 <script>
 (function(){
 'use strict';
-console.log('🟢 PATCH v20 FIX SIDEBAR DRAG: mulai dimuat...');
+console.log('🟢 PATCH v26 SMART ZOOM AMAN: mulai dimuat...');
 
 /* ============================================================
-✅ KONFIGURASI
+✅ DETEKSI DEVICE
 ============================================================ */
-var isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(navigator.userAgent) || window.innerWidth <= 900;
-var CONFIG = {
-minWidth: isMobile ? 100 : 180,
-maxWidth: isMobile ? Math.floor(window.innerWidth * 0.75) : 600,
-step: isMobile ? 20 : 30,
-storageKey: isMobile ? 'alikhlas_sidebar_widths_mobile' : 'alikhlas_sidebar_widths',
-selectors: ['.split-sidebar', '.biografi-sidebar', '.doa-sidebar', '.sholat-sidebar']
-};
+var isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(navigator.userAgent)
+|| window.innerWidth <= 900;
 
-/* ============================================================
-✅ STATE GLOBAL
-============================================================ */
-var dragState = {
-isDragging: false,
-sidebar: null,
-handle: null,
-startX: 0,
-startWidth: 0,
-indicator: null,
-indicatorValue: null
-};
-
-/* ============================================================
-✅ LOCALSTORAGE HELPER
-============================================================ */
-function loadPrefs(){
-try{
-var d = localStorage.getItem(CONFIG.storageKey);
-return d ? JSON.parse(d) : {};
-}catch(e){ return {}; }
-}
-function savePrefs(prefs){
-try{ localStorage.setItem(CONFIG.storageKey, JSON.stringify(prefs)); }catch(e){}
-}
-var prefs = loadPrefs();
-
-/* ============================================================
-✅ HELPER: SIDEBAR ID
-============================================================ */
-function getSidebarId(sidebar){
-var isSmall = sidebar.matches('.biografi-sidebar, .doa-sidebar, .sholat-sidebar');
-var page = sidebar.closest('.page-content');
-var pageId = page ? page.id : 'default';
-return pageId + '_' + (isSmall ? 'small' : 'large');
-}
-function getDefaultWidth(sidebar){
-var isSmall = sidebar.matches('.biografi-sidebar, .doa-sidebar, .sholat-sidebar');
-return isSmall ? (isMobile ? 140 : 300) : (isMobile ? 160 : 380);
-}
-
-/* ============================================================
-✅ BUAT / DAPATKAN INDICATOR
-============================================================ */
-function getIndicator(){
-if(!dragState.indicator){
-dragState.indicator = document.getElementById('sidebarWidthIndicator');
-if(!dragState.indicator){
-dragState.indicator = document.createElement('div');
-dragState.indicator.className = 'sidebar-width-indicator';
-dragState.indicator.id = 'sidebarWidthIndicator';
-dragState.indicator.innerHTML = '<span>📏 Lebar:</span><span class="width-value" id="sidebarWidthValue">0px</span>';
-document.body.appendChild(dragState.indicator);
-}
-}
-if(!dragState.indicatorValue){
-dragState.indicatorValue = document.getElementById('sidebarWidthValue');
-}
-return {el: dragState.indicator, val: dragState.indicatorValue};
-}
-
-/* ============================================================
-✅ TERAPKAN LEBAR KE SIDEBAR
-============================================================ */
-function applyWidth(sidebar, width){
-width = Math.max(CONFIG.minWidth, Math.min(CONFIG.maxWidth, Math.round(width)));
-sidebar.style.width = width + 'px';
-sidebar.style.minWidth = width + 'px';
-sidebar.style.maxWidth = width + 'px';
-sidebar.style.flexShrink = '0';
-
-// Simpan preferensi
-var id = getSidebarId(sidebar);
-prefs[id] = width;
-savePrefs(prefs);
-
-// Update indicator
-var ind = getIndicator();
-if(ind.val) ind.val.textContent = width + 'px';
-}
-
-/* ============================================================
-✅ TAMBAH HANDLE + TOMBOL ALTERNATIF KE SIDEBAR
-============================================================ */
-function setupSidebar(sidebar){
-// Skip jika sudah di-setup
-if(sidebar.getAttribute('data-v20-setup') === '1') return;
-sidebar.setAttribute('data-v20-setup', '1');
-
-// Pastikan position relative
-var computedPos = window.getComputedStyle(sidebar).position;
-if(computedPos === 'static'){
-sidebar.style.position = 'relative';
-}
-
-// ===== 1. HANDLE RESIZE =====
-var handle = sidebar.querySelector('.sidebar-resize-handle');
-if(!handle){
-handle = document.createElement('div');
-handle.className = 'sidebar-resize-handle';
-handle.setAttribute('title', 'Geser untuk mengubah lebar');
-sidebar.appendChild(handle);
-}
-
-// ===== 2. TERAPKAN LEBAR TERSIMPAN =====
-var id = getSidebarId(sidebar);
-var savedWidth = prefs[id] || getDefaultWidth(sidebar);
-applyWidth(sidebar, savedWidth);
-
-// ===== 3. TOMBOL ALTERNATIF (+/-) =====
-var controls = sidebar.querySelector('.sidebar-width-controls');
-if(!controls){
-controls = document.createElement('div');
-controls.className = 'sidebar-width-controls';
-controls.innerHTML =
-'<button type="button" class="sidebar-width-btn narrower" title="Persempit sidebar">◀ Sempit</button>' +
-'<button type="button" class="sidebar-width-btn wider" title="Perlebar sidebar">Lebar ▶</button>';
-
-// Sisipkan setelah search atau di awal
-var searchInput = sidebar.querySelector('.sub-search');
-if(searchInput && searchInput.nextSibling){
-sidebar.insertBefore(controls, searchInput.nextSibling);
-} else {
-sidebar.insertBefore(controls, sidebar.firstChild);
-}
-
-// Event tombol +/-
-var btnNarrow = controls.querySelector('.narrower');
-var btnWide = controls.querySelector('.wider');
-
-btnNarrow.addEventListener('click', function(e){
-e.preventDefault();
-e.stopPropagation();
-var current = sidebar.offsetWidth;
-applyWidth(sidebar, current - CONFIG.step);
-if(typeof showToast === 'function') showToast('◀ Lebar: ' + sidebar.offsetWidth + 'px');
-});
-
-btnWide.addEventListener('click', function(e){
-e.preventDefault();
-e.stopPropagation();
-var current = sidebar.offsetWidth;
-applyWidth(sidebar, current + CONFIG.step);
-if(typeof showToast === 'function') showToast('▶ Lebar: ' + sidebar.offsetWidth + 'px');
-});
-
-// Long press untuk continuous resize
-var holdTimer = null;
-function startHold(delta){
-if(holdTimer) clearInterval(holdTimer);
-holdTimer = setInterval(function(){
-var current = sidebar.offsetWidth;
-applyWidth(sidebar, current + delta);
-}, 100);
-}
-function stopHold(){
-if(holdTimer){ clearInterval(holdTimer); holdTimer = null; }
-}
-[btnNarrow, btnWide].forEach(function(btn, idx){
-var delta = idx === 0 ? -10 : 10;
-btn.addEventListener('mousedown', function(){ startHold(delta); });
-btn.addEventListener('mouseup', stopHold);
-btn.addEventListener('mouseleave', stopHold);
-btn.addEventListener('touchstart', function(e){
-e.preventDefault();
-startHold(delta);
-}, {passive: false});
-btn.addEventListener('touchend', stopHold);
-btn.addEventListener('touchcancel', stopHold);
-});
-}
-
-console.log('✅ Sidebar di-setup:', sidebar.className);
-}
-
-/* ============================================================
-✅ EVENT DELEGATION: CAPTURE SEMUA MOUSEDOWN DI HANDLE
-(Menggunakan CAPTURE PHASE agar event tidak terhalang)
-============================================================ */
-function setupGlobalDragHandlers(){
-// ===== MOUSEDOWN (CAPTURE PHASE) =====
-document.addEventListener('mousedown', function(e){
-var handle = e.target.closest('.sidebar-resize-handle');
-if(!handle) return;
-
-e.preventDefault();
-e.stopPropagation();
-e.stopImmediatePropagation();
-
-var sidebar = handle.parentElement;
-if(!sidebar) return;
-
-startDrag(e, sidebar, handle, 'mouse');
-}, true); // true = capture phase
-
-// ===== TOUCHSTART (CAPTURE PHASE) =====
-document.addEventListener('touchstart', function(e){
-var handle = e.target.closest('.sidebar-resize-handle');
-if(!handle) return;
-
-e.preventDefault();
-e.stopPropagation();
-e.stopImmediatePropagation();
-
-var sidebar = handle.parentElement;
-if(!sidebar) return;
-
-startDrag(e, sidebar, handle, 'touch');
-}, {passive: false, capture: true});
-
-// ===== POINTERDOWN (FALLBACK) =====
-document.addEventListener('pointerdown', function(e){
-var handle = e.target.closest('.sidebar-resize-handle');
-if(!handle) return;
-if(dragState.isDragging) return; // Sudah di-handle oleh mouse/touch
-
-e.preventDefault();
-var sidebar = handle.parentElement;
-if(!sidebar) return;
-
-startDrag(e, sidebar, handle, 'pointer');
-}, true);
-
-// ===== MOUSEMOVE (GLOBAL) =====
-document.addEventListener('mousemove', function(e){
-if(!dragState.isDragging) return;
-e.preventDefault();
-doDrag(e.clientX);
-}, true);
-
-// ===== TOUCHMOVE (GLOBAL) =====
-document.addEventListener('touchmove', function(e){
-if(!dragState.isDragging) return;
-e.preventDefault();
-if(e.touches && e.touches[0]){
-doDrag(e.touches[0].clientX);
-}
-}, {passive: false, capture: true});
-
-// ===== POINTERMOVE (GLOBAL) =====
-document.addEventListener('pointermove', function(e){
-if(!dragState.isDragging) return;
-doDrag(e.clientX);
-}, true);
-
-// ===== MOUSEUP / TOUCHEND / POINTERUP (GLOBAL) =====
-function endDrag(){
-if(!dragState.isDragging) return;
-dragState.isDragging = false;
-
-if(dragState.handle){
-dragState.handle.classList.remove('dragging');
-}
-document.body.classList.remove('sidebar-resizing');
-
-var ind = getIndicator();
-if(ind.el) ind.el.classList.remove('show');
-
-if(dragState.sidebar){
-var finalWidth = dragState.sidebar.offsetWidth;
-console.log('💾 Lebar sidebar disimpan:', finalWidth + 'px');
-if(typeof showToast === 'function'){
-showToast('✅ Lebar sidebar: ' + finalWidth + 'px');
-}
-}
-
-dragState.sidebar = null;
-dragState.handle = null;
-}
-
-document.addEventListener('mouseup', endDrag, true);
-document.addEventListener('touchend', endDrag, {capture: true});
-document.addEventListener('touchcancel', endDrag, {capture: true});
-document.addEventListener('pointerup', endDrag, true);
-document.addEventListener('pointercancel', endDrag, true);
-
-console.log('✅ Global drag handlers terpasang (capture phase)');
-}
-
-/* ============================================================
-✅ START DRAG
-============================================================ */
-function startDrag(e, sidebar, handle, type){
-if(dragState.isDragging) return;
-
-dragState.isDragging = true;
-dragState.sidebar = sidebar;
-dragState.handle = handle;
-
-var clientX;
-if(type === 'touch' && e.touches && e.touches[0]){
-clientX = e.touches[0].clientX;
-} else if(e.clientX !== undefined){
-clientX = e.clientX;
-} else {
+if(!isMobile){
+console.log('💻 Desktop terdeteksi, patch v26 non-aktif');
 return;
 }
 
-dragState.startX = clientX;
-dragState.startWidth = sidebar.offsetWidth;
-
-handle.classList.add('dragging');
-document.body.classList.add('sidebar-resizing');
-
-var ind = getIndicator();
-if(ind.el) ind.el.classList.add('show');
-if(ind.val) ind.val.textContent = dragState.startWidth + 'px';
-
-console.log('🎯 Drag dimulai:', type, 'width=' + dragState.startWidth + 'px');
+/* ============================================================
+✅ STEP 1: SETUP VIEWPORT META
+============================================================ */
+function setupViewport(){
+var meta = document.querySelector('meta[name="viewport"]');
+if(!meta){
+meta = document.createElement('meta');
+meta.name = 'viewport';
+document.head.appendChild(meta);
+}
+meta.setAttribute('content',
+'width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=4.0, viewport-fit=cover');
+console.log('✅ Viewport meta: zoom 50%-400%');
 }
 
 /* ============================================================
-✅ DO DRAG (UPDATE LEBAR)
+✅ STEP 2: DETEKSI ZOOM LEVEL
 ============================================================ */
-function doDrag(clientX){
-if(!dragState.isDragging || !dragState.sidebar) return;
-
-var deltaX = clientX - dragState.startX;
-var newWidth = dragState.startWidth + deltaX;
-
-applyWidth(dragState.sidebar, newWidth);
+function getZoomLevel(){
+var visualViewport = window.visualViewport;
+if(visualViewport){
+return window.innerWidth / visualViewport.width;
+}
+return window.outerWidth / window.innerWidth;
 }
 
 /* ============================================================
-✅ INISIALISASI SEMUA SIDEBAR
+✅ STEP 3: RESET LAYOUT SETELAH ZOOM
+(HANYA reset container, BUKAN sidebar)
 ============================================================ */
-function initAllSidebars(){
-var total = 0;
-for(var i = 0; i < CONFIG.selectors.length; i++){
-var sidebars = document.querySelectorAll(CONFIG.selectors[i]);
-for(var j = 0; j < sidebars.length; j++){
-setupSidebar(sidebars[j]);
-total++;
+function forceLayoutReset(){
+// Reset scroll horizontal
+if(window.scrollX > 0){
+window.scrollTo(0, window.scrollY);
 }
+
+// ✅ PENTING: JANGAN reset sidebar!
+// Hanya reset container utama
+var containers = document.querySelectorAll(
+'.page-content, .split-container, .masjid-page, .navbar, .top-bar, .split-detail, .biografi-detail, .doa-detail, .sholat-detail'
+);
+for(var i = 0; i < containers.length; i++){
+var el = containers[i];
+// Trigger reflow aman
+var display = el.style.display;
+el.style.display = 'none';
+void el.offsetHeight;
+el.style.display = display || '';
 }
-if(total > 0){
-console.log('✅ ' + total + ' sidebar di-setup dengan Patch v20');
-}
+
+console.log('✅ Layout container direset (sidebar aman)');
 }
 
 /* ============================================================
-✅ OBSERVER: DETEKSI SIDEBAR BARU
+✅ STEP 4: VISUAL VIEWPORT LISTENER
 ============================================================ */
-function startObserver(){
-var observer = new MutationObserver(function(){
-setTimeout(initAllSidebars, 100);
+function setupVisualViewportListener(){
+if(!window.visualViewport) return;
+
+var resizeTimer = null;
+window.visualViewport.addEventListener('resize', function(){
+clearTimeout(resizeTimer);
+resizeTimer = setTimeout(function(){
+forceLayoutReset();
+}, 150);
 });
-observer.observe(document.body, {childList: true, subtree: true});
+
+window.visualViewport.addEventListener('scroll', function(){
+document.body.scrollLeft = 0;
+document.documentElement.scrollLeft = 0;
+});
+
+console.log('✅ Visual viewport listener aktif');
 }
 
 /* ============================================================
-✅ HOOK KE showPage
+✅ STEP 5: WINDOW RESIZE LISTENER
+============================================================ */
+function setupResizeListener(){
+var resizeTimer = null;
+var lastWidth = window.innerWidth;
+
+window.addEventListener('resize', function(){
+clearTimeout(resizeTimer);
+resizeTimer = setTimeout(function(){
+var newWidth = window.innerWidth;
+if(Math.abs(newWidth - lastWidth) > 50){
+forceLayoutReset();
+}
+lastWidth = newWidth;
+}, 200);
+});
+}
+
+/* ============================================================
+✅ STEP 6: MATIKAN CUSTOM PINCH BUGGY
+============================================================ */
+function disableBuggyCustomZoom(){
+document.addEventListener('gesturestart', function(e){
+// Biarkan browser native pinch zoom bekerja
+}, {passive: true});
+
+document.addEventListener('gestureend', function(e){
+setTimeout(forceLayoutReset, 100);
+}, {passive: true});
+}
+
+/* ============================================================
+✅ STEP 7: OVERFLOW MONITOR (AMAN)
+============================================================ */
+function startOverflowMonitor(){
+setInterval(function(){
+// Hanya cek body overflow, JANGAN reset sidebar
+if(document.body.scrollWidth > document.body.clientWidth + 5){
+document.body.style.overflowX = 'hidden';
+window.scrollTo(0, window.scrollY);
+}
+}, 1000);
+}
+
+/* ============================================================
+✅ STEP 8: INISIALISASI
+============================================================ */
+function init(){
+setupViewport();
+setupVisualViewportListener();
+setupResizeListener();
+disableBuggyCustomZoom();
+startOverflowMonitor();
+
+setTimeout(forceLayoutReset, 500);
+
+console.log('✅ PATCH v26 SMART ZOOM AMAN: berhasil dimuat');
+console.log('💡 Zoom HP aman, sidebar tidak terpengaruh');
+console.log('💡 Hanya container utama yang di-reset saat zoom');
+}
+
+if(document.readyState === 'loading'){
+document.addEventListener('DOMContentLoaded', init);
+} else {
+init();
+}
+
+// Hook ke showPage
+var _origShowPage = window.showPage;
+window.showPage = function(pageId){
+if(_origShowPage) _origShowPage(pageId);
+setTimeout(forceLayoutReset, 300);
+};
+
+})();
+</script>
+<!-- ============================================
+✅ PATCH: DROPDOWN NAVBAR SELALU DI ATAS LAYAR
+- Naikkan z-index navbar & dropdown ke level tertinggi
+- Pastikan tidak terpotong overflow
+- Mobile: dropdown fixed di bawah navbar
+============================================ -->
+<style>
+/* ====== NAVBAR: Z-INDEX TERTINGGI ====== */
+.navbar{
+z-index:99999 !important;
+position:sticky !important;
+top:0 !important;
+overflow:visible !important;
+isolation:isolate;
+}
+
+/* ====== NAV-MENU & LI: OVERFLOW VISIBLE ====== */
+.nav-left,
+.nav-menu,
+.nav-menu>li{
+overflow:visible !important;
+position:relative;
+}
+
+/* ====== DROPDOWN: Z-INDEX LEBIH TINGGI ====== */
+.nav-menu>li .dropdown{
+z-index:100000 !important;
+position:absolute !important;
+top:100% !important;
+left:0 !important;
+overflow:visible !important;
+}
+
+/* ====== HOVER & OPEN STATE ====== */
+.nav-menu>li:hover,
+.nav-menu>li.open{
+z-index:100001 !important;
+}
+
+.nav-menu>li:hover .dropdown,
+.nav-menu>li.open .dropdown{
+opacity:1 !important;
+visibility:visible !important;
+transform:translateY(0) !important;
+z-index:100000 !important;
+}
+
+/* ====== TOP BAR & MARQUEE: DI BAWAH NAVBAR ====== */
+.top-bar{
+z-index:99997 !important;
+position:relative !important;
+}
+.marquee-bar{
+z-index:99996 !important;
+position:relative !important;
+}
+
+/* ====== PAGE CONTENT: DI BAWAH NAVBAR ====== */
+.page-content{
+z-index:1 !important;
+position:relative !important;
+}
+
+/* ====== MOBILE: DROPDOWN FIXED DI BAWAH NAVBAR ====== */
+@media (max-width:900px){
+.navbar{
+z-index:99999 !important;
+}
+
+.nav-menu>li .dropdown{
+position:fixed !important;
+top:auto !important;
+left:0 !important;
+right:0 !important;
+width:100vw !important;
+min-width:100% !important;
+max-width:100vw !important;
+max-height:70vh !important;
+overflow-y:auto !important;
+border-radius:0 0 15px 15px !important;
+box-shadow:0 15px 40px rgba(0,0,0,0.7) !important;
+z-index:100000 !important;
+}
+
+.nav-menu>li:hover .dropdown,
+.nav-menu>li.open .dropdown{
+/* Posisi di bawah navbar */
+top:calc(60px + env(safe-area-inset-top, 0px)) !important;
+}
+
+.nav-menu>li{
+z-index:auto !important;
+}
+
+.nav-menu>li.open{
+z-index:100001 !important;
+}
+}
+</style>
+
+<script>
+(function(){
+'use strict';
+console.log('🟢 PATCH DROPDOWN NAVBAR: mulai dimuat...');
+
+/* ============================================================
+✅ PAKSA Z-INDEX SAAT LOAD & SAAT PAGE CHANGE
+============================================================ */
+function fixDropdownZIndex(){
+var navbar = document.querySelector('.navbar');
+if(navbar){
+navbar.style.setProperty('z-index', '99999', 'important');
+navbar.style.setProperty('overflow', 'visible', 'important');
+}
+
+var dropdowns = document.querySelectorAll('.nav-menu .dropdown');
+for(var i = 0; i < dropdowns.length; i++){
+dropdowns[i].style.setProperty('z-index', '100000', 'important');
+}
+
+var navItems = document.querySelectorAll('.nav-menu > li');
+for(var j = 0; j < navItems.length; j++){
+navItems[j].style.setProperty('position', 'relative', 'important');
+navItems[j].style.setProperty('overflow', 'visible', 'important');
+}
+
+console.log('✅ Dropdown z-index diperbaiki');
+}
+
+/* ============================================================
+✅ MOBILE: POSISI DROPDOWN DI BAWAH NAVBAR
+============================================================ */
+function fixMobileDropdownPosition(){
+if(window.innerWidth > 900) return;
+
+var navbar = document.querySelector('.navbar');
+if(!navbar) return;
+
+var navbarRect = navbar.getBoundingClientRect();
+var navbarBottom = navbarRect.bottom;
+
+var dropdowns = document.querySelectorAll('.nav-menu > li.open .dropdown');
+for(var i = 0; i < dropdowns.length; i++){
+dropdowns[i].style.setProperty('top', navbarBottom + 'px', 'important');
+}
+}
+
+/* ============================================================
+✅ HOOK: JALANKAN SAAT DROPDOWN DIBUKA
 ============================================================ */
 var _origShowPage = window.showPage;
 window.showPage = function(pageId){
 if(_origShowPage) _origShowPage(pageId);
-setTimeout(initAllSidebars, 200);
+// Tutup semua dropdown saat pindah halaman
+var allOpen = document.querySelectorAll('.nav-menu > li.open');
+for(var i = 0; i < allOpen.length; i++){
+allOpen[i].classList.remove('open');
+}
+setTimeout(fixDropdownZIndex, 100);
 };
+
+/* ============================================================
+✅ LISTENER: UPDATE POSISI DROPDOWN DI MOBILE
+============================================================ */
+// Saat klik dropdown parent
+document.addEventListener('click', function(e){
+var parentLink = e.target.closest('.nav-menu > li > a.dropdown-parent');
+if(parentLink){
+setTimeout(fixMobileDropdownPosition, 50);
+}
+});
+
+// Saat resize window
+var resizeTimer;
+window.addEventListener('resize', function(){
+clearTimeout(resizeTimer);
+resizeTimer = setTimeout(function(){
+fixDropdownZIndex();
+fixMobileDropdownPosition();
+}, 150);
+});
 
 /* ============================================================
 ✅ INIT
 ============================================================ */
 function init(){
-setupGlobalDragHandlers();
-initAllSidebars();
-startObserver();
+fixDropdownZIndex();
 
-console.log('✅ PATCH v20 FIX SIDEBAR DRAG: berhasil dimuat');
-console.log('💡 Mode:', isMobile ? 'MOBILE' : 'DESKTOP');
-console.log('💡 Min width:', CONFIG.minWidth + 'px');
-console.log('💡 Max width:', CONFIG.maxWidth + 'px');
-console.log('💡 Cara pakai:');
-console.log('   1. Geser handle emas di tepi kanan sidebar');
-console.log('   2. ATAU klik tombol ◀ Sempit / Lebar ▶');
-console.log('   3. ATAU tekan lama tombol untuk resize terus-menerus');
+// Observer untuk deteksi perubahan DOM
+var observer = new MutationObserver(function(mutations){
+for(var i = 0; i < mutations.length; i++){
+if(mutations[i].type === 'attributes' && mutations[i].attributeName === 'class'){
+var target = mutations[i].target;
+if(target.classList && target.classList.contains('open')){
+setTimeout(fixMobileDropdownPosition, 50);
+}
+}
+}
+});
+
+var navMenu = document.querySelector('.nav-menu');
+if(navMenu){
+observer.observe(navMenu, {
+attributes: true,
+subtree: true,
+attributeFilter: ['class']
+});
+}
+
+console.log('✅ PATCH DROPDOWN NAVBAR: berhasil dimuat');
+console.log('💡 Navbar z-index: 99999');
+console.log('💡 Dropdown z-index: 100000');
+console.log('💡 Dropdown sekarang selalu di atas konten');
 }
 
 if(document.readyState === 'loading'){
@@ -15062,10 +15297,8 @@ init();
 }
 
 setTimeout(init, 500);
-setTimeout(init, 1500);
-setTimeout(init, 3000);
-
 })();
 </script>
+
 </body>
 </html>
