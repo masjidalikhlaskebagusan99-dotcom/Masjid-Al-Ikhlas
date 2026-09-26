@@ -8443,27 +8443,99 @@ tersedia: true
 },
 {
 id: 'he-4',
-judul: 'Sunan At-Tirmidzi',
+judul: 'SYARAH SHAHIH MUSLIM 1 ',
 deskripsi: 'Kitab hadis dengan derajat & pendapat ulama',
 icon: '📗',
-url: 'https://drive.google.com/file/d/CONTOH_ID_4/preview',
+url: 'https://drive.google.com/file/d/1aLuukkYzQt3DzoUhhveuTwKz0di2s9mB/preview',
 tersedia: true
 },
 {
 id: 'he-5',
-judul: 'Sunan An-Nasa\'i',
+judul: 'SYARAH SHAHIH MUSLIM 2',
 deskripsi: 'Hadis-hadis fiqih dengan sanad ketat',
 icon: '📗',
-url: 'https://drive.google.com/file/d/CONTOH_ID_5/preview',
+url: 'https://drive.google.com/file/d/1BYPvXibBJdqJM66pd49_C2uTo2lEdaPK/preview',
 tersedia: true
 },
 {
 id: 'he-6',
-judul: 'Sunan Ibnu Majah',
+judul: 'SYARAH SHAHIH MUSLIM 3 ',
+deskripsi: 'Hadis-hadis yang tidak ada di kitab lain',
+icon: '📗',
+url: 'https://drive.google.com/file/d/1MACxXeqVSTarD0-T2P_dULDIBARNUOuJ/preview',
+tersedia: true
+},
+{
+ id: 'he-6',
+judul: 'SYARAH SHAHIH MUSLIM 4 ',
+deskripsi: 'Hadis-hadis yang tidak ada di kitab lain',
+icon: '📗',
+url: 'https://drive.google.com/file/d/15NNYudIXFvD2xYXK8g0AGXQbuVeroWDE/preview',
+tersedia: true 
+},
+{
+id: 'he-6',
+judul: 'SYARAH SHAHIH MUSLIM 5 ',
 deskripsi: 'Hadis-hadis yang tidak ada di kitab lain',
 icon: '📗',
 url: 'https://drive.google.com/file/d/CONTOH_ID_6/preview',
-tersedia: true
+tersedia: true 
+},
+{
+  id: 'he-6',
+judul: 'SYARAH SHAHIH MUSLIM 6 ',
+deskripsi: 'Hadis-hadis yang tidak ada di kitab lain',
+icon: '📗',
+url: 'https://drive.google.com/file/d/CONTOH_ID_6/preview',
+tersedia: true 
+},
+{
+  id: 'he-6',
+judul: 'SYARAH SHAHIH MUSLIM 7 ',
+deskripsi: 'Hadis-hadis yang tidak ada di kitab lain',
+icon: '📗',
+url: 'https://drive.google.com/file/d/CONTOH_ID_6/preview',
+tersedia: true 
+},
+{
+  id: 'he-6',
+judul: 'SYARAH SHAHIH MUSLIM 8 ',
+deskripsi: 'Hadis-hadis yang tidak ada di kitab lain',
+icon: '📗',
+url: 'https://drive.google.com/file/d/CONTOH_ID_6/preview',
+tersedia: true 
+},
+{
+  id: 'he-6',
+judul: 'SYARAH SHAHIH MUSLIM 9 ',
+deskripsi: 'Hadis-hadis yang tidak ada di kitab lain',
+icon: '📗',
+url: 'https://drive.google.com/file/d/CONTOH_ID_6/preview',
+tersedia: true 
+},
+{
+  id: 'he-6',
+judul: 'SYARAH SHAHIH MUSLIM 10 ',
+deskripsi: 'Hadis-hadis yang tidak ada di kitab lain',
+icon: '📗',
+url: 'https://drive.google.com/file/d/CONTOH_ID_6/preview',
+tersedia: true 
+},
+{
+  id: 'he-6',
+judul: 'SYARAH SHAHIH MUSLIM 11 ',
+deskripsi: 'Hadis-hadis yang tidak ada di kitab lain',
+icon: '📗',
+url: 'https://drive.google.com/file/d/CONTOH_ID_6/preview',
+tersedia: true 
+},
+{
+  id: 'he-6',
+judul: 'SYARAH SHAHIH MUSLIM 12 ',
+deskripsi: 'Hadis-hadis yang tidak ada di kitab lain',
+icon: '📗',
+url: 'https://drive.google.com/file/d/CONTOH_ID_6/preview',
+tersedia: true 
 }
 ];
 
@@ -15299,6 +15371,613 @@ init();
 setTimeout(init, 500);
 })();
 </script>
+<!-- ============================================
+✅ PATCH PASSWORD KITAB KUNING v6 FINAL
+Fix: Definisikan window.haditsEmbeds dll. secara global
+Sehingga pkBukaEmbedPdf bisa akses data PDF
+============================================ -->
+<style>
+.pk-overlay{position:fixed;inset:0;background:rgba(10,5,25,0.92);backdrop-filter:blur(8px);z-index:999999;display:none;align-items:center;justify-content:center;padding:15px;animation:pkFade .3s ease}
+.pk-overlay.active{display:flex}
+@keyframes pkFade{from{opacity:0}to{opacity:1}}
+.pk-modal{background:linear-gradient(135deg,#1a0a2e 0%,#2d1b4e 100%);border:2px solid rgba(201,168,76,0.5);border-radius:20px;max-width:520px;width:100%;max-height:92vh;overflow-y:auto;box-shadow:0 25px 80px rgba(0,0,0,0.7);position:relative}
+.pk-modal::-webkit-scrollbar{width:6px}
+.pk-modal::-webkit-scrollbar-thumb{background:rgba(201,168,76,0.4);border-radius:10px}
+.pk-header{background:linear-gradient(135deg,#c9a84c,#e8d48b);padding:20px 25px;border-radius:18px 18px 0 0;text-align:center;position:relative}
+.pk-header-icon{font-size:3rem;margin-bottom:8px;filter:drop-shadow(0 3px 6px rgba(0,0,0,0.3))}
+.pk-header h3{color:#1a0a2e;font-size:1.2rem;font-weight:800;margin:0 0 4px 0}
+.pk-header p{color:#3d2a0f;font-size:0.82rem;margin:0;font-weight:600}
+.pk-close{position:absolute;top:12px;right:12px;width:34px;height:34px;border-radius:50%;background:rgba(26,10,46,0.85);color:#e8d48b;border:1.5px solid rgba(201,168,76,0.5);font-size:1.1rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .25s}
+.pk-close:hover{background:#c0392b;color:#fff;transform:rotate(90deg)}
+.pk-body{padding:22px 25px}
+.pk-info-box{background:linear-gradient(135deg,rgba(201,168,76,0.12),rgba(45,27,78,0.5));border:1px solid rgba(201,168,76,0.35);border-left:4px solid #c9a84c;border-radius:12px;padding:16px 18px;margin-bottom:18px}
+.pk-info-box .pk-info-title{color:#e8d48b;font-size:0.95rem;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.pk-info-box .pk-info-title::before{content:'💝';font-size:1.2rem}
+.pk-info-box p{color:#ccc;font-size:0.85rem;line-height:1.7;margin:0 0 8px 0}
+.pk-info-box strong{color:#e8d48b}
+.pk-methods{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0 6px 0}
+.pk-method{background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);border-radius:10px;padding:10px 6px;text-align:center}
+.pk-method .pk-method-icon{font-size:1.5rem;margin-bottom:4px}
+.pk-method .pk-method-name{color:#e8d48b;font-size:0.72rem;font-weight:700}
+.pk-btn-donasi{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px 20px;margin:14px 0;background:linear-gradient(135deg,#c9a84c,#e8d48b);color:#1a0a2e;border:none;border-radius:30px;font-size:0.92rem;font-weight:700;cursor:pointer;font-family:inherit}
+.pk-divider{display:flex;align-items:center;gap:10px;margin:16px 0;color:#888;font-size:0.78rem}
+.pk-divider::before,.pk-divider::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,0.3),transparent)}
+.pk-input-group{margin-bottom:12px}
+.pk-input-group label{display:block;color:#e8d48b;font-size:0.82rem;font-weight:600;margin-bottom:6px}
+.pk-input-group label::before{content:'🔑 '}
+.pk-input{width:100%;padding:12px 16px;background:rgba(0,0,0,0.3);border:1.5px solid rgba(201,168,76,0.3);border-radius:12px;color:#fff;font-size:0.95rem;font-weight:600;letter-spacing:2px;text-align:center;font-family:inherit;box-sizing:border-box}
+.pk-input:focus{outline:none;border-color:#c9a84c;background:rgba(201,168,76,0.08)}
+.pk-input::placeholder{color:#666;letter-spacing:1px;font-weight:400}
+.pk-btn-buka{width:100%;padding:13px 20px;background:linear-gradient(135deg,#0d6e3f,#084a2a);color:#fff;border:none;border-radius:30px;font-size:0.92rem;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px}
+.pk-btn-buka:disabled{opacity:0.5;cursor:not-allowed}
+.pk-error{display:none;background:rgba(231,76,60,0.15);border:1px solid rgba(231,76,60,0.4);border-radius:10px;padding:10px 14px;margin-bottom:12px;color:#ff7675;font-size:0.82rem;font-weight:600;text-align:center}
+.pk-error.show{display:block;animation:pkShake .4s ease}
+@keyframes pkShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.pk-success{display:none;background:rgba(46,204,113,0.15);border:1px solid rgba(46,204,113,0.4);border-radius:10px;padding:10px 14px;margin-bottom:12px;color:#7bed9f;font-size:0.82rem;font-weight:600;text-align:center}
+.pk-success.show{display:block}
+.pk-footer{background:rgba(0,0,0,0.25);padding:14px 25px;border-radius:0 0 18px 18px;border-top:1px solid rgba(201,168,76,0.2);text-align:center}
+.pk-btn-konfirmasi{background:transparent;border:1.5px dashed rgba(201,168,76,0.4);color:#c9a84c;padding:10px 18px;border-radius:25px;font-size:0.82rem;font-weight:600;cursor:pointer;font-family:inherit}
+.pk-afwan{color:#888;font-size:0.72rem;margin-top:10px;font-style:italic}
+.pk-afwan::before{content:'🤲 '}
+.kitab-jilid-btn.pk-locked::after{content:'🔒';margin-left:4px;font-size:0.7rem}
+.kitab-jilid-btn.pk-unlocked::after{content:'🔓';margin-left:4px;font-size:0.7rem}
+@media (max-width:600px){.pk-modal{max-width:100%;border-radius:16px}.pk-header{padding:16px 18px}.pk-header-icon{font-size:2.3rem}.pk-header h3{font-size:1.05rem}.pk-body{padding:18px}}
+</style>
 
+<div class="pk-overlay" id="pkOverlay">
+<div class="pk-modal">
+<div class="pk-header">
+<button class="pk-close" onclick="pkTutup()" title="Tutup">✕</button>
+<div class="pk-header-icon">📖</div>
+<h3 id="pkJudul">Membuka Kitab</h3>
+<p>Proteksi Konten Kitab Kuning</p>
+</div>
+<div class="pk-body">
+<div class="pk-info-box">
+<div class="pk-info-title">Membaca Terjemah Kitab</div>
+<p>Silakan isi <strong>Donasi</strong> melalui Halaman <strong>Masjid Jami' Al-Ikhlas</strong> dengan mode:</p>
+<div class="pk-methods">
+<div class="pk-method"><div class="pk-method-icon">📷</div><div class="pk-method-name">QRIS</div></div>
+<div class="pk-method"><div class="pk-method-icon">💚</div><div class="pk-method-name">GOPAY</div></div>
+<div class="pk-method"><div class="pk-method-icon">🏦</div><div class="pk-method-name">TF REKENING</div></div>
+</div>
+<p style="margin-top:10px;font-size:0.78rem;color:#aaa;">Setelah berdonasi, klik tombol konfirmasi. Kami akan kirimkan <strong style="color:#e8d48b;">Password</strong> kepada Anda.</p>
+</div>
+<button class="pk-btn-donasi" onclick="pkBukaDonasi()">💝 Konfirmasi Donasi ke Halaman Masjid</button>
+<div class="pk-divider">atau masukkan password</div>
+<div class="pk-error" id="pkError">❌ Afwan. Password salah.</div>
+<div class="pk-success" id="pkSuccess">✅ Alhamdulillah! Kitab akan terbuka...</div>
+<div class="pk-input-group">
+<label for="pkInput">Password Kitab</label>
+<input type="password" id="pkInput" class="pk-input" placeholder="Masukkan password..." autocomplete="off" onkeydown="if(event.key==='Enter')pkBuka()">
+</div>
+<button class="pk-btn-buka" id="pkBtnBuka" onclick="pkBuka()">🔓 Buka Kitab</button>
+</div>
+<div class="pk-footer">
+<button class="pk-btn-konfirmasi" onclick="pkMintaPassword()">📩 Beri Konfirmasi — Kami akan kirimkan Passwordnya</button>
+<div class="pk-afwan">Afwan. Konten ini dilindungi untuk mendukung dakwah & operasional masjid.</div>
+</div>
+</div>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+/* ============================================================
+✅ 🔒 DAFTAR PASSWORD (HANYA ADMIN YANG TAHU)
+============================================================ */
+var PK_PASSWORDS = {
+// SIDEBAR KITAB
+'aqidatul-awam-jilid-1':'AQIDAH01','aqidatul-awam-jilid-2':'AQIDAH02',
+'ummul-barahin-jilid-1':'UMMUL01','ummul-barahin-jilid-2':'UMMUL02',
+'ihya-ulumiddin-jilid-1':'IHYA01','ihya-ulumiddin-jilid-2':'IHYA02','ihya-ulumiddin-jilid-3':'IHYA03',
+'al-hikam-jilid-1':'HIKAM01','al-hikam-jilid-2':'HIKAM02',
+'ar-risalah-jilid-1':'RISALAH01','ar-risalah-jilid-2':'RISALAH02',
+'al-waraqat':'WARAQAT2026',
+'al-umm-jilid-1':'UMM01','al-umm-jilid-2':'UMM02','al-umm-jilid-3':'UMM03','al-umm-jilid-4':'UMM04','al-umm-jilid-5':'UMM05','al-umm-jilid-6':'UMM06','al-umm-jilid-7':'UMM07','al-umm-jilid-8':'UMM08','al-umm-jilid-9':'UMM09','al-umm-jilid-10':'UMM10',
+'bidayatul-mujtahid-jilid-1':'BIDAYAH01','bidayatul-mujtahid-jilid-2':'BIDAYAH02',
+'safinatun-najah':'SAFINAH2026',
+'tafsir-jalalain-jilid-1':'JALALAIN01','tafsir-jalalain-jilid-2':'JALALAIN02',
+'tafsir-ibnu-katsir-jilid-1':'KATSIR01','tafsir-ibnu-katsir-jilid-2':'KATSIR02',
+'sahih-bukhari-jilid-1':'BUKHARI01','sahih-bukhari-jilid-2':'BUKHARI02','sahih-bukhari-jilid-3':'BUKHARI03',
+'sahih-muslim-jilid-1':'MUSLIM01','sahih-muslim-jilid-2':'MUSLIM02',
+'al-ajurrumiyyah-jilid-1':'AJURRUM01','al-ajurrumiyyah-jilid-2':'AJURRUM02',
+'imrithi-jilid-1':'IMRITHI01','imrithi-jilid-2':'IMRITHI02',
+'alfiyyah-ibnu-malik-jilid-1':'ALFIYAH01','alfiyyah-ibnu-malik-jilid-2':'ALFIYAH02',
+'mutammimah-al-ajurrumiyyah-jilid-1':'MUTAMMIMAH01','mutammimah-al-ajurrumiyyah-jilid-2':'MUTAMMIMAH02',
+'al-amtsilah-at-tashrifiyyah-jilid-1':'AMTSILAH01','al-amtsilah-at-tashrifiyyah-jilid-2':'AMTSILAH02',
+'kailani-jilid-1':'KAILANI01','kailani-jilid-2':'KAILANI02',
+'shorof-al-izzi-jilid-1':'IZZI01','shorof-al-izzi-jilid-2':'IZZI02',
+'nadhom-al-maqshur-wal-mamdud-jilid-1':'MAQSHUR01','nadhom-al-maqshur-wal-mamdud-jilid-2':'MAQSHUR02',
+
+// EMBED PDF - HADITS (15 slot)
+'he-1':'ENSIKLO01','he-2':'ENSIKLO02','he-3':'ENSIKLO03',
+'he-4':'SYARAH01','he-5':'SYARAH02','he-6':'SYARAH03','he-7':'SYARAH04','he-8':'SYARAH05',
+'he-9':'SYARAH06','he-10':'SYARAH07','he-11':'SYARAH08','he-12':'SYARAH09','he-13':'SYARAH10',
+'he-14':'SYARAH11','he-15':'SYARAH12',
+
+// EMBED PDF - NAHWU (6 slot)
+'ne-1':'NE01','ne-2':'NE02','ne-3':'NE03','ne-4':'NE04','ne-5':'NE05','ne-6':'NE06',
+
+// EMBED PDF - SHARAF (6 slot)
+'se-1':'SE01','se-2':'SE02','se-3':'SE03','se-4':'SE04','se-5':'SE05','se-6':'SE06',
+
+// EMBED PDF - AQIDAH (6 slot)
+'at-1':'AT01','at-2':'AT02','at-3':'AT03','at-4':'AT04','at-5':'AT05','at-6':'AT06',
+
+// EMBED PDF - TASAWUF (6 slot)
+'ta-1':'TA01','ta-2':'TA02','ta-3':'TA03','ta-4':'TA04','ta-5':'TA05','ta-6':'TA06',
+
+// EMBED PDF - TAFSIR (6 slot)
+'tf-1':'TF01','tf-2':'TF02','tf-3':'TF03','tf-4':'TF04','tf-5':'TF05','tf-6':'TF06',
+
+// EMBED PDF - FIQIH (6 slot)
+'fq-1':'FQ01','fq-2':'FQ02','fq-3':'FQ03','fq-4':'FQ04','fq-5':'FQ05','fq-6':'FQ06',
+
+// EMBED PDF - USHUL (6 slot)
+'uf-1':'UF01','uf-2':'UF02','uf-3':'UF03','uf-4':'UF04','uf-5':'UF05','uf-6':'UF06'
+};
+
+var PK_NAMA_KITAB = {
+'he-1':'Ensiklopedi Hadits Jilid 1','he-2':'Ensiklopedi Hadits Jilid 2','he-3':'Ensiklopedi Hadits Jilid 3',
+'he-4':'Syarah Shahîh Muslim Jilid 1','he-5':'Syarah Shahîh Muslim Jilid 2','he-6':'Syarah Shahîh Muslim Jilid 3',
+'he-7':'Syarah Shahîh Muslim Jilid 4','he-8':'Syarah Shahîh Muslim Jilid 5','he-9':'Syarah Shahîh Muslim Jilid 6',
+'he-10':'Syarah Shahîh Muslim Jilid 7','he-11':'Syarah Shahîh Muslim Jilid 8','he-12':'Syarah Shahîh Muslim Jilid 9',
+'he-13':'Syarah Shahîh Muslim Jilid 10','he-14':'Syarah Shahîh Muslim Jilid 11','he-15':'Syarah Shahîh Muslim Jilid 12',
+'ne-1':'Al-Ajurrûmiyyah','ne-2':'Nadhom Imrîthî','ne-3':'Alfiyyah Ibnu Mâlik',
+'ne-4':'Mutammimah Al-Ajurrûmiyyah','ne-5':'Tuhfatun Nubha','ne-6':'Nadhom Ibnu Aqîl',
+'se-1':'Al-Amtsilah At-Tashrifiyyah','se-2':'Kailani','se-3':'Shorof Al-Izzi',
+'se-4':'Nadhom Al-Maqshur wal Mamdud','se-5':'Amsilati','se-6':'Tashrif Al-Izzi',
+'at-1':'Aqidatul Awam','at-2':'Ummul Barâhîn','at-3':'Al-\'Aqidah Ath-Thahawiyah',
+'at-4':'Al-Fiqh Al-Akbar','at-5':'Kifayatul Awam','at-6':'Al-\'Aqidah An-Nasafiyah',
+'ta-1':'Ihyâ\' Ulûmiddîn','ta-2':'Al-Hikam','ta-3':'Bidyâyatul Hidâyah',
+'ta-4':'Minhâjul \'Âbidîn','ta-5':'Risâlah Al-Qushairiyyah','ta-6':'Ta\'lîm Muta\'allim',
+'tf-1':'Tafsîr Al-Jalâlain','tf-2':'Tafsîr Ibnu Katsîr','tf-3':'Tafsîr Al-Munîr',
+'tf-4':'Tafsîr Al-Qurthubi','tf-5':'Jâmi\'ul Bayân','tf-6':'Tafsîr Al-Baghawi',
+'fq-1':'Safînatun Najâh','fq-2':'Fathul Qarîb','fq-3':'Taqrîb',
+'fq-4':'Al-Umm','fq-5':'Minhâjut Thâlibîn','fq-6':'I\'ânatut Thâlibîn',
+'uf-1':'Ar-Risâlah','uf-2':'Al-Waraqât','uf-3':'Al-Luma\'',
+'uf-4':'Al-Mustashfâ','uf-5':'Jam\'ul Jawâmi\'','uf-6':'Al-Ihkâm'
+};
+
+/* ============================================================
+✅ 🔑 FIX UTAMA: DEFINISIKAN ARRAY EMBED PDF SECARA GLOBAL
+Ini yang TIDAK ADA di patch v5, sehingga pkBukaEmbedPdf gagal
+============================================================ */
+window.haditsEmbeds = [
+{id:'he-1',judul:'Ensiklopedi Hadits Jilid 1',url:'https://drive.google.com/file/d/12ARSZ9jussQTLGVm3aj5N3-2UCAGINmU/preview',tersedia:true},
+{id:'he-2',judul:'Ensiklopedi Hadits Jilid 2',url:'https://drive.google.com/file/d/1GftbKyG8yganRg0QSNz0rm_U_4X4HUf9/preview',tersedia:true},
+{id:'he-3',judul:'Ensiklopedi Hadits Jilid 3',url:'https://drive.google.com/file/d/1ZXVBGcql4VYKuxsSqq0fWAY_G2sXqQbj/preview',tersedia:true},
+{id:'he-4',judul:'SYARAH SHAHIH MUSLIM 1',url:'https://drive.google.com/file/d/1aLuukkYzQt3DzoUhhveuTwKz0di2s9mB/preview',tersedia:true},
+{id:'he-5',judul:'SYARAH SHAHIH MUSLIM 2',url:'https://drive.google.com/file/d/1BYPvXibBJdqJM66pd49_C2uTo2lEdaPK/preview',tersedia:true},
+{id:'he-6',judul:'SYARAH SHAHIH MUSLIM 3',url:'https://drive.google.com/file/d/1MACxXeqVSTarD0-T2P_dULDIBARNUOuJ/preview',tersedia:true},
+{id:'he-7',judul:'SYARAH SHAHIH MUSLIM 4',url:'https://drive.google.com/file/d/15NNYudIXFvD2xYXK8g0AGXQbuVeroWDE/preview',tersedia:true},
+{id:'he-8',judul:'SYARAH SHAHIH MUSLIM 5',url:'',tersedia:false},
+{id:'he-9',judul:'SYARAH SHAHIH MUSLIM 6',url:'',tersedia:false},
+{id:'he-10',judul:'SYARAH SHAHIH MUSLIM 7',url:'',tersedia:false},
+{id:'he-11',judul:'SYARAH SHAHIH MUSLIM 8',url:'',tersedia:false},
+{id:'he-12',judul:'SYARAH SHAHIH MUSLIM 9',url:'',tersedia:false},
+{id:'he-13',judul:'SYARAH SHAHIH MUSLIM 10',url:'',tersedia:false},
+{id:'he-14',judul:'SYARAH SHAHIH MUSLIM 11',url:'',tersedia:false},
+{id:'he-15',judul:'SYARAH SHAHIH MUSLIM 12',url:'',tersedia:false}
+];
+
+window.nahwuEmbeds = [
+{id:'ne-1',judul:'Al-Ajurrûmiyyah',url:'https://drive.google.com/file/d/CONTOH_ID_1/preview',tersedia:true},
+{id:'ne-2',judul:'Nadhom Imrîthî',url:'https://drive.google.com/file/d/CONTOH_ID_2/preview',tersedia:true},
+{id:'ne-3',judul:'Alfiyyah Ibnu Mâlik',url:'https://drive.google.com/file/d/CONTOH_ID_3/preview',tersedia:true},
+{id:'ne-4',judul:'Mutammimah Al-Ajurrûmiyyah',url:'https://drive.google.com/file/d/CONTOH_ID_4/preview',tersedia:true},
+{id:'ne-5',judul:'Tuhfatun Nubha',url:'https://drive.google.com/file/d/CONTOH_ID_5/preview',tersedia:true},
+{id:'ne-6',judul:'Nadhom Ibnu Aqîl',url:'https://drive.google.com/file/d/CONTOH_ID_6/preview',tersedia:true}
+];
+
+window.sharafEmbeds = [
+{id:'se-1',judul:'Al-Amtsilah At-Tashrifiyyah',url:'https://drive.google.com/file/d/CONTOH_ID_1/preview',tersedia:true},
+{id:'se-2',judul:'Kailani',url:'https://drive.google.com/file/d/CONTOH_ID_2/preview',tersedia:true},
+{id:'se-3',judul:'Shorof Al-Izzi',url:'https://drive.google.com/file/d/CONTOH_ID_3/preview',tersedia:true},
+{id:'se-4',judul:'Nadhom Al-Maqshur wal Mamdud',url:'https://drive.google.com/file/d/CONTOH_ID_4/preview',tersedia:true},
+{id:'se-5',judul:'Amsilati',url:'https://drive.google.com/file/d/CONTOH_ID_5/preview',tersedia:true},
+{id:'se-6',judul:'Tashrif Al-Izzi',url:'https://drive.google.com/file/d/CONTOH_ID_6/preview',tersedia:true}
+];
+
+window.aqidahEmbeds = [
+{id:'at-1',judul:'Aqidatul Awam',url:'https://drive.google.com/file/d/CONTOH_ID_1/preview',tersedia:true},
+{id:'at-2',judul:'Ummul Barâhîn',url:'https://drive.google.com/file/d/CONTOH_ID_2/preview',tersedia:true},
+{id:'at-3',judul:'Al-\'Aqidah Ath-Thahawiyah',url:'https://drive.google.com/file/d/CONTOH_ID_3/preview',tersedia:true},
+{id:'at-4',judul:'Al-Fiqh Al-Akbar',url:'https://drive.google.com/file/d/CONTOH_ID_4/preview',tersedia:true},
+{id:'at-5',judul:'Kifayatul Awam',url:'https://drive.google.com/file/d/CONTOH_ID_5/preview',tersedia:true},
+{id:'at-6',judul:'Al-\'Aqidah An-Nasafiyah',url:'https://drive.google.com/file/d/CONTOH_ID_6/preview',tersedia:true}
+];
+
+window.tasawufEmbeds = [
+{id:'ta-1',judul:'Ihyâ\' Ulûmiddîn',url:'https://drive.google.com/file/d/CONTOH_ID_1/preview',tersedia:true},
+{id:'ta-2',judul:'Al-Hikam',url:'https://drive.google.com/file/d/CONTOH_ID_2/preview',tersedia:true},
+{id:'ta-3',judul:'Bidyâyatul Hidâyah',url:'https://drive.google.com/file/d/CONTOH_ID_3/preview',tersedia:true},
+{id:'ta-4',judul:'Minhâjul \'Âbidîn',url:'https://drive.google.com/file/d/CONTOH_ID_4/preview',tersedia:true},
+{id:'ta-5',judul:'Risâlah Al-Qushairiyyah',url:'https://drive.google.com/file/d/CONTOH_ID_5/preview',tersedia:true},
+{id:'ta-6',judul:'Ta\'lîm Muta\'allim',url:'https://drive.google.com/file/d/CONTOH_ID_6/preview',tersedia:true}
+];
+
+window.tafsirEmbeds = [
+{id:'tf-1',judul:'Tafsîr Al-Jalâlain',url:'https://drive.google.com/file/d/CONTOH_ID_1/preview',tersedia:true},
+{id:'tf-2',judul:'Tafsîr Ibnu Katsîr',url:'https://drive.google.com/file/d/CONTOH_ID_2/preview',tersedia:true},
+{id:'tf-3',judul:'Tafsîr Al-Munîr',url:'https://drive.google.com/file/d/CONTOH_ID_3/preview',tersedia:true},
+{id:'tf-4',judul:'Tafsîr Al-Qurthubi',url:'https://drive.google.com/file/d/CONTOH_ID_4/preview',tersedia:true},
+{id:'tf-5',judul:'Jâmi\'ul Bayân',url:'https://drive.google.com/file/d/CONTOH_ID_5/preview',tersedia:true},
+{id:'tf-6',judul:'Tafsîr Al-Baghawi',url:'https://drive.google.com/file/d/CONTOH_ID_6/preview',tersedia:true}
+];
+
+window.fiqihEmbeds = [
+{id:'fq-1',judul:'Safînatun Najâh',url:'https://drive.google.com/file/d/CONTOH_ID_1/preview',tersedia:true},
+{id:'fq-2',judul:'Fathul Qarîb',url:'https://drive.google.com/file/d/CONTOH_ID_2/preview',tersedia:true},
+{id:'fq-3',judul:'Taqrîb',url:'https://drive.google.com/file/d/CONTOH_ID_3/preview',tersedia:true},
+{id:'fq-4',judul:'Al-Umm',url:'https://drive.google.com/file/d/CONTOH_ID_4/preview',tersedia:true},
+{id:'fq-5',judul:'Minhâjut Thâlibîn',url:'https://drive.google.com/file/d/CONTOH_ID_5/preview',tersedia:true},
+{id:'fq-6',judul:'I\'ânatut Thâlibîn',url:'https://drive.google.com/file/d/CONTOH_ID_6/preview',tersedia:true}
+];
+
+window.ushulEmbeds = [
+{id:'uf-1',judul:'Ar-Risâlah',url:'https://drive.google.com/file/d/CONTOH_ID_1/preview',tersedia:true},
+{id:'uf-2',judul:'Al-Waraqât',url:'https://drive.google.com/file/d/CONTOH_ID_2/preview',tersedia:true},
+{id:'uf-3',judul:'Al-Luma\'',url:'https://drive.google.com/file/d/CONTOH_ID_3/preview',tersedia:true},
+{id:'uf-4',judul:'Al-Mustashfâ',url:'https://drive.google.com/file/d/CONTOH_ID_4/preview',tersedia:true},
+{id:'uf-5',judul:'Jam\'ul Jawâmi\'',url:'https://drive.google.com/file/d/CONTOH_ID_5/preview',tersedia:true},
+{id:'uf-6',judul:'Al-Ihkâm',url:'https://drive.google.com/file/d/CONTOH_ID_6/preview',tersedia:true}
+];
+
+/* ============================================================
+✅ NORMALISASI STRING
+============================================================ */
+function pkNormalize(str){
+if(!str) return '';
+return String(str).toLowerCase()
+.replace(/[âãäáàå]/g,'a').replace(/[êëéè]/g,'e')
+.replace(/[îïíì]/g,'i').replace(/[ôöóòõ]/g,'o')
+.replace(/[ûüúù]/g,'u').replace(/[ýÿ]/g,'y')
+.replace(/[ñ]/g,'n').replace(/[ç]/g,'c')
+.replace(/[''`]/g,'').replace(/[^a-z0-9\s-]/g,' ')
+.replace(/\s+/g,' ').trim();
+}
+
+var pkCurrentKitab = null;
+var pkCurrentAction = null;
+
+function pkIsUnlocked(id){
+try{ return sessionStorage.getItem('pk_u_' + id) === '1'; }catch(e){ return false; }
+}
+function pkSetUnlocked(id){
+try{ sessionStorage.setItem('pk_u_' + id, '1'); }catch(e){}
+}
+
+/* ============================================================
+✅ DETEKSI ID KITAB DARI JUDUL
+============================================================ */
+function pkDetectFromJudul(judul){
+if(!judul) return null;
+var j = pkNormalize(judul);
+var jilidMatch = judul.match(/jilid\s*\.?\s*(\d+)/i) || judul.match(/vol(?:ume)?\.?\s*(\d+)/i);
+var nomorJilid = jilidMatch ? jilidMatch[1] : null;
+var namaKitab = j;
+if(nomorJilid){
+namaKitab = namaKitab.replace(/\s*[-—|]?\s*jilid\s*\.?\s*\d+.*$/i, '').trim();
+}
+var mapping = [
+['aqidatul awam','aqidatul-awam'],['ummul barahin','ummul-barahin'],
+['ihya ulumiddin','ihya-ulumiddin'],['al hikam','al-hikam'],
+['ar risalah','ar-risalah'],['al waraqat','al-waraqat'],
+['al umm','al-umm'],['bidayatul mujtahid','bidayatul-mujtahid'],
+['safinatun najah','safinatun-najah'],['tafsir jalalain','tafsir-jalalain'],
+['jalalain','tafsir-jalalain'],['tafsir ibnu katsir','tafsir-ibnu-katsir'],
+['ibnu katsir','tafsir-ibnu-katsir'],['sahih bukhari','sahih-bukhari'],
+['bukhari','sahih-bukhari'],['sahih muslim','sahih-muslim'],
+['ajurrumiyyah','al-ajurrumiyyah'],['imrithi','imrithi'],
+['alfiyyah','alfiyyah-ibnu-malik'],['mutammimah','mutammimah-al-ajurrumiyyah'],
+['amtsilah','al-amtsilah-at-tashrifiyyah'],['kailani','kailani'],
+['shorof al izzi','shorof-al-izzi'],['maqshur','nadhom-al-maqshur-wal-mamdud']
+];
+var prefix = null;
+for(var i = 0; i < mapping.length; i++){
+if(namaKitab.indexOf(pkNormalize(mapping[i][0])) !== -1){
+prefix = mapping[i][1];
+break;
+}
+}
+if(!prefix) return null;
+if(nomorJilid){
+var key = prefix + '-jilid-' + nomorJilid;
+if(PK_PASSWORDS[key] !== undefined) return key;
+} else {
+if(PK_PASSWORDS[prefix] !== undefined) return prefix;
+}
+return null;
+}
+
+/* ============================================================
+✅ BUKA MODAL
+============================================================ */
+function pkBukaModal(kitabId, judul, actionFn){
+pkCurrentKitab = kitabId;
+pkCurrentAction = actionFn;
+var namaKitab = PK_NAMA_KITAB[kitabId] || judul || 'Kitab';
+var elJudul = document.getElementById('pkJudul');
+if(elJudul) elJudul.textContent = '📖 ' + namaKitab;
+var err = document.getElementById('pkError');
+var suc = document.getElementById('pkSuccess');
+var inp = document.getElementById('pkInput');
+if(err) err.classList.remove('show');
+if(suc) suc.classList.remove('show');
+if(inp){ inp.value = ''; setTimeout(function(){ inp.focus(); }, 100); }
+var overlay = document.getElementById('pkOverlay');
+if(overlay) overlay.classList.add('active');
+document.body.style.overflow = 'hidden';
+}
+
+window.pkTutup = function(){
+var overlay = document.getElementById('pkOverlay');
+if(overlay) overlay.classList.remove('active');
+document.body.style.overflow = '';
+pkCurrentKitab = null;
+pkCurrentAction = null;
+};
+
+/* ============================================================
+✅ 🔒 VALIDASI PASSWORD
+============================================================ */
+window.pkBuka = function(){
+if(!pkCurrentKitab) return;
+var inp = document.getElementById('pkInput');
+var err = document.getElementById('pkError');
+var suc = document.getElementById('pkSuccess');
+var btn = document.getElementById('pkBtnBuka');
+if(!inp) return;
+var pwd = inp.value.trim();
+if(!pwd){
+if(err){ err.innerHTML = '⚠️ Afwan. Silakan masukkan password terlebih dahulu.'; err.classList.add('show'); }
+return;
+}
+var correctPwd = PK_PASSWORDS[pkCurrentKitab] || '';
+if(!correctPwd){
+if(suc) suc.classList.add('show');
+pkSetUnlocked(pkCurrentKitab);
+setTimeout(function(){
+if(typeof pkCurrentAction === 'function'){ try{ pkCurrentAction(); }catch(e){} }
+pkTutup();
+}, 700);
+return;
+}
+if(pwd.toUpperCase() === correctPwd.toUpperCase()){
+if(err) err.classList.remove('show');
+if(suc) suc.classList.add('show');
+if(btn){ btn.disabled = true; btn.innerHTML = '✅ Membuka...'; }
+pkSetUnlocked(pkCurrentKitab);
+if(typeof showToast === 'function'){
+showToast('✅ Alhamdulillah! Kitab ' + (PK_NAMA_KITAB[pkCurrentKitab]||'') + ' terbuka');
+}
+setTimeout(function(){
+if(typeof pkCurrentAction === 'function'){ try{ pkCurrentAction(); }catch(e){} }
+pkTutup();
+if(btn){ btn.disabled = false; btn.innerHTML = '🔓 Buka Kitab'; }
+}, 900);
+} else {
+if(suc) suc.classList.remove('show');
+if(err){ err.innerHTML = '❌ Afwan. Password salah. Silakan coba lagi atau hubungi admin.'; err.classList.add('show'); }
+inp.value = '';
+inp.focus();
+inp.style.animation = 'none';
+void inp.offsetWidth;
+inp.style.animation = 'pkShake .4s ease';
+}
+};
+
+window.pkBukaDonasi = function(){
+if(typeof showPage === 'function'){
+pkTutup();
+showPage('tentang-donasi');
+setTimeout(function(){
+var donasiSection = document.getElementById('donasi');
+if(donasiSection) donasiSection.scrollIntoView({behavior:'smooth', block:'start'});
+}, 400);
+}
+};
+
+window.pkMintaPassword = function(){
+var namaKitab = PK_NAMA_KITAB[pkCurrentKitab] || 'Kitab Kuning';
+var confirmed = confirm(
+'📩 MINTA PASSWORD\n\n' +
+'Untuk mendapatkan password "' + namaKitab + '", silakan:\n\n' +
+'1. Lakukan donasi melalui Halaman Masjid Al-Ikhlas\n' +
+'   (QRIS / Gopay / Transfer Bank)\n\n' +
+'2. Konfirmasi donasi Anda\n\n' +
+'3. Password akan dikirimkan kepada Anda\n\n' +
+'Jazakumullah khairan 🤲\n\n' +
+'Klik OK untuk buka halaman donasi.'
+);
+if(confirmed) pkBukaDonasi();
+};
+
+/* ============================================================
+✅ OVERRIDE: bacaKitabJilid (SIDEBAR)
+============================================================ */
+var _origBacaKitabJilid = window.bacaKitabJilid;
+window.bacaKitabJilid = function(namaLengkap, pdfUrl){
+var kitabId = pkDetectFromJudul(namaLengkap);
+if(!kitabId){
+if(_origBacaKitabJilid) _origBacaKitabJilid(namaLengkap, pdfUrl);
+return;
+}
+if(pkIsUnlocked(kitabId)){
+if(_origBacaKitabJilid) _origBacaKitabJilid(namaLengkap, pdfUrl);
+return;
+}
+pkBukaModal(kitabId, namaLengkap, function(){
+if(_origBacaKitabJilid) _origBacaKitabJilid(namaLengkap, pdfUrl);
+});
+};
+
+/* ============================================================
+✅ 🔑 FUNGSI BUKA EMBED PDF (FIXED - TIDAK LAGI GAGAL)
+============================================================ */
+function pkGetEmbedData(prefix, id){
+var arrName = null;
+if(prefix === 'he') arrName = 'haditsEmbeds';
+else if(prefix === 'ne') arrName = 'nahwuEmbeds';
+else if(prefix === 'se') arrName = 'sharafEmbeds';
+else if(prefix === 'at') arrName = 'aqidahEmbeds';
+else if(prefix === 'ta') arrName = 'tasawufEmbeds';
+else if(prefix === 'tf') arrName = 'tafsirEmbeds';
+else if(prefix === 'fq') arrName = 'fiqihEmbeds';
+else if(prefix === 'uf') arrName = 'ushulEmbeds';
+if(!arrName || !window[arrName]) return null;
+var arr = window[arrName];
+for(var i = 0; i < arr.length; i++){
+if(arr[i].id === id) return arr[i];
+}
+return null;
+}
+
+function pkBukaEmbedPdf(prefix, num){
+var kitabId = prefix + '-' + num;
+var data = pkGetEmbedData(prefix, kitabId);
+var judul = data ? data.judul : (PK_NAMA_KITAB[kitabId] || 'PDF ' + prefix.toUpperCase() + ' #' + num);
+var url = data ? data.url : '';
+
+function doOpen(){
+if(!url){
+if(typeof showToast === 'function') showToast('⚠️ URL PDF tidak tersedia untuk ' + judul);
+return;
+}
+var overlayId = prefix + 'PdfOverlay';
+var titleId = prefix + 'PdfTitle';
+var iframeId = prefix + 'PdfIframe';
+var loadingId = prefix + 'PdfLoading';
+var overlay = document.getElementById(overlayId);
+var title = document.getElementById(titleId);
+var iframe = document.getElementById(iframeId);
+var loading = document.getElementById(loadingId);
+if(!overlay || !iframe){
+if(typeof showToast === 'function') showToast('⚠️ Overlay PDF tidak ditemukan');
+return;
+}
+if(title) title.textContent = judul;
+if(loading){
+loading.style.display = 'block';
+loading.innerHTML = '<div style="font-size:48px;margin-bottom:15px;">⏳</div>' +
+'<p style="font-size:15px;font-weight:bold;">Memuat: ' + judul + '</p>';
+}
+var previewUrl = url;
+if(previewUrl.indexOf('/preview') === -1 && previewUrl.indexOf('drive.google.com/file/d/') !== -1){
+var fileId = previewUrl.match(/\/d\/([^\/]+)/);
+if(fileId && fileId[1]){
+previewUrl = 'https://drive.google.com/file/d/' + fileId[1] + '/preview';
+}
+}
+iframe.src = previewUrl;
+overlay.classList.add('active');
+document.body.style.overflow = 'hidden';
+setTimeout(function(){
+if(loading && loading.style.display !== 'none'){
+loading.style.display = 'none';
+}
+}, 2500);
+}
+
+if(pkIsUnlocked(kitabId)){
+doOpen();
+return;
+}
+pkBukaModal(kitabId, judul, doOpen);
+}
+
+/* ============================================================
+✅ DEFINE 8 FUNGSI PREVIEW EMBED PDF
+============================================================ */
+window.hePreviewPdf = function(id){
+var num = String(id).split('-')[1] || '1';
+pkBukaEmbedPdf('he', num);
+};
+window.nePreviewPdf = function(id){
+var num = String(id).split('-')[1] || '1';
+pkBukaEmbedPdf('ne', num);
+};
+window.sePreviewPdf = function(id){
+var num = String(id).split('-')[1] || '1';
+pkBukaEmbedPdf('se', num);
+};
+window.atPreviewPdf = function(id){
+var num = String(id).split('-')[1] || '1';
+pkBukaEmbedPdf('at', num);
+};
+window.taPreviewPdf = function(id){
+var num = String(id).split('-')[1] || '1';
+pkBukaEmbedPdf('ta', num);
+};
+window.tfPreviewPdf = function(id){
+var num = String(id).split('-')[1] || '1';
+pkBukaEmbedPdf('tf', num);
+};
+window.fqPreviewPdf = function(id){
+var num = String(id).split('-')[1] || '1';
+pkBukaEmbedPdf('fq', num);
+};
+window.ufPreviewPdf = function(id){
+var num = String(id).split('-')[1] || '1';
+pkBukaEmbedPdf('uf', num);
+};
+
+/* ============================================================
+✅ BADGE 🔒/🔓 DI SIDEBAR
+============================================================ */
+function pkUpdateBadges(){
+var btns = document.querySelectorAll('.kitab-jilid-btn');
+for(var i = 0; i < btns.length; i++){
+var btn = btns[i];
+var onclick = btn.getAttribute('onclick') || '';
+var match = onclick.match(/bacaKitabJilid\('([^']+)'/);
+if(!match) continue;
+var judul = match[1];
+var kitabId = pkDetectFromJudul(judul);
+if(!kitabId) continue;
+if(pkIsUnlocked(kitabId)){
+btn.classList.add('pk-unlocked'); btn.classList.remove('pk-locked');
+} else {
+btn.classList.add('pk-locked'); btn.classList.remove('pk-unlocked');
+}
+}
+}
+
+document.addEventListener('click', function(e){
+if(e.target && e.target.id === 'pkOverlay') pkTutup();
+});
+document.addEventListener('keydown', function(e){
+if(e.key === 'Escape'){
+var overlay = document.getElementById('pkOverlay');
+if(overlay && overlay.classList.contains('active')) pkTutup();
+}
+});
+
+function pkInit(){
+pkUpdateBadges();
+var _origShowPage = window.showPage;
+window.showPage = function(pageId){
+if(_origShowPage) _origShowPage(pageId);
+if(pageId === 'kitab-kuning'){
+setTimeout(pkUpdateBadges, 500);
+setTimeout(pkUpdateBadges, 1500);
+}
+};
+console.log('✅ PATCH PASSWORD v6 FINAL: aktif');
+console.log('✅ window.haditsEmbeds:', window.haditsEmbeds ? window.haditsEmbeds.length : 0, 'item');
+console.log('✅ window.nahwuEmbeds:', window.nahwuEmbeds ? window.nahwuEmbeds.length : 0, 'item');
+}
+
+if(document.readyState === 'loading'){
+document.addEventListener('DOMContentLoaded', pkInit);
+} else { pkInit(); }
+setTimeout(pkInit, 1000);
+setTimeout(pkInit, 2500);
+
+})();
+</script>
 </body>
 </html>
