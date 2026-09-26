@@ -15979,5 +15979,420 @@ setTimeout(pkInit, 2500);
 
 })();
 </script>
+<!-- ============================================
+✅ PATCH v27: STICKY HEADER SIDEBAR
+- Breadcrumb + Sub-hero sticky di atas viewport
+- Sidebar & Detail content scroll bebas
+- Tidak menghalangi scroll konten
+- Berlaku untuk semua halaman split-container
+============================================ -->
+<style>
+/* ============================================
+✅ 1. PAGE-CONTENT: RELATIVE & FULL HEIGHT
+============================================ */
+.page-content.active{
+position: relative;
+min-height: 100vh;
+display: flex !important;
+flex-direction: column;
+}
+
+/* ============================================
+✅ 2. BREADCRUMB + SUB-HERO: STICKY DI ATAS
+============================================ */
+.page-content .breadcrumb-dash{
+position: sticky !important;
+top: 0 !important;
+z-index: 500 !important;
+background: linear-gradient(135deg, #1a0a2e 0%, #2d1b4e 100%) !important;
+padding: 12px 30px !important;
+margin: 0 !important;
+border-bottom: 1px solid rgba(201,168,76,0.25) !important;
+box-shadow: 0 2px 15px rgba(0,0,0,0.4) !important;
+backdrop-filter: blur(10px) !important;
+flex-shrink: 0 !important;
+}
+
+.page-content .sub-hero{
+position: sticky !important;
+top: 40px !important;
+z-index: 499 !important;
+background: linear-gradient(180deg, 
+rgba(26,10,46,0.98) 0%, 
+rgba(26,10,46,0.95) 85%, 
+rgba(26,10,46,0.85) 100%) !important;
+padding: 25px 20px 20px !important;
+margin: 0 !important;
+border-bottom: 2px solid rgba(201,168,76,0.3) !important;
+box-shadow: 0 4px 20px rgba(0,0,0,0.5) !important;
+backdrop-filter: blur(12px) !important;
+flex-shrink: 0 !important;
+}
+
+/* Glow effect saat sticky aktif */
+.page-content .sub-hero::before{
+content: '';
+position: absolute;
+top: 0; left: 0; right: 0;
+height: 2px;
+background: linear-gradient(90deg, 
+transparent, 
+#c9a84c, 
+#e8d48b, 
+#c9a84c, 
+transparent);
+animation: stickyGlow 3s ease-in-out infinite;
+}
+
+@keyframes stickyGlow{
+0%, 100%{ opacity: 0.5; }
+50%{ opacity: 1; }
+}
+
+/* ============================================
+✅ 3. SUB-HERO: KOMPAK SAAT STICKY
+(Perkecil sedikit agar tidak makan tempat)
+============================================ */
+.page-content .sub-hero .sub-arabic{
+font-size: 1.8rem !important;
+margin-bottom: 8px !important;
+}
+
+.page-content .sub-hero h2{
+font-size: 1.6rem !important;
+margin-bottom: 8px !important;
+}
+
+.page-content .sub-hero .sub-subtitle{
+font-size: 0.88rem !important;
+max-width: 900px !important;
+line-height: 1.5 !important;
+}
+
+/* ============================================
+✅ 4. SPLIT-CONTAINER: FILL SISANYA
+============================================ */
+.page-content .split-container,
+.page-content .biografi-split-container,
+.page-content .doa-split-container,
+.page-content .sholat-split-container{
+flex: 1 1 auto !important;
+min-height: 0 !important;
+margin-top: 0 !important;
+padding: 20px 30px 40px !important;
+position: relative !important;
+z-index: 1 !important;
+}
+
+/* ============================================
+✅ 5. SIDEBAR & DETAIL: SCROLL INDEPENDENT
+============================================ */
+.page-content .split-sidebar,
+.page-content .biografi-sidebar,
+.page-content .doa-sidebar,
+.page-content .sholat-sidebar,
+.page-content .split-detail,
+.page-content .biografi-detail,
+.page-content .doa-detail,
+.page-content .sholat-detail{
+/* Hapus max-height yang bikin scroll terbatas */
+max-height: none !important;
+height: auto !important;
+position: relative !important;
+top: auto !important;
+}
+
+/* ============================================
+✅ 6. SHOW-SIDEBAR-BTN: STICKY JUGA
+============================================ */
+.page-content .show-sidebar-btn{
+position: sticky !important;
+top: 10px !important;
+z-index: 100 !important;
+margin-bottom: 15px !important;
+box-shadow: 0 4px 15px rgba(201,168,76,0.4) !important;
+}
+
+/* ============================================
+✅ 7. RESPONSIVE: MOBILE
+============================================ */
+@media (max-width: 900px){
+.page-content .breadcrumb-dash{
+padding: 10px 15px !important;
+font-size: 11px !important;
+top: 0 !important;
+}
+
+.page-content .sub-hero{
+top: 35px !important;
+padding: 18px 15px 15px !important;
+}
+
+.page-content .sub-hero .sub-arabic{
+font-size: 1.3rem !important;
+}
+
+.page-content .sub-hero h2{
+font-size: 1.2rem !important;
+}
+
+.page-content .sub-hero .sub-subtitle{
+font-size: 0.78rem !important;
+}
+
+.page-content .split-container,
+.page-content .biografi-split-container,
+.page-content .doa-split-container,
+.page-content .sholat-split-container{
+padding: 10px 8px 30px !important;
+}
+}
+
+/* ============================================
+✅ 8. HALAMAN MASJID: TIDAK TERPENGARUH
+(Karena tidak pakai split-container)
+============================================ */
+#page-tentang-donasi .breadcrumb-dash,
+#page-tentang-donasi .sub-hero{
+position: relative !important;
+top: auto !important;
+}
+
+/* ============================================
+✅ 9. HALAMAN AL-QURAN & DOA MENU: STICKY JUGA
+============================================ */
+#page-alquran-doa-quran .breadcrumb-dash,
+#page-alquran-doa-quran .sub-hero,
+#page-alquran-doa-doa .breadcrumb-dash,
+#page-alquran-doa-doa .sub-hero{
+position: sticky !important;
+z-index: 500 !important;
+background: linear-gradient(180deg, 
+rgba(26,10,46,0.98) 0%, 
+rgba(26,10,46,0.92) 100%) !important;
+backdrop-filter: blur(12px) !important;
+}
+
+#page-alquran-doa-quran .breadcrumb-dash,
+#page-alquran-doa-doa .breadcrumb-dash{
+top: 0 !important;
+}
+
+#page-alquran-doa-quran .sub-hero,
+#page-alquran-doa-doa .sub-hero{
+top: 40px !important;
+}
+
+/* ============================================
+✅ 10. SCROLL INDICATOR (Visual Cue)
+============================================ */
+.page-content .sub-hero::after{
+content: '↓ Scroll untuk konten';
+position: absolute;
+bottom: 8px;
+right: 20px;
+font-size: 0.7rem;
+color: rgba(201,168,76,0.6);
+font-style: italic;
+letter-spacing: 0.5px;
+animation: scrollHint 2s ease-in-out infinite;
+pointer-events: none;
+}
+
+@keyframes scrollHint{
+0%, 100%{ transform: translateY(0); opacity: 0.6; }
+50%{ transform: translateY(3px); opacity: 1; }
+}
+
+@media (max-width: 900px){
+.page-content .sub-hero::after{
+display: none;
+}
+}
+</style>
+
+<script>
+(function(){
+'use strict';
+console.log('🟢 PATCH v27 STICKY HEADER SIDEBAR: mulai dimuat...');
+
+/* ============================================================
+✅ 1. DETEKSI SCROLL - TAMBAH CLASS 'IS-STUCK'
+============================================================ */
+function handleStickyState(){
+var pages = document.querySelectorAll('.page-content.active');
+for(var i = 0; i < pages.length; i++){
+var page = pages[i];
+var subHero = page.querySelector('.sub-hero');
+if(!subHero) continue;
+
+var rect = subHero.getBoundingClientRect();
+// Jika sub-hero sudah sticky (top = 40px atau 35px di mobile)
+var isStuck = rect.top <= 45;
+
+if(isStuck){
+subHero.classList.add('is-stuck');
+page.classList.add('has-sticky-header');
+} else {
+subHero.classList.remove('is-stuck');
+page.classList.remove('has-sticky-header');
+}
+}
+}
+
+/* ============================================================
+✅ 2. SCROLL LISTENER (THROTTLED)
+============================================================ */
+var scrollTimer = null;
+window.addEventListener('scroll', function(){
+if(scrollTimer) return;
+scrollTimer = setTimeout(function(){
+scrollTimer = null;
+handleStickyState();
+}, 50);
+}, {passive: true});
+
+/* ============================================================
+✅ 3. STYLE TAMBAHAN SAAT STUCK (Compact Mode)
+============================================================ */
+var stuckStyle = document.createElement('style');
+stuckStyle.textContent = `
+.page-content .sub-hero.is-stuck{
+padding-top: 15px !important;
+padding-bottom: 12px !important;
+box-shadow: 0 6px 25px rgba(0,0,0,0.6) !important;
+border-bottom-color: rgba(201,168,76,0.5) !important;
+}
+
+.page-content .sub-hero.is-stuck .sub-arabic{
+font-size: 1.4rem !important;
+margin-bottom: 4px !important;
+}
+
+.page-content .sub-hero.is-stuck h2{
+font-size: 1.3rem !important;
+margin-bottom: 4px !important;
+}
+
+.page-content .sub-hero.is-stuck .sub-subtitle{
+font-size: 0.8rem !important;
+opacity: 0.85;
+}
+
+.page-content .sub-hero.is-stuck::after{
+content: '↕ Konten dapat di-scroll';
+}
+
+@media (max-width: 900px){
+.page-content .sub-hero.is-stuck .sub-arabic{
+font-size: 1.1rem !important;
+}
+.page-content .sub-hero.is-stuck h2{
+font-size: 1.1rem !important;
+}
+.page-content .sub-hero.is-stuck .sub-subtitle{
+font-size: 0.72rem !important;
+}
+}
+`;
+document.head.appendChild(stuckStyle);
+
+/* ============================================================
+✅ 4. SMOOTH SCROLL TO CONTENT
+(Tombol untuk scroll langsung ke konten)
+============================================================ */
+function addScrollToContentBtn(){
+var pages = document.querySelectorAll('.page-content');
+for(var i = 0; i < pages.length; i++){
+var subHero = pages[i].querySelector('.sub-hero');
+var splitContainer = pages[i].querySelector(
+'.split-container, .biografi-split-container, .doa-split-container, .sholat-split-container'
+);
+
+if(!subHero || !splitContainer || subHero.getAttribute('data-scroll-btn') === '1') continue;
+
+subHero.setAttribute('data-scroll-btn', '1');
+
+var btn = document.createElement('button');
+btn.className = 'scroll-to-content-btn';
+btn.innerHTML = '⬇️ Langsung ke Konten';
+btn.title = 'Scroll ke konten utama';
+btn.style.cssText = `
+position: absolute;
+bottom: 10px;
+left: 50%;
+transform: translateX(-50%);
+background: linear-gradient(135deg, rgba(201,168,76,0.2), rgba(201,168,76,0.1));
+color: #e8d48b;
+border: 1px solid rgba(201,168,76,0.4);
+padding: 6px 16px;
+border-radius: 20px;
+font-size: 0.75rem;
+font-weight: 600;
+cursor: pointer;
+transition: all 0.3s;
+z-index: 10;
+font-family: inherit;
+`;
+
+btn.addEventListener('mouseenter', function(){
+this.style.background = 'linear-gradient(135deg, #c9a84c, #e8d48b)';
+this.style.color = '#1a0a2e';
+});
+btn.addEventListener('mouseleave', function(){
+this.style.background = 'linear-gradient(135deg, rgba(201,168,76,0.2), rgba(201,168,76,0.1))';
+this.style.color = '#e8d48b';
+});
+
+btn.addEventListener('click', function(e){
+e.preventDefault();
+e.stopPropagation();
+var container = this.closest('.page-content').querySelector(
+'.split-container, .biografi-split-container, .doa-split-container, .sholat-split-container'
+);
+if(container){
+var rect = container.getBoundingClientRect();
+var offset = window.pageYOffset + rect.top - 120;
+window.scrollTo({top: Math.max(0, offset), behavior: 'smooth'});
+}
+});
+
+subHero.appendChild(btn);
+}
+}
+
+/* ============================================================
+✅ 5. HOOK: JALANKAN SAAT HALAMAN BERGANTI
+============================================================ */
+var _origShowPage = window.showPage;
+window.showPage = function(pageId){
+if(_origShowPage) _origShowPage(pageId);
+setTimeout(function(){
+handleStickyState();
+addScrollToContentBtn();
+}, 300);
+};
+
+/* ============================================================
+✅ 6. INISIALISASI
+============================================================ */
+function init(){
+handleStickyState();
+addScrollToContentBtn();
+console.log('✅ PATCH v27 STICKY HEADER SIDEBAR: berhasil dimuat');
+console.log('💡 Judul halaman sekarang sticky di atas');
+console.log('💡 Sidebar & konten dapat di-scroll bebas');
+}
+
+if(document.readyState === 'loading'){
+document.addEventListener('DOMContentLoaded', init);
+} else {
+init();
+}
+
+setTimeout(init, 500);
+setTimeout(init, 1500);
+})();
+</script>
 </body>
 </html>
