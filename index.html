@@ -2635,8 +2635,13 @@ title.textContent='📖 '+namaLengkap;
 loading.style.display='block';
 loading.innerHTML='<div style="font-size:48px;margin-bottom:15px;">⏳</div><p style="font-size:16px;font-weight:bold;">Memuat kitab...</p>';
 var isMobile=/Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(navigator.userAgent);
-var baseUrl=window.location.origin+window.location.pathname;
-var fullPdfUrl=baseUrl.replace(/\/[^\/]*$/,'/')+pdfUrl;
+var path = window.location.pathname;
+// Deteksi jika dijalankan via file:// (origin akan jadi 'null')
+var baseUrl = (window.location.protocol === 'file:' || window.location.origin === 'null') 
+    ? path 
+    : window.location.origin + path;
+    
+var fullPdfUrl = baseUrl.substring(0, baseUrl.lastIndexOf('/') + 1) + pdfUrl;
 if(isMobile){iframe.src='https://docs.google.com/gview?url='+encodeURIComponent(fullPdfUrl)+'&embedded=true';}
 else{iframe.src=pdfUrl+'#toolbar=0&navpanes=0&scrollbar=1';}
 container.classList.add('active');
@@ -2759,8 +2764,13 @@ title.textContent='📖 '+nama;
 loading.style.display='block';
 loading.innerHTML='<div style="font-size:48px;margin-bottom:15px;">⏳</div><p style="font-size:16px;font-weight:bold;">Memuat kitab fiqih sholat...</p>';
 var isMobile=/Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(navigator.userAgent);
-var baseUrl=window.location.origin+window.location.pathname;
-var fullPdfUrl=baseUrl.replace(/\/[^\/]*$/,'/')+pdfUrl;
+var path = window.location.pathname;
+// Deteksi jika dijalankan via file:// (origin akan jadi 'null')
+var baseUrl = (window.location.protocol === 'file:' || window.location.origin === 'null') 
+    ? path 
+    : window.location.origin + path;
+    
+var fullPdfUrl = baseUrl.substring(0, baseUrl.lastIndexOf('/') + 1) + pdfUrl;
 if(isMobile){iframe.src='https://docs.google.com/gview?url='+encodeURIComponent(fullPdfUrl)+'&embedded=true';}
 else{iframe.src=pdfUrl+'#toolbar=0&navpanes=0&scrollbar=1';}
 container.classList.add('active');
@@ -3423,8 +3433,13 @@ title.textContent='📖 '+nama;
 loading.style.display='block';
 loading.innerHTML='<div style="font-size:48px;margin-bottom:15px;">⏳</div><p style="font-size:16px;font-weight:bold;">Memuat kitab doa...</p>';
 var isMobile=/Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(navigator.userAgent);
-var baseUrl=window.location.origin+window.location.pathname;
-var fullPdfUrl=baseUrl.replace(/\/[^\/]*$/,'/')+pdfUrl;
+var path = window.location.pathname;
+// Deteksi jika dijalankan via file:// (origin akan jadi 'null')
+var baseUrl = (window.location.protocol === 'file:' || window.location.origin === 'null') 
+    ? path 
+    : window.location.origin + path;
+    
+var fullPdfUrl = baseUrl.substring(0, baseUrl.lastIndexOf('/') + 1) + pdfUrl;
 if(isMobile){iframe.src='https://docs.google.com/gview?url='+encodeURIComponent(fullPdfUrl)+'&embedded=true';}
 else{iframe.src=pdfUrl+'#toolbar=0&navpanes=0&scrollbar=1';}
 container.classList.add('active');
@@ -3971,8 +3986,13 @@ loading.style.display = 'block';
 loading.innerHTML = '<div style="font-size:48px;margin-bottom:15px;">⏳</div><p style="font-size:16px;font-weight:bold;">Memuat kitab sholawat...</p>';
 
 var isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(navigator.userAgent);
-var baseUrl = window.location.origin + window.location.pathname;
-var fullPdfUrl = baseUrl.replace(/\/[^\/]*$/, '/') + pdfUrl;
+var path = window.location.pathname;
+// Deteksi jika dijalankan via file:// (origin akan jadi 'null')
+var baseUrl = (window.location.protocol === 'file:' || window.location.origin === 'null') 
+    ? path 
+    : window.location.origin + path;
+    
+var fullPdfUrl = baseUrl.substring(0, baseUrl.lastIndexOf('/') + 1) + pdfUrl;
 
 if(isMobile){
 iframe.src = 'https://docs.google.com/gview?url=' + encodeURIComponent(fullPdfUrl) + '&embedded=true';
@@ -6879,7 +6899,7 @@ var QARI=[
 {id:'husary',nama:'Syaikh Mahmud Khalil Al-Husary',folder:'Husary_128kbps'},
 {id:'minshawi',nama:'Syaikh Muhammad Shiddiq Al-Minshawi',folder:'Minshawy_Murattal_128kbps'},
 {id:'syuraim',nama:"Syaikh Sa'ud Asy-Syuraim",folder:'Saood_ash-Shuraym_128kbps'},
-{id:'ajamy',nama:'Syaikh Ahmad Al-Ajamy',folder:'Ahmed_ibn_Ali_al-Ajamy_128kbps'},
+{id:'ajamy',nama:'Syaikh Ahmad Al-Ajamy',folder:'Ahmed_ibn_Ali_al-Ajamy_128kbps_ketaballah.net'},
 {id:'ghamdi',nama:'Syaikh Saad Al-Ghamdi',folder:'Ghamadi_40kbps'}
 ];
 
@@ -17215,5 +17235,30 @@ init();
 
 })();
 </script>
+<!-- PATCH PENGAMAN AUDIO QURAN -->
+<script>
+(function(){
+'use strict';
+// Cegah infinite loop jika audio error di masa depan
+var lastCall = 0, blocked = false;
+var origPutar = window.qrPutar;
+window.qrPutar = function(i){
+    if(blocked) return;
+    var now = Date.now();
+    if(now - lastCall < 1500){
+        blocked = true;
+        if(typeof window.qrStop === 'function') window.qrStop();
+        if(typeof showToast === 'function') showToast('⚠️ Audio bermasalah. Ganti Qari dari dropdown.');
+        setTimeout(function(){ blocked = false; }, 5000);
+        return;
+    }
+    lastCall = now;
+    if(origPutar) origPutar(i);
+};
+console.log('✅ Patch pengaman audio aktif');
+})();
+</script>
+
 </body>
 </html>
+patch akurat untuk memperbaiki Audio Quran Seikh Ahmad Al-Ajamy yang bermasalah mengalami scroll otomtis cepat tanpa jedah dan
