@@ -1961,17 +1961,90 @@ if(evt && evt.preventDefault)evt.preventDefault();
 if(evt && evt.stopPropagation)evt.stopPropagation();
 return false;
 }
-function updateDateTime(){
-const now=new Date();
-const days=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
-const months=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-const dayName=days[now.getDay()];const date=now.getDate();const month=months[now.getMonth()];const year=now.getFullYear();
-const hours=String(now.getHours()).padStart(2,'0');const minutes=String(now.getMinutes()).padStart(2,'0');
-const hijriDate='26 Rabiul Awal 1448 H';
-const dateStr=`${dayName}, ${date} ${month} ${year} · ${hijriDate} · ${hours}:${minutes} WIB`;
-document.getElementById('dateTimeDisplay').textContent=dateStr;
+// ============================================
+// ✅ KONVERSI MASEHI → HIJRIYAH (REAL-TIME)
+// Hybrid: Intl API (Umm al-Qura) + Algoritma Kuwaiti (fallback)
+// ============================================
+function gregorianToHijri(gy, gm, gd) {
+    var jd;
+    if ((gy > 1582) || ((gy == 1582) && (gm > 10)) || ((gy == 1582) && (gm == 10) && (gd > 14))) {
+        jd = Math.floor((1461 * (gy + 4800 + Math.floor((gm - 14) / 12))) / 4) +
+             Math.floor((367 * (gm - 2 - 12 * (Math.floor((gm - 14) / 12)))) / 12) -
+             Math.floor((3 * (Math.floor((gy + 4900 + Math.floor((gm - 14) / 12)) / 100))) / 4) +
+             gd - 32075;
+    } else {
+        jd = 367 * gy - Math.floor((7 * (gy + 5001 + Math.floor((gm - 9) / 7))) / 4) +
+             Math.floor((275 * gm) / 9) + gd + 1729777;
+    }
+    var l = jd - 1948440 + 10632;
+    var n = Math.floor((l - 1) / 10631);
+    l = l - 10631 * n + 354;
+    var j = (Math.floor((10985 - l) / 5316)) * (Math.floor((50 * l) / 17719)) +
+            (Math.floor(l / 5670)) * (Math.floor((43 * l) / 15238));
+    l = l - (Math.floor((30 - j) / 15)) * (Math.floor((17719 * j) / 50)) -
+        (Math.floor(j / 16)) * (Math.floor((15238 * j) / 43)) + 29;
+    var hm = Math.floor((24 * l) / 709);
+    var hd = l - Math.floor((709 * hm) / 24);
+    var hy = 30 * n + j - 30;
+    return { year: hy, month: hm, day: hd };
 }
-updateDateTime();setInterval(updateDateTime,60000);
+
+function getHijriDateString() {
+    var now = new Date();
+    var HIJRI_MONTHS_ID = [
+        '', 'Muharram', 'Safar', 'Rabiul Awal', 'Rabiul Akhir',
+        'Jumadil Awal', 'Jumadil Akhir', 'Rajab', 'Sya\'ban',
+        'Ramadhan', 'Syawal', 'Dzulqa\'dah', 'Dzulhijjah'
+    ];
+    // METHOD 1: Intl API (Umm al-Qura, paling akurat)
+    try {
+        var formatter = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura-nu-latn', {
+            day: 'numeric', month: 'long', year: 'numeric'
+        });
+        var parts = formatter.formatToParts(now);
+        var day = '', monthName = '', year = '';
+        parts.forEach(function(p) {
+            if (p.type === 'day') day = p.value;
+            if (p.type === 'month') monthName = p.value;
+            if (p.type === 'year') year = p.value;
+        });
+        var monthMap = {
+            'Muharram':'Muharram','Safar':'Safar',
+            'Rabiʻ I':'Rabiul Awal','Rabiʻ al-Awwal':'Rabiul Awal','Rabi I':'Rabiul Awal',
+            'Rabiʻ II':'Rabiul Akhir','Rabiʻ al-Thani':'Rabiul Akhir','Rabi II':'Rabiul Akhir',
+            'Jumada I':'Jumadil Awal','Jumada al-Awwal':'Jumadil Awal','Jumada al-Ula':'Jumadil Awal',
+            'Jumada II':'Jumadil Akhir','Jumada al-Thani':'Jumadil Akhir','Jumada al-Akhirah':'Jumadil Akhir',
+            'Rajab':'Rajab','Shaʻban':'Sya\'ban','Shaban':'Sya\'ban','Sha\'ban':'Sya\'ban',
+            'Ramadan':'Ramadhan','Shawwal':'Syawal',
+            'Dhu al-Qiʻdah':'Dzulqa\'dah','Dhu al-Qidah':'Dzulqa\'dah',
+            'Dhu al-Hijjah':'Dzulhijjah'
+        };
+        var idMonth = monthMap[monthName] || monthName;
+        return day + ' ' + idMonth + ' ' + year + ' H';
+    } catch (e) {
+        // METHOD 2: Fallback Algoritma Kuwaiti
+        var gy = now.getFullYear(), gm = now.getMonth() + 1, gd = now.getDate();
+        var h = gregorianToHijri(gy, gm, gd);
+        return h.day + ' ' + HIJRI_MONTHS_ID[h.month] + ' ' + h.year + ' H';
+    }
+}
+
+function updateDateTime(){
+    const now=new Date();
+    const days=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+    const months=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+    const dayName=days[now.getDay()];
+    const date=now.getDate();
+    const month=months[now.getMonth()];
+    const year=now.getFullYear();
+    const hours=String(now.getHours()).padStart(2,'0');
+    const minutes=String(now.getMinutes()).padStart(2,'0');
+    const hijriDate = getHijriDateString(); // ✅ REAL-TIME
+    const dateStr=`${dayName}, ${date} ${month} ${year} · ${hijriDate} · ${hours}:${minutes} WIB`;
+    document.getElementById('dateTimeDisplay').textContent=dateStr;
+}
+updateDateTime();
+setInterval(updateDateTime, 60000);
 // ============================================
 // ✅ RUNNING TEXT KONTINU TANPA LOMPATAN KILAT
 // ============================================
@@ -17235,30 +17308,2059 @@ init();
 
 })();
 </script>
-<!-- PATCH PENGAMAN AUDIO QURAN -->
+<!-- ============================================
+✅ PATCH v31: ALARM MURATTAL OTOMATIS (DUAL-AUDIO FIX)
+- Fix: Audio TIDAK lagi mundur/loop ke ayat sebelumnya
+- Fix: Gunakan 2 Audio object (A/B swap) untuk gapless
+- Fix: Ghost onended dicegah dengan cleanup audio lama
+- Per-device: localStorage (HP ≠ Laptop)
+============================================ -->
+<style>
+.alarm-fab{position:fixed;bottom:100px;right:30px;z-index:1700;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.alarm-fab-btn{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#8e44ad,#9b59b6);color:#fff;border:none;cursor:pointer;font-size:1.5rem;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(142,68,173,0.5);transition:all 0.3s;position:relative;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.alarm-fab-btn:hover{transform:scale(1.08) rotate(-10deg);box-shadow:0 8px 25px rgba(142,68,173,0.6)}
+.alarm-fab-btn.has-active::after{content:'';position:absolute;top:-4px;right:-4px;width:14px;height:14px;background:#2ecc71;border-radius:50%;border:2px solid #fff;animation:alarmPulse 1.5s infinite}
+@keyframes alarmPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.3);opacity:0.6}}
+.alarm-fab-count{position:absolute;top:-6px;left:-6px;background:#e74c3c;color:#fff;min-width:22px;height:22px;border-radius:11px;font-size:0.7rem;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 5px;border:2px solid #fff}
+.alarm-modal-overlay{position:fixed;inset:0;background:rgba(10,5,25,0.92);backdrop-filter:blur(8px);z-index:999998;display:none;align-items:center;justify-content:center;padding:15px;animation:alarmFade .3s ease}
+.alarm-modal-overlay.active{display:flex}
+@keyframes alarmFade{from{opacity:0}to{opacity:1}}
+.alarm-modal{background:linear-gradient(135deg,#1a0a2e 0%,#2d1b4e 100%);border:2px solid rgba(201,168,76,0.5);border-radius:20px;max-width:680px;width:100%;max-height:92vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 25px 80px rgba(0,0,0,0.7)}
+.alarm-modal-header{background:linear-gradient(135deg,#8e44ad,#9b59b6);padding:20px 25px;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.alarm-modal-header .alarm-icon-big{font-size:2rem;filter:drop-shadow(0 3px 6px rgba(0,0,0,0.3))}
+.alarm-modal-header h3{color:#fff;font-size:1.2rem;font-weight:800;margin:0;flex:1}
+.alarm-modal-header .alarm-subtitle{color:rgba(255,255,255,0.85);font-size:0.78rem;margin:0;font-weight:500}
+.alarm-modal-close{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.2);color:#fff;border:none;font-size:1.2rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.25s}
+.alarm-modal-close:hover{background:#c0392b;transform:rotate(90deg)}
+.alarm-modal-body{padding:20px 25px;overflow-y:auto;flex:1}
+.alarm-modal-body::-webkit-scrollbar{width:6px}
+.alarm-modal-body::-webkit-scrollbar-thumb{background:rgba(201,168,76,0.4);border-radius:10px}
+.alarm-info-box{background:linear-gradient(135deg,rgba(142,68,173,0.12),rgba(45,27,78,0.5));border:1px solid rgba(142,68,173,0.35);border-left:4px solid #9b59b6;border-radius:12px;padding:14px 18px;margin-bottom:18px}
+.alarm-info-box .info-title{color:#e8d48b;font-size:0.9rem;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.alarm-info-box .info-title::before{content:'💡';font-size:1.1rem}
+.alarm-info-box p{color:#ccc;font-size:0.82rem;line-height:1.6;margin:0 0 6px 0}
+.alarm-info-box strong{color:#e8d48b}
+.alarm-info-box .device-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(46,204,113,0.15);color:#2ecc71;padding:3px 10px;border-radius:10px;font-size:0.72rem;font-weight:700;margin-top:6px}
+.alarm-info-box .alarm-clock-display{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:10px;padding:10px;background:rgba(0,0,0,0.3);border-radius:10px;font-family:'Courier New',monospace}
+.alarm-info-box .alarm-clock-display .clock-time{font-size:1.5rem;color:#2ecc71;font-weight:700;letter-spacing:2px}
+.alarm-info-box .alarm-clock-display .clock-label{font-size:0.72rem;color:#888}
+.alarm-form{background:rgba(255,255,255,0.03);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:16px;margin-bottom:18px}
+.alarm-form-title{color:#e8d48b;font-size:0.95rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;padding-bottom:10px;border-bottom:1px dashed rgba(201,168,76,0.3)}
+.alarm-form-title::before{content:'➕';font-size:1rem}
+.alarm-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.alarm-form-grid.full{grid-template-columns:1fr}
+.alarm-form-group label{display:block;color:#c9a84c;font-size:0.75rem;font-weight:700;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.5px}
+.alarm-form-group input,.alarm-form-group select{width:100%;padding:10px 12px;background:rgba(0,0,0,0.3);border:1.5px solid rgba(201,168,76,0.3);border-radius:10px;color:#fff;font-size:0.9rem;font-family:inherit;box-sizing:border-box}
+.alarm-form-group input[type="time"]{font-size:1.1rem;font-weight:700;text-align:center;letter-spacing:1px}
+.alarm-form-group input:focus,.alarm-form-group select:focus{outline:none;border-color:#c9a84c;background:rgba(201,168,76,0.08)}
+.alarm-form-group select option{background:#1a0a2e;color:#fff}
+.alarm-form-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.alarm-btn{flex:1;min-width:120px;padding:11px 16px;border-radius:25px;font-size:0.85rem;font-weight:700;cursor:pointer;border:none;font-family:inherit;transition:all 0.25s;display:flex;align-items:center;justify-content:center;gap:6px;touch-action:manipulation}
+.alarm-btn.primary{background:linear-gradient(135deg,#8e44ad,#9b59b6);color:#fff}
+.alarm-btn.primary:hover{transform:translateY(-2px);box-shadow:0 5px 15px rgba(142,68,173,0.4)}
+.alarm-btn.secondary{background:transparent;color:#c9a84c;border:1.5px solid rgba(201,168,76,0.4)}
+.alarm-btn.secondary:hover{background:rgba(201,168,76,0.1);border-color:#c9a84c}
+.alarm-list-title{color:#e8d48b;font-size:0.95rem;font-weight:700;margin:18px 0 10px 0;display:flex;align-items:center;gap:8px;padding-bottom:10px;border-bottom:1px dashed rgba(201,168,76,0.3)}
+.alarm-list-title::before{content:'📋';font-size:1rem}
+.alarm-list-title .alarm-count{margin-left:auto;background:rgba(142,68,173,0.2);color:#bb86fc;padding:2px 10px;border-radius:10px;font-size:0.72rem}
+.alarm-list{display:flex;flex-direction:column;gap:8px}
+.alarm-item{background:rgba(255,255,255,0.04);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:12px;transition:all 0.25s;position:relative;overflow:hidden}
+.alarm-item::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(to bottom,#8e44ad,#9b59b6);transform:scaleY(0);transition:transform 0.3s;transform-origin:top}
+.alarm-item:hover{background:rgba(142,68,173,0.08);border-color:#9b59b6}
+.alarm-item:hover::before{transform:scaleY(1)}
+.alarm-item.disabled{opacity:0.5}
+.alarm-item.ringing{background:rgba(46,204,113,0.1);border-color:#2ecc71;animation:alarmRing 1s infinite}
+@keyframes alarmRing{0%,100%{box-shadow:0 0 0 0 rgba(46,204,113,0.4)}50%{box-shadow:0 0 0 8px rgba(46,204,113,0)}}
+.alarm-item-time{font-size:1.4rem;font-weight:800;color:#e8d48b;min-width:80px;font-family:'Courier New',monospace;letter-spacing:1px}
+.alarm-item-info{flex:1;min-width:0}
+.alarm-item-info .alarm-name{color:#fff;font-size:0.88rem;font-weight:700;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.alarm-item-info .alarm-detail{color:#aaa;font-size:0.72rem;display:flex;flex-wrap:wrap;gap:6px}
+.alarm-item-info .alarm-detail span{background:rgba(201,168,76,0.12);color:#c9a84c;padding:2px 7px;border-radius:8px;font-weight:600}
+.alarm-item-actions{display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+.alarm-icon-btn{width:34px;height:34px;border-radius:50%;border:1px solid rgba(201,168,76,0.3);background:rgba(201,168,76,0.08);color:#c9a84c;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.9rem;transition:all 0.2s;touch-action:manipulation}
+.alarm-icon-btn:hover{background:rgba(201,168,76,0.2);border-color:#c9a84c;transform:scale(1.1)}
+.alarm-icon-btn.danger:hover{background:rgba(231,76,60,0.2);border-color:#e74c3c;color:#e74c3c}
+.alarm-icon-btn.test:hover{background:rgba(46,204,113,0.2);border-color:#2ecc71;color:#2ecc71}
+.alarm-toggle{position:relative;width:44px;height:24px;flex-shrink:0}
+.alarm-toggle input{opacity:0;width:0;height:0}
+.alarm-toggle-slider{position:absolute;inset:0;background:rgba(255,255,255,0.1);border-radius:24px;cursor:pointer;transition:all 0.3s;border:1px solid rgba(201,168,76,0.3)}
+.alarm-toggle-slider::before{content:'';position:absolute;width:18px;height:18px;left:2px;top:2px;background:#fff;border-radius:50%;transition:all 0.3s}
+.alarm-toggle input:checked + .alarm-toggle-slider{background:linear-gradient(135deg,#2ecc71,#27ae60);border-color:#2ecc71}
+.alarm-toggle input:checked + .alarm-toggle-slider::before{transform:translateX(20px)}
+.alarm-empty{text-align:center;padding:30px 20px;color:#888}
+.alarm-empty .empty-icon{font-size:3rem;margin-bottom:10px;opacity:0.5}
+.alarm-empty p{font-size:0.88rem;line-height:1.6;margin:0}
+.alarm-ring-notification{position:fixed;top:80px;left:50%;transform:translateX(-50%) translateY(-150%);background:linear-gradient(135deg,#2ecc71,#27ae60);color:#fff;padding:16px 24px;border-radius:16px;box-shadow:0 10px 40px rgba(46,204,113,0.5);z-index:9999999;display:flex;align-items:center;gap:12px;max-width:90vw;transition:transform 0.5s cubic-bezier(0.34,1.56,0.64,1);font-weight:700}
+.alarm-ring-notification.show{transform:translateX(-50%) translateY(0)}
+.alarm-ring-notification .ring-icon{font-size:2rem;animation:ringBell 0.5s infinite alternate}
+@keyframes ringBell{from{transform:rotate(-15deg)}to{transform:rotate(15deg)}}
+.alarm-ring-notification .ring-info{flex:1}
+.alarm-ring-notification .ring-title{font-size:1rem;margin-bottom:2px}
+.alarm-ring-notification .ring-sub{font-size:0.78rem;opacity:0.9;font-weight:500}
+.alarm-ring-notification .ring-stop{background:rgba(255,255,255,0.25);color:#fff;border:none;padding:8px 16px;border-radius:20px;font-weight:700;cursor:pointer;font-family:inherit;font-size:0.82rem;touch-action:manipulation}
+.alarm-ring-notification .ring-stop:hover{background:rgba(255,255,255,0.4)}
+.alarm-permission-banner{background:linear-gradient(135deg,rgba(231,76,60,0.15),rgba(192,57,43,0.1));border:1px solid rgba(231,76,60,0.4);border-left:4px solid #e74c3c;border-radius:12px;padding:14px 18px;margin-bottom:18px;display:none}
+.alarm-permission-banner.show{display:block}
+.alarm-permission-banner .perm-title{color:#ff7675;font-size:0.9rem;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.alarm-permission-banner .perm-title::before{content:'⚠️';font-size:1.1rem}
+.alarm-permission-banner p{color:#ccc;font-size:0.82rem;line-height:1.6;margin:0 0 8px 0}
+.alarm-permission-banner .perm-btn{background:linear-gradient(135deg,#e74c3c,#c0392b);color:#fff;border:none;padding:8px 16px;border-radius:20px;font-size:0.82rem;font-weight:700;cursor:pointer;font-family:inherit;margin-right:6px}
+@media (max-width:600px){
+.alarm-fab{bottom:90px;right:15px}
+.alarm-fab-btn{width:50px;height:50px;font-size:1.3rem}
+.alarm-modal-header{padding:16px 18px}
+.alarm-modal-header h3{font-size:1.05rem}
+.alarm-modal-body{padding:15px}
+.alarm-form-grid{grid-template-columns:1fr}
+.alarm-item{flex-wrap:wrap}
+.alarm-item-time{font-size:1.2rem;min-width:70px}
+.alarm-item-info .alarm-name{font-size:0.82rem}
+.alarm-ring-notification{padding:12px 16px;max-width:95vw;top:70px}
+.alarm-ring-notification .ring-title{font-size:0.88rem}
+}
+</style>
+
+<!-- ====== FLOATING ALARM BUTTON ====== -->
+<div class="alarm-fab" id="alarmFab">
+<button class="alarm-fab-btn" id="alarmFabBtn" onclick="alarmToggleDashboard()" title="Pengaturan Alarm Murattal">
+🔔
+<span class="alarm-fab-count" id="alarmFabCount" style="display:none">0</span>
+</button>
+</div>
+
+<!-- ====== ALARM DASHBOARD MODAL ====== -->
+<div class="alarm-modal-overlay" id="alarmModalOverlay" onclick="if(event.target===this)alarmToggleDashboard()">
+<div class="alarm-modal">
+<div class="alarm-modal-header">
+<span class="alarm-icon-big">🔔</span>
+<div style="flex:1">
+<h3>Alarm Murattal Otomatis</h3>
+<p class="alarm-subtitle">Jadwalkan murattal Al-Qur'an otomatis per device</p>
+</div>
+<button class="alarm-modal-close" onclick="alarmToggleDashboard()" title="Tutup">✕</button>
+</div>
+<div class="alarm-modal-body">
+
+<div class="alarm-permission-banner" id="alarmPermBanner">
+<div class="perm-title">Izinkan Audio & Notifikasi</div>
+<p>Agar alarm dapat berbunyi otomatis, browser memerlukan <strong>izin audio</strong>. Klik tombol di bawah, lalu <strong>klik sekali di mana saja</strong> pada halaman untuk mengaktifkan.</p>
+<button class="perm-btn" onclick="alarmRequestPermission()">🔓 Izinkan Sekarang</button>
+<button class="perm-btn" style="background:#555" onclick="alarmDismissPerm()">Nanti Saja</button>
+</div>
+
+<div class="alarm-info-box">
+<div class="info-title">Pengaturan Per-Device</div>
+<p>Alarm tersimpan di <strong>browser device ini</strong>. Setting di HP <strong>tidak mempengaruhi</strong> laptop, dan sebaliknya.</p>
+<div class="alarm-clock-display">
+<div>
+<div class="clock-label">🕐 Waktu Saat Ini (24 Jam)</div>
+<div class="clock-time" id="alarmCurrentTime">--:--:--</div>
+</div>
+</div>
+<div class="device-badge">
+<span>📱</span>
+<span id="alarmDeviceInfo">Device: Memuat...</span>
+</div>
+</div>
+
+<div class="alarm-form">
+<div class="alarm-form-title">Tambah Alarm Baru</div>
+<div class="alarm-form-grid">
+<div class="alarm-form-group">
+<label>⏰ Waktu (Format 24 Jam)</label>
+<input type="time" id="alarmInputTime" value="19:00">
+</div>
+<div class="alarm-form-group">
+<label>📖 Surah</label>
+<select id="alarmInputSurah"></select>
+</div>
+</div>
+<div class="alarm-form-grid">
+<div class="alarm-form-group">
+<label>🎙️ Qari</label>
+<select id="alarmInputQari"></select>
+</div>
+<div class="alarm-form-group">
+<label>🔢 Rentang Ayat</label>
+<select id="alarmInputRange">
+<option value="1-5">Ayat 1-5 (±30 detik)</option>
+<option value="1-10" selected>Ayat 1-10 (±1 menit)</option>
+<option value="1-20">Ayat 1-20 (±2 menit)</option>
+<option value="full">Full Surah</option>
+</select>
+</div>
+</div>
+<div class="alarm-form-grid full">
+<div class="alarm-form-group">
+<label>🏷️ Label (opsional)</label>
+<input type="text" id="alarmInputLabel" placeholder="Contoh: Murattal Ba'da Maghrib" maxlength="40">
+</div>
+</div>
+<div class="alarm-form-row">
+<button class="alarm-btn primary" onclick="alarmAdd()">➕ Tambah Alarm</button>
+<button class="alarm-btn secondary" onclick="alarmTestPlay()">▶ Test Putar</button>
+</div>
+</div>
+
+<div class="alarm-list-title">
+<span>Daftar Alarm Aktif</span>
+<span class="alarm-count" id="alarmListCount">0 alarm</span>
+</div>
+<div class="alarm-list" id="alarmList">
+<div class="alarm-empty">
+<div class="empty-icon">🔕</div>
+<p>Belum ada alarm. Tambahkan alarm pertama Anda di atas.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ====== ALARM RINGING NOTIFICATION ====== -->
+<div class="alarm-ring-notification" id="alarmRingNotif">
+<span class="ring-icon">🔔</span>
+<div class="ring-info">
+<div class="ring-title" id="alarmRingTitle">Alarm Murattal</div>
+<div class="ring-sub" id="alarmRingSub">Sedang memutar...</div>
+</div>
+<button class="ring-stop" onclick="alarmStopRing()">⏹ Hentikan</button>
+</div>
+
 <script>
 (function(){
 'use strict';
-// Cegah infinite loop jika audio error di masa depan
-var lastCall = 0, blocked = false;
-var origPutar = window.qrPutar;
-window.qrPutar = function(i){
-    if(blocked) return;
-    var now = Date.now();
-    if(now - lastCall < 1500){
-        blocked = true;
-        if(typeof window.qrStop === 'function') window.qrStop();
-        if(typeof showToast === 'function') showToast('⚠️ Audio bermasalah. Ganti Qari dari dropdown.');
-        setTimeout(function(){ blocked = false; }, 5000);
-        return;
-    }
-    lastCall = now;
-    if(origPutar) origPutar(i);
+console.log('🟢 PATCH v31 ALARM MURATTAL (DUAL-AUDIO FIX): mulai dimuat...');
+
+/* ============================================================
+✅ KONSTANTA & STATE
+============================================================ */
+var ALARM_STORAGE_KEY = 'alikhlas_alarms_v3';
+var CHECK_INTERVAL = 5000;
+var MAX_ALARMS = 20;
+var CATCH_UP_WINDOW = 5;
+
+var alarmState = {
+alarms: [],
+currentlyRinging: null,
+// ✅ FIX UTAMA: Gunakan 2 Audio object (A & B) untuk swap
+audioA: null,
+audioB: null,
+useA: true,           // Audio mana yang sedang aktif
+currentIdx: -1,       // Index ayat yang sedang diputar
+urls: [],             // Daftar URL ayat
+lastTriggeredMinute: '',
+userInteracted: false,
+permDismissed: false
 };
-console.log('✅ Patch pengaman audio aktif');
+
+/* ============================================================
+✅ DEFISINIKAN QARI SECARA LOKAL
+============================================================ */
+var ALARM_QARI = [
+{nama:'Syaikh Misyari Rasyid Al-Afasy', folder:'Alafasy_128kbps'},
+{nama:'Syaikh Abdurrahman As-Sudais', folder:'Abdurrahmaan_As-Sudais_192kbps'},
+{nama:'Syaikh Abdul Basit (Murattal)', folder:'Abdul_Basit_Murattal_192kbps'},
+{nama:'Syaikh Mahmud Khalil Al-Husary', folder:'Husary_128kbps'},
+{nama:'Syaikh Muhammad Shiddiq Al-Minshawi', folder:'Minshawy_Murattal_128kbps'},
+{nama:"Syaikh Sa'ud Asy-Syuraim", folder:'Saood_ash-Shuraym_128kbps'},
+{nama:'Syaikh Ahmad Al-Ajamy', folder:'Ahmed_ibn_Ali_al-Ajamy_128kbps_ketaballah.net'},
+{nama:'Syaikh Saad Al-Ghamdi', folder:'Ghamadi_40kbps'}
+];
+
+/* ============================================================
+✅ DETEKSI DEVICE INFO
+============================================================ */
+function getDeviceInfo(){
+var ua = navigator.userAgent;
+var device = 'Unknown';
+if(/iPhone|iPad|iPod/i.test(ua)) device = 'iOS';
+else if(/Android/i.test(ua)) device = 'Android';
+else if(/Windows/i.test(ua)) device = 'Windows';
+else if(/Mac/i.test(ua)) device = 'Mac';
+else if(/Linux/i.test(ua)) device = 'Linux';
+
+var browser = 'Browser';
+if(/Chrome/i.test(ua) && !/Edg/i.test(ua)) browser = 'Chrome';
+else if(/Firefox/i.test(ua)) browser = 'Firefox';
+else if(/Safari/i.test(ua) && !/Chrome/i.test(ua)) browser = 'Safari';
+else if(/Edg/i.test(ua)) browser = 'Edge';
+
+return device + ' · ' + browser;
+}
+
+/* ============================================================
+✅ LOAD & SAVE ALARMS
+============================================================ */
+function loadAlarms(){
+try{
+var data = localStorage.getItem(ALARM_STORAGE_KEY);
+if(data){
+alarmState.alarms = JSON.parse(data);
+if(!Array.isArray(alarmState.alarms)) alarmState.alarms = [];
+}
+}catch(e){
+console.warn('⚠️ Gagal load alarms:', e);
+alarmState.alarms = [];
+}
+}
+
+function saveAlarms(){
+try{
+localStorage.setItem(ALARM_STORAGE_KEY, JSON.stringify(alarmState.alarms));
+}catch(e){
+console.warn('⚠️ Gagal save alarms:', e);
+}
+}
+
+/* ============================================================
+✅ POPULATE SELECT OPTIONS
+============================================================ */
+function populateSurahSelect(){
+var sel = document.getElementById('alarmInputSurah');
+if(!sel) return;
+sel.innerHTML = '';
+
+var surahData = (typeof quranSurahData !== 'undefined') ? quranSurahData : null;
+
+if(surahData){
+for(var i = 0; i < surahData.length; i++){
+var s = surahData[i];
+var opt = document.createElement('option');
+opt.value = s[0];
+opt.textContent = s[0] + '. ' + s[1] + ' (' + s[4] + ' ayat)';
+sel.appendChild(opt);
+}
+sel.value = '1';
+} else {
+var fallback = [
+[1,'Al-Fatihah',7],[36,'Ya Sin',83],[55,'Ar-Rahman',78],
+[56,'Al-Waqi\'ah',96],[67,'Al-Mulk',30],[112,'Al-Ikhlas',4]
+];
+for(var i = 0; i < fallback.length; i++){
+var opt = document.createElement('option');
+opt.value = fallback[i][0];
+opt.textContent = fallback[i][0] + '. ' + fallback[i][1] + ' (' + fallback[i][2] + ' ayat)';
+sel.appendChild(opt);
+}
+}
+}
+
+function populateQariSelect(){
+var sel = document.getElementById('alarmInputQari');
+if(!sel) return;
+sel.innerHTML = '';
+
+for(var i = 0; i < ALARM_QARI.length; i++){
+var opt = document.createElement('option');
+opt.value = i;
+opt.textContent = ALARM_QARI[i].nama;
+sel.appendChild(opt);
+}
+console.log('✅ ' + ALARM_QARI.length + ' Qari berhasil dimuat');
+}
+
+/* ============================================================
+✅ RENDER DAFTAR ALARM
+============================================================ */
+function renderAlarmList(){
+var list = document.getElementById('alarmList');
+var countEl = document.getElementById('alarmListCount');
+var fabCount = document.getElementById('alarmFabCount');
+var fabBtn = document.getElementById('alarmFabBtn');
+if(!list) return;
+
+var activeCount = 0;
+for(var i = 0; i < alarmState.alarms.length; i++){
+if(alarmState.alarms[i].enabled) activeCount++;
+}
+
+if(countEl) countEl.textContent = alarmState.alarms.length + ' alarm';
+
+if(fabCount){
+if(activeCount > 0){
+fabCount.textContent = activeCount;
+fabCount.style.display = 'flex';
+}else{
+fabCount.style.display = 'none';
+}
+}
+if(fabBtn){
+if(activeCount > 0) fabBtn.classList.add('has-active');
+else fabBtn.classList.remove('has-active');
+}
+
+if(alarmState.alarms.length === 0){
+list.innerHTML = '<div class="alarm-empty"><div class="empty-icon">🔕</div><p>Belum ada alarm. Tambahkan alarm pertama Anda di atas.</p></div>';
+return;
+}
+
+var sorted = alarmState.alarms.slice().sort(function(a,b){
+return a.time.localeCompare(b.time);
+});
+
+var html = '';
+for(var i = 0; i < sorted.length; i++){
+var a = sorted[i];
+var surahName = getSurahName(a.surahNo);
+var qariName = getQariName(a.qariIdx);
+var isRinging = alarmState.currentlyRinging && alarmState.currentlyRinging.id === a.id;
+var cls = 'alarm-item';
+if(!a.enabled) cls += ' disabled';
+if(isRinging) cls += ' ringing';
+
+html += '<div class="' + cls + '" data-id="' + a.id + '">';
+html += '<div class="alarm-item-time">' + escapeHtml(a.time) + '</div>';
+html += '<div class="alarm-item-info">';
+html += '<div class="alarm-name">' + escapeHtml(a.label || ('Murattal ' + surahName)) + '</div>';
+html += '<div class="alarm-detail">';
+html += '<span>📖 ' + escapeHtml(surahName) + '</span>';
+html += '<span>🎙️ ' + escapeHtml(qariName) + '</span>';
+html += '<span>🔢 ' + escapeHtml(a.range) + '</span>';
+html += '</div>';
+html += '</div>';
+html += '<div class="alarm-item-actions">';
+html += '<label class="alarm-toggle" title="' + (a.enabled ? 'Nonaktifkan' : 'Aktifkan') + '">';
+html += '<input type="checkbox" ' + (a.enabled ? 'checked' : '') + ' onchange="alarmToggleEnabled(\'' + a.id + '\')">';
+html += '<span class="alarm-toggle-slider"></span>';
+html += '</label>';
+html += '<button class="alarm-icon-btn test" onclick="alarmTestById(\'' + a.id + '\')" title="Test Putar">▶</button>';
+html += '<button class="alarm-icon-btn" onclick="alarmEdit(\'' + a.id + '\')" title="Edit">✏️</button>';
+html += '<button class="alarm-icon-btn danger" onclick="alarmDelete(\'' + a.id + '\')" title="Hapus">🗑️</button>';
+html += '</div>';
+html += '</div>';
+}
+list.innerHTML = html;
+}
+
+function getSurahName(no){
+if(typeof quranSurahData !== 'undefined'){
+for(var i = 0; i < quranSurahData.length; i++){
+if(quranSurahData[i][0] === no) return quranSurahData[i][1];
+}
+}
+return 'Surah ' + no;
+}
+
+function getQariName(idx){
+if(ALARM_QARI[idx]) return ALARM_QARI[idx].nama;
+return 'Qari ' + idx;
+}
+
+function escapeHtml(s){
+if(!s) return '';
+return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function convertTo12Hour(time24){
+var parts = time24.split(':');
+var hours = parseInt(parts[0], 10);
+var minutes = parts[1];
+var period = hours >= 12 ? 'PM' : 'AM';
+hours = hours % 12;
+if(hours === 0) hours = 12;
+return hours + ':' + minutes + ' ' + period;
+}
+
+/* ============================================================
+✅ TAMBAH / EDIT / DELETE / TOGGLE
+============================================================ */
+window.alarmAdd = function(){
+var time = document.getElementById('alarmInputTime').value;
+var surahNo = parseInt(document.getElementById('alarmInputSurah').value, 10);
+var qariIdx = parseInt(document.getElementById('alarmInputQari').value, 10);
+var range = document.getElementById('alarmInputRange').value;
+var label = document.getElementById('alarmInputLabel').value.trim();
+
+if(!time){
+if(typeof showToast === 'function') showToast('⚠️ Pilih waktu alarm');
+return;
+}
+if(isNaN(surahNo)){
+if(typeof showToast === 'function') showToast('⚠️ Data Al-Quran belum dimuat');
+return;
+}
+if(!/^\d{2}:\d{2}$/.test(time)){
+if(typeof showToast === 'function') showToast('⚠️ Format waktu salah');
+return;
+}
+if(alarmState.alarms.length >= MAX_ALARMS){
+if(typeof showToast === 'function') showToast('⚠️ Maksimal ' + MAX_ALARMS + ' alarm');
+return;
+}
+
+for(var i = 0; i < alarmState.alarms.length; i++){
+if(alarmState.alarms[i].time === time){
+if(!confirm('⚠️ Sudah ada alarm di jam ' + time + '. Tetap tambahkan?')) return;
+break;
+}
+}
+
+var newAlarm = {
+id: 'alarm_' + Date.now() + '_' + Math.random().toString(36).substr(2,5),
+time: time,
+surahNo: surahNo,
+qariIdx: qariIdx,
+range: range,
+label: label,
+enabled: true,
+createdAt: Date.now()
+};
+
+alarmState.alarms.push(newAlarm);
+saveAlarms();
+renderAlarmList();
+
+document.getElementById('alarmInputLabel').value = '';
+
+if(typeof showToast === 'function') showToast('✅ Alarm ' + time + ' (' + convertTo12Hour(time) + ') ditambahkan');
+console.log('🕐 Alarm ditambahkan:', time, '=', convertTo12Hour(time));
+
+checkAndShowPermission();
+};
+
+window.alarmEdit = function(id){
+var alarm = findAlarm(id);
+if(!alarm) return;
+var newTime = prompt('⏰ Waktu (HH:MM, format 24 jam):', alarm.time);
+if(newTime === null) return;
+if(!/^\d{2}:\d{2}$/.test(newTime)){
+if(typeof showToast === 'function') showToast('⚠️ Format waktu salah');
+return;
+}
+var newLabel = prompt('🏷️ Label:', alarm.label);
+if(newLabel === null) return;
+alarm.time = newTime;
+alarm.label = newLabel;
+saveAlarms();
+renderAlarmList();
+if(typeof showToast === 'function') showToast('✅ Alarm diperbarui');
+};
+
+window.alarmDelete = function(id){
+var alarm = findAlarm(id);
+if(!alarm) return;
+if(!confirm('🗑️ Hapus alarm ' + alarm.time + '?')) return;
+alarmState.alarms = alarmState.alarms.filter(function(a){ return a.id !== id; });
+saveAlarms();
+renderAlarmList();
+if(typeof showToast === 'function') showToast('🗑️ Alarm dihapus');
+};
+
+window.alarmToggleEnabled = function(id){
+var alarm = findAlarm(id);
+if(!alarm) return;
+alarm.enabled = !alarm.enabled;
+saveAlarms();
+renderAlarmList();
+};
+
+function findAlarm(id){
+for(var i = 0; i < alarmState.alarms.length; i++){
+if(alarmState.alarms[i].id === id) return alarmState.alarms[i];
+}
+return null;
+}
+
+/* ============================================================
+✅ TEST PLAY
+============================================================ */
+window.alarmTestPlay = function(){
+var surahNo = parseInt(document.getElementById('alarmInputSurah').value, 10);
+var qariIdx = parseInt(document.getElementById('alarmInputQari').value, 10);
+var range = document.getElementById('alarmInputRange').value;
+if(isNaN(surahNo)){
+if(typeof showToast === 'function') showToast('⚠️ Data Al-Quran belum dimuat');
+return;
+}
+playAlarm({
+surahNo: surahNo,
+qariIdx: qariIdx,
+range: range,
+label: 'Test Murattal',
+id: 'test'
+}, true);
+};
+
+window.alarmTestById = function(id){
+var alarm = findAlarm(id);
+if(!alarm) return;
+playAlarm(alarm, true);
+};
+
+/* ============================================================
+✅ ✅ ✅ FIX UTAMA: PLAY ALARM DENGAN DUAL-AUDIO OBJECT
+============================================================ */
+function buildAlarmAudioUrl(surahNo, ayahNo, qariIdx){
+var surahPad = ('000' + surahNo).slice(-3);
+var ayahPad = ('000' + ayahNo).slice(-3);
+var folder = ALARM_QARI[qariIdx] ? ALARM_QARI[qariIdx].folder : 'Alafasy_128kbps';
+return 'https://everyayah.com/data/' + folder + '/' + surahPad + ayahPad + '.mp3';
+}
+
+function getTotalAyat(surahNo){
+if(typeof quranSurahData !== 'undefined'){
+for(var i = 0; i < quranSurahData.length; i++){
+if(quranSurahData[i][0] === surahNo) return quranSurahData[i][4];
+}
+}
+return 7;
+}
+
+/* ✅ Inisialisasi 2 Audio object (A & B) */
+function initDualAudio(){
+if(!alarmState.audioA){
+alarmState.audioA = new Audio();
+alarmState.audioA.preload = 'auto';
+}
+if(!alarmState.audioB){
+alarmState.audioB = new Audio();
+alarmState.audioB.preload = 'auto';
+}
+}
+
+/* ✅ Bersihkan kedua audio */
+function cleanupBothAudio(){
+if(alarmState.audioA){
+try{
+alarmState.audioA.pause();
+alarmState.audioA.src = '';
+alarmState.audioA.onended = null;
+alarmState.audioA.onerror = null;
+alarmState.audioA.load();
+}catch(e){}
+}
+if(alarmState.audioB){
+try{
+alarmState.audioB.pause();
+alarmState.audioB.src = '';
+alarmState.audioB.onended = null;
+alarmState.audioB.onerror = null;
+alarmState.audioB.load();
+}catch(e){}
+}
+}
+
+/* ✅ ✅ INTI FIX: Putar ayat pada index tertentu dengan swap A/B */
+function playAyatAt(idx){
+// Cek apakah sudah selesai
+if(idx >= alarmState.urls.length){
+console.log('✅ Semua ayat selesai diputar (' + alarmState.urls.length + ' ayat)');
+stopAlarmRing();
+if(typeof showToast === 'function') showToast('✅ Murattal selesai');
+return;
+}
+
+// Tentukan audio mana yang aktif & mana yang idle
+var activeAudio = alarmState.useA ? alarmState.audioA : alarmState.audioB;
+var idleAudio = alarmState.useA ? alarmState.audioB : alarmState.audioA;
+
+// ✅ PENTING: Bersihkan audio idle dulu untuk cegah ghost trigger
+try{
+idleAudio.pause();
+idleAudio.src = '';
+idleAudio.onended = null;
+idleAudio.onerror = null;
+}catch(e){}
+
+// Update state
+alarmState.currentIdx = idx;
+var url = alarmState.urls[idx];
+console.log('🎵 Memutar ayat ' + (idx+1) + '/' + alarmState.urls.length + ':', url.split('/').pop());
+
+// Set src & handler di audio aktif
+activeAudio.src = url;
+
+// ✅ Handler onended: swap ke audio lain untuk ayat berikutnya
+activeAudio.onended = function(){
+console.log('🔁 Ayat ' + (idx+1) + ' selesai, lanjut ke ayat ' + (idx+2));
+// Swap A ↔ B
+alarmState.useA = !alarmState.useA;
+// Putar ayat berikutnya
+playAyatAt(idx + 1);
+};
+
+activeAudio.onerror = function(e){
+console.warn('⚠️ Audio ayat ' + (idx+1) + ' error, skip ke berikutnya');
+// Swap & lanjut
+alarmState.useA = !alarmState.useA;
+playAyatAt(idx + 1);
+};
+
+// Play
+var playPromise = activeAudio.play();
+if(playPromise && playPromise.catch){
+playPromise.catch(function(e){
+console.warn('⚠️ Play blocked:', e);
+// Jika diblokir, coba tampilkan prompt
+if(!alarmState._isTest){
+showAutoPlayBlockedPrompt(alarmState.currentAlarm);
+}
+});
+}
+
+// Update notifikasi
+updateRingNotification(idx + 1);
+}
+
+/* ============================================================
+✅ PLAY ALARM (ENTRY POINT)
+============================================================ */
+function playAlarm(alarm, isTest){
+console.log('🔔 Memutar alarm:', alarm);
+
+// Stop audio Quran utama jika sedang jalan
+if(typeof window.qrStop === 'function'){
+try{ window.qrStop(); }catch(e){}
+}
+
+// Stop alarm sebelumnya jika ada
+stopAlarmRing();
+
+// Inisialisasi dual audio
+initDualAudio();
+
+var surahNo = alarm.surahNo;
+var qariIdx = alarm.qariIdx;
+var range = alarm.range;
+
+var totalAyat = getTotalAyat(surahNo);
+var startAyat = 1;
+var endAyat = totalAyat;
+
+if(range && range !== 'full'){
+var parts = range.split('-');
+if(parts.length === 2){
+startAyat = parseInt(parts[0], 10) || 1;
+endAyat = parseInt(parts[1], 10) || totalAyat;
+}
+}
+endAyat = Math.min(endAyat, totalAyat);
+
+// Build URL array
+var urls = [];
+for(var i = startAyat; i <= endAyat; i++){
+urls.push(buildAlarmAudioUrl(surahNo, i, qariIdx));
+}
+
+if(urls.length === 0){
+if(typeof showToast === 'function') showToast('⚠️ Tidak ada audio untuk diputar');
+return;
+}
+
+// Set state
+alarmState.urls = urls;
+alarmState.currentIdx = -1;
+alarmState.useA = true;  // Mulai dengan audio A
+alarmState.currentlyRinging = {
+id: alarm.id || 'test',
+alarm: alarm
+};
+alarmState.currentAlarm = alarm;
+alarmState._isTest = isTest;
+
+// Tampilkan notifikasi
+showRingNotification(alarm, isTest);
+renderAlarmList();
+
+// ✅ Mulai putar ayat pertama
+playAyatAt(0);
+}
+
+/* ============================================================
+✅ STOP ALARM
+============================================================ */
+function stopAlarmRing(){
+cleanupBothAudio();
+alarmState.currentlyRinging = null;
+alarmState.currentIdx = -1;
+alarmState.urls = [];
+hideRingNotification();
+renderAlarmList();
+}
+window.alarmStopRing = stopAlarmRing;
+
+/* ============================================================
+✅ NOTIFIKASI RING
+============================================================ */
+function showRingNotification(alarm, isTest){
+var notif = document.getElementById('alarmRingNotif');
+var title = document.getElementById('alarmRingTitle');
+var sub = document.getElementById('alarmRingSub');
+if(!notif) return;
+
+var surahName = getSurahName(alarm.surahNo);
+var qariName = getQariName(alarm.qariIdx);
+
+if(title) title.textContent = (isTest ? '🎧 Test: ' : '🔔 ') + (alarm.label || ('Murattal ' + surahName));
+if(sub) sub.textContent = surahName + ' · ' + qariName + ' · Ayat -/' + alarmState.urls.length;
+
+notif.classList.add('show');
+}
+
+function updateRingNotification(ayatKe){
+var sub = document.getElementById('alarmRingSub');
+if(sub && alarmState.currentAlarm){
+var surahName = getSurahName(alarmState.currentAlarm.surahNo);
+var qariName = getQariName(alarmState.currentAlarm.qariIdx);
+sub.textContent = surahName + ' · ' + qariName + ' · Ayat ' + ayatKe + '/' + alarmState.urls.length;
+}
+}
+
+function hideRingNotification(){
+var notif = document.getElementById('alarmRingNotif');
+if(notif) notif.classList.remove('show');
+}
+
+function showAutoPlayBlockedPrompt(alarm){
+if(!alarm) return;
+var surahName = getSurahName(alarm.surahNo);
+var confirmed = confirm(
+'🔔 ALARM MURATTAL\n\n' +
+'Waktu: ' + alarm.time + ' (' + convertTo12Hour(alarm.time) + ')\n' +
+'Surah: ' + surahName + '\n' +
+'Qari: ' + getQariName(alarm.qariIdx) + '\n\n' +
+'⚠️ Browser memblokir audio otomatis.\n' +
+'Klik OK untuk memutar sekarang, atau\n' +
+'klik halaman minimal 1x agar alarm berikutnya bisa berbunyi otomatis.'
+);
+if(confirmed){
+playAlarm(alarm, false);
+}
+}
+
+/* ============================================================
+✅ SCHEDULER
+============================================================ */
+function checkAlarms(){
+var now = new Date();
+var currentTime = padZero(now.getHours()) + ':' + padZero(now.getMinutes());
+var currentMinuteKey = currentTime;
+
+var clockEl = document.getElementById('alarmCurrentTime');
+if(clockEl){
+clockEl.textContent = padZero(now.getHours()) + ':' + padZero(now.getMinutes()) + ':' + padZero(now.getSeconds());
+}
+
+if(now.getSeconds() === 0){
+console.log('🕐 Scheduler cek:', currentTime, '(' + convertTo12Hour(currentTime) + ')');
+}
+
+for(var i = 0; i < alarmState.alarms.length; i++){
+var a = alarmState.alarms[i];
+if(!a.enabled) continue;
+if(a.time !== currentTime) continue;
+
+var triggerKey = a.id + '_' + currentMinuteKey;
+if(alarmState.lastTriggeredMinute === triggerKey){
+continue;
+}
+
+alarmState.lastTriggeredMinute = triggerKey;
+
+console.log('🔔 ALARM AKTIF:', a.time, '(' + convertTo12Hour(a.time) + ')', a.label || 'Murattal');
+playAlarm(a, false);
+tryBrowserNotification(a);
+break;
+}
+}
+
+function catchUpAlarms(){
+if(alarmState.userInteracted) return;
+
+var now = new Date();
+var nowMinutes = now.getHours() * 60 + now.getMinutes();
+
+for(var i = 0; i < alarmState.alarms.length; i++){
+var a = alarmState.alarms[i];
+if(!a.enabled) continue;
+
+var parts = a.time.split(':');
+var alarmMinutes = parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
+var diff = nowMinutes - alarmMinutes;
+
+if(diff > 0 && diff <= CATCH_UP_WINDOW){
+var todayKey = a.id + '_' + now.toDateString();
+var lastCatchUp = localStorage.getItem('alarm_catchup_' + a.id);
+
+if(lastCatchUp !== todayKey){
+console.log('⏰ CATCH-UP ALARM:', a.time, '(terlambat ' + diff + ' menit)');
+localStorage.setItem('alarm_catchup_' + a.id, todayKey);
+playAlarm(a, false);
+tryBrowserNotification(a);
+break;
+}
+}
+}
+}
+
+function padZero(n){
+return n < 10 ? '0' + n : '' + n;
+}
+
+function tryBrowserNotification(alarm){
+if(!('Notification' in window)) return;
+if(Notification.permission === 'granted'){
+try{
+new Notification('🔔 Alarm Murattal', {
+body: (alarm.label || 'Murattal ' + getSurahName(alarm.surahNo)) + ' - ' + alarm.time,
+icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🔔</text></svg>',
+tag: 'alarm-murattal'
+});
+}catch(e){}
+}else if(Notification.permission !== 'denied'){
+Notification.requestPermission();
+}
+}
+
+/* ============================================================
+✅ PERMISSION HANDLING
+============================================================ */
+function checkAndShowPermission(){
+var banner = document.getElementById('alarmPermBanner');
+if(!banner) return;
+
+if(!alarmState.userInteracted && !alarmState.permDismissed){
+banner.classList.add('show');
+}
+}
+
+window.alarmRequestPermission = function(){
+if('Notification' in window && Notification.permission === 'default'){
+Notification.requestPermission();
+}
+
+try{
+var tempAudio = new Audio();
+tempAudio.src = 'data:audio/wav;base64,UklGigAAABAAABBYWUNLbGlzdGZvcm1hdGQ=';
+tempAudio.volume = 0;
+tempAudio.play().then(function(){
+tempAudio.pause();
+alarmState.userInteracted = true;
+console.log('✅ Audio context unlocked');
+var banner = document.getElementById('alarmPermBanner');
+if(banner) banner.classList.remove('show');
+if(typeof showToast === 'function') showToast('✅ Audio diizinkan! Alarm akan berbunyi otomatis');
+}).catch(function(e){
+console.warn('⚠️ Audio unlock gagal:', e);
+if(typeof showToast === 'function') showToast('⚠️ Klik halaman untuk mengaktifkan audio');
+});
+}catch(e){
+console.warn('⚠️ Audio unlock error:', e);
+}
+};
+
+window.alarmDismissPerm = function(){
+alarmState.permDismissed = true;
+var banner = document.getElementById('alarmPermBanner');
+if(banner) banner.classList.remove('show');
+};
+
+/* ============================================================
+✅ TOGGLE DASHBOARD
+============================================================ */
+window.alarmToggleDashboard = function(){
+var overlay = document.getElementById('alarmModalOverlay');
+if(!overlay) return;
+var isActive = overlay.classList.contains('active');
+if(isActive){
+overlay.classList.remove('active');
+document.body.style.overflow = '';
+}else{
+var info = document.getElementById('alarmDeviceInfo');
+if(info) info.textContent = 'Device: ' + getDeviceInfo();
+
+populateSurahSelect();
+populateQariSelect();
+renderAlarmList();
+checkAndShowPermission();
+overlay.classList.add('active');
+document.body.style.overflow = 'hidden';
+}
+};
+
+/* ============================================================
+✅ TRACK USER INTERACTION
+============================================================ */
+function trackUserInteraction(){
+if(alarmState.userInteracted) return;
+alarmState.userInteracted = true;
+console.log('✅ User interacted - audio auto-play diizinkan');
+
+try{
+var tempAudio = new Audio();
+tempAudio.src = 'data:audio/wav;base64,UklGigAAABAAABBYWUNLbGlzdGZvcm1hdGQ=';
+tempAudio.volume = 0;
+tempAudio.play().then(function(){
+tempAudio.pause();
+}).catch(function(){});
+}catch(e){}
+
+var banner = document.getElementById('alarmPermBanner');
+if(banner) banner.classList.remove('show');
+}
+
+/* ============================================================
+✅ INIT
+============================================================ */
+function init(){
+loadAlarms();
+populateSurahSelect();
+populateQariSelect();
+renderAlarmList();
+
+// ✅ Inisialisasi dual audio dari awal
+initDualAudio();
+
+var info = document.getElementById('alarmDeviceInfo');
+if(info) info.textContent = 'Device: ' + getDeviceInfo();
+
+setInterval(checkAlarms, CHECK_INTERVAL);
+console.log('✅ Alarm scheduler aktif (cek setiap ' + (CHECK_INTERVAL/1000) + ' detik)');
+console.log('📱 Device: ' + getDeviceInfo());
+console.log('📊 Total alarm tersimpan: ' + alarmState.alarms.length);
+console.log('🎙️ Qari tersedia: ' + ALARM_QARI.length);
+console.log('💡 Format waktu: 24 jam (00:00 - 23:59)');
+console.log('🎵 Dual Audio (A/B swap) aktif - anti loop mundur');
+
+setTimeout(catchUpAlarms, 2000);
+
+var interactionEvents = ['click', 'touchstart', 'keydown'];
+for(var i = 0; i < interactionEvents.length; i++){
+document.addEventListener(interactionEvents[i], trackUserInteraction, {once: true, passive: true});
+}
+
+if('Notification' in window && Notification.permission === 'default'){
+setTimeout(function(){
+if(alarmState.alarms.length > 0 && !alarmState.permDismissed){
+var ask = confirm('🔔 Izinkan notifikasi browser untuk alarm murattal?\n\nNotifikasi akan muncul saat alarm berbunyi.');
+if(ask){
+Notification.requestPermission();
+} else {
+alarmState.permDismissed = true;
+}
+}
+}, 5000);
+}
+}
+
+if(document.readyState === 'loading'){
+document.addEventListener('DOMContentLoaded', init);
+}else{
+init();
+}
+
+console.log('✅ PATCH v31 ALARM MURATTAL (DUAL-AUDIO FIX): berhasil dimuat');
 })();
 </script>
+<!-- ============================================
+✅ PATCH v32: NOTIFIKASI ALARM COMPACT
+- Ukuran lebih kecil & compact
+- Posisi: di bawah navbar, sebelah kiri menu Khazanah
+- Tidak menutupi logo Al-Ikhlas
+- Responsive untuk mobile
+============================================ -->
+<style>
+/* ====== OVERRIDE NOTIFIKASI ALARM LAMA ====== */
+.alarm-ring-notification {
+  /* Reset posisi lama */
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  transform: none !important;
+  
+  /* Posisi baru: di bawah navbar, sebelah kiri menu Khazanah */
+  position: fixed !important;
+  top: 62px !important;
+  left: 290px !important;
+  right: auto !important;
+  bottom: auto !important;
+  z-index: 99998 !important;
+  
+  /* Ukuran compact */
+  max-width: 380px !important;
+  min-width: 280px !important;
+  padding: 10px 14px !important;
+  border-radius: 12px !important;
+  
+  /* Style */
+  background: linear-gradient(135deg, #2ecc71, #27ae60) !important;
+  box-shadow: 0 4px 20px rgba(46,204,113,0.4), 0 0 0 1px rgba(255,255,255,0.1) !important;
+  backdrop-filter: blur(10px) !important;
+  
+  /* Animasi masuk dari atas */
+  animation: alarmSlideInCompact 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
 
+/* Animasi masuk */
+@keyframes alarmSlideInCompact {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Saat show (aktif) */
+.alarm-ring-notification.show {
+  transform: none !important;
+  opacity: 1 !important;
+}
+
+/* Icon lonceng - lebih kecil */
+.alarm-ring-notification .ring-icon {
+  font-size: 1.5rem !important;
+  margin-right: 4px !important;
+  animation: ringBellCompact 0.6s ease-in-out infinite alternate !important;
+  flex-shrink: 0 !important;
+}
+
+@keyframes ringBellCompact {
+  from { transform: rotate(-10deg); }
+  to { transform: rotate(10deg); }
+}
+
+/* Info container */
+.alarm-ring-notification .ring-info {
+  flex: 1 !important;
+  min-width: 0 !important;
+  margin-right: 8px !important;
+}
+
+/* Judul - lebih kecil */
+.alarm-ring-notification .ring-title {
+  font-size: 0.88rem !important;
+  font-weight: 700 !important;
+  margin-bottom: 2px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  line-height: 1.2 !important;
+}
+
+/* Sub info - lebih kecil */
+.alarm-ring-notification .ring-sub {
+  font-size: 0.72rem !important;
+  opacity: 0.92 !important;
+  font-weight: 500 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  line-height: 1.2 !important;
+}
+
+/* Tombol hentikan - lebih compact */
+.alarm-ring-notification .ring-stop {
+  padding: 6px 12px !important;
+  font-size: 0.75rem !important;
+  border-radius: 15px !important;
+  background: rgba(255,255,255,0.25) !important;
+  border: 1px solid rgba(255,255,255,0.3) !important;
+  flex-shrink: 0 !important;
+  white-space: nowrap !important;
+}
+
+.alarm-ring-notification .ring-stop:hover {
+  background: rgba(255,255,255,0.4) !important;
+}
+
+/* ====== RESPONSIVE: TABLET (768px - 900px) ====== */
+@media (max-width: 1100px) and (min-width: 769px) {
+  .alarm-ring-notification {
+    left: 260px !important;
+    max-width: 340px !important;
+    min-width: 240px !important;
+  }
+  .alarm-ring-notification .ring-title {
+    font-size: 0.82rem !important;
+  }
+  .alarm-ring-notification .ring-sub {
+    font-size: 0.68rem !important;
+  }
+}
+
+/* ====== RESPONSIVE: MOBILE (< 900px) ====== */
+@media (max-width: 900px) {
+  .alarm-ring-notification {
+    /* Di mobile: full width di bawah navbar, tapi tidak full screen */
+    top: 58px !important;
+    left: 10px !important;
+    right: 10px !important;
+    max-width: calc(100vw - 20px) !important;
+    min-width: auto !important;
+    padding: 8px 12px !important;
+  }
+  .alarm-ring-notification .ring-icon {
+    font-size: 1.3rem !important;
+  }
+  .alarm-ring-notification .ring-title {
+    font-size: 0.82rem !important;
+  }
+  .alarm-ring-notification .ring-sub {
+    font-size: 0.68rem !important;
+  }
+  .alarm-ring-notification .ring-stop {
+    padding: 5px 10px !important;
+    font-size: 0.72rem !important;
+  }
+}
+
+/* ====== RESPONSIVE: MOBILE KECIL (< 480px) ====== */
+@media (max-width: 480px) {
+  .alarm-ring-notification {
+    top: 55px !important;
+    left: 8px !important;
+    right: 8px !important;
+    padding: 7px 10px !important;
+  }
+  .alarm-ring-notification .ring-icon {
+    font-size: 1.1rem !important;
+    margin-right: 3px !important;
+  }
+  .alarm-ring-notification .ring-title {
+    font-size: 0.75rem !important;
+  }
+  .alarm-ring-notification .ring-sub {
+    font-size: 0.62rem !important;
+  }
+  .alarm-ring-notification .ring-stop {
+    padding: 4px 8px !important;
+    font-size: 0.68rem !important;
+  }
+}
+
+/* ====== VARIAN WARNA UNTUK ALARM BERBEDA ====== */
+/* Test mode - warna biru */
+.alarm-ring-notification.test-mode {
+  background: linear-gradient(135deg, #3498db, #2980b9) !important;
+  box-shadow: 0 4px 20px rgba(52,152,219,0.4), 0 0 0 1px rgba(255,255,255,0.1) !important;
+}
+
+/* Catch-up mode - warna orange */
+.alarm-ring-notification.catchup-mode {
+  background: linear-gradient(135deg, #f39c12, #e67e22) !important;
+  box-shadow: 0 4px 20px rgba(243,156,18,0.4), 0 0 0 1px rgba(255,255,255,0.1) !important;
+}
+</style>
+
+<script>
+(function(){
+'use strict';
+console.log('🟢 PATCH v32 NOTIFIKASI ALARM COMPACT: mulai dimuat...');
+
+/* ============================================================
+✅ OVERRIDE showRingNotification UNTUK POSISI BARU
+============================================================ */
+var _origShowRingNotification = window.showRingNotification;
+
+/* Tunggu sampai fungsi asli tersedia */
+function waitForOriginal(fn, callback, maxWait) {
+  var start = Date.now();
+  var check = setInterval(function() {
+    if (typeof fn === 'function' || Date.now() - start > maxWait) {
+      clearInterval(check);
+      callback();
+    }
+  }, 100);
+}
+
+waitForOriginal(function(){ return typeof showRingNotification !== 'undefined'; }, function() {
+  if (typeof showRingNotification !== 'undefined') {
+    var origShow = showRingNotification;
+    window.showRingNotification = function(alarm, isTest) {
+      // Panggil fungsi asli dulu
+      origShow(alarm, isTest);
+      
+      // Tambahkan class test-mode jika test
+      var notif = document.getElementById('alarmRingNotif');
+      if (notif) {
+        if (isTest) {
+          notif.classList.add('test-mode');
+        } else {
+          notif.classList.remove('test-mode');
+        }
+      }
+      
+      console.log('🔔 Notifikasi alarm compact ditampilkan');
+    };
+    console.log('✅ showRingNotification di-override untuk compact mode');
+  }
+}, 3000);
+
+/* ============================================================
+✅ AUTO-ADJUST POSISI BERDASARKAN LEBAR LAYAR
+============================================================ */
+function adjustAlarmPosition() {
+  var notif = document.getElementById('alarmRingNotif');
+  if (!notif) return;
+  
+  var w = window.innerWidth;
+  
+  if (w > 1400) {
+    // Desktop besar: posisi di sebelah kiri menu Khazanah
+    notif.style.left = '310px';
+    notif.style.maxWidth = '400px';
+  } else if (w > 1100) {
+    // Desktop medium
+    notif.style.left = '290px';
+    notif.style.maxWidth = '380px';
+  } else if (w > 900) {
+    // Desktop kecil / tablet besar
+    notif.style.left = '260px';
+    notif.style.maxWidth = '340px';
+  }
+  // Mobile: handled by CSS media query
+}
+
+// Panggil saat resize
+var resizeTimer;
+window.addEventListener('resize', function() {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(adjustAlarmPosition, 200);
+});
+
+// Panggil saat notifikasi muncul
+var origShow2 = window.showRingNotification;
+if (typeof origShow2 === 'function') {
+  window.showRingNotification = function(alarm, isTest) {
+    origShow2(alarm, isTest);
+    setTimeout(adjustAlarmPosition, 100);
+  };
+}
+
+/* ============================================================
+✅ INIT
+============================================================ */
+function init() {
+  adjustAlarmPosition();
+  console.log('✅ PATCH v32 NOTIFIKASI ALARM COMPACT: berhasil dimuat');
+  console.log('💡 Notifikasi alarm sekarang compact & di sebelah kiri menu Khazanah');
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+
+setTimeout(init, 1000);
+})();
+</script>
+<!-- ============================================
+✅ PATCH: ALARM NOTIFIKASI + WAKE LOCK
+- Izin notifikasi hanya 1x (tidak berulang)
+- Gambar 4.png hanya muncul saat alarm berbunyi
+- Alarm tetap hidup saat tab aktif & di APK
+============================================ -->
+<style>
+/* Logo alarm - default tersembunyi */
+.alarm-notification-logo {
+    display: none;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 99999;
+    animation: alarmPulse 1s ease-in-out infinite;
+    background: rgba(201, 168, 76, 0.95);
+    padding: 15px;
+    border-radius: 50%;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+}
+
+.alarm-notification-logo.active {
+    display: block;
+}
+
+@keyframes alarmPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+/* Wake Lock indicator */
+.wake-lock-status {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(46, 204, 113, 0.9);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    z-index: 99998;
+    display: none;
+}
+
+.wake-lock-status.active {
+    display: block;
+}
+</style>
+
+<!-- Logo Alarm (4.png) -->
+<img src="4.png" alt="Alarm" class="alarm-notification-logo" id="alarmLogo">
+
+<!-- Wake Lock Status -->
+<div class="wake-lock-status" id="wakeLockStatus">🔒 Layar tetap aktif</div>
+
+<script>
+(function(){
+    'use strict';
+    console.log(' PATCH ALARM NOTIFIKASI + WAKE LOCK: dimuat...');
+    
+    /* ============================================================
+    ✅ 1. IZIN NOTIFIKASI HANYA 1x
+    ============================================================ */
+    var notificationRequested = false;
+    
+    function requestNotificationPermission() {
+        // Cek apakah sudah pernah diminta
+        if (notificationRequested) {
+            console.log('✅ Izin notifikasi sudah pernah diminta');
+            return;
+        }
+        
+        // Cek status izin saat ini
+        if ('Notification' in window) {
+            if (Notification.permission === 'granted') {
+                console.log('✅ Izin notifikasi sudah diberikan');
+                notificationRequested = true;
+                return;
+            }
+            
+            if (Notification.permission === 'denied') {
+                console.log('⚠️ Izin notifikasi ditolak user');
+                notificationRequested = true;
+                return;
+            }
+            
+            // permission === 'default' - minta izin SEKALI saja
+            if (Notification.permission === 'default' && !notificationRequested) {
+                notificationRequested = true;
+                Notification.requestPermission().then(function(permission) {
+                    if (permission === 'granted') {
+                        console.log('✅ User memberikan izin notifikasi');
+                        showNotification('Al-Ikhlas', 'Notifikasi alarm diaktifkan');
+                    } else {
+                        console.log('⚠️ User menolak izin notifikasi');
+                    }
+                }).catch(function(err) {
+                    console.error('❌ Error request permission:', err);
+                });
+            }
+        }
+    }
+    
+    /* ============================================================
+    ✅ 2. FUNGSI NOTIFIKASI (TIDAK REQUEST ULANG)
+    ============================================================ */
+    function showNotification(title, message) {
+        if ('Notification' in window && Notification.permission === 'granted') {
+            try {
+                var notification = new Notification(title, {
+                    body: message,
+                    icon: '4.png',  // ✅ Gunakan 4.png sebagai icon
+                    badge: '4.png',
+                    tag: 'alarm-notification',  // Tag agar tidak duplicate
+                    requireInteraction: false,  // Auto-close setelah beberapa detik
+                    silent: false
+                });
+                
+                // Auto close setelah 5 detik
+                setTimeout(function() {
+                    notification.close();
+                }, 5000);
+                
+                return notification;
+            } catch(e) {
+                console.error('❌ Error show notification:', e);
+            }
+        }
+        return null;
+    }
+    
+    /* ============================================================
+    ✅ 3. TAMPILKAN/SEMBUNYIKAN LOGO ALARM (4.png)
+    ============================================================ */
+    var alarmLogo = document.getElementById('alarmLogo');
+    var currentAlarmTimeout = null;
+    
+    function showAlarmLogo(duration) {
+        if (!alarmLogo) return;
+        
+        // Tampilkan logo
+        alarmLogo.classList.add('active');
+        console.log('🔔 Logo alarm ditampilkan');
+        
+        // Kirim notifikasi (jika izin sudah diberikan)
+        if ('Notification' in window && Notification.permission === 'granted') {
+            showNotification('⏰ Alarm Al-Ikhlas', 'Waktu alarm telah tiba!');
+        }
+        
+        // Sembunyikan otomatis setelah durasi tertentu
+        if (duration && duration > 0) {
+            if (currentAlarmTimeout) {
+                clearTimeout(currentAlarmTimeout);
+            }
+            currentAlarmTimeout = setTimeout(function() {
+                hideAlarmLogo();
+            }, duration);
+        }
+    }
+    
+    function hideAlarmLogo() {
+        if (!alarmLogo) return;
+        
+        alarmLogo.classList.remove('active');
+        console.log('🔕 Logo alarm disembunyikan');
+        
+        if (currentAlarmTimeout) {
+            clearTimeout(currentAlarmTimeout);
+            currentAlarmTimeout = null;
+        }
+    }
+    
+    /* ============================================================
+    ✅ 4. WAKE LOCK API - Jaga layar tetap aktif
+    ============================================================ */
+    var wakeLock = null;
+    var wakeLockStatus = document.getElementById('wakeLockStatus');
+    
+    async function requestWakeLock() {
+        try {
+            if ('wakeLock' in navigator) {
+                wakeLock = await navigator.wakeLock.request('screen');
+                console.log('✅ Wake Lock aktif - layar tidak akan mati');
+                
+                if (wakeLockStatus) {
+                    wakeLockStatus.classList.add('active');
+                }
+                
+                wakeLock.addEventListener('release', function() {
+                    console.log(' Wake Lock dilepas');
+                    if (wakeLockStatus) {
+                        wakeLockStatus.classList.remove('active');
+                    }
+                });
+                
+                return true;
+            } else {
+                console.log('⚠️ Wake Lock API tidak didukung');
+                return false;
+            }
+        } catch (err) {
+            console.error('❌ Wake Lock error:', err);
+            return false;
+        }
+    }
+    
+    function releaseWakeLock() {
+        if (wakeLock) {
+            wakeLock.release().then(function() {
+                wakeLock = null;
+                console.log('✅ Wake Lock dilepas');
+            });
+        }
+    }
+    
+    // Re-acquire wake lock saat visibility change
+    document.addEventListener('visibilitychange', function() {
+        if (document.visibilityState === 'visible' && wakeLock === null) {
+            requestWakeLock();
+        }
+    });
+    
+    /* ============================================================
+    ✅ 5. DETEKSI ALARM AKTIF
+    (Override fungsi alarm yang sudah ada)
+    ============================================================ */
+    var originalPlayAlarm = window.playAlarm || null;
+    var originalStopAlarm = window.stopAlarm || null;
+    
+    window.playAlarm = function(duration) {
+        // Panggil fungsi asli jika ada
+        if (originalPlayAlarm) {
+            originalPlayAlarm(duration);
+        }
+        
+        // Tampilkan logo alarm
+        showAlarmLogo(duration || 10000); // Default 10 detik
+        
+        // Request wake lock
+        requestWakeLock();
+        
+        // Request izin notifikasi (hanya 1x)
+        requestNotificationPermission();
+    };
+    
+    window.stopAlarm = function() {
+        // Panggil fungsi asli jika ada
+        if (originalStopAlarm) {
+            originalStopAlarm();
+        }
+        
+        // Sembunyikan logo alarm
+        hideAlarmLogo();
+        
+        // Lepaskan wake lock
+        releaseWakeLock();
+    };
+    
+    /* ============================================================
+    ✅ 6. INISIALISASI
+    ============================================================ */
+    function init() {
+        // Request izin notifikasi saat pertama kali load (hanya 1x)
+        setTimeout(requestNotificationPermission, 2000);
+        
+        // Coba aktifkan wake lock
+        setTimeout(function() {
+            requestWakeLock();
+        }, 3000);
+        
+        console.log('✅ PATCH ALARM NOTIFIKASI + WAKE LOCK: aktif');
+        console.log('💡 Izin notifikasi hanya diminta 1x');
+        console.log('💡 Logo 4.png hanya muncul saat alarm');
+        console.log('💡 Wake Lock menjaga layar tetap aktif');
+    }
+    
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+    
+    // Expose functions untuk debugging
+    window.showAlarmLogo = showAlarmLogo;
+    window.hideAlarmLogo = hideAlarmLogo;
+    window.requestNotificationPermission = requestNotificationPermission;
+    window.requestWakeLock = requestWakeLock;
+    window.releaseWakeLock = releaseWakeLock;
+})();
+</script>
+<!-- ============================================
+✅ PATCH ALARM MURATTAL - FIX AUDIO PLAYBACK
+============================================ -->
+<style>
+.alarm-murattal-container {
+    display: none;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 99998;
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    padding: 15px 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(46, 204, 113, 0.4);
+    animation: slideIn 0.3s ease;
+}
+
+.alarm-murattal-container.active {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(-100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.alarm-bell-icon {
+    font-size: 2rem;
+    animation: ring 1s ease-in-out infinite;
+}
+
+@keyframes ring {
+    0%, 100% { transform: rotate(0); }
+    10%, 30% { transform: rotate(-10deg); }
+    20%, 40% { transform: rotate(10deg); }
+    50% { transform: rotate(0); }
+}
+
+.alarm-info {
+    color: #fff;
+}
+
+.alarm-info h4 {
+    margin: 0 0 5px 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.alarm-info p {
+    margin: 0;
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+.alarm-stop-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: inherit;
+}
+
+.alarm-stop-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+}
+</style>
+
+<!-- Container Alarm Murattal -->
+<div class="alarm-murattal-container" id="alarmMurattalContainer">
+    <div class="alarm-bell-icon">🔔</div>
+    <div class="alarm-info">
+        <h4>Alarm Murattal</h4>
+        <p id="alarmMurattalStatus">Sedang memutar...</p>
+    </div>
+    <button class="alarm-stop-btn" onclick="stopAlarmMurattal()">⏹ Hentikan</button>
+</div>
+
+<!-- Audio Element untuk Murattal -->
+<audio id="alarmMurattalAudio" preload="auto" loop>
+    <source src="audio/murattal.mp3" type="audio/mpeg">
+    <!-- Fallback: Ganti dengan URL audio online jika file lokal tidak ada -->
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+(function(){
+    'use strict';
+    console.log('🟢 PATCH ALARM MURATTAL: dimuat...');
+    
+    var audioElement = document.getElementById('alarmMurattalAudio');
+    var container = document.getElementById('alarmMurattalContainer');
+    var statusText = document.getElementById('alarmMurattalStatus');
+    var isPlaying = false;
+    var alarmTimeout = null;
+    
+    /* ============================================================
+    ✅ FUNGSI PLAY ALARM MURATTAL
+    ============================================================ */
+    window.playAlarmMurattal = function(duration) {
+        if (!audioElement) {
+            console.error('❌ Audio element tidak ditemukan');
+            return;
+        }
+        
+        // Tampilkan container
+        if (container) {
+            container.classList.add('active');
+        }
+        
+        // Update status
+        if (statusText) {
+            statusText.textContent = 'Sedang memutar...';
+        }
+        
+        // Set volume
+        audioElement.volume = 0.7;
+        audioElement.loop = true;
+        
+        // Coba play dengan multiple methods
+        var playPromise = audioElement.play();
+        
+        if (playPromise !== undefined) {
+            playPromise.then(function() {
+                // ✅ Audio berhasil diputar
+                isPlaying = true;
+                console.log('✅ Alarm Murattal berhasil diputar');
+                
+                // Auto stop setelah duration (jika ada)
+                if (duration && duration > 0) {
+                    alarmTimeout = setTimeout(function() {
+                        stopAlarmMurattal();
+                    }, duration);
+                }
+            }).catch(function(error) {
+                // ❌ Gagal play - biasanya karena browser policy
+                console.error('❌ Gagal memutar audio:', error);
+                console.warn('⚠️ Browser memblokir autoplay. Perlu user interaction.');
+                
+                // Tampilkan pesan error
+                if (statusText) {
+                    statusText.textContent = '⚠️ Klik untuk aktifkan suara';
+                    statusText.style.cursor = 'pointer';
+                    statusText.onclick = function() {
+                        audioElement.play().then(function() {
+                            isPlaying = true;
+                            statusText.textContent = 'Sedang memutar...';
+                            statusText.style.cursor = 'default';
+                            statusText.onclick = null;
+                        }).catch(function(e) {
+                            console.error('Masih gagal:', e);
+                        });
+                    };
+                }
+            });
+        }
+    };
+    
+    /* ============================================================
+    ✅ FUNGSI STOP ALARM MURATTAL
+    ============================================================ */
+    window.stopAlarmMurattal = function() {
+        if (!audioElement) return;
+        
+        // Stop audio
+        audioElement.pause();
+        audioElement.currentTime = 0;
+        isPlaying = false;
+        
+        // Hide container
+        if (container) {
+            container.classList.remove('active');
+        }
+        
+        // Clear timeout
+        if (alarmTimeout) {
+            clearTimeout(alarmTimeout);
+            alarmTimeout = null;
+        }
+        
+        console.log('✅ Alarm Murattal dihentikan');
+    };
+    
+    /* ============================================================
+    ✅ FUNGSI CEK STATUS AUDIO
+    ============================================================ */
+    window.checkAlarmStatus = function() {
+        if (!audioElement) {
+            console.log('❌ Audio element tidak ada');
+            return;
+        }
+        
+        console.log('📊 Status Audio:');
+        console.log('  - Ready State:', audioElement.readyState);
+        console.log('  - Current Time:', audioElement.currentTime);
+        console.log('  - Duration:', audioElement.duration);
+        console.log('  - Volume:', audioElement.volume);
+        console.log('  - Muted:', audioElement.muted);
+        console.log('  - Paused:', audioElement.paused);
+        console.log('  - Src:', audioElement.src);
+        console.log('  - Network State:', audioElement.networkState);
+    };
+    
+    /* ============================================================
+    ✅ EVENT LISTENERS
+    ============================================================ */
+    if (audioElement) {
+        audioElement.addEventListener('canplay', function() {
+            console.log('✅ Audio siap diputar');
+        });
+        
+        audioElement.addEventListener('error', function(e) {
+            console.error('❌ Error loading audio:', e);
+            if (statusText) {
+                statusText.textContent = '⚠️ Gagal memuat audio';
+            }
+        });
+        
+        audioElement.addEventListener('ended', function() {
+            console.log('ℹ️ Audio selesai (tapi loop aktif)');
+        });
+        
+        audioElement.addEventListener('playing', function() {
+            console.log('▶️ Audio sedang diputar');
+            isPlaying = true;
+        });
+        
+        audioElement.addEventListener('pause', function() {
+            console.log('⏸️ Audio dipause');
+            isPlaying = false;
+        });
+    }
+    
+    /* ============================================================
+    ✅ AUTO-TEST: Cek apakah audio bisa dimuat
+    ============================================================ */
+    function testAudioLoad() {
+        if (!audioElement) return;
+        
+        // Coba load audio
+        audioElement.load();
+        
+        setTimeout(function() {
+            if (audioElement.readyState === 0) {
+                console.warn('⚠️ Audio tidak ter-load. Cek URL/file audio.');
+                console.log('💡 Solusi: Pastikan file audio ada di folder "audio/" atau gunakan URL online.');
+            } else {
+                console.log('✅ Audio ter-load dengan baik. Ready state:', audioElement.readyState);
+            }
+        }, 1000);
+    }
+    
+    // Jalankan test saat halaman dimuat
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', testAudioLoad);
+    } else {
+        testAudioLoad();
+    }
+    
+    console.log('✅ PATCH ALARM MURATTAL: berhasil dimuat');
+    console.log('💡 Cara pakai: playAlarmMurattal(30000) untuk 30 detik');
+    console.log('💡 Cara stop: stopAlarmMurattal()');
+    console.log('💡 Cek status: checkAlarmStatus()');
+})();
+</script>
+<!-- ============================================
+✅ PATCH FINAL TERKONSOLIDASI
+1. Tanggal Hijriyah Real-Time
+2. Sembunyikan Banner Alarm Murattal
+3. Notifikasi 1x & Wake Lock
+============================================ -->
+<style>
+/* Sembunyikan Banner Alarm Murattal (Sesuai Gambar 5.png) */
+div[class*="alarm-murattal"], 
+div[class*="murattal-alarm"],
+div[style*="background: linear-gradient(135deg, #2ecc71"],
+.alarm-notification-banner,
+.murattal-playing-banner {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    max-height: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+    position: absolute !important;
+    z-index: -1 !important;
+}
+</style>
+
+<script>
+(function(){
+    'use strict';
+    console.log(' PATCH FINAL TERKONSOLIDASI: Dimuat...');
+
+    /* ============================================================
+    ✅ 1. PERBAIKAN TANGGAL HIJRIYAH REAL-TIME
+    ============================================================ */
+    function getHijriDateString() {
+        const now = new Date();
+        try {
+            // Gunakan Intl API (Kalender Umm al-Qura)
+            const formatter = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura-nu-latn', {
+                day: 'numeric', month: 'long', year: 'numeric'
+            });
+            const parts = formatter.formatToParts(now);
+            let day = '', month = '', year = '';
+            parts.forEach(p => {
+                if (p.type === 'day') day = p.value;
+                if (p.type === 'month') month = p.value;
+                if (p.type === 'year') year = p.value;
+            });
+            
+            // Mapping ke nama Indonesia
+            const monthMap = {
+                'Muharram': 'Muharram', 'Safar': 'Safar',
+                'Rabi I': 'Rabiul Awal', 'Rabi II': 'Rabiul Akhir',
+                'Jumada I': 'Jumadil Awal', 'Jumada II': 'Jumadil Akhir',
+                'Rajab': 'Rajab', 'Shaban': "Sya'ban",
+                'Ramadan': 'Ramadhan', 'Shawwal': 'Syawal',
+                'Dhu al-Qi\'dah': "Dzulqa'dah", 'Dhu al-Hijjah': 'Dzulhijjah'
+            };
+            return `${day} ${monthMap[month] || month} ${year} H`;
+        } catch (e) {
+            return 'Tanggal Hijriyah'; // Fallback jika browser tidak support
+        }
+    }
+
+    // Override fungsi updateDateTime bawaan
+    window.updateDateTime = function() {
+        const now = new Date();
+        const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+        const months = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+        
+        const dayName = days[now.getDay()];
+        const date = now.getDate();
+        const month = months[now.getMonth()];
+        const year = now.getFullYear();
+        const hours = String(now.getHours()).padStart(2,'0');
+        const minutes = String(now.getMinutes()).padStart(2,'0');
+        
+        // ✅ Panggil fungsi Hijriyah Real-Time
+        const hijriDate = getHijriDateString();
+        
+        const dateStr = `${dayName}, ${date} ${month} ${year} · ${hijriDate} · ${hours}:${minutes} WIB`;
+        const el = document.getElementById('dateTimeDisplay');
+        if (el) el.textContent = dateStr;
+    };
+
+    // Jalankan ulang
+    window.updateDateTime();
+    setInterval(window.updateDateTime, 60000);
+
+
+    /* ============================================================
+    ✅ 2. SEMBUNYIKAN BANNER ALARM MURATTAL (DINAMIS)
+    ============================================================ */
+    function hideMurattalBanner() {
+        // Cari elemen berdasarkan teks "Sedang memutar" atau "Alarm Murattal"
+        const allDivs = document.querySelectorAll('div, section, aside');
+        for (let i = 0; i < allDivs.length; i++) {
+            const el = allDivs[i];
+            const text = el.textContent || '';
+            // Jika mengandung teks khas banner tersebut
+            if (text.includes('Sedang memutar') && text.includes('Hentikan')) {
+                el.style.display = 'none';
+                el.style.visibility = 'hidden';
+                el.style.height = '0';
+                el.style.overflow = 'hidden';
+            }
+        }
+    }
+
+    // Jalankan segera dan pantau perubahan DOM (untuk elemen yang muncul belakangan)
+    hideMurattalBanner();
+    const observer = new MutationObserver(hideMurattalBanner);
+    observer.observe(document.body, { childList: true, subtree: true });
+    setInterval(hideMurattalBanner, 2000); // Backup polling
+
+
+    /* ============================================================
+    ✅ 3. IZIN NOTIFIKASI HANYA 1x & WAKE LOCK
+    ============================================================ */
+    // Notifikasi 1x saja
+    if ('Notification' in window && Notification.permission === 'default' && !sessionStorage.getItem('notif_1x')) {
+        Notification.requestPermission().then(permission => {
+            sessionStorage.setItem('notif_1x', 'true');
+            console.log('✅ Izin notifikasi disimpan (tidak akan minta lagi)');
+        });
+    }
+
+    // Wake Lock (Jaga layar tetap hidup)
+    let wakeLock = null;
+    async function requestWakeLock() {
+        try {
+            if ('wakeLock' in navigator) {
+                wakeLock = await navigator.wakeLock.request('screen');
+                console.log('🔒 Wake Lock aktif');
+                wakeLock.addEventListener('release', () => { wakeLock = null; });
+            }
+        } catch (err) {
+            console.log('⚠️ Wake Lock tidak didukung/ditolak');
+        }
+    }
+
+    // Aktifkan saat halaman dibuka
+    requestWakeLock();
+    
+    // Aktifkan kembali jika tab kembali aktif
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible' && wakeLock === null) {
+            requestWakeLock();
+        }
+    });
+
+    console.log('✅ PATCH FINAL: Semua fitur aktif dan terintegrasi.');
+})();
+</script>
 </body>
 </html>
-patch akurat untuk memperbaiki Audio Quran Seikh Ahmad Al-Ajamy yang bermasalah mengalami scroll otomtis cepat tanpa jedah dan
