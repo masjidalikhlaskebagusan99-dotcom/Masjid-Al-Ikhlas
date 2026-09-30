@@ -7,7 +7,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Ganti dengan API Key DashScope Anda, atau gunakan environment variable (lebih aman)
-const DASHSCOPE_API_KEY = process.env.DASHSCOPE_API_KEY || 'GANTI_DENGAN_API_KEY_ANDA';
+const DASHSCOPE_API_KEY = process.env.DASHSCOPE_API_KEY || 'AQ.Ab8RN6I1vRFIOqwyA79ACfHFj9WNFtmBqX1rUPAeOASxDNkcfw';
 const DASHSCOPE_API_URL = 'https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation';
 
 app.use(cors()); // Mengizinkan frontend dari GitHub Pages mengakses backend ini
