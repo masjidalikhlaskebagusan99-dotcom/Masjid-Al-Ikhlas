@@ -20347,5 +20347,362 @@ Khusus untuk bio, deskripsi, dan konten naratif panjang
   }
 }
 </style>
+<!-- ============================================
+✅ PATCH FINAL v2: JUSTIFY SEMUA TEKS KONTEN
+- Teks Arab: justify + RTL (rata kanan-kiri Arab)
+- Teks Indonesia/Arti/Latin: justify + LTR (rata kanan-kiri)
+- Kecuali halaman Masjid
+============================================ -->
+<style>
+/* ============================================================
+✅ 1. PAKSA JUSTIFY SEMUA PARAGRAF & TEKS DALAM KONTEN
+============================================================ */
+.page-content p,
+.page-content .sub-subtitle,
+.page-content .sub-info,
+.page-content .sub-card p,
+.page-content .ulama-bio,
+.page-content .ulama-bio p,
+.page-content .ulama-card .karya-list ul li,
+.page-content .kitab-card .kitab-desc,
+.page-content .kitab-card .kitab-author,
+.page-content .doa-card .doa-translation,
+.page-content .doa-card .doa-latin,
+.page-content .doa-card .doa-source,
+.page-content .doa-item-card .doa-arti,
+.page-content .doa-item-card .doa-latin-text,
+.page-content .doa-item-card .doa-ref,
+.page-content .doa-bagian-item .bagian-latin,
+.page-content .doa-bagian-item .bagian-arti,
+.page-content .doa-rangkaian-penutup .penutup-latin,
+.page-content .doa-rangkaian-penutup .penutup-arti,
+.page-content .sholat-item-card .sholat-desc,
+.page-content .sholat-item-card .sholat-desc ul li,
+.page-content .sholat-item-card .sholat-ref,
+.page-content .sholawat-item-card .sholawat-desc,
+.page-content .sholawat-item-card .sholawat-latin-text,
+.page-content .sholawat-item-card .syiir-translation,
+.page-content .sholawat-item-card .syiir-latin-verse,
+.page-content .sholawat-item-card .sholawat-ref,
+.page-content .napak-tilas-event,
+.page-content .napak-tilas-item,
+.page-content .sub-quote .quote-text,
+.page-content .sub-quote .quote-source,
+.page-content .keturunan-card .ket-nama,
+.page-content .keturunan-card .ket-hubungan,
+.page-content .keturunan-card .ket-tahun,
+.page-content .keturunan-section h4,
+.page-content .split-welcome p,
+.page-content .biografi-welcome p,
+.page-content .doa-welcome p,
+.page-content .sholat-welcome p,
+.page-content .qr-arti-text,
+.page-content .qr-meta-line,
+.page-content .qr-legend-item,
+.page-content .sub-timeline .timeline-item .event,
+.page-content .sub-card .meta,
+.page-content .ulama-card .ulama-info .info-item,
+.page-content .keturunan-empty,
+.page-content .doa-rangkaian-card .rangkaian-ref,
+.page-content .split-detail p,
+.page-content .split-detail .doa-translation,
+.page-content .split-detail .doa-arti,
+.page-content .split-detail .bagian-arti,
+.page-content .split-detail .penutup-arti,
+.page-content .split-detail .sholawat-desc,
+.page-content .split-detail .syiir-translation,
+.page-content .split-detail .sholat-desc,
+.page-content .split-detail .napak-tilas-event,
+.page-content .split-detail .ulama-bio,
+.page-content .split-detail .kitab-desc,
+.page-content .split-detail .qr-arti-text,
+.page-content .split-detail .sub-quote .quote-text,
+.page-content .biografi-detail p,
+.page-content .doa-detail p,
+.page-content .sholat-detail p,
+.page-content .sholawat-detail p,
+.page-content ul li,
+.page-content ol li {
+  text-align: justify !important;
+  text-align-last: left !important;
+  direction: ltr !important;
+  unicode-bidi: embed !important;
+  line-height: 1.85 !important;
+  word-spacing: 0.08em !important;
+  letter-spacing: 0.01em !important;
+  -webkit-hyphens: auto !important;
+  -moz-hyphens: auto !important;
+  -ms-hyphens: auto !important;
+  hyphens: auto !important;
+  text-justify: inter-word !important;
+}
+
+/* ============================================================
+✅ 2. TEKS ARAB → JUSTIFY + RTL
+============================================================ */
+.page-content .sub-arabic,
+.page-content .kaligrafi-arab,
+.page-content .doa-arabic,
+.page-content .sholawat-arab,
+.page-content .sholat-arab,
+.page-content .bagian-arab,
+.page-content .penutup-arab,
+.page-content .qr-arab-text,
+.page-content .qr-arab-big,
+.page-content .ulama-card .ulama-info .arabic-name,
+.page-content .kitab-card .kitab-arabic,
+.page-content .sholawat-item-card .syiir-verse,
+.page-content .doa-bagian-item .bagian-arab,
+.page-content .doa-rangkaian-penutup .penutup-arab,
+.page-content .doa-item-card .doa-arab,
+.page-content .doa-card .doa-arabic,
+.page-content .sholat-item-card .sholat-arab,
+.page-content .syiir-verse,
+.page-content .pohon-name,
+.page-content .pohon-gen,
+.page-content .silsilah-breadcrumb .bc-item,
+.page-content .silsilah-breadcrumb .bc-current,
+.page-content .split-detail .doa-arabic,
+.page-content .split-detail .sholawat-arab,
+.page-content .split-detail .sholat-arab,
+.page-content .split-detail .bagian-arab,
+.page-content .split-detail .penutup-arab,
+.page-content .split-detail .qr-arab-text,
+.page-content .split-detail .arabic-name,
+.page-content .split-detail .kitab-arabic,
+.page-content .split-detail .syiir-verse,
+.page-content .split-detail .doa-arab,
+.page-content .split-detail .ulama-info .arabic-name {
+  text-align: justify !important;
+  text-align-last: right !important;
+  direction: rtl !important;
+  unicode-bidi: embed !important;
+  line-height: 2.3 !important;
+  word-spacing: normal !important;
+  letter-spacing: normal !important;
+  -webkit-hyphens: none !important;
+  -moz-hyphens: none !important;
+  -ms-hyphens: none !important;
+  hyphens: none !important;
+}
+
+/* ============================================================
+✅ 3. JUDUL & HEADING → TETAP RATA KIRI
+============================================================ */
+.page-content h1,
+.page-content h2,
+.page-content h3,
+.page-content h4,
+.page-content .sub-hero h2,
+.page-content .sub-section-title,
+.page-content .doa-item-card h4,
+.page-content .sholat-item-card h4,
+.page-content .sholawat-item-card h4,
+.page-content .doa-rangkaian-card .rangkaian-header h4,
+.page-content .doa-bagian-item .bagian-label,
+.page-content .doa-rangkaian-penutup .penutup-label,
+.page-content .split-welcome h3,
+.page-content .biografi-welcome h3,
+.page-content .doa-welcome h3,
+.page-content .sholat-welcome h3,
+.page-content .napak-tilas h4,
+.page-content .breadcrumb-dash,
+.page-content .breadcrumb-dash a,
+.page-content .breadcrumb-dash strong {
+  text-align: left !important;
+  text-align-last: left !important;
+  direction: ltr !important;
+}
+
+/* ============================================================
+✅ 4. BADGE, TAG, BUTTON, INPUT → TETAP CENTER/KIRI
+============================================================ */
+.page-content .tag,
+.page-content .hero-badge,
+.page-content .kitab-tag,
+.page-content .sholawat-badge,
+.page-content .rangkaian-badge,
+.page-content .bagian-num,
+.page-content .qr-ayah-num,
+.page-content .split-btn,
+.page-content .ulama-button,
+.page-content .doa-button,
+.page-content .sholat-button,
+.page-content .sub-search,
+.page-content input,
+.page-content select {
+  text-align: left !important;
+}
+
+/* ============================================================
+✅ 5. HALAMAN MASJID → TIDAK TERPENGARUH (RESET)
+============================================================ */
+.masjid-page p,
+.masjid-page .card p,
+.masjid-page .info-box,
+.masjid-page .subtitle,
+.masjid-page table td,
+.masjid-page table th,
+.masjid-page footer p,
+.masjid-page .m-hero p,
+.masjid-page header.m-header .tagline {
+  text-align: left !important;
+  text-align-last: left !important;
+  direction: ltr !important;
+  line-height: 1.65 !important;
+  word-spacing: normal !important;
+  -webkit-hyphens: normal !important;
+  hyphens: normal !important;
+}
+
+.masjid-page .ringkasan .card,
+.masjid-page .ringkasan .card h3,
+.masjid-page .ringkasan .card .value {
+  text-align: center !important;
+}
+
+.masjid-page .kaligrafi-arab {
+  text-align: center !important;
+  direction: rtl !important;
+}
+
+/* ============================================================
+✅ 6. MOBILE RESPONSIVE — TETAP JUSTIFY
+============================================================ */
+@media (max-width: 900px) {
+  .page-content p,
+  .page-content .sub-subtitle,
+  .page-content .sub-info,
+  .page-content .sub-card p,
+  .page-content .ulama-bio,
+  .page-content .ulama-bio p,
+  .page-content .kitab-card .kitab-desc,
+  .page-content .doa-card .doa-translation,
+  .page-content .doa-card .doa-latin,
+  .page-content .doa-item-card .doa-arti,
+  .page-content .doa-item-card .doa-latin-text,
+  .page-content .doa-bagian-item .bagian-latin,
+  .page-content .doa-bagian-item .bagian-arti,
+  .page-content .doa-rangkaian-penutup .penutup-latin,
+  .page-content .doa-rangkaian-penutup .penutup-arti,
+  .page-content .sholat-item-card .sholat-desc,
+  .page-content .sholawat-item-card .sholawat-desc,
+  .page-content .sholawat-item-card .syiir-translation,
+  .page-content .sholawat-item-card .syiir-latin-verse,
+  .page-content .napak-tilas-event,
+  .page-content .sub-quote .quote-text,
+  .page-content .split-welcome p,
+  .page-content .qr-arti-text,
+  .page-content .split-detail p,
+  .page-content .split-detail .doa-translation,
+  .page-content .split-detail .doa-arti,
+  .page-content .split-detail .sholawat-desc,
+  .page-content .split-detail .syiir-translation,
+  .page-content .biografi-detail p,
+  .page-content .doa-detail p,
+  .page-content .sholat-detail p,
+  .page-content ul li,
+  .page-content ol li {
+    text-align: justify !important;
+    text-align-last: left !important;
+    direction: ltr !important;
+    line-height: 1.75 !important;
+    word-spacing: 0.06em !important;
+    -webkit-hyphens: auto !important;
+    hyphens: auto !important;
+    text-justify: inter-word !important;
+  }
+
+  .page-content .sub-arabic,
+  .page-content .doa-arabic,
+  .page-content .sholawat-arab,
+  .page-content .sholat-arab,
+  .page-content .bagian-arab,
+  .page-content .penutup-arab,
+  .page-content .qr-arab-text,
+  .page-content .ulama-card .ulama-info .arabic-name,
+  .page-content .kitab-card .kitab-arabic,
+  .page-content .sholawat-item-card .syiir-verse,
+  .page-content .doa-bagian-item .bagian-arab,
+  .page-content .doa-rangkaian-penutup .penutup-arab,
+  .page-content .doa-item-card .doa-arab,
+  .page-content .doa-card .doa-arabic,
+  .page-content .sholat-item-card .sholat-arab,
+  .page-content .syiir-verse,
+  .page-content .split-detail .doa-arabic,
+  .page-content .split-detail .sholawat-arab,
+  .page-content .split-detail .sholat-arab,
+  .page-content .split-detail .bagian-arab,
+  .page-content .split-detail .penutup-arab,
+  .page-content .split-detail .qr-arab-text,
+  .page-content .split-detail .syiir-verse,
+  .page-content .split-detail .doa-arab {
+    text-align: justify !important;
+    text-align-last: right !important;
+    direction: rtl !important;
+    line-height: 2.2 !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .page-content p,
+  .page-content .sub-subtitle,
+  .page-content .sub-card p,
+  .page-content .ulama-bio p,
+  .page-content .kitab-card .kitab-desc,
+  .page-content .doa-card .doa-translation,
+  .page-content .doa-item-card .doa-arti,
+  .page-content .sholat-item-card .sholat-desc,
+  .page-content .sholawat-item-card .sholawat-desc,
+  .page-content .sholawat-item-card .syiir-translation,
+  .page-content .napak-tilas-event,
+  .page-content .sub-quote .quote-text,
+  .page-content .split-welcome p,
+  .page-content .qr-arti-text,
+  .page-content .split-detail p,
+  .page-content .split-detail .doa-translation,
+  .page-content .split-detail .doa-arti,
+  .page-content .biografi-detail p,
+  .page-content .doa-detail p,
+  .page-content .sholat-detail p,
+  .page-content ul li,
+  .page-content ol li {
+    text-align: justify !important;
+    text-align-last: left !important;
+    line-height: 1.7 !important;
+    word-spacing: 0.05em !important;
+  }
+
+  .page-content .sub-arabic,
+  .page-content .doa-arabic,
+  .page-content .sholawat-arab,
+  .page-content .sholat-arab,
+  .page-content .bagian-arab,
+  .page-content .penutup-arab,
+  .page-content .qr-arab-text,
+  .page-content .ulama-card .ulama-info .arabic-name,
+  .page-content .kitab-card .kitab-arabic,
+  .page-content .sholawat-item-card .syiir-verse,
+  .page-content .doa-bagian-item .bagian-arab,
+  .page-content .doa-rangkaian-penutup .penutup-arab,
+  .page-content .doa-item-card .doa-arab,
+  .page-content .doa-card .doa-arabic,
+  .page-content .sholat-item-card .sholat-arab,
+  .page-content .syiir-verse,
+  .page-content .split-detail .doa-arabic,
+  .page-content .split-detail .sholawat-arab,
+  .page-content .split-detail .sholat-arab,
+  .page-content .split-detail .bagian-arab,
+  .page-content .split-detail .penutup-arab,
+  .page-content .split-detail .qr-arab-text,
+  .page-content .split-detail .syiir-verse,
+  .page-content .split-detail .doa-arab {
+    text-align: justify !important;
+    text-align-last: right !important;
+    direction: rtl !important;
+    line-height: 2.1 !important;
+  }
+}
+</style>
 </body>
 </html>
