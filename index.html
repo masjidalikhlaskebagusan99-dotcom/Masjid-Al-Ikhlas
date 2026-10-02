@@ -21334,5 +21334,596 @@ console.log('💡 Hover TIDAK bisa membuka kembali');
 console.log('💡 Reset hanya saat: mouse keluar / scroll / klik luar / ESC');
 })();
 </script>
+<!-- ============================================
+✅ PATCH v37: REPOSISI LOGO ALARM & WAKE LOCK
+- Logo alarm (4.png) & wake lock status dipindah
+  ke dalam .nav-buttons (sejajar dengan tombol
+  Masjid Jami' Al-Ikhlas & Artikel)
+- Logo alarm diperkecil (32px desktop, 26px mobile)
+- Koliner di laptop & HP
+- Non-destruktif (tidak merusak fungsi lain)
+============================================ -->
+<style>
+/* ====== CONTAINER ALARM DI NAV-BUTTONS ====== */
+.nav-alarm-indicator{
+display:flex;
+align-items:center;
+gap:6px;
+padding:6px 12px;
+background:linear-gradient(135deg,rgba(201,168,76,0.12),rgba(45,27,78,0.4));
+border:1px solid rgba(201,168,76,0.35);
+border-radius:25px;
+margin-left:4px;
+transition:all 0.3s ease;
+cursor:help;
+position:relative;
+white-space:nowrap;
+}
+
+.nav-alarm-indicator:hover{
+background:linear-gradient(135deg,rgba(201,168,76,0.22),rgba(45,27,78,0.5));
+border-color:#c9a84c;
+transform:translateY(-1px);
+box-shadow:0 4px 12px rgba(201,168,76,0.25);
+}
+
+/* ====== LOGO ALARM KECIL ====== */
+.nav-alarm-logo{
+width:32px;
+height:32px;
+border-radius:50%;
+object-fit:cover;
+border:1.5px solid rgba(201,168,76,0.5);
+box-shadow:0 2px 8px rgba(0,0,0,0.3);
+flex-shrink:0;
+transition:all 0.3s ease;
+}
+
+.nav-alarm-indicator:hover .nav-alarm-logo{
+transform:scale(1.08);
+border-color:#e8d48b;
+box-shadow:0 3px 12px rgba(201,168,76,0.4);
+}
+
+/* Animasi pulse saat alarm aktif */
+.nav-alarm-logo.alarm-active{
+animation:navAlarmPulse 1.5s ease-in-out infinite;
+border-color:#2ecc71;
+box-shadow:0 0 0 0 rgba(46,204,113,0.5);
+}
+
+@keyframes navAlarmPulse{
+0%,100%{
+box-shadow:0 0 0 0 rgba(46,204,113,0.5);
+transform:scale(1);
+}
+50%{
+box-shadow:0 0 0 8px rgba(46,204,113,0);
+transform:scale(1.05);
+}
+}
+
+/* ====== WAKE LOCK STATUS TEKS ====== */
+.nav-wake-lock-text{
+font-size:0.72rem;
+font-weight:600;
+color:#e8d48b;
+letter-spacing:0.3px;
+display:flex;
+align-items:center;
+gap:4px;
+line-height:1;
+}
+
+.nav-wake-lock-text .wl-icon{
+font-size:0.85rem;
+}
+
+.nav-wake-lock-text .wl-status{
+color:#7bed9f;
+}
+
+.nav-wake-lock-text .wl-status.inactive{
+color:#888;
+}
+
+/* ====== TOOLTIP HOVER ====== */
+.nav-alarm-indicator::after{
+content:'🔔 Alarm Murattal Aktif · Layar Tetap Hidup';
+position:absolute;
+top:calc(100% + 8px);
+right:0;
+background:rgba(26,10,46,0.95);
+color:#e8d48b;
+padding:8px 14px;
+border-radius:10px;
+font-size:0.72rem;
+font-weight:500;
+white-space:nowrap;
+opacity:0;
+visibility:hidden;
+transform:translateY(-5px);
+transition:all 0.25s ease;
+border:1px solid rgba(201,168,76,0.3);
+box-shadow:0 6px 20px rgba(0,0,0,0.4);
+pointer-events:none;
+z-index:100002;
+}
+
+.nav-alarm-indicator:hover::after{
+opacity:1;
+visibility:visible;
+transform:translateY(0);
+}
+
+/* ====== RESPONSIVE: TABLET ====== */
+@media (max-width:1100px){
+.nav-alarm-indicator{
+padding:5px 10px;
+gap:5px;
+}
+.nav-alarm-logo{
+width:28px;
+height:28px;
+}
+.nav-wake-lock-text{
+font-size:0.68rem;
+}
+}
+
+/* ====== RESPONSIVE: MOBILE (< 900px) ====== */
+@media (max-width:900px){
+.nav-alarm-indicator{
+padding:5px 9px;
+gap:4px;
+margin-left:2px;
+}
+.nav-alarm-logo{
+width:26px;
+height:26px;
+border-width:1px;
+}
+.nav-wake-lock-text{
+font-size:0.62rem;
+}
+.nav-wake-lock-text .wl-icon{
+font-size:0.75rem;
+}
+/* Sembunyikan teks di mobile kecil, hanya logo */
+.nav-alarm-indicator::after{
+content:'🔔 Alarm Aktif';
+font-size:0.68rem;
+}
+}
+
+/* ====== RESPONSIVE: MOBILE KECIL (< 480px) ====== */
+@media (max-width:480px){
+.nav-alarm-indicator{
+padding:4px 7px;
+gap:3px;
+margin-left:0;
+}
+.nav-alarm-logo{
+width:24px;
+height:24px;
+}
+.nav-wake-lock-text{
+display:none; /* Sembunyikan teks di layar sangat kecil */
+}
+.nav-alarm-indicator::after{
+content:'🔔 Alarm';
+font-size:0.65rem;
+padding:6px 10px;
+}
+}
+
+/* ====== RESPONSIVE: MOBILE SANGAT KECIL (< 380px) ====== */
+@media (max-width:380px){
+.nav-alarm-logo{
+width:22px;
+height:22px;
+}
+.nav-alarm-indicator{
+padding:3px 6px;
+}
+}
+
+/* ====== SEMBUNYIKAN ELEMEN LAMA ====== */
+/* Logo alarm lama (yang di pojok kanan atas) */
+#alarmLogo,
+.alarm-notification-logo{
+display:none !important;
+visibility:hidden !important;
+opacity:0 !important;
+pointer-events:none !important;
+}
+
+/* Wake lock status lama (yang di pojok kanan bawah) */
+#wakeLockStatus,
+.wake-lock-status{
+display:none !important;
+visibility:hidden !important;
+opacity:0 !important;
+pointer-events:none !important;
+}
+</style>
+
+<script>
+(function(){
+'use strict';
+console.log('🟢 PATCH v37 REPOSISI LOGO ALARM & WAKE LOCK: dimuat...');
+
+/* ============================================================
+✅ 1. BUAT ELEMEN HTML BARU
+============================================================ */
+function createNavAlarmIndicator(){
+// Cek apakah sudah ada
+if(document.getElementById('navAlarmIndicator')) return;
+
+var indicator = document.createElement('div');
+indicator.id = 'navAlarmIndicator';
+indicator.className = 'nav-alarm-indicator';
+indicator.title = 'Alarm Murattal & Wake Lock Status';
+
+// Logo alarm kecil
+var logo = document.createElement('img');
+logo.src = '4.png';
+logo.alt = 'Alarm';
+logo.className = 'nav-alarm-logo';
+logo.id = 'navAlarmLogo';
+logo.onerror = function(){
+// Fallback jika gambar tidak ada
+this.style.display = 'none';
+var fallback = document.createElement('span');
+fallback.textContent = '🔔';
+fallback.style.fontSize = '1.2rem';
+this.parentNode.insertBefore(fallback, this.nextSibling);
+};
+
+// Wake lock text
+var wlText = document.createElement('div');
+wlText.className = 'nav-wake-lock-text';
+wlText.innerHTML =
+'<span class="wl-icon">🔒</span>' +
+'<span class="wl-status" id="navWlStatus">Layar aktif</span>';
+
+indicator.appendChild(logo);
+indicator.appendChild(wlText);
+
+return indicator;
+}
+
+/* ============================================================
+✅ 2. SISIPKAN KE NAV-BUTTONS
+============================================================ */
+function insertToNavButtons(){
+var navButtons = document.querySelector('.nav-buttons');
+if(!navButtons){
+console.warn('⚠️ .nav-buttons tidak ditemukan');
+return false;
+}
+
+var indicator = createNavAlarmIndicator();
+if(!indicator) return false;
+
+// Sisipkan sebagai child terakhir dari nav-buttons
+// (setelah tombol Artikel)
+navButtons.appendChild(indicator);
+
+console.log('✅ Logo alarm & wake lock disisipkan ke nav-buttons');
+return true;
+}
+
+/* ============================================================
+✅ 3. UPDATE STATUS WAKE LOCK
+============================================================ */
+function updateWakeLockStatus(active){
+var statusEl = document.getElementById('navWlStatus');
+if(!statusEl) return;
+
+if(active){
+statusEl.textContent = 'Layar aktif';
+statusEl.classList.remove('inactive');
+statusEl.classList.add('active');
+}else{
+statusEl.textContent = 'Layar normal';
+statusEl.classList.add('inactive');
+statusEl.classList.remove('active');
+}
+}
+
+/* ============================================================
+✅ 4. UPDATE STATUS ALARM (AKTIF/TIDAK)
+============================================================ */
+function updateAlarmStatus(ringing){
+var logo = document.getElementById('navAlarmLogo');
+if(!logo) return;
+
+if(ringing){
+logo.classList.add('alarm-active');
+}else{
+logo.classList.remove('alarm-active');
+}
+}
+
+/* ============================================================
+✅ 5. OVERRIDE showAlarmLogo & hideAlarmLogo
+============================================================ */
+var _origShowAlarmLogo = window.showAlarmLogo;
+window.showAlarmLogo = function(duration){
+// Panggil fungsi asli (jika ada)
+if(typeof _origShowAlarmLogo === 'function'){
+try{ _origShowAlarmLogo(duration); }catch(e){}
+}
+// Update logo di navbar
+updateAlarmStatus(true);
+};
+
+var _origHideAlarmLogo = window.hideAlarmLogo;
+window.hideAlarmLogo = function(){
+if(typeof _origHideAlarmLogo === 'function'){
+try{ _origHideAlarmLogo(); }catch(e){}
+}
+updateAlarmStatus(false);
+};
+
+/* ============================================================
+✅ 6. OVERRIDE requestWakeLock & releaseWakeLock
+============================================================ */
+var _origRequestWakeLock = window.requestWakeLock;
+window.requestWakeLock = async function(){
+var result = false;
+if(typeof _origRequestWakeLock === 'function'){
+try{ result = await _origRequestWakeLock(); }catch(e){}
+}
+updateWakeLockStatus(true);
+return result;
+};
+
+var _origReleaseWakeLock = window.releaseWakeLock;
+window.releaseWakeLock = function(){
+if(typeof _origReleaseWakeLock === 'function'){
+try{ _origReleaseWakeLock(); }catch(e){}
+}
+updateWakeLockStatus(false);
+};
+
+/* ============================================================
+✅ 7. MONITOR ALARM STATE (POLLING RINGAN)
+============================================================ */
+function monitorAlarmState(){
+// Cek apakah ada alarm yang sedang ringing
+var ringingItem = document.querySelector('.alarm-item.ringing');
+var isRinging = !!ringingItem;
+updateAlarmStatus(isRinging);
+
+// Cek wake lock status
+var wlActive = (typeof window.wakeLock !== 'undefined' && window.wakeLock !== null);
+updateWakeLockStatus(wlActive);
+}
+
+/* ============================================================
+✅ 8. INIT
+============================================================ */
+function init(){
+var inserted = insertToNavButtons();
+
+if(inserted){
+// Initial status
+updateWakeLockStatus(false);
+updateAlarmStatus(false);
+
+// Monitor setiap 2 detik
+setInterval(monitorAlarmState, 2000);
+
+// Monitor saat dashboard alarm dibuka/ditutup
+var alarmModal = document.getElementById('alarmModalOverlay');
+if(alarmModal){
+var observer = new MutationObserver(function(){
+setTimeout(monitorAlarmState, 300);
+});
+observer.observe(alarmModal, {
+attributes:true,
+attributeFilter:['class']
+});
+}
+
+console.log('✅ PATCH v37: Logo alarm & wake lock aktif di nav-buttons');
+console.log('💡 Posisi: sejajar dengan tombol Masjid & Artikel');
+console.log('💡 Ukuran: 32px (desktop), 26px (tablet), 24px (mobile)');
+}else{
+console.warn('⚠️ Gagal menyisipkan logo alarm, retry dalam 1 detik...');
+setTimeout(init, 1000);
+}
+}
+
+// Jalankan saat DOM siap
+if(document.readyState === 'loading'){
+document.addEventListener('DOMContentLoaded', init);
+}else{
+init();
+}
+
+// Retry untuk memastikan (karena nav-buttons mungkin di-render belakangan)
+setTimeout(init, 500);
+setTimeout(init, 1500);
+
+// Re-init saat halaman berubah
+var _origShowPage = window.showPage;
+window.showPage = function(pageId){
+if(_origShowPage) _origShowPage(pageId);
+// Pastikan logo alarm tetap ada
+setTimeout(function(){
+if(!document.getElementById('navAlarmIndicator')){
+init();
+}
+}, 300);
+};
+
+})();
+</script>
+<!-- ============================================
+✅ PATCH v38: HAPUS LOGO ALARM FLOATING (FAB)
+- Hanya menyembunyikan tombol alarm mengambang
+  di pojok kanan bawah (area chat AI)
+- Logo alarm di navbar (nav-alarm-indicator)
+  TETAP AKTIF dan tidak terpengaruh
+- Fungsi alarm (dashboard, notifikasi, wake lock)
+  TETAP BERJALAN NORMAL
+- Non-destruktif
+============================================ -->
+<style>
+/* ====== SEMBUNYIKAN FLOATING ALARM BUTTON (FAB) ====== */
+#alarmFab,
+.alarm-fab,
+.alarm-fab-btn,
+.alarm-fab-count,
+.alarm-fab.has-active .alarm-fab-btn,
+.alarm-fab-btn:hover,
+.alarm-fab-btn:active {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    position: absolute !important;
+    z-index: -1 !important;
+    overflow: hidden !important;
+}
+
+/* Pastikan tidak ada sisa space */
+#alarmFab::before,
+#alarmFab::after,
+.alarm-fab::before,
+.alarm-fab::after {
+    display: none !important;
+    content: none !important;
+}
+</style>
+
+<script>
+(function(){
+'use strict';
+console.log('🟢 PATCH v38 HAPUS LOGO ALARM FLOATING (FAB): dimuat...');
+
+/* ============================================================
+✅ 1. HAPUS ELEMEN FAB DARI DOM
+============================================================ */
+function removeAlarmFab(){
+    var fab = document.getElementById('alarmFab');
+    if(fab){
+        // Sembunyikan dengan multiple cara
+        fab.style.display = 'none';
+        fab.style.visibility = 'hidden';
+        fab.style.opacity = '0';
+        fab.style.pointerEvents = 'none';
+        fab.style.width = '0';
+        fab.style.height = '0';
+        fab.style.position = 'absolute';
+        fab.style.zIndex = '-1';
+        fab.style.overflow = 'hidden';
+        
+        // Hapus dari DOM setelah 100ms (aman)
+        setTimeout(function(){
+            if(fab.parentNode){
+                fab.parentNode.removeChild(fab);
+            }
+        }, 100);
+        
+        console.log('✅ Floating alarm button (FAB) dihapus dari DOM');
+        return true;
+    }
+    return false;
+}
+
+/* ============================================================
+✅ 2. CEGAH FAB DIBUAT ULANG OLEH SCRIPT LAIN
+============================================================ */
+var _origCreateElement = document.createElement;
+// Tidak perlu override createElement, cukup monitor DOM
+
+/* ============================================================
+✅ 3. MONITOR DOM (MutationObserver)
+- Jika FAB muncul lagi, langsung hapus
+============================================================ */
+function setupMutationObserver(){
+    var observer = new MutationObserver(function(mutations){
+        for(var i = 0; i < mutations.length; i++){
+            var mutation = mutations[i];
+            if(mutation.type === 'childList'){
+                for(var j = 0; j < mutation.addedNodes.length; j++){
+                    var node = mutation.addedNodes[j];
+                    if(node.nodeType === 1){ // Element node
+                        // Cek apakah node ini adalah FAB
+                        if(node.id === 'alarmFab' || 
+                           (node.classList && node.classList.contains('alarm-fab'))){
+                            console.log('⚠️ FAB terdeteksi dibuat ulang, dihapus...');
+                            node.style.display = 'none';
+                            setTimeout(function(){
+                                if(node.parentNode) node.parentNode.removeChild(node);
+                            }, 50);
+                        }
+                        // Cek juga child nodes
+                        var fabChild = node.querySelector ? 
+                            node.querySelector('#alarmFab, .alarm-fab') : null;
+                        if(fabChild){
+                            fabChild.style.display = 'none';
+                            setTimeout(function(){
+                                if(fabChild.parentNode) 
+                                    fabChild.parentNode.removeChild(fabChild);
+                            }, 50);
+                        }
+                    }
+                }
+            }
+        }
+    });
+    
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+    
+    console.log('✅ MutationObserver aktif: mencegah FAB muncul kembali');
+}
+
+/* ============================================================
+✅ 4. PASTIKAN LOGO ALARM DI NAVBAR TETAP AKTIF
+============================================================ */
+function verifyNavAlarm(){
+    var navAlarm = document.getElementById('navAlarmIndicator');
+    if(navAlarm){
+        console.log('✅ Logo alarm di navbar (nav-alarm-indicator) tetap aktif');
+    } else {
+        console.warn('⚠️ Logo alarm di navbar tidak ditemukan');
+    }
+}
+
+/* ============================================================
+✅ 5. INIT
+============================================================ */
+function init(){
+    removeAlarmFab();
+    setupMutationObserver();
+    verifyNavAlarm();
+    console.log('✅ PATCH v38: Floating alarm button (FAB) berhasil dihapus');
+    console.log('💡 Logo alarm di navbar tetap berfungsi normal');
+    console.log(' Dashboard alarm masih bisa diakses via tombol di navbar');
+}
+
+if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
+} else {
+    init();
+}
+
+// Retry untuk memastikan
+setTimeout(init, 500);
+setTimeout(init, 1500);
+setTimeout(init, 3000);
+
+})();
+</script>
 </body>
 </html>
