@@ -5,323 +5,312 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kumpulan Artikel Rutub Alqilab</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-        }
-        
-        .header {
-            background-color: #2c3e50;
-            color: #fff;
-            padding: 15px 0;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        
-        .header h1 {
-            font-size: 22px;
-            margin: 0;
-        }
-        
-        .container {
-            max-width: 1200px;
+            color: #FFD700;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 20px;
-            display: flex;
-            gap: 20px;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 50%, #0a0a0a 100%);
+            min-height: 100vh;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
         }
         
-        .main-content {
-            flex: 2;
-            background: #fff;
-            padding: 20px;
+        /* Styling untuk Tombol Kembali */
+        .tombol-kembali {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #00ff88 0%, #8b00ff 100%);
+            color: #FFD700;
+            text-decoration: none;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-weight: bold;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.4), 0 0 40px rgba(139, 0, 255, 0.2);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
         }
-        
-        .sidebar {
-            flex: 1;
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            height: fit-content;
+        .tombol-kembali:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.6), 0 0 60px rgba(139, 0, 255, 0.4);
+            background: linear-gradient(135deg, #00ff9f 0%, #9d00ff 100%);
         }
-        
-        h2, h3 {
-            color: #333;
+
+        h1 {
+            background: linear-gradient(135deg, #00ff88 0%, #8b00ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-bottom: 3px solid;
+            border-image: linear-gradient(135deg, #00ff88 0%, #8b00ff 100%) 1;
+            padding-bottom: 10px;
+            margin-top: 0;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        }
+
+        .artikel-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .artikel-item {
+            background: rgba(26, 26, 46, 0.6);
             margin-bottom: 15px;
-            border-bottom: 2px solid #2c3e50;
-            padding-bottom: 8px;
-        }
-        
-        .article-item {
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 255, 136, 0.1), 0 0 20px rgba(139, 0, 255, 0.05);
             display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 15px;
+            align-items: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(139, 0, 255, 0.2);
+            backdrop-filter: blur(10px);
         }
         
-        .article-item img {
+        .artikel-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0, 255, 136, 0.3), 0 0 30px rgba(139, 0, 255, 0.2);
+            border-color: rgba(0, 255, 136, 0.5);
+        }
+
+        .artikel-item img {
             width: 120px;
             height: 90px;
             object-fit: cover;
+            margin-right: 20px;
+            border-radius: 5px;
+            border: 2px solid rgba(139, 0, 255, 0.3);
+        }
+
+        .artikel-item .konten {
+            flex: 1;
+        }
+
+        .artikel-item a {
+            text-decoration: none;
+            color: #FFD700;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+        }
+
+        .artikel-item a:hover {
+            background: linear-gradient(135deg, #00ff88 0%, #8b00ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+        }
+
+        .kategori {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.2) 0%, rgba(139, 0, 255, 0.2) 100%);
+            padding: 3px 10px;
             border-radius: 4px;
-            flex-shrink: 0;
+            font-size: 0.8em;
+            color: #FFA500;
+            margin-top: 8px;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            text-shadow: 0 0 8px rgba(255, 165, 0, 0.6);
         }
-        
-        .article-item a {
+
+        .section-title {
+            margin-top: 40px;
+            background: linear-gradient(135deg, #00ff88 0%, #8b00ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-left: 5px solid;
+            border-image: linear-gradient(135deg, #00ff88 0%, #8b00ff 100%) 1;
+            padding-left: 10px;
+            text-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+        }
+
+        .populer-list a {
+            display: block;
+            background: rgba(26, 26, 46, 0.6);
+            padding: 12px 15px;
+            margin-bottom: 10px;
             text-decoration: none;
-            color: #0056b3;
-            font-weight: bold;
-            font-size: 16px;
+            color: #FFD700;
+            border-radius: 5px;
+            box-shadow: 0 2px 8px rgba(0, 255, 136, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(139, 0, 255, 0.2);
+            backdrop-filter: blur(10px);
+            text-shadow: 0 0 12px rgba(255, 215, 0, 0.7);
         }
         
-        .article-item a:hover {
-            text-decoration: underline;
+        .populer-list a:hover {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.2) 0%, rgba(139, 0, 255, 0.2) 100%);
+            color: #FFA500;
+            border-color: rgba(0, 255, 136, 0.5);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
         }
-        
-        .meta {
-            font-size: 12px;
-            color: #666;
-            margin-top: 5px;
+
+        .populer-list small {
+            color: #FFA500;
+            font-size: 0.85em;
+            text-shadow: 0 0 8px rgba(255, 165, 0, 0.6);
         }
-        
-        .popular-list {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .popular-list li {
-            margin-bottom: 12px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
-        }
-        
-        .popular-list a {
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
-            font-size: 14px;
-        }
-        
-        .popular-list a:hover {
-            color: #0056b3;
-        }
-        
-        .tag-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-        
-        .tag-list a {
-            background: #e0e0e0;
-            padding: 5px 12px;
-            border-radius: 15px;
-            text-decoration: none;
-            color: #333;
-            font-size: 12px;
-            transition: background 0.3s;
-        }
-        
-        .tag-list a:hover {
-            background: #2c3e50;
-            color: #fff;
-        }
-        
-        .ad-box {
-            background: #1a1a2e;
-            color: #ffcc00;
-            padding: 20px;
-            text-align: center;
-            border-radius: 8px;
+
+        .tags-container {
             margin-top: 20px;
         }
-        
-        .ad-box h4 {
-            margin-bottom: 10px;
-            color: #fff;
+
+        .tag {
+            display: inline-block;
+            background: rgba(26, 26, 46, 0.6);
+            color: #FFD700;
+            padding: 6px 12px;
+            margin: 4px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(139, 0, 255, 0.3);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
         }
-        
-        .ad-box img {
-            max-width: 100%;
-            height: auto;
-            margin-top: 10px;
-            border-radius: 4px;
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-            }
+
+        .tag:hover {
+            background: linear-gradient(135deg, #00ff88 0%, #8b00ff 100%);
+            color: #FFA500;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+            border-color: transparent;
+            text-shadow: 0 0 12px rgba(255, 165, 0, 0.8);
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>Kumpulan Artikel Rutub Alqilab</h1>
+    <!-- TOMBOL KEMBALI KE INDEX.HTML -->
+    <a href="index.html" class="tombol-kembali">&larr; Kembali ke Beranda</a>
+
+    <h1>Kumpulan Artikel Rutub Alqilab</h1>
+
+    <ul class="artikel-list">
+        <li class="artikel-item">
+            <img src="https://via.placeholder.com/120x90/333/fff?text=Syekh+Abdul+Qadir" alt="Thumbnail">
+            <div class="konten">
+                <a href="artikel1.html">Kisah Syekh Abdul Qadir Al-Jilani, Kala Sang Wali Menghadapi Sauratuz Maut</a>
+                <div><span class="kategori">Rutub</span></div>
+            </div>
+        </li>
+        <li class="artikel-item">
+            <img src="https://via.placeholder.com/120x90/444/fff?text=Doa+Harian" alt="Thumbnail">
+            <div class="konten">
+                <a href="artikel2.html">Begini Doa Harian yang Diajarkan Syekh Abdul Qadir Al-Jilani</a>
+                <div><span class="kategori">Rutub</span></div>
+            </div>
+        </li>
+        <li class="artikel-item">
+            <img src="https://via.placeholder.com/120x90/555/fff?text=Nasihat+Wali" alt="Thumbnail">
+            <div class="konten">
+                <a href="artikel3.html">Nasihat Syekh Abdul Qadir Al-Jilani Tentang Introspeksi Diri</a>
+                <div><span class="kategori">Rutub</span></div>
+            </div>
+        </li>
+        <li class="artikel-item">
+            <img src="https://via.placeholder.com/120x90/666/fff?text=Sifat+Salik" alt="Thumbnail">
+            <div class="konten">
+                <a href="artikel4.html">10 Sifat Salik dan Perah Tujuan Rohani, Menurut Syekh Abdul Qadir</a>
+                <div><span class="kategori">Rutub</span></div>
+            </div>
+        </li>
+        <li class="artikel-item">
+            <img src="https://via.placeholder.com/120x90/777/fff?text=Wali+Mengumpat" alt="Thumbnail">
+            <div class="konten">
+                <a href="artikel5.html">Bolehkan Wali Mengumpat Seseorang? Ini Jawaban Syekh Abdul Qadir Al-Jilani</a>
+                <div><span class="kategori">Rutub</span></div>
+            </div>
+        </li>
+        <li class="artikel-item">
+            <img src="https://via.placeholder.com/120x90/888/fff?text=Posisi+Klati" alt="Thumbnail">
+            <div class="konten">
+                <a href="artikel6.html">Di Mana Posisi Klati Begitu Jawaban Syekh Abdul Qadir Al-Jilani</a>
+                <div><span class="kategori">Rutub</span></div>
+            </div>
+        </li>
+        <li class="artikel-item">
+            <img src="https://via.placeholder.com/120x90/999/fff?text=Doa+Dikabulkan" alt="Thumbnail">
+            <div class="konten">
+                <a href="artikel7.html">Kapan dan Kepada Siapa Doa Dikabulkan? Ini Jawaban Syekh Abdul Qadir Al-Jilani</a>
+                <div><span class="kategori">Rutub</span></div>
+            </div>
+        </li>
+        <li class="artikel-item">
+            <img src="https://via.placeholder.com/120x90/aaa/fff?text=Jihad+Kecil" alt="Thumbnail">
+            <div class="konten">
+                <a href="artikel8.html">Begini Syekh Abdul Qadir Memahami Rumbai dari Jihad Kecil, Menuju Jihad Besar</a>
+                <div><span class="kategori">Rutub</span></div>
+            </div>
+        </li>
+        <li class="artikel-item">
+            <img src="https://via.placeholder.com/120x90/bbb/fff?text=Memohon+Allah" alt="Thumbnail">
+            <div class="konten">
+                <a href="artikel9.html">Syekh Abdul Qadir Ingatkan Mereka yang Tak Memohon Sesuatu Kepada Allah Ta'ala</a>
+                <div><span class="kategori">Rutub</span></div>
+            </div>
+        </li>
+        <li class="artikel-item">
+            <img src="https://via.placeholder.com/120x90/ccc/333?text=Menginginkan+Kematian" alt="Thumbnail">
+            <div class="konten">
+                <a href="artikel10.html">Ketika Syekh Abdul Qadir Al-Jilani Menginginkan Kematian</a>
+                <div><span class="kategori">Rutub</span></div>
+            </div>
+        </li>
+        <li class="artikel-item">
+            <img src="https://via.placeholder.com/120x90/ddd/333?text=Harap+Kepada+Tuhan" alt="Thumbnail">
+            <div class="konten">
+                <a href="artikel11.html">Syekh Abdul Qadir Al-Jilani Menjawab Mereka yang Harap Kapada Tuhan</a>
+                <div><span class="kategori">Rutub</span></div>
+            </div>
+        </li>
+        <li class="artikel-item">
+            <img src="https://via.placeholder.com/120x90/eee/333?text=Maqam+Wali" alt="Thumbnail">
+            <div class="konten">
+                <a href="artikel12.html">Syekh Abdul Qadir Al-Jilani Tiada Maqam Setelah Wali dan Boleh Sekali Mengam Nabi</a>
+                <div><span class="kategori">Rutub</span></div>
+            </div>
+        </li>
+        <li class="artikel-item">
+            <img src="https://via.placeholder.com/120x90/fff/333?text=Kewenangan+Hidup" alt="Thumbnail">
+            <div class="konten">
+                <a href="artikel13.html">Soal Kewenangan Hidup Menurut Syekh Abdul Qadir Al-Jilani</a>
+                <div><span class="kategori">Rutub</span></div>
+            </div>
+        </li>
+    </ul>
+
+    <h2 class="section-title">Terpopuler</h2>
+    <div class="populer-list">
+        <a href="populer1.html">1. 5 Amalan Utama Muslim yang Bisa Dikerjakan Setiap Hari, Nomor 1 Sangat Mudah Dilakukan <br><small>Rutub · 2 hari lalu</small></a>
+        <a href="populer2.html">2. Doa Harian yang Diajarkan Syekh Abdul Qadir Al-Jilani, Nomor 2 Sangat Mudah Dihafal <br><small>Rutub · 3 hari lalu</small></a>
+        <a href="populer3.html">3. Nasihat Syekh Abdul Qadir Al-Jilani Tentang Introspeksi Diri, Nomor 3 Sangat Penting <br><small>Rutub · 5 hari lalu</small></a>
+        <a href="populer4.html">4. Sifat Salik dan Perah Tujuan Rohani Menurut Syekh Abdul Qadir, Nomor 4 Sangat Berharga <br><small>Rutub · 1 minggu lalu</small></a>
+        <a href="populer5.html">5. Kapan Doa Dikabulkan? Ini Jawaban Syekh Abdul Qadir Al-Jilani, Nomor 5 Sangat Menginspirasi <br><small>Rutub · 2 minggu lalu</small></a>
     </div>
 
-    <div class="container">
-        <!-- Main Content -->
-        <div class="main-content">
-            <h2>Kumpulan Artikel Rutub Alqilab</h2>
-            
-            <!-- BAGIAN "Upload Foto & Tambah Artikel" DAN "Tambah Artikel" TELAH DIHAPUS -->
-
-            <div class="article-list">
-                <div class="article-item">
-                    <img src="https://via.placeholder.com/120x90/333/fff?text=Syekh+Abdul+Qadir" alt="Syekh Abdul Qadir">
-                    <div>
-                        <a href="artikel1.html">Kisah Syekh Abdul Qadir Al-Jilani, Kala Sang Wali Menghadapi Sauratuz Maut</a>
-                        <div class="meta">Rutub</div>
-                    </div>
-                </div>
-                <div class="article-item">
-                    <img src="https://via.placeholder.com/120x90/444/fff?text=Doa+Harian" alt="Doa Harian">
-                    <div>
-                        <a href="artikel2.html">Begini Doa Harian yang Diajarkan Syekh Abdul Qadir Al-Jilani</a>
-                        <div class="meta">Rutub</div>
-                    </div>
-                </div>
-                <div class="article-item">
-                    <img src="https://via.placeholder.com/120x90/555/fff?text=Nasihat+Wali" alt="Nasihat Wali">
-                    <div>
-                        <a href="artikel3.html">Nasihat Syekh Abdul Qadir Al-Jilani Tentang Introspeksi Diri</a>
-                        <div class="meta">Rutub</div>
-                    </div>
-                </div>
-                <div class="article-item">
-                    <img src="https://via.placeholder.com/120x90/666/fff?text=Sifat+Salik" alt="Sifat Salik">
-                    <div>
-                        <a href="artikel4.html">10 Sifat Salik dan Perah Tujuan Rohani, Menurut Syekh Abdul Qadir</a>
-                        <div class="meta">Rutub</div>
-                    </div>
-                </div>
-                <div class="article-item">
-                    <img src="https://via.placeholder.com/120x90/777/fff?text=Wali+Mengumpat" alt="Wali Mengumpat">
-                    <div>
-                        <a href="artikel5.html">Bolehkan Wali Mengumpat Seseorang? Ini Jawaban Syekh Abdul Qadir Al-Jilani</a>
-                        <div class="meta">Rutub</div>
-                    </div>
-                </div>
-                <div class="article-item">
-                    <img src="https://via.placeholder.com/120x90/888/fff?text=Posisi+Klati" alt="Posisi Klati">
-                    <div>
-                        <a href="artikel6.html">Di Mana Posisi Klati Begitu Jawaban Syekh Abdul Qadir Al-Jilani</a>
-                        <div class="meta">Rutub</div>
-                    </div>
-                </div>
-                <div class="article-item">
-                    <img src="https://via.placeholder.com/120x90/999/fff?text=Doa+Dikabulkan" alt="Doa Dikabulkan">
-                    <div>
-                        <a href="artikel7.html">Kapan dan Kepada Siapa Doa Dikabulkan? Ini Jawaban Syekh Abdul Qadir Al-Jilani</a>
-                        <div class="meta">Rutub</div>
-                    </div>
-                </div>
-                <div class="article-item">
-                    <img src="https://via.placeholder.com/120x90/aaa/fff?text=Jihad+Kecil" alt="Jihad Kecil">
-                    <div>
-                        <a href="artikel8.html">Begini Syekh Abdul Qadir Memahami Rumbai dari Jihad Kecil, Menuju Jihad Besar</a>
-                        <div class="meta">Rutub</div>
-                    </div>
-                </div>
-                <div class="article-item">
-                    <img src="https://via.placeholder.com/120x90/bbb/fff?text=Memohon+Allah" alt="Memohon Allah">
-                    <div>
-                        <a href="artikel9.html">Syekh Abdul Qadir Ingatkan Mereka yang Tak Memohon Sesuatu Kepada Allah Ta'ala</a>
-                        <div class="meta">Rutub</div>
-                    </div>
-                </div>
-                <div class="article-item">
-                    <img src="https://via.placeholder.com/120x90/ccc/333?text=Menginginkan+Kematian" alt="Menginginkan Kematian">
-                    <div>
-                        <a href="artikel10.html">Ketika Syekh Abdul Qadir Al-Jilani Menginginkan Kematian</a>
-                        <div class="meta">Rutub</div>
-                    </div>
-                </div>
-                <div class="article-item">
-                    <img src="https://via.placeholder.com/120x90/ddd/333?text=Harap+Kepada+Tuhan" alt="Harap Kepada Tuhan">
-                    <div>
-                        <a href="artikel11.html">Syekh Abdul Qadir Al-Jilani Menjawab Mereka yang Harap Kapada Tuhan</a>
-                        <div class="meta">Rutub</div>
-                    </div>
-                </div>
-                <div class="article-item">
-                    <img src="https://via.placeholder.com/120x90/eee/333?text=Maqam+Wali" alt="Maqam Wali">
-                    <div>
-                        <a href="artikel12.html">Syekh Abdul Qadir Al-Jilani Tiada Maqam Setelah Wali dan Boleh Sekali Mengam Nabi</a>
-                        <div class="meta">Rutub</div>
-                    </div>
-                </div>
-                <div class="article-item">
-                    <img src="https://via.placeholder.com/120x90/fff/333?text=Kewenangan+Hidup" alt="Kewenangan Hidup">
-                    <div>
-                        <a href="artikel13.html">Soal Kewenangan Hidup Menurut Syekh Abdul Qadir Al-Jilani</a>
-                        <div class="meta">Rutub</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <h3>Terpopuler</h3>
-            <ul class="popular-list">
-                <li>
-                    <a href="populer1.html">1. 5 Amalan Utama Muslim yang Bisa Dikerjakan Setiap Hari, Nomor 1 Sangat Mudah Dilakukan</a>
-                    <div class="meta">Rutub · 2 hari lalu</div>
-                </li>
-                <li>
-                    <a href="populer2.html">2. Doa Harian yang Diajarkan Syekh Abdul Qadir Al-Jilani, Nomor 2 Sangat Mudah Dihafal</a>
-                    <div class="meta">Rutub · 3 hari lalu</div>
-                </li>
-                <li>
-                    <a href="populer3.html">3. Nasihat Syekh Abdul Qadir Al-Jilani Tentang Introspeksi Diri, Nomor 3 Sangat Penting</a>
-                    <div class="meta">Rutub · 5 hari lalu</div>
-                </li>
-                <li>
-                    <a href="populer4.html">4. Sifat Salik dan Perah Tujuan Rohani Menurut Syekh Abdul Qadir, Nomor 4 Sangat Berharga</a>
-                    <div class="meta">Rutub · 1 minggu lalu</div>
-                </li>
-                <li>
-                    <a href="populer5.html">5. Kapan Doa Dikabulkan? Ini Jawaban Syekh Abdul Qadir Al-Jilani, Nomor 5 Sangat Menginspirasi</a>
-                    <div class="meta">Rutub · 2 minggu lalu</div>
-                </li>
-            </ul>
-
-            <h3>Tag Terpopuler</h3>
-            <div class="tag-list">
-                <a href="tag-rutub.html">rutub</a>
-                <a href="tag-alqilab.html">alqilab</a>
-                <a href="tag-syekh.html">syekh abdul qadir</a>
-                <a href="tag-wali.html">wali allah</a>
-                <a href="tag-doa.html">doa harian</a>
-                <a href="tag-nasihat.html">nasihat ulama</a>
-                <a href="tag-tasawuf.html">tasawuf</a>
-                <a href="tag-salik.html">salik</a>
-                <a href="tag-rohani.html">tujuan rohani</a>
-                <a href="tag-jihad.html">jihad kecil</a>
-                <a href="tag-maqam.html">maqam wali</a>
-                <a href="tag-introspeksi.html">introspeksi diri</a>
-                <a href="tag-kematian.html">kematian</a>
-                <a href="tag-Allah.html">Allah Ta'ala</a>
-                <a href="tag-nabi.html">nabi</a>
-                <a href="tag-islam.html">islam</a>
-            </div>
-        </div>
+    <h2 class="section-title">Tag Terpopuler</h2>
+    <div class="tags-container">
+        <a href="tag-rutub.html" class="tag">rutub</a>
+        <a href="tag-alqilab.html" class="tag">alqilab</a>
+        <a href="tag-syekh.html" class="tag">syekh abdul qadir</a>
+        <a href="tag-wali.html" class="tag">wali allah</a>
+        <a href="tag-doa.html" class="tag">doa harian</a>
+        <a href="tag-nasihat.html" class="tag">nasihat ulama</a>
+        <a href="tag-tasawuf.html" class="tag">tasawuf</a>
+        <a href="tag-salik.html" class="tag">salik</a>
+        <a href="tag-rohani.html" class="tag">tujuan rohani</a>
+        <a href="tag-jihad.html" class="tag">jihad kecil</a>
+        <a href="tag-maqam.html" class="tag">maqam wali</a>
+        <a href="tag-introspeksi.html" class="tag">introspeksi diri</a>
+        <a href="tag-kematian.html" class="tag">kematian</a>
+        <a href="tag-Allah.html" class="tag">Allah Ta'ala</a>
+        <a href="tag-nabi.html" class="tag">nabi</a>
+        <a href="tag-islam.html" class="tag">islam</a>
     </div>
 
 </body>
