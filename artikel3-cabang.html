@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amalan Muhasabah ala Syaikh Abdul Qadir Al-Jilani - KALAM</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #f5f5f0;
+            color: #333;
+            min-height: 100vh;
+            line-height: 1.8;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-kalam {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #e94560;
+            letter-spacing: 5px;
+            text-decoration: none;
+            text-shadow: 0 0 10px rgba(233, 69, 96, 0.5);
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
+
+        .logo-kalam:hover {
+            background: rgba(233, 69, 96, 0.15);
+            transform: scale(1.05);
+        }
+
+        .logo-kalam span { color: #fff; }
+
+        nav { display: flex; gap: 15px; }
+
+        nav a {
+            color: #ccc;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        nav a:hover { background: #e94560; color: #fff; }
+
+        .breadcrumb {
+            padding: 15px 40px;
+            background: #eee;
+            font-size: 0.85rem;
+            color: #777;
+        }
+
+        .breadcrumb a { color: #e94560; text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        .article-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .article-header { margin-bottom: 30px; }
+
+        .article-header h1 {
+            font-size: 2rem;
+            color: #1a1a2e;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
+
+        .article-header .subtitle {
+            font-size: 1.1rem;
+            color: #e94560;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            color: #888;
+            font-size: 0.9rem;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .author-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e94560, #c23152);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        .author-name { font-weight: bold; color: #333; }
+
+        .article-image-wrapper {
+            margin: 25px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+
+        .article-image-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .image-caption {
+            background: rgba(0,0,0,0.7);
+            color: #ccc;
+            padding: 10px 15px;
+            font-size: 0.8rem;
+        }
+
+        .article-content {
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: #444;
+        }
+
+        .article-content p {
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .article-content .lead {
+            font-size: 1.15rem;
+            font-weight: bold;
+            color: #1a1a2e;
+            border-left: 4px solid #e94560;
+            padding-left: 20px;
+            margin-bottom: 25px;
+        }
+
+        .article-content blockquote {
+            background: #f0f0eb;
+            border-left: 4px solid #e94560;
+            padding: 20px 25px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            color: #555;
+        }
+
+        .article-content h2 {
+            font-size: 1.5rem;
+            color: #1a1a2e;
+            margin: 35px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e94560;
+        }
+
+        .article-content h3 {
+            font-size: 1.2rem;
+            color: #333;
+            margin: 25px 0 10px;
+        }
+
+        .article-content ul {
+            margin: 15px 0 20px 30px;
+        }
+
+        .article-content ul li {
+            margin-bottom: 10px;
+            line-height: 1.7;
+        }
+
+        .arabic-box {
+            background: linear-gradient(135deg, #f8f6f0 0%, #f0ede5 100%);
+            border: 2px solid #d4af37;
+            border-radius: 12px;
+            padding: 30px 25px;
+            margin: 25px 0;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+            position: relative;
+        }
+
+        .arabic-box::before {
+            content: '﷽';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #f8f6f0;
+            padding: 0 15px;
+            font-size: 1.5rem;
+            color: #d4af37;
+        }
+
+        .arabic-text {
+            font-family: 'Traditional Arabic', 'Scheherazade', 'Amiri', serif;
+            font-size: 1.8rem;
+            line-height: 2.8;
+            color: #1a1a2e;
+            direction: rtl;
+            margin: 15px 0;
+        }
+
+        .arabic-translation {
+            font-size: 0.95rem;
+            color: #666;
+            font-style: italic;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #d4af37;
+        }
+
+        .arabic-label {
+            display: inline-block;
+            background: #d4af37;
+            color: #fff;
+            padding: 4px 15px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .article-nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 40px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 15px;
+        }
+
+        .article-nav-btn {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 2px solid #e94560;
+            background: rgba(233, 69, 96, 0.1);
+            color: #fff;
+            font-size: 1.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .article-nav-btn:hover {
+            background: #e94560;
+            transform: scale(1.15);
+            box-shadow: 0 5px 20px rgba(233, 69, 96, 0.5);
+        }
+
+        .article-nav-btn.active {
+            background: #e94560;
+            box-shadow: 0 0 20px rgba(233, 69, 96, 0.6);
+        }
+
+        .nav-btn-label {
+            text-align: center;
+            color: #aaa;
+            font-size: 0.8rem;
+            margin-top: 8px;
+        }
+
+        .nav-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .kalam-back-btn {
+            display: block;
+            text-align: center;
+            margin: 40px auto;
+            padding: 18px 50px;
+            background: linear-gradient(135deg, #e94560, #c23152);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 35px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            letter-spacing: 4px;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 25px rgba(233, 69, 96, 0.4);
+            max-width: 350px;
+        }
+
+        .kalam-back-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(233, 69, 96, 0.6);
+            background: linear-gradient(135deg, #ff6b81, #e94560);
+            letter-spacing: 6px;
+        }
+
+        .kalam-back-btn .btn-sub {
+            display: block;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            margin-top: 5px;
+            opacity: 0.8;
+            font-weight: normal;
+        }
+
+        footer {
+            background: #1a1a2e;
+            color: #888;
+            text-align: center;
+            padding: 25px;
+            font-size: 0.9rem;
+            margin-top: 40px;
+        }
+
+        footer span { color: #e94560; }
+
+        @media (max-width: 600px) {
+            header { flex-direction: column; gap: 10px; padding: 15px 20px; }
+            .article-container { padding: 0 15px; }
+            .article-header h1 { font-size: 1.4rem; }
+            .arabic-text { font-size: 1.4rem; line-height: 2.4; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo-kalam" title="Kembali ke Beranda">
+            <span>K</span>ALAM
+        </a>
+        <nav>
+            <a href="index.html">Beranda</a>
+            <a href="artikel2.html">Artikel</a>
+        </nav>
+    </header>
+
+    <div class="breadcrumb">
+        <a href="index.html">Beranda</a> &raquo; <a href="artikel2.html">Artikel</a> &raquo; Artikel Cabang
+    </div>
+
+    <div class="article-container">
+
+        <div class="article-header">
+            <h1>Amalan Muhasabah ala Syaikh Abdul Qadir Al-Jilani</h1>
+            <div class="subtitle">Artikel Cabang — Panduan Praktis Introspeksi Diri</div>
+            <div class="article-meta">
+                <div class="author-avatar">MY</div>
+                <div>
+                    <div class="author-name">DKM Masjid Al-Ikhlas Kebagusan</div>
+                    <div style="color:#999; font-size:0.85rem;">Minggu, 04 Oktober 2026</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="article-image-wrapper">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Abdul_Qadir_Jilani.jpg/440px-Abdul_Qadir_Jilani.jpg"
+                 alt="Syaikh Abdul Qadir Al-Jilani">
+            <div class="image-caption">Sumber: kalam.web.id</div>
+        </div>
+
+        <div class="article-content">
+
+            <p class="lead">
+                Artikel ini merupakan lanjutan (cabang) dari artikel utama tentang nasehat Syaikh Abdul Qadir Al-Jilani mengenai introspeksi diri. Di sini kita akan membahas panduan praktis muhasabah, doa-doa muhasabah, dan amalan-amalan pendukung lainnya.
+            </p>
+
+            <h2>Panduan Praktis Muhasabah Harian</h2>
+
+            <p>
+                Syaikh Abdul Qadir Al-Jilani mengajarkan bahwa muhasabah sebaiknya dilakukan secara rutin setiap hari. Berikut adalah panduan praktis muhasabah harian yang beliau ajarkan:
+            </p>
+
+            <h3>1. Muhasabah Pagi Hari (مُحَاسَبَةُ الصَّبَاحِ)</h3>
+
+            <p>
+                Di pagi hari, sebelum memulai aktivitas, luangkan waktu sejenak untuk berniat dan berkomitmen bahwa hari ini akan diisi dengan amal shaleh.
+            </p>
+
+            <div class="arabic-box">
+                <div class="arabic-label">NIAT PAGI HARI</div>
+                <div class="arabic-text">
+                    اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلًا مُتَقَبَّلًا
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Ya Allah, aku memohon kepada-Mu ilmu yang bermanfaat, rezeki yang baik, dan amal yang diterima."
+                    <br>— HR. Ibnu Majah
+                </div>
+            </div>
+
+            <div class="arabic-box">
+                <div class="arabic-label">KOMITMEN PAGI</div>
+                <div class="arabic-text">
+                    اللَّهُمَّ إِنِّي أَعُوذُ بِكَ أَنْ أَظْلِمَ أَوْ أُظْلَمَ، أَوْ أَجْهَلَ أَوْ يُجْهَلَ عَلَيَّ
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Ya Allah, aku berlindung kepada-Mu dari berbuat zalim atau dizalimi, dari berbuat bodoh atau dibodohi."
+                </div>
+            </div>
+
+            <h3>2. Muhasabah Siang Hari (مُحَاسَبَةُ الظُّهْرِ)</h3>
+
+            <p>
+                Di tengah hari, evaluasi apakah amal-amal yang telah dilakukan sesuai dengan niat awal. Apakah ada penyimpangan dari jalan yang benar?
+            </p>
+
+            <div class="arabic-box">
+                <div class="arabic-label">DOA SIANG HARI</div>
+                <div class="arabic-text">
+                    اللَّهُمَّ أَصْلِحْ لِي دِينِي الَّذِي هُوَ عِصْمَةُ أَمْرِي، وَأَصْلِحْ لِي دُنْيَايَ الَّتِي فِيهَا مَعَاشِي
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Ya Allah, perbaikilah agamaku yang merupakan penjaga urusanku, dan perbaikilah dunianya yang di situ terdapat penghidupanku."
+                    <br>— HR. Muslim
+                </div>
+            </div>
+
+            <h3>3. Muhasabah Malam Hari (مُحَاسَبَةُ اللَّيْلِ)</h3>
+
+            <p>
+                Sebelum tidur, lakukan evaluasi menyeluruh terhadap seluruh aktivitas sepanjang hari. Hitung kebaikan dan keburukan yang telah dilakukan.
+            </p>
+
+            <div class="arabic-box">
+                <div class="arabic-label">DOA MUHASABAH MALAM</div>
+                <div class="arabic-text">
+                    اللَّهُمَّ بِاسْمِكَ أَمُوتُ وَأَحْيَا <br><br>
+                    اللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَبْعَثُ عِبَادَكَ <br><br>
+                    سُبْحَانَ اللَّهِ (٣٣ مَرَّةً) <br>
+                    الْحَمْدُ لِلَّهِ (٣٣ مَرَّةً) <br>
+                    اللَّهُ أَكْبَرُ (٣٤ مَرَّةً)
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Ya Allah, dengan nama-Mu aku mati dan aku hidup. Ya Allah, lindungilah aku dari azab-Mu pada hari Engkau membangkitkan hamba-hamba-Mu. Maha Suci Allah (33x), Segala puji bagi Allah (33x), Allah Maha Besar (34x)."
+                </div>
+            </div>
+
+            <h2>Doa-Doa Muhasabah dari Syaikh Abdul Qadir Al-Jilani</h2>
+
+            <h3>1. Doa Mohon Ampunan (دعاء الاستغفار)</h3>
+
+            <div class="arabic-box">
+                <div class="arabic-label">DOA MOHON AMPUNAN</div>
+                <div class="arabic-text">
+                    اللَّهُمَّ اغْفِرْ لِي ذُنُوبِي كُلَّهَا، دِقَّهَا وَجِلَّهَا، وَأَوَّلَهَا وَآخِرَهَا، وَعَلَانِيَتَهَا وَسِرَّهَا
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Ya Allah, ampunilah dosa-dosaku semuanya, yang kecil maupun yang besar, yang pertama maupun yang terakhir, yang terang-terangan maupun yang tersembunyi."
+                </div>
+            </div>
+
+            <h3>2. Doa Mohon Taubat Nasuha (دعاء التوبة النصوح)</h3>
+
+            <div class="arabic-box">
+                <div class="arabic-label">DOA TAUBAT NASUHA</div>
+                <div class="arabic-text">
+                    اللَّهُمَّ إِنِّي أَتُوبُ إِلَيْكَ تَوْبَةً لَيْسَ بَعْدَهَا نَدَامَةٌ، وَلَا رَجْعَةٌ بَعْدَهَا إِلَى مَعْصِيَةٍ
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Ya Allah, aku bertaubat kepada-Mu dengan taubat yang setelahnya tidak ada penyesalan, dan tidak ada kembali setelahnya kepada kemaksiatan."
+                </div>
+            </div>
+
+            <h3>3. Doa Mohon Perbaikan Diri (دعاء إصلاح النفس)</h3>
+
+            <div class="arabic-box">
+                <div class="arabic-label">DOA PERBAIKAN DIRI</div>
+                <div class="arabic-text">
+                    اللَّهُمَّ أَصْلِحْ نَفْسِي، وَطَهِّرْ قَلْبِي، وَحَصِّنْ فَرْجِي، وَنَوِّرْ صَدْرِي، وَاغْفِرْ لِي ذَنْبِي
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Ya Allah, perbaikilah diriku, sucikanlah hatiku, jagalah kemaluanku, terangilah dadaku, dan ampunilah dosaku."
+                </div>
+            </div>
+
+            <h3>4. Doa Mohon Hati yang Khusyuk (دعاء القلب الخاشع)</h3>
+
+            <div class="arabic-box">
+                <div class="arabic-label">DOA HATI KHUSYUK</div>
+                <div class="arabic-text">
+                    اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ قَلْبٍ لَا يَخْشَعُ، وَمِنْ دُعَاءٍ لَا يُسْمَعُ، وَمِنْ نَفْسٍ لَا تَشْبَعُ، وَمِنْ عِلْمٍ لَا يَنْفَعُ
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Ya Allah, aku berlindung kepada-Mu dari hati yang tidak khusyuk, dari doa yang tidak didengar, dari jiwa yang tidak pernah puas, dan dari ilmu yang tidak bermanfaat."
+                    <br>— HR. Muslim
+                </div>
+            </div>
+
+            <h3>5. Doa Syukur atas Nikmat (دعاء الشكر على النعمة)</h3>
+
+            <div class="arabic-box">
+                <div class="arabic-label">DOA SYUKUR</div>
+                <div class="arabic-text">
+                    اللَّهُمَّ لَكَ الْحَمْدُ كَمَا يَنْبَغِي لِجَلَالِ وَجْهِكَ وَعَظِيمِ سُلْطَانِكَ
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Ya Allah, bagi-Mu segala puji sebagaimana layak bagi kemuliaan wajah-Mu dan keagungan kekuasaan-Mu."
+                    <br>— HR. Abu Dawud & An-Nasa'i
+                </div>
+            </div>
+
+            <h2>Langkah-Langkah Muhasabah Menurut Syaikh Abdul Qadir Al-Jilani</h2>
+
+            <p>
+                Berikut adalah langkah-langkah praktis muhasabah yang diajarkan oleh Syaikh Abdul Qadir Al-Jilani:
+            </p>
+
+            <ul>
+                <li><strong>Langkah 1: Duduk dengan tenang (الجلوس بسكينة)</strong> — Cari tempat yang tenang, duduk dengan khusyuk, dan hadirkan hati hanya untuk Allah SWT.</li>
+                <li><strong>Langkah 2: Mengingat nikmat Allah (تذكر نعم الله)</strong> — Hitung nikmat-nikmat Allah yang telah diberikan sepanjang hari.</li>
+                <li><strong>Langkah 3: Mengevaluasi amal (تقييم الأعمال)</strong> — Tinjau kembali amal-amal yang telah dilakukan, apakah sudah sesuai syariat dan ikhlas karena Allah.</li>
+                <li><strong>Langkah 4: Mengakui dosa (الاعتراف بالذنب)</strong> — Jujur mengakui dosa dan kesalahan yang telah diperbuat.</li>
+                <li><strong>Langkah 5: Bertaubat (التوبة)</strong> — Segera bertaubat dengan taubat nasuha atas segala dosa yang telah dilakukan.</li>
+                <li><strong>Langkah 6: Berkomitmen untuk berubah (العزم على التغيير)</strong> — Bertekad untuk tidak mengulangi dosa yang sama dan memperbaiki diri di masa depan.</li>
+                <li><strong>Langkah 7: Berdoa memohon kekuatan (الدعاء طلبًا للقوة)</strong> — Memohon kepada Allah agar diberikan kekuatan untuk istiqomah di jalan yang benar.</li>
+            </ul>
+
+            <div class="arabic-box">
+                <div class="arabic-label">DOA MOHON KEKUATAN ISTIQOMAH</div>
+                <div class="arabic-text">
+                    يَا مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي عَلَىٰ دِينِكَ
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Wahai Dzat yang membolak-balikkan hati, tetapkanlah hatiku di atas agama-Mu."
+                    <br>— HR. Tirmidzi
+                </div>
+            </div>
+
+            <h2>Penyakit Hati yang Harus Dihindari</h2>
+
+            <p>
+                Syaikh Abdul Qadir Al-Jilani juga mengingatkan tentang penyakit-penyakit hati yang harus diwaspadai saat melakukan muhasabah:
+            </p>
+
+            <ul>
+                <li><strong>Riya' (الرِّيَاءُ)</strong> — Beramal agar dilihat dan dipuji orang lain</li>
+                <li><strong>Ujub (الْعُجْبُ)</strong> — Bangga diri atas amal yang telah dilakukan</li>
+                <li><strong>Sombong (الْكِبْرُ)</strong> — Merasa lebih baik dari orang lain</li>
+                <li><strong>Dengki (الْحَسَدُ)</strong> — Tidak senang dengan nikmat yang diterima orang lain</li>
+                <li><strong>Pamrih (السُّمْعَةُ)</strong> — Beramal agar didengar dan dikenal orang</li>
+                <li><strong>Cinta dunia (حُبُّ الدُّنْيَا)</strong> — Terlalu mencintai dunia hingga melalaikan akhirat</li>
+            </ul>
+
+            <div class="arabic-box">
+                <div class="arabic-label">DOA MOHON PERLINDUNGAN DARI PENYAKIT HATI</div>
+                <div class="arabic-text">
+                    اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الرِّيَاءِ وَالسُّمْعَةِ، وَمِنَ الْكِبْرِ وَالْعُجْبِ، وَمِنَ الْحَسَدِ وَالْبُخْلِ
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Ya Allah, aku berlindung kepada-Mu dari riya' dan sum'ah, dari sombong dan ujub, dari dengki dan kikir."
+                </div>
+            </div>
+
+            <h2>Penutup</h2>
+
+            <p>
+                Semoga artikel cabang ini dapat menjadi panduan praktis bagi kita dalam mengamalkan muhasabah sehari-hari sesuai dengan ajaran Syaikh Abdul Qadir Al-Jilani. Mari kita istiqomah dalam melakukan introspeksi diri, memperbaiki niat, dan bertaubat atas segala kekurangan.
+            </p>
+
+            <p>
+                Ingatlah firman Allah SWT:
+            </p>
+
+            <div class="arabic-box">
+                <div class="arabic-text">
+                    إِنَّ اللَّهَ يُحِبُّ التَّوَّابِينَ وَيُحِبُّ الْمُتَطَهِّرِينَ
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Sesungguhnya Allah mencintai orang-orang yang bertaubat dan menyukai orang-orang yang menyucikan diri."
+                    <br>— QS. Al-Baqarah: 222
+                </div>
+            </div>
+
+            <p>
+                Wallahu a'lam bish-shawab. Dan segala puji bagi Allah, Tuhan semesta alam.
+            </p>
+
+        </div>
+
+        <div class="article-nav">
+            <div class="nav-group">
+                <a href="artikel3.html" class="article-nav-btn" title="Artikel Utama">1</a>
+                <div class="nav-btn-label">Artikel Utama</div>
+            </div>
+            <div class="nav-group">
+                <a href="artikel3-cabang.html" class="article-nav-btn active" title="Artikel Cabang">2</a>
+                <div class="nav-btn-label">Artikel Cabang</div>
+            </div>
+        </div>
+
+        <a href="index.html" class="kalam-back-btn">
+            KALAM
+            <span class="btn-sub">← Kembali ke Beranda</span>
+        </a>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 <span>KALAM</span>. Semua hak dilindungi.</p>
+    </footer>
+
+</body>
+</html>
