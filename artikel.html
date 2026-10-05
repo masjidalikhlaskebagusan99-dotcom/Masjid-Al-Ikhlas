@@ -1,317 +1,668 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kumpulan Artikel Rutub Alqilab</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #FFD700;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 50%, #0a0a0a 100%);
-            min-height: 100vh;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-        }
-        
-        /* Styling untuk Tombol Kembali */
-        .tombol-kembali {
-            display: inline-block;
-            padding: 12px 24px;
-            background: linear-gradient(135deg, #00ff88 0%, #8b00ff 100%);
-            color: #FFD700;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: bold;
-            margin-bottom: 25px;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.4), 0 0 40px rgba(139, 0, 255, 0.2);
-            border: 1px solid rgba(0, 255, 136, 0.3);
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
-        }
-        .tombol-kembali:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 30px rgba(0, 255, 136, 0.6), 0 0 60px rgba(139, 0, 255, 0.4);
-            background: linear-gradient(135deg, #00ff9f 0%, #9d00ff 100%);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kumpulan Artikel Futuh AlGhaib</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: #e8e8e8;
+    color: #222;
+    font-size: 14px;
+  }
+  a { text-decoration: none; color: inherit; }
+  a:hover { text-decoration: underline; }
 
-        h1 {
-            background: linear-gradient(135deg, #00ff88 0%, #8b00ff 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            border-bottom: 3px solid;
-            border-image: linear-gradient(135deg, #00ff88 0%, #8b00ff 100%) 1;
-            padding-bottom: 10px;
-            margin-top: 0;
-            text-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
-        }
+  .wrapper {
+    max-width: 1100px;
+    margin: 20px auto;
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 20px;
+    padding: 0 15px;
+  }
 
-        .artikel-list {
-            list-style-type: none;
-            padding: 0;
-        }
+  .main {
+    background: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
 
-        .artikel-item {
-            background: rgba(26, 26, 46, 0.6);
-            margin-bottom: 15px;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 255, 136, 0.1), 0 0 20px rgba(139, 0, 255, 0.05);
-            display: flex;
-            align-items: center;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(139, 0, 255, 0.2);
-            backdrop-filter: blur(10px);
-        }
-        
-        .artikel-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 20px rgba(0, 255, 136, 0.3), 0 0 30px rgba(139, 0, 255, 0.2);
-            border-color: rgba(0, 255, 136, 0.5);
-        }
+  .main-header {
+    padding: 18px 20px;
+    border-bottom: 1px solid #eee;
+  }
 
-        .artikel-item img {
-            width: 120px;
-            height: 90px;
-            object-fit: cover;
-            margin-right: 20px;
-            border-radius: 5px;
-            border: 2px solid rgba(139, 0, 255, 0.3);
-        }
+  .main-header h1 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #111;
+  }
 
-        .artikel-item .konten {
-            flex: 1;
-        }
+  .article-item {
+    display: flex;
+    align-items: center;
+    padding: 14px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background 0.15s;
+  }
+  .article-item:hover { background: #fafafa; }
 
-        .artikel-item a {
-            text-decoration: none;
-            color: #FFD700;
-            font-size: 1.1em;
-            font-weight: 600;
-            transition: all 0.2s ease;
-            text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
-        }
+  /* ===== PERUBAHAN: Bingkai foto persegi dengan sudut tumpul (kurva) ===== */
+  .article-thumb {
+    width: 90px;
+    height: 90px;
+    border-radius: 12px;          /* sudut tumpul / kurva */
+    overflow: hidden;
+    flex-shrink: 0;
+    margin-right: 18px;
+    background: #ddd;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  }
+  .article-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  /* ===== Akhir Perubahan ===== */
 
-        .artikel-item a:hover {
-            background: linear-gradient(135deg, #00ff88 0%, #8b00ff 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: none;
-        }
+  .article-info { flex: 1; min-width: 0; }
 
-        .kategori {
-            display: inline-block;
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.2) 0%, rgba(139, 0, 255, 0.2) 100%);
-            padding: 3px 10px;
-            border-radius: 4px;
-            font-size: 0.8em;
-            color: #FFA500;
-            margin-top: 8px;
-            border: 1px solid rgba(0, 255, 136, 0.3);
-            text-shadow: 0 0 8px rgba(255, 165, 0, 0.6);
-        }
+  .article-category {
+    font-size: 11px;
+    color: #888;
+    margin-bottom: 5px;
+    font-family: Arial, sans-serif;
+    letter-spacing: 0.3px;
+  }
+  .article-category a { color: #888; }
+  .article-category a:hover { color: #333; }
 
-        .section-title {
-            margin-top: 40px;
-            background: linear-gradient(135deg, #00ff88 0%, #8b00ff 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            border-left: 5px solid;
-            border-image: linear-gradient(135deg, #00ff88 0%, #8b00ff 100%) 1;
-            padding-left: 10px;
-            text-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
-        }
+  .article-title {
+    font-size: 15px;
+    line-height: 1.45;
+    color: #1a1a1a;
+    font-weight: 500;
+  }
+  .article-title a { color: #1a1a1a; }
+  .article-title a:hover { color: #0066cc; text-decoration: underline; }
 
-        .populer-list a {
-            display: block;
-            background: rgba(26, 26, 46, 0.6);
-            padding: 12px 15px;
-            margin-bottom: 10px;
-            text-decoration: none;
-            color: #FFD700;
-            border-radius: 5px;
-            box-shadow: 0 2px 8px rgba(0, 255, 136, 0.1);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(139, 0, 255, 0.2);
-            backdrop-filter: blur(10px);
-            text-shadow: 0 0 12px rgba(255, 215, 0, 0.7);
-        }
-        
-        .populer-list a:hover {
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.2) 0%, rgba(139, 0, 255, 0.2) 100%);
-            color: #FFA500;
-            border-color: rgba(0, 255, 136, 0.5);
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
-        }
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 18px;
+    gap: 6px;
+    background: #fff;
+    border-top: 1px solid #eee;
+  }
+  .pagination button {
+    width: 34px;
+    height: 34px;
+    border: 1px solid #ccc;
+    background: #fff;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    transition: all 0.15s;
+  }
+  .pagination button:hover { background: #f0f0f0; }
+  .pagination button.active {
+    background: #222;
+    color: #fff;
+    border-color: #222;
+  }
 
-        .populer-list small {
-            color: #FFA500;
-            font-size: 0.85em;
-            text-shadow: 0 0 8px rgba(255, 165, 0, 0.6);
-        }
+  .sidebar { display: flex; flex-direction: column; gap: 20px; }
 
-        .tags-container {
-            margin-top: 20px;
-        }
+  .widget {
+    background: #fff;
+    border-radius: 4px;
+    padding: 18px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
 
-        .tag {
-            display: inline-block;
-            background: rgba(26, 26, 46, 0.6);
-            color: #FFD700;
-            padding: 6px 12px;
-            margin: 4px;
-            border-radius: 20px;
-            text-decoration: none;
-            font-size: 0.9em;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(139, 0, 255, 0.3);
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
-        }
+  .widget-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #222;
+    color: #111;
+  }
 
-        .tag:hover {
-            background: linear-gradient(135deg, #00ff88 0%, #8b00ff 100%);
-            color: #FFA500;
-            box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
-            border-color: transparent;
-            text-shadow: 0 0 12px rgba(255, 165, 0, 0.8);
-        }
-    </style>
+  .trending-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .trending-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+  .trending-num {
+    width: 22px;
+    height: 22px;
+    background: #333;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: bold;
+    margin-right: 10px;
+    flex-shrink: 0;
+    font-family: Arial, sans-serif;
+  }
+  .trending-text {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.4;
+    font-family: Arial, sans-serif;
+  }
+  .trending-text a { color: #444; }
+  .trending-text a:hover { color: #0066cc; }
+
+  .search-box {
+    display: flex;
+    margin-bottom: 12px;
+  }
+  .search-box input {
+    flex: 1;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-right: none;
+    border-radius: 3px 0 0 3px;
+    font-size: 13px;
+    outline: none;
+    font-family: Arial, sans-serif;
+  }
+  .search-box button {
+    padding: 8px 14px;
+    background: #333;
+    color: #fff;
+    border: none;
+    border-radius: 0 3px 3px 0;
+    cursor: pointer;
+    font-size: 13px;
+    font-family: Arial, sans-serif;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .tag {
+    padding: 4px 10px;
+    background: #f0f0f0;
+    border-radius: 3px;
+    font-size: 11px;
+    color: #555;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    transition: background 0.15s;
+  }
+  .tag:hover { background: #333; color: #fff; }
+  .tag a { color: #555; }
+  .tag:hover a { color: #fff; }
+
+  .ad-banner {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    border-radius: 4px;
+    padding: 20px;
+    text-align: center;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .ad-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #aaa;
+    margin-bottom: 8px;
+    font-family: Arial, sans-serif;
+  }
+  .ad-banner h2 {
+    font-size: 24px;
+    color: #ffd700;
+    margin-bottom: 4px;
+    font-family: 'Impact', Arial, sans-serif;
+    letter-spacing: 1px;
+  }
+  .ad-banner .ad-sub {
+    font-size: 14px;
+    color: #ffd700;
+    margin-bottom: 12px;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+  }
+  .ad-banner .ad-img {
+    width: 100%;
+    height: 180px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  .ad-banner .ad-img .icon {
+    font-size: 60px;
+    margin-bottom: 8px;
+  }
+  .ad-banner .ad-img p {
+    font-size: 12px;
+    color: #ffd700;
+    font-family: Arial, sans-serif;
+  }
+  .ad-banner .ad-img .small {
+    font-size: 10px;
+    color: #aaa;
+    margin-top: 4px;
+  }
+
+  .ad-banner-2 {
+    background: linear-gradient(135deg, #2d1b69 0%, #11998e 100%);
+  }
+  .ad-banner-2 h2 {
+    font-size: 32px;
+    color: #fff;
+  }
+  .ad-banner-2 .ad-sub {
+    font-size: 20px;
+    color: #fff;
+  }
+
+  .page { display: none; }
+  .page.active { display: block; }
+
+  @media (max-width: 768px) {
+    .wrapper {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
 </head>
 <body>
 
-    <!-- TOMBOL KEMBALI KE INDEX.HTML -->
-    <a href="index.html" class="tombol-kembali">&larr; Kembali ke Beranda</a>
-
-    <h1>Kumpulan Artikel Rutub Alqilab</h1>
-
-    <ul class="artikel-list">
-        <li class="artikel-item">
-            <img src="https://cdn.phototourl.com/member/2026-10-02-0d8cae3d-3a9c-418d-abd2-b1e9c191437a.png" alt="Thumbnail">
-            <div class="konten">
-                <a href="artikel1.html">Kisah Syekh Abdul Qadir Al-Jilani, Kala Sang Wali Menghadapi Sauratuz Maut</a>
-                <div><span class="kategori">Rutub</span></div>
-            </div>
-        </li>
-        <li class="artikel-item">
-            <img src="https://cdn.phototourl.com/member/2026-10-02-c4c590ce-ffb1-4618-aa70-2b264c6ae732.png" alt="Thumbnail">
-            <div class="konten">
-                <a href="artikel2.html">Begini Doa Harian yang Diajarkan Syekh Abdul Qadir Al-Jilani</a>
-                <div><span class="kategori">Rutub</span></div>
-            </div>
-        </li>
-        <li class="artikel-item">
-            <img src="https://cdn.phototourl.com/member/2026-10-02-b32727f4-27b2-4ac0-b340-dcdee381c29c.png" alt="Thumbnail">
-            <div class="konten">
-                <a href="artikel3.html">Nasihat Syekh Abdul Qadir Al-Jilani Tentang Introspeksi Diri</a>
-                <div><span class="kategori">Rutub</span></div>
-            </div>
-        </li>
-        <li class="artikel-item">
-            <img src="https://cdn.phototourl.com/member/2026-10-02-3d65b64c-5980-435d-8457-577e18e20024.png" alt="Thumbnail">
-            <div class="konten">
-                <a href="artikel4.html">10 Sifat Salik dan Perah Tujuan Rohani, Menurut Syekh Abdul Qadir</a>
-                <div><span class="kategori">Rutub</span></div>
-            </div>
-        </li>
-        <li class="artikel-item">
-            <img src="https://via.placeholder.com/120x90/777/fff?text=Wali+Mengumpat" alt="Thumbnail">
-            <div class="konten">
-                <a href="artikel5.html">Bolehkan Wali Mengumpat Seseorang? Ini Jawaban Syekh Abdul Qadir Al-Jilani</a>
-                <div><span class="kategori">Rutub</span></div>
-            </div>
-        </li>
-        <li class="artikel-item">
-            <img src="https://via.placeholder.com/120x90/888/fff?text=Posisi+Klati" alt="Thumbnail">
-            <div class="konten">
-                <a href="artikel6.html">Di Mana Posisi Klati Begitu Jawaban Syekh Abdul Qadir Al-Jilani</a>
-                <div><span class="kategori">Rutub</span></div>
-            </div>
-        </li>
-        <li class="artikel-item">
-            <img src="https://via.placeholder.com/120x90/999/fff?text=Doa+Dikabulkan" alt="Thumbnail">
-            <div class="konten">
-                <a href="artikel7.html">Kapan dan Kepada Siapa Doa Dikabulkan? Ini Jawaban Syekh Abdul Qadir Al-Jilani</a>
-                <div><span class="kategori">Rutub</span></div>
-            </div>
-        </li>
-        <li class="artikel-item">
-            <img src="https://via.placeholder.com/120x90/aaa/fff?text=Jihad+Kecil" alt="Thumbnail">
-            <div class="konten">
-                <a href="artikel8.html">Begini Syekh Abdul Qadir Memahami Rumbai dari Jihad Kecil, Menuju Jihad Besar</a>
-                <div><span class="kategori">Rutub</span></div>
-            </div>
-        </li>
-        <li class="artikel-item">
-            <img src="https://via.placeholder.com/120x90/bbb/fff?text=Memohon+Allah" alt="Thumbnail">
-            <div class="konten">
-                <a href="artikel9.html">Syekh Abdul Qadir Ingatkan Mereka yang Tak Memohon Sesuatu Kepada Allah Ta'ala</a>
-                <div><span class="kategori">Rutub</span></div>
-            </div>
-        </li>
-        <li class="artikel-item">
-            <img src="https://via.placeholder.com/120x90/ccc/333?text=Menginginkan+Kematian" alt="Thumbnail">
-            <div class="konten">
-                <a href="artikel10.html">Ketika Syekh Abdul Qadir Al-Jilani Menginginkan Kematian</a>
-                <div><span class="kategori">Rutub</span></div>
-            </div>
-        </li>
-        <li class="artikel-item">
-            <img src="https://via.placeholder.com/120x90/ddd/333?text=Harap+Kepada+Tuhan" alt="Thumbnail">
-            <div class="konten">
-                <a href="artikel11.html">Syekh Abdul Qadir Al-Jilani Menjawab Mereka yang Harap Kapada Tuhan</a>
-                <div><span class="kategori">Rutub</span></div>
-            </div>
-        </li>
-        <li class="artikel-item">
-            <img src="https://via.placeholder.com/120x90/eee/333?text=Maqam+Wali" alt="Thumbnail">
-            <div class="konten">
-                <a href="artikel12.html">Syekh Abdul Qadir Al-Jilani Tiada Maqam Setelah Wali dan Boleh Sekali Mengam Nabi</a>
-                <div><span class="kategori">Rutub</span></div>
-            </div>
-        </li>
-        <li class="artikel-item">
-            <img src="https://via.placeholder.com/120x90/fff/333?text=Kewenangan+Hidup" alt="Thumbnail">
-            <div class="konten">
-                <a href="artikel13.html">Soal Kewenangan Hidup Menurut Syekh Abdul Qadir Al-Jilani</a>
-                <div><span class="kategori">Rutub</span></div>
-            </div>
-        </li>
-    </ul>
-
-    <h2 class="section-title">Terpopuler</h2>
-    <div class="populer-list">
-        <a href="populer1.html">1. 5 Amalan Utama Muslim yang Bisa Dikerjakan Setiap Hari, Nomor 1 Sangat Mudah Dilakukan <br><small>Rutub · 2 hari lalu</small></a>
-        <a href="populer2.html">2. Doa Harian yang Diajarkan Syekh Abdul Qadir Al-Jilani, Nomor 2 Sangat Mudah Dihafal <br><small>Rutub · 3 hari lalu</small></a>
-        <a href="populer3.html">3. Nasihat Syekh Abdul Qadir Al-Jilani Tentang Introspeksi Diri, Nomor 3 Sangat Penting <br><small>Rutub · 5 hari lalu</small></a>
-        <a href="populer4.html">4. Sifat Salik dan Perah Tujuan Rohani Menurut Syekh Abdul Qadir, Nomor 4 Sangat Berharga <br><small>Rutub · 1 minggu lalu</small></a>
-        <a href="populer5.html">5. Kapan Doa Dikabulkan? Ini Jawaban Syekh Abdul Qadir Al-Jilani, Nomor 5 Sangat Menginspirasi <br><small>Rutub · 2 minggu lalu</small></a>
+<div class="wrapper">
+  <div class="main">
+    <div class="main-header">
+      <h1><a href="index.html">Kumpulan Artikel Futuh AlGhaib</a></h1>
     </div>
 
-    <h2 class="section-title">Tag Terpopuler</h2>
-    <div class="tags-container">
-        <a href="tag-rutub.html" class="tag">rutub</a>
-        <a href="tag-alqilab.html" class="tag">alqilab</a>
-        <a href="tag-syekh.html" class="tag">syekh abdul qadir</a>
-        <a href="tag-wali.html" class="tag">wali allah</a>
-        <a href="tag-doa.html" class="tag">doa harian</a>
-        <a href="tag-nasihat.html" class="tag">nasihat ulama</a>
-        <a href="tag-tasawuf.html" class="tag">tasawuf</a>
-        <a href="tag-salik.html" class="tag">salik</a>
-        <a href="tag-rohani.html" class="tag">tujuan rohani</a>
-        <a href="tag-jihad.html" class="tag">jihad kecil</a>
-        <a href="tag-maqam.html" class="tag">maqam wali</a>
-        <a href="tag-introspeksi.html" class="tag">introspeksi diri</a>
-        <a href="tag-kematian.html" class="tag">kematian</a>
-        <a href="tag-Allah.html" class="tag">Allah Ta'ala</a>
-        <a href="tag-nabi.html" class="tag">nabi</a>
-        <a href="tag-islam.html" class="tag">islam</a>
+    <!-- PAGE 1 -->
+    <div class="page active" id="page1">
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel1.html">Kisah Syekh Abdul Qadir Al-Jilani: Kali Sang Wali Menghadapi Serangan Maut</a></div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1544717305-2782549b5136?w=200&h=200&fit=crop&crop=face" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel2.html">Bidad Dari Harian yang Dijadikan Syekh Abdul Qadir Al-Jilani</a></div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&h=200&fit=crop&crop=face" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel3.html">Nasihat Syekh Abdul Qadir Al-Jilani Tentang Hippocrates Diri</a></div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=200&h=200&fit=crop&crop=face" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel4.html">10 Sifat Sakti dan Peraih Tujuh Ruhani, Menurut Syekh Abdul Qadir</a></div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&crop=face" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel5.html">Bolehkah Wali Mengetahui Seseorang? Ini Jawaban Syekh Abdul Qadir Al-Jilani</a></div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel6.html">21 Mana Pokok Elat Bugini Jawaban Syekh Abdul Qadir Al-Jilani</a></div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&h=200&fit=crop&crop=face" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel7.html">Kapan dan Kepada Siapa Doa Dikabulkan? Ini Jawaban Syekh Abdul Qadir Al-Jilani</a></div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&h=200&fit=crop&crop=face" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel8.html">Begini Syekh Abdul Qadir Al-Jilani Memahami Kembali dan Jihad Kecil, Menuju Jihad Besar</a></div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=200&h=200&fit=crop&crop=face" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel9.html">Syekh Abdul Qadir Ingatkan Manusia yang Tak Memohon Sesuatu, Kepada Allah Ta'ala</a></div>
+        </div>
+      </div>
     </div>
+
+    <!-- PAGE 2 -->
+    <div class="page" id="page2">
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=200&h=200&fit=crop" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel10.html">Orang Saleh Menerima Fatwa Dua Kali Lipat, Begini Penjelasan Syekh Abdul Qadir Al-Jilani</a></div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=200&h=200&fit=crop" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel11.html">Cara Meresult Allah Ta'ala dengan Dua Sifat, Menurut Syekh Abdul Qadir Al-Jilani</a></div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=200&h=200&fit=crop" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel12.html">Syekh Abdul Qadir: Malam, Murun, dan Tidur Berlebihan Melumpuhkan Ibadah</a></div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=200&h=200&fit=crop" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel13.html">Badasih yang Terkial Menurut Syekh Abdul Qadir Al-Jilani</a></div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=200&h=200&fit=crop" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel14.html">Keadaan Para Wali dan Badan Menurut Syekh Abdul Qadir Al-Jilani</a></div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=200&h=200&fit=crop" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel15.html">Dua Macam Manusia Menurut Syekh Abdul Qadir Al-Jilani</a></div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=200&h=200&fit=crop" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel16.html">Syekh Abdul Qadir: Dua Orang Berpengertian Rohani Tak Selalu Terkubul</a></div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=200&h=200&fit=crop" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel17.html">Nasihat Syekh Abdul Qadir Al-Jilani Ketika Bingung dan Duka</a></div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=200&h=200&fit=crop" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel18.html">Syekh Abdul Qadir Al-Jilani Bertutur tentang Karmigan</a></div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=200&h=200&fit=crop" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel19.html">Resep Menjadi Saleh Menurut Syekh Abdul Qadir Al-Jilani</a></div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=200&h=200&fit=crop" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel20.html">Nasihat Syekh Abdul Qadir Al-Jilani agar Tidak di Jengan Tetangga yang Hanya Harta</a></div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=200&h=200&fit=crop" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel21.html">Ini Mengapa Kemiskinan Mendekatkan kepada Kebahagiaan Menurut Syekh Abdul Qadir</a></div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=200&h=200&fit=crop" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel22.html">Nasihat Syekh Abdul Qadir tentang Cara Mencapai Kebahagiaan</a></div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=200&h=200&fit=crop" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel23.html">Resay Syekh Abdul Qadir Al-Jilani dalam Mempertahankan Ibadah dan Keburukan</a></div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=200&h=200&fit=crop" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel24.html">Berhut Tipi Membuka Tabir Diri Ajaran Syekh Abdul Qadir Al-Jilani</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 3 -->
+    <div class="page" id="page3">
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel25.html">Nasihat Syekh Abdul Qadir Al-Jilani kepada Orang yang Hidup Sisan</a></div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1544717305-2782549b5136?w=200&h=200&fit=crop&crop=face" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel26.html">Nasihat Syekh Abdul Qadir Al-Jilani untuk Menerima Takdir yang Kita Miliki</a></div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&h=200&fit=crop&crop=face" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel27.html">Syekh Abdul Qadir Al-Jilani: Cobaan Melakmakan Iman dan Nawa Nafsu</a></div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=200&h=200&fit=crop&crop=face" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel28.html">Mimpi Syekh Abdul Qadir Al-Jilani tentang Seruan Berpegang</a></div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&crop=face" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel29.html">Nasihat Syekh Abdul Qadir Al-Jilani jika Kita Menghadapi Rintang-rangan</a></div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel30.html">Menjaga Agar Iman Tidak Sirna Menurut Syekh Abdul Qadir Al-Jilani</a></div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&h=200&fit=crop&crop=face" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel31.html">Nasihat Syekh Abdul Qadir Al-Jilani ketika Menghadapi Bencana</a></div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&h=200&fit=crop&crop=face" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel32.html">Konsep Manunggal dengan Tuhan Menurut Syekh Abdul Qadir Al-Jilani</a></div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=200&h=200&fit=crop&crop=face" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel33.html">Ini Ciri-ciri Iman pada Mazam Kebatinan Menurut Syekh Abdul Qadir Al-Jilani</a></div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=200&h=200&fit=crop" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel34.html">Wasia Syekh Abdul Qadir Al-Jilani Agar Mencapai Maqam Para Khiddiq</a></div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=200&h=200&fit=crop" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel35.html">Meraih di usia 9 Tahun, Begini Nasihat Abdul Qadir Al-Jilani bagi Mereka yang Takut Kematian</a></div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=200&h=200&fit=crop" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel36.html">Tanda-tanda Mencapai Maqam Badal Menurut Syekh Abdul Qadir Al-Jilani</a></div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-thumb"><img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=200&h=200&fit=crop" alt=""></div>
+        <div class="article-info">
+          <div class="article-category"><a href="futuh-alghaib.html">Futuh AlGhaib</a></div>
+          <div class="article-title"><a href="artikel37.html">Mengalami Kesulitan Hidup? Begini Nasihat Syekh Abdul Qadir Al-Jilani</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGINATION -->
+    <div class="pagination">
+      <button class="active" onclick="showPage(1)" id="btn1">1</button>
+      <button onclick="showPage(2)" id="btn2">2</button>
+      <button onclick="showPage(3)" id="btn3">3</button>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="widget">
+      <div class="widget-title"><a href="tergosip.html">Tergosip</a></div>
+      <div class="trending-item">
+        <div class="trending-num">1</div>
+        <div class="trending-text"><a href="trending1.html">Hikmah Mengaji Ikhlas dan Jujur, Inilah yang Paling Baik</a></div>
+      </div>
+      <div class="trending-item">
+        <div class="trending-num">2</div>
+        <div class="trending-text"><a href="trending2.html">Makna Idul Adha: Makna di Balik Qurban dan Takwa</a></div>
+      </div>
+      <div class="trending-item">
+        <div class="trending-num">3</div>
+        <div class="trending-text"><a href="trending3.html">Membaca Al-Quran: Keutamaan, Hukum, dan Manfaatnya</a></div>
+      </div>
+      <div class="trending-item">
+        <div class="trending-num">4</div>
+        <div class="trending-text"><a href="trending4.html">Rahasia Dzikir Pagi dan Petang, Amalan yang Dianjurkan Rasulullah</a></div>
+      </div>
+      <div class="trending-item">
+        <div class="trending-num">5</div>
+        <div class="trending-text"><a href="trending5.html">Keutamaan Sholat Tahajud di Sepertiga Malam Terakhir</a></div>
+      </div>
+    </div>
+
+    <div class="widget">
+      <div class="widget-title"><a href="cari.html">Cari Artikel</a></div>
+      <div class="search-box">
+        <input type="text" placeholder="Kata kunci...">
+        <button><a href="search.html" style="color:#fff;text-decoration:none;">Cari</a></button>
+      </div>
+      <div class="tags">
+        <span class="tag"><a href="tag-syekh.html">syekh abdul qadir</a></span>
+        <span class="tag"><a href="tag-futuh.html">futuh alghaib</a></span>
+        <span class="tag"><a href="tag-nasihat.html">nasihat</a></span>
+        <span class="tag"><a href="tag-iman.html">iman</a></span>
+        <span class="tag"><a href="tag-taqwa.html">taqwa</a></span>
+        <span class="tag"><a href="tag-ibadah.html">ibadah</a></span>
+        <span class="tag"><a href="tag-dzikir.html">dzikir</a></span>
+        <span class="tag"><a href="tag-sholat.html">sholat</a></span>
+        <span class="tag"><a href="tag-puasa.html">puasa</a></span>
+        <span class="tag"><a href="tag-haji.html">haji</a></span>
+        <span class="tag"><a href="tag-zakat.html">zakat</a></span>
+        <span class="tag"><a href="tag-sedekah.html">sedekah</a></span>
+      </div>
+    </div>
+
+    <div class="ad-banner">
+      <div class="ad-label"><a href="iklan.html" style="color:#aaa;">Iklan</a></div>
+      <h2><a href="kapolri.html" style="color:#ffd700;">KAPOLRI BARU</a></h2>
+      <div class="ad-sub"><a href="listyo.html" style="color:#ffd700;">PENGARAH LISTYO SRIT</a></div>
+      <div class="ad-img">
+        <div class="icon">👮</div>
+        <p><a href="7april.html" style="color:#ffd700;">7 APRIL: PENGARAH LISTYO SRIT</a></p>
+        <p class="small"><a href="kapoli-baru.html" style="color:#aaa;">Kapoli Baru Pengarah Listyo Srit</a></p>
+      </div>
+    </div>
+
+    <div class="ad-banner ad-banner-2">
+      <div class="ad-label"><a href="iklan2.html" style="color:#aaa;">Iklan</a></div>
+      <h2><a href="7hari.html" style="color:#fff;">7 HARI</a></h2>
+      <div class="ad-sub"><a href="kayaraya.html" style="color:#fff;">KAYA RAYA</a></div>
+      <div class="ad-img">
+        <div class="icon"></div>
+        <p><a href="metode.html" style="color:#fff;">7 HARI MENJADI KAYA RAYA, Dapat melalui metode ini! Kapan?</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showPage(n) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.pagination button').forEach(b => b.classList.remove('active'));
+  document.getElementById('page' + n).classList.add('active');
+  document.getElementById('btn' + n).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
 
 </body>
 </html>
