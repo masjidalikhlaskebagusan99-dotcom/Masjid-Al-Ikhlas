@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maqam Wali dan Tanda-tanda Kewalian — Artikel Lanjutan - KALAM</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #f5f5f0;
+            color: #333;
+            min-height: 100vh;
+            line-height: 1.8;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-kalam {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #e94560;
+            letter-spacing: 5px;
+            text-decoration: none;
+            text-shadow: 0 0 10px rgba(233, 69, 96, 0.5);
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
+
+        .logo-kalam:hover {
+            background: rgba(233, 69, 96, 0.15);
+            transform: scale(1.05);
+        }
+
+        .logo-kalam span { color: #fff; }
+
+        nav { display: flex; gap: 15px; }
+
+        nav a {
+            color: #ccc;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        nav a:hover { background: #e94560; color: #fff; }
+
+        .breadcrumb {
+            padding: 15px 40px;
+            background: #eee;
+            font-size: 0.85rem;
+            color: #777;
+        }
+
+        .breadcrumb a { color: #e94560; text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        .article-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .article-header { margin-bottom: 30px; }
+
+        .article-header h1 {
+            font-size: 2rem;
+            color: #1a1a2e;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
+
+        .article-header .subtitle {
+            font-size: 1.1rem;
+            color: #e94560;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            color: #888;
+            font-size: 0.9rem;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .author-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e94560, #c23152);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        .author-name { font-weight: bold; color: #333; }
+
+        .article-image-wrapper {
+            margin: 25px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+
+        .article-image-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .image-caption {
+            background: rgba(0,0,0,0.7);
+            color: #ccc;
+            padding: 10px 15px;
+            font-size: 0.8rem;
+        }
+
+        .article-content {
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: #444;
+        }
+
+        .article-content p {
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .article-content .lead {
+            font-size: 1.15rem;
+            font-weight: bold;
+            color: #1a1a2e;
+            border-left: 4px solid #e94560;
+            padding-left: 20px;
+            margin-bottom: 25px;
+        }
+
+        .article-content blockquote {
+            background: #f0f0eb;
+            border-left: 4px solid #e94560;
+            padding: 20px 25px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            color: #555;
+        }
+
+        .article-content h2 {
+            font-size: 1.5rem;
+            color: #1a1a2e;
+            margin: 35px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e94560;
+        }
+
+        .article-content h3 {
+            font-size: 1.2rem;
+            color: #333;
+            margin: 25px 0 10px;
+        }
+
+        .article-content ul {
+            margin: 15px 0 20px 30px;
+        }
+
+        .article-content ul li {
+            margin-bottom: 10px;
+            line-height: 1.7;
+        }
+
+        .maqam-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f6f0 100%);
+            border: 1px solid #e0ddd5;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-left: 5px solid #d4af37;
+        }
+
+        .maqam-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #d4af37, #b8960c);
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-right: 10px;
+        }
+
+        .maqam-title {
+            font-size: 1.3rem;
+            color: #1a1a2e;
+            font-weight: bold;
+            display: inline;
+        }
+
+        .maqam-arabic {
+            font-family: 'Traditional Arabic', 'Scheherazade', 'Amiri', serif;
+            font-size: 1.6rem;
+            color: #d4af37;
+            direction: rtl;
+            margin: 10px 0;
+            text-align: right;
+        }
+
+        .arabic-box {
+            background: linear-gradient(135deg, #f8f6f0 0%, #f0ede5 100%);
+            border: 2px solid #d4af37;
+            border-radius: 12px;
+            padding: 30px 25px;
+            margin: 25px 0;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+            position: relative;
+        }
+
+        .arabic-box::before {
+            content: '﷽';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #f8f6f0;
+            padding: 0 15px;
+            font-size: 1.5rem;
+            color: #d4af37;
+        }
+
+        .arabic-text {
+            font-family: 'Traditional Arabic', 'Scheherazade', 'Amiri', serif;
+            font-size: 1.8rem;
+            line-height: 2.8;
+            color: #1a1a2e;
+            direction: rtl;
+            margin: 15px 0;
+        }
+
+        .arabic-translation {
+            font-size: 0.95rem;
+            color: #666;
+            font-style: italic;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #d4af37;
+        }
+
+        .arabic-label {
+            display: inline-block;
+            background: #d4af37;
+            color: #fff;
+            padding: 4px 15px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .article-nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 40px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 15px;
+        }
+
+        .article-nav-btn {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 2px solid #e94560;
+            background: rgba(233, 69, 96, 0.1);
+            color: #fff;
+            font-size: 1.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .article-nav-btn:hover {
+            background: #e94560;
+            transform: scale(1.15);
+            box-shadow: 0 5px 20px rgba(233, 69, 96, 0.5);
+        }
+
+        .article-nav-btn.active {
+            background: #e94560;
+            box-shadow: 0 0 20px rgba(233, 69, 96, 0.6);
+        }
+
+        .nav-btn-label {
+            text-align: center;
+            color: #aaa;
+            font-size: 0.8rem;
+            margin-top: 8px;
+        }
+
+        .nav-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .kalam-back-btn {
+            display: block;
+            text-align: center;
+            margin: 40px auto;
+            padding: 18px 50px;
+            background: linear-gradient(135deg, #e94560, #c23152);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 35px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            letter-spacing: 4px;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 25px rgba(233, 69, 96, 0.4);
+            max-width: 350px;
+        }
+
+        .kalam-back-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(233, 69, 96, 0.6);
+            background: linear-gradient(135deg, #ff6b81, #e94560);
+            letter-spacing: 6px;
+        }
+
+        .kalam-back-btn .btn-sub {
+            display: block;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            margin-top: 5px;
+            opacity: 0.8;
+            font-weight: normal;
+        }
+
+        footer {
+            background: #1a1a2e;
+            color: #888;
+            text-align: center;
+            padding: 25px;
+            font-size: 0.9rem;
+            margin-top: 40px;
+        }
+
+        footer span { color: #e94560; }
+
+        @media (max-width: 600px) {
+            header { flex-direction: column; gap: 10px; padding: 15px 20px; }
+            .article-container { padding: 0 15px; }
+            .article-header h1 { font-size: 1.4rem; }
+            .arabic-text { font-size: 1.4rem; line-height: 2.4; }
+            .maqam-arabic { font-size: 1.3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo-kalam" title="Kembali ke Beranda">
+            <span>K</span>ALAM
+        </a>
+        <nav>
+            <a href="index.html">Beranda</a>
+            <a href="artikel5.html">Artikel</a>
+        </nav>
+    </header>
+
+    <div class="breadcrumb">
+        <a href="index.html">Beranda</a> &raquo; <a href="artikel5.html">Artikel</a> &raquo; Artikel Lanjutan
+    </div>
+
+    <div class="article-container">
+
+        <div class="article-header">
+            <h1>Maqam Wali dan Tanda-tanda Kewalian</h1>
+            <div class="subtitle">Artikel Lanjutan — Tingkatan Kewalian dan Ciri-ciri Wali Sejati</div>
+            <div class="article-meta">
+                <div class="author-avatar">MY</div>
+                <div>
+                    <div class="author-name">DKM Masjid Jami' Al-Ikhlas</div>
+                    <div style="color:#999; font-size:0.85rem;">Senin, 05 Januari 2026</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="article-image-wrapper">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Abdul_Qadir_Jilani.jpg/440px-Abdul_Qadir_Jilani.jpg"
+                 alt="Syaikh Abdul Qadir Al-Jilani">
+            <div class="image-caption">Sumber: kalam.web.id</div>
+        </div>
+
+        <div class="article-content">
+
+            <p class="lead">
+                Artikel ini merupakan artikel ketiga (lanjutan) dari seri tentang apakah wali boleh mengumpat seseorang. Di sini kita akan membahas maqam-maqam kewalian, tanda-tanda wali sejati, dan doa-doa untuk meraih maqam kewalian menurut Syaikh Abdul Qadir Al-Jilani.
+            </p>
+
+            <h2>Maqam-maqam Kewalian</h2>
+
+            <p>
+                Syaikh Abdul Qadir Al-Jilani menjelaskan bahwa kewalian (wilayah) memiliki beberapa tingkatan atau maqam. Setiap maqam memiliki ciri-ciri dan tantangan tersendiri. Berikut adalah maqam-maqam kewalian menurut beliau:
+            </p>
+
+            <div class="maqam-card">
+                <span class="maqam-number">1</span>
+                <span class="maqam-title">Maqam Taubah (مَقَامُ التَّوْبَةِ) — Tingkatan Taubat</span>
+                <div class="maqam-arabic">التَّوْبَةُ أَوَّلُ مَنَازِلِ الْأَوْلِيَاءِ</div>
+                <p>
+                    Maqam pertama dalam perjalanan kewalian adalah <strong>taubah</strong> (تَوْبَة). Syaikh Abdul Qadir Al-Jilani menjelaskan bahwa taubat adalah awal dari semua manzilah (tempat persinggahan) para wali. Tanpa taubat yang sungguh-sungguh, seseorang tidak akan bisa mencapai maqam kewalian.
+                </p>
+            </div>
+
+            <div class="arabic-box">
+                <div class="arabic-label">DOA TAUBAT</div>
+                <div class="arabic-text">
+                    اللَّهُمَّ إِنِّي أَتُوبُ إِلَيْكَ تَوْبَةً نَصُوحًا
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Ya Allah, aku bertaubat kepada-Mu dengan taubat nasuha (taubat yang sungguh-sungguh)."
+                </div>
+            </div>
+
+            <div class="maqam-card">
+                <span class="maqam-number">2</span>
+                <span class="maqam-title">Maqam Wara' (مَقَامُ الوَرَعِ) — Tingkatan Kehati-hatian</span>
+                <div class="maqam-arabic">الوَرَعُ حِصْنُ الْأَوْلِيَاءِ مِنَ الْمَعَاصِي</div>
+                <p>
+                    Maqam kedua adalah <strong>wara'</strong> (وَرَع), yaitu kehati-hatian dalam beragama. Syaikh Abdul Qadir Al-Jilani menjelaskan bahwa wara' adalah benteng (ḥiṣn) para wali dari kemaksiatan. Seorang wali akan sangat berhati-hati dalam memilih makanan, minuman, dan segala aspek kehidupannya.
+                </p>
+            </div>
+
+            <div class="arabic-box">
+                <div class="arabic-label">DOA WARA'</div>
+                <div class="arabic-text">
+                    اللَّهُمَّ ارْزُقْنِي الوَرَعَ فِي دِينِي، وَالغِنَى فِي نَفْسِي
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Ya Allah, berikanlah kepadaku sifat wara' dalam agamaku, dan kecukupan dalam diriku."
+                </div>
+            </div>
+
+            <div class="maqam-card">
+                <span class="maqam-number">3</span>
+                <span class="maqam-title">Maqam Zuhud (مَقَامُ الزُّهْدِ) — Tingkatan Tidak Terikat Dunia</span>
+                <div class="maqam-arabic">الزُّهْدُ فِي الدُّنْيَا يُرِيحُ الْقَلْبَ</div>
+                <p>
+                    Maqam ketiga adalah <strong>zuhud</strong> (زُهْد), yaitu tidak terikat atau tidak terlalu mencintai dunia. Syaikh Abdul Qadir Al-Jilani menjelaskan bahwa zuhud akan memberikan ketenangan bagi hati. Seorang wali yang zuhud akan menggunakan dunia sekadar untuk beribadah kepada Allah.
+                </p>
+            </div>
+
+            <div class="arabic-box">
+                <div class="arabic-label">DOA ZUHUD</div>
+                <div class="arabic-text">
+                    اللَّهُمَّ اجْعَلِ الدُّنْيَا فِي يَدِي، لَا فِي قَلْبِي
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Ya Allah, jadikanlah dunia di tanganku, bukan di hatiku."
+                </div>
+            </div>
+
+            <div class="maqam-card">
+                <span class="maqam-number">4</span>
+                <span class="maqam-title">Maqam Sabar (مَقَامُ الصَّبْرِ) — Tingkatan Kesabaran</span>
+                <div class="maqam-arabic">الصَّبْرُ مِفْتَاحُ الْفَرَجِ لِلْأَوْلِيَاءِ</div>
+                <p>
+                    Maqam keempat adalah <strong>sabar</strong> (صَبْر), yaitu keteguhan hati dalam menghadapi ujian. Syaikh Abdul Qadir Al-Jilani menjelaskan bahwa sabar adalah kunci (miftāḥ) dari kelapangan bagi para wali. Seorang wali akan senantiasa sabar dalam menghadapi segala cobaan.
+                </p>
+            </div>
+
+            <div class="arabic-box">
+                <div class="arabic-label">DOA SABAR</div>
+                <div class="arabic-text">
+                    اللَّهُمَّ اجْعَلْنِي مِنَ الصَّابِرِينَ عَلَىٰ طَاعَتِكَ، وَعَنِ الْمَعْصِيَةِ، وَعَلَىٰ قَضَائِكَ
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Ya Allah, jadikanlah aku termasuk orang-orang yang sabar dalam ketaatan kepada-Mu, dalam menjauhi maksiat, dan dalam menghadapi takdir-Mu."
+                </div>
+            </div>
+
+            <div class="maqam-card">
+                <span class="maqam-number">5</span>
+                <span class="maqam-title">Maqam Ridha (مَقَامُ الرِّضَا) — Tingkatan Meridhai Takdir</span>
+                <div class="maqam-arabic">الرِّضَا بِقَضَاءِ اللَّهِ رَاحَةُ الْأَوْلِيَاءِ</div>
+                <p>
+                    Maqam kelima adalah <strong>ridha</strong> (رِضَا), yaitu meridhai atau menerima dengan lapang dada segala ketentuan Allah. Syaikh Abdul Qadir Al-Jilani menjelaskan bahwa ridha terhadap qadha Allah adalah ketenangan bagi para wali. Seorang wali yang ridha akan merasakan ketenangan jiwa yang luar biasa.
+                </p>
+            </div>
+
+            <div class="arabic-box">
+                <div class="arabic-label">DOA RIDHA</div>
+                <div class="arabic-text">
+                    اللَّهُمَّ اجْعَلْنِي رَاضِيًا بِقَضَائِكَ، مُسْتَسْلِمًا لِأَمْرِكَ
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Ya Allah, jadikanlah aku ridha dengan takdir-Mu, dan pasrah kepada perintah-Mu."
+                </div>
+            </div>
+
+            <div class="maqam-card">
+                <span class="maqam-number">6</span>
+                <span class="maqam-title">Maqam Mahabbah (مَقَامُ المَحَبَّةِ) — Tingkatan Cinta</span>
+                <div class="maqam-arabic">المَحَبَّةُ رُوحُ الْوِلَايَةِ وَحَقِيقَتُهَا</div>
+                <p>
+                    Maqam keenam adalah <strong>mahabbah</strong> (مَحَبَّة), yaitu cinta yang mendalam kepada Allah SWT. Syaikh Abdul Qadir Al-Jilani menjelaskan bahwa mahabbah adalah ruh (rūḥ) kewalian dan hakikatnya. Seorang wali yang telah mencapai maqam ini akan merasakan kenikmatan luar biasa dalam beribadah.
+                </p>
+            </div>
+
+            <div class="arabic-box">
+                <div class="arabic-label">DOA MAHABBAH</div>
+                <div class="arabic-text">
+                    اللَّهُمَّ اجْعَلْ حُبَّكَ أَحَبَّ إِلَيَّ مِنْ نَفْسِي وَأَهْلِي وَمِنَ الْمَاءِ الْبَارِدِ
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Ya Allah, jadikanlah cinta kepada-Mu lebih aku cintai daripada diriku sendiri, keluargaku, dan daripada air yang dingin."
+                    <br>— HR. Bukhari & Muslim
+                </div>
+            </div>
+
+            <div class="maqam-card">
+                <span class="maqam-number">7</span>
+                <span class="maqam-title">Maqam Ma'rifah (مَقَامُ المَعْرِفَةِ) — Tingkatan Mengenal Allah</span>
+                <div class="maqam-arabic">المَعْرِفَةُ غَايَةُ الْأَوْلِيَاءِ وَثَمَرَةُ سُلُوكِهِمْ</div>
+                <p>
+                    Maqam ketujuh dan tertinggi adalah <strong>ma'rifah</strong> (مَعْرِفَة), yaitu mengenal Allah SWT dengan sebenar-benarnya. Syaikh Abdul Qadir Al-Jilani menjelaskan bahwa ma'rifah adalah tujuan akhir (ghāyah) para wali dan buah (tsamarah) dari perjalanan spiritual mereka.
+                </p>
+            </div>
+
+            <div class="arabic-box">
+                <div class="arabic-label">DOA MA'RIFAH</div>
+                <div class="arabic-text">
+                    اللَّهُمَّ عَرِّفْنِي نَفْسِي حَتَّىٰ أَعْرِفَكَ
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Ya Allah, perkenalkanlah diriku kepada diriku sendiri agar aku mengenal-Mu."
+                </div>
+            </div>
+
+            <h2>Tanda-tanda Wali Sejati</h2>
+
+            <p>
+                Syaikh Abdul Qadir Al-Jilani menjelaskan beberapa tanda bahwa seseorang telah mencapai maqam kewalian yang sejati:
+            </p>
+
+            <ul>
+                <li><strong>Menjaga lisan (حفظ اللسان)</strong> — Tidak mengumpat, tidak mencela, tidak berbohong, dan senantiasa berkata baik atau diam</li>
+                <li><strong>Hati yang tenang (اطمئنان القلب)</strong> — Hati senantiasa merasa tenang dan tenteram dalam segala keadaan</li>
+                <li><strong>Lisan yang basah dengan dzikir (لسان رطب بالذكر)</strong> — Senantiasa mengingat Allah dalam setiap waktu</li>
+                <li><strong>Pandangan yang tertuju kepada Allah (نظر إلى الله)</strong> — Melihat segala sesuatu dengan kacamata keimanan</li>
+                <li><strong>Mudah dalam beribadah (سهولة العبادة)</strong> — Ibadah terasa ringan dan menyenangkan</li>
+                <li><strong>Cinta kepada ketaatan (حب الطاعة)</strong> — Senantiasa rindu untuk beribadah kepada Allah</li>
+                <li><strong>Benci kepada kemaksiatan (كراهية المعصية)</strong> — Merasa jijik terhadap dosa dan kemaksiatan</li>
+                <li><strong>Tawadhu' yang mendalam (تواضع عميق)</strong> — Merendahkan diri di hadapan Allah dan sesama manusia</li>
+                <li><strong>Memaafkan orang lain (العفو عن الناس)</strong> — Mudah memaafkan kesalahan orang lain</li>
+                <li><strong>Derma dan suka membantu (الكرم والإيثار)</strong> — Senantiasa membantu sesama tanpa pamrih</li>
+            </ul>
+
+            <div class="arabic-box">
+                <div class="arabic-label">TANDA WALI ALLAH</div>
+                <div class="arabic-text">
+                    أَوْلِيَاءُ اللَّهِ لَا خَوْفٌ عَلَيْهِمْ وَلَا هُمْ يَحْزَنُونَ
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Sesungguhnya wali-wali Allah itu, tidak ada kekhawatiran terhadap mereka dan tidak (pula) mereka bersedih hati."
+                    <br>— QS. Yunus: 62
+                </div>
+            </div>
+
+            <h2>Doa Meraih Maqam Kewalian</h2>
+
+            <p>
+                Berikut adalah doa-doa yang diajarkan oleh Syaikh Abdul Qadir Al-Jilani untuk meraih maqam kewalian:
+            </p>
+
+            <h3>1. Doa Mohon Kewalian</h3>
+
+            <div class="arabic-box">
+                <div class="arabic-label">DOA MOHON WILAYAH</div>
+                <div class="arabic-text">
+                    اللَّهُمَّ اجْعَلْنِي مِنْ أَوْلِيَائِكَ الَّذِينَ لَا خَوْفٌ عَلَيْهِمْ وَلَا هُمْ يَحْزَنُونَ
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Ya Allah, jadikanlah aku termasuk wali-wali-Mu yang tidak ada kekhawatiran terhadap mereka dan tidak (pula) mereka bersedih hati."
+                </div>
+            </div>
+
+            <h3>2. Doa Mohon Hati yang Bersih</h3>
+
+            <div class="arabic-box">
+                <div class="arabic-label">DOA HATI BERSIH</div>
+                <div class="arabic-text">
+                    اللَّهُمَّ طَهِّرْ قَلْبِي مِنَ النِّفَاقِ، وَعَمَلِي مِنَ الرِّيَاءِ
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Ya Allah, sucikanlah hatiku dari kemunafikan, dan amalku dari riya'."
+                </div>
+            </div>
+
+            <h3>3. Doa Mohon Akhlak Mulia</h3>
+
+            <div class="arabic-box">
+                <div class="arabic-label">DOA AKHLAK MULIA</div>
+                <div class="arabic-text">
+                    اللَّهُمَّ اهْدِنِي لِأَحْسَنِ الْأَخْلَاقِ، لَا يَهْدِي لِأَحْسَنِهَا إِلَّا أَنْتَ
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Ya Allah, tunjukkanlah aku kepada akhlak yang paling baik, tidak ada yang dapat menunjukkannya kepada akhlak yang paling baik selain Engkau."
+                    <br>— HR. Muslim
+                </div>
+            </div>
+
+            <h2>Penutup</h2>
+
+            <p>
+                Perjalanan menuju maqam kewalian adalah perjalanan seumur hidup yang memerlukan kesabaran, keistiqomahan, dan bimbingan dari Allah SWT. Dengan memahami maqam-maqam kewalian, mengenali tanda-tanda wali sejati, dan mengamalkan doa-doa yang telah dijelaskan dalam artikel ini, insya Allah kita dapat meraih ridha Allah SWT dan termasuk dalam golongan wali-wali-Nya.
+            </p>
+
+            <p>
+                Semoga Allah SWT memberikan kita kekuatan dan petunjuk untuk menempuh jalan ini dengan benar. Aamiin ya Rabbal 'Alamiin.
+            </p>
+
+            <div class="arabic-box">
+                <div class="arabic-text">
+                    أَلَا إِنَّ أَوْلِيَاءَ اللَّهِ لَا خَوْفٌ عَلَيْهِمْ وَلَا هُمْ يَحْزَنُونَ
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Ingatlah, sesungguhnya wali-wali Allah itu, tidak ada kekhawatiran terhadap mereka dan tidak (pula) mereka bersedih hati."
+                    <br>— QS. Yunus: 62
+                </div>
+            </div>
+
+            <p>
+                Wallahu a'lam bish-shawab. Dan segala puji bagi Allah, Tuhan semesta alam.
+            </p>
+
+        </div>
+
+        <!-- NAVIGASI 3 TOMBOL -->
+        <div class="article-nav">
+            <div class="nav-group">
+                <a href="artikel5.html" class="article-nav-btn" title="Artikel Utama">1</a>
+                <div class="nav-btn-label">Artikel Utama</div>
+            </div>
+            <div class="nav-group">
+                <a href="artikel5-cabang.html" class="article-nav-btn" title="Artikel Cabang">2</a>
+                <div class="nav-btn-label">Artikel Cabang</div>
+            </div>
+            <div class="nav-group">
+                <a href="artikel5-lanjutan.html" class="article-nav-btn active" title="Artikel Lanjutan">3</a>
+                <div class="nav-btn-label">Artikel Lanjutan</div>
+            </div>
+        </div>
+
+        <a href="index.html" class="kalam-back-btn">
+            KALAM
+            <span class="btn-sub">← Kembali ke Beranda</span>
+        </a>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 <span>KALAM</span>. Semua hak dilindungi.</p>
+    </footer>
+
+</body>
+</html>
