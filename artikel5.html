@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heikah Wali Mengumpat Seseorang? Ini Jawaban Syaikh Abdul Qadir Al-Jilani - KALAM</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #f5f5f0;
+            color: #333;
+            min-height: 100vh;
+            line-height: 1.8;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-kalam {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #e94560;
+            letter-spacing: 5px;
+            text-decoration: none;
+            text-shadow: 0 0 10px rgba(233, 69, 96, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
+
+        .logo-kalam:hover {
+            background: rgba(233, 69, 96, 0.15);
+            transform: scale(1.05);
+        }
+
+        .logo-kalam span { color: #fff; }
+
+        nav { display: flex; gap: 15px; }
+
+        nav a {
+            color: #ccc;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        nav a:hover { background: #e94560; color: #fff; }
+
+        .breadcrumb {
+            padding: 15px 40px;
+            background: #eee;
+            font-size: 0.85rem;
+            color: #777;
+        }
+
+        .breadcrumb a { color: #e94560; text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        .article-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .article-header { margin-bottom: 30px; }
+
+        .article-header h1 {
+            font-size: 2.2rem;
+            color: #1a1a2e;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            color: #888;
+            font-size: 0.9rem;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .author { display: flex; align-items: center; gap: 8px; }
+
+        .author-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e94560, #c23152);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        .author-name { font-weight: bold; color: #333; }
+        .meta-date { color: #999; }
+
+        .article-image-wrapper {
+            margin: 25px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            position: relative;
+        }
+
+        .article-image-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .article-image-wrapper:hover img { transform: scale(1.02); }
+
+        .image-caption {
+            background: rgba(0,0,0,0.7);
+            color: #ccc;
+            padding: 10px 15px;
+            font-size: 0.8rem;
+        }
+
+        .share-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 0;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .share-bar span { font-size: 0.85rem; color: #888; margin-right: 5px; }
+
+        .share-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .share-btn.fb { background: #3b5998; }
+        .share-btn.tw { background: #1da1f2; }
+        .share-btn.wa { background: #25d366; }
+        .share-btn.tg { background: #0088cc; }
+
+        .share-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .font-size-controls { margin-left: auto; display: flex; gap: 5px; }
+
+        .font-btn {
+            width: 32px;
+            height: 32px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: #fff;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .font-btn:hover {
+            background: #e94560;
+            color: #fff;
+            border-color: #e94560;
+        }
+
+        .article-content {
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: #444;
+        }
+
+        .article-content p {
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .article-content .lead {
+            font-size: 1.15rem;
+            font-weight: bold;
+            color: #1a1a2e;
+            border-left: 4px solid #e94560;
+            padding-left: 20px;
+            margin-bottom: 25px;
+        }
+
+        .article-content blockquote {
+            background: #f0f0eb;
+            border-left: 4px solid #e94560;
+            padding: 20px 25px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            color: #555;
+        }
+
+        .article-content h2 {
+            font-size: 1.5rem;
+            color: #1a1a2e;
+            margin: 35px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e94560;
+        }
+
+        .article-content h3 {
+            font-size: 1.2rem;
+            color: #333;
+            margin: 25px 0 10px;
+        }
+
+        .arabic-box {
+            background: linear-gradient(135deg, #f8f6f0 0%, #f0ede5 100%);
+            border: 2px solid #d4af37;
+            border-radius: 12px;
+            padding: 30px 25px;
+            margin: 25px 0;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+            position: relative;
+        }
+
+        .arabic-box::before {
+            content: '﷽';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #f8f6f0;
+            padding: 0 15px;
+            font-size: 1.5rem;
+            color: #d4af37;
+        }
+
+        .arabic-text {
+            font-family: 'Traditional Arabic', 'Scheherazade', 'Amiri', serif;
+            font-size: 1.8rem;
+            line-height: 2.8;
+            color: #1a1a2e;
+            direction: rtl;
+            margin: 15px 0;
+        }
+
+        .arabic-translation {
+            font-size: 0.95rem;
+            color: #666;
+            font-style: italic;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #d4af37;
+        }
+
+        .arabic-label {
+            display: inline-block;
+            background: #d4af37;
+            color: #fff;
+            padding: 4px 15px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .article-nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 40px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 15px;
+        }
+
+        .article-nav-btn {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 2px solid #e94560;
+            background: rgba(233, 69, 96, 0.1);
+            color: #fff;
+            font-size: 1.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .article-nav-btn:hover {
+            background: #e94560;
+            transform: scale(1.15);
+            box-shadow: 0 5px 20px rgba(233, 69, 96, 0.5);
+        }
+
+        .article-nav-btn.active {
+            background: #e94560;
+            box-shadow: 0 0 20px rgba(233, 69, 96, 0.6);
+        }
+
+        .nav-btn-label {
+            text-align: center;
+            color: #aaa;
+            font-size: 0.8rem;
+            margin-top: 8px;
+        }
+
+        .nav-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .kalam-back-btn {
+            display: block;
+            text-align: center;
+            margin: 40px auto;
+            padding: 18px 50px;
+            background: linear-gradient(135deg, #e94560, #c23152);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 35px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            letter-spacing: 4px;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 25px rgba(233, 69, 96, 0.4);
+            max-width: 350px;
+        }
+
+        .kalam-back-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(233, 69, 96, 0.6);
+            background: linear-gradient(135deg, #ff6b81, #e94560);
+            letter-spacing: 6px;
+        }
+
+        .kalam-back-btn .btn-sub {
+            display: block;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            margin-top: 5px;
+            opacity: 0.8;
+            font-weight: normal;
+        }
+
+        footer {
+            background: #1a1a2e;
+            color: #888;
+            text-align: center;
+            padding: 25px;
+            font-size: 0.9rem;
+            margin-top: 40px;
+        }
+
+        footer span { color: #e94560; }
+
+        @media (max-width: 600px) {
+            header { flex-direction: column; gap: 10px; padding: 15px 20px; }
+            .article-container { padding: 0 15px; }
+            .article-header h1 { font-size: 1.5rem; }
+            .article-content { font-size: 0.95rem; }
+            .arabic-text { font-size: 1.4rem; line-height: 2.4; }
+            .article-nav { gap: 15px; }
+            .article-nav-btn { width: 55px; height: 55px; font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo-kalam" title="Kembali ke Beranda">
+            <span>K</span>ALAM
+        </a>
+        <nav>
+            <a href="index.html">Beranda</a>
+            <a href="artikel5.html">Artikel</a>
+        </nav>
+    </header>
+
+    <div class="breadcrumb">
+        <a href="index.html">Beranda</a> &raquo; <a href="artikel5.html">Artikel</a> &raquo; Wali Mengumpat
+    </div>
+
+    <div class="article-container">
+
+        <div class="article-header">
+            <h1>Heikah Wali Mengumpat Seseorang? Ini Jawaban Syaikh Abdul Qadir Al-Jilani</h1>
+            <div class="article-meta">
+                <div class="author">
+                    <div class="author-avatar">MY</div>
+                    <div>
+                        <div class="author-name">DKM Masjid Jami' Al-Ikhlas</div>
+                        <div class="meta-date">Senin, 05 Oktober 2026, 08:25 WIB</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="article-image-wrapper">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Abdul_Qadir_Jilani.jpg/440px-Abdul_Qadir_Jilani.jpg"
+                 alt="Potret Syaikh Abdul Qadir Al-Jilani">
+            <div class="image-caption">Sumber: kalam.web.id — Potret Syaikh Abdul Qadir Al-Jilani</div>
+        </div>
+
+        <div class="share-bar">
+            <span>Bagikan:</span>
+            <a href="#" class="share-btn fb">f</a>
+            <a href="#" class="share-btn tw"></a>
+            <a href="#" class="share-btn wa">W</a>
+            <a href="#" class="share-btn tg">T</a>
+            <div class="font-size-controls">
+                <button class="font-btn" onclick="changeFontSize(-1)">A-</button>
+                <button class="font-btn" onclick="changeFontSize(1)">A+</button>
+            </div>
+        </div>
+
+        <div class="article-content" id="articleContent">
+
+            <p class="lead">
+                Pertanyaan tentang apakah seorang wali Allah boleh mengumpat atau mencela seseorang sering muncul di kalangan penuntut ilmu spiritual. Syaikh Abdul Qadir Al-Jilani, seorang ulama besar dan tokoh tasawuf yang sangat dihormati, memberikan jawaban yang mendalam dan penuh hikmah tentang permasalahan ini.
+            </p>
+
+            <p>
+                Dalam sebuah majelis pengajiannya, Syaikh Abdul Qadir Al-Jilani pernah ditanya oleh salah seorang muridnya: "Wahai Syaikh, apakah seorang wali Allah boleh mengumpat atau mencela seseorang yang telah menyakitinya?" Pertanyaan ini sangat penting karena menyangkut adab spiritual dan akhlak seorang hamba yang telah mencapai maqam kewalian.
+            </p>
+
+            <h2>Siapa Itu Wali Allah?</h2>
+
+            <p>
+                Sebelum membahas tentang apakah wali boleh mengumpat, penting untuk memahami terlebih dahulu siapa itu wali Allah. Dalam terminologi tasawuf, <strong>wali</strong> (وَلِيّ) adalah orang yang sangat dekat dengan Allah SWT, yang senantiasa taat kepada-Nya dan dijaga oleh Allah dari kemaksiatan.
+            </p>
+
+            <div class="arabic-box">
+                <div class="arabic-label">DEFINISI WALI ALLAH</div>
+                <div class="arabic-text">
+                    أَوْلِيَاءُ اللَّهِ هُمُ الَّذِينَ آمَنُوا وَكَانُوا يَتَّقُونَ
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Wali-wali Allah itu adalah orang-orang yang beriman dan mereka selalu bertakwa."
+                    <br>— QS. Yunus: 62
+                </div>
+            </div>
+
+            <p>
+                Syaikh Abdul Qadir Al-Jilani menjelaskan bahwa wali Allah adalah orang yang hatinya senantiasa terhubung dengan Allah, lisannya basah dengan dzikir, dan perilakunya mencerminkan akhlak Rasulullah SAW. Seorang wali tidak mungkin melakukan perbuatan yang bertentangan dengan syariat Islam.
+            </p>
+
+            <h2>Hukum Mengumpat dalam Islam</h2>
+
+            <p>
+                Mengumpat atau <strong>ghibah</strong> (غِيبَة) dalam Islam adalah perbuatan yang sangat tercela. Allah SWT melarang keras perbuatan ini dalam Al-Qur'an. Mengumpat adalah membicarakan keburukan orang lain di belakangnya, padahal orang tersebut tidak hadir.
+            </p>
+
+            <div class="arabic-box">
+                <div class="arabic-label">LARANGAN MENGUMPAT</div>
+                <div class="arabic-text">
+                    وَلَا يَغْتَبْ بَعْضُكُمْ بَعْضًا ۚ أَيُحِبُّ أَحَدُكُمْ أَنْ يَأْكُلَ لَحْمَ أَخِيهِ مَيْتًا فَكَرِهْتُمُوهُ
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Dan janganlah sebagian kamu menggunjing sebagian yang lain. Sukakah salah seorang di antara kamu memakan daging saudaranya yang sudah mati? Maka tentulah kamu merasa jijik kepadanya."
+                    <br>— QS. Al-Hujurat: 12
+                </div>
+            </div>
+
+            <p>
+                Rasulullah SAW juga bersabda tentang bahaya mengumpat:
+            </p>
+
+            <div class="arabic-box">
+                <div class="arabic-label">HADITS TENTANG GIBAH</div>
+                <div class="arabic-text">
+                    أَتَدْرُونَ مَا الْغِيبَةُ؟ قَالُوا: اللَّهُ وَرَسُولُهُ أَعْلَمُ. قَالَ: ذِكْرُكَ أَخَاكَ بِمَا يَكْرَهُ
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Tahukah kalian apa itu ghibah? Mereka menjawab: Allah dan Rasul-Nya yang lebih tahu. Beliau bersabda: 'Yaitu kamu menyebutkan sesuatu tentang saudaramu yang tidak ia sukai.'"
+                    <br>— HR. Muslim
+                </div>
+            </div>
+
+            <h2>Jawaban Syaikh Abdul Qadir Al-Jilani</h2>
+
+            <p>
+                Ketika ditanya tentang apakah wali boleh mengumpat, Syaikh Abdul Qadir Al-Jilani memberikan jawaban yang sangat bijaksana. Beliau menjelaskan bahwa seorang wali yang sejati tidak akan pernah mengumpat atau mencela seseorang, meskipun orang tersebut telah menyakitinya.
+            </p>
+
+            <div class="arabic-box">
+                <div class="arabic-label">JAWABAN SYAIKH ABDUL QADIR AL-JILANI</div>
+                <div class="arabic-text">
+                    الْوَلِيُّ الْحَقِيقِيُّ لَا يَغْتَابُ أَحَدًا، وَلَا يَشْتِمُ أَحَدًا، بَلْ يَدْعُو لَهُ بِالْهِدَايَةِ وَالْمَغْفِرَةِ
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Wali yang sejati tidak akan mengumpat seseorang, tidak pula mencela seseorang, melainkan ia mendoakan orang tersebut agar mendapat petunjuk dan ampunan."
+                    <br>— Syaikh Abdul Qadir Al-Jilani
+                </div>
+            </div>
+
+            <p>
+                Syaikh Abdul Qadir Al-Jilani menjelaskan lebih lanjut bahwa seorang wali yang telah mencapai maqam spiritual yang tinggi akan melihat segala sesuatu dengan kacamata rahmat dan kasih sayang Allah. Ia tidak akan marah karena dirinya sendiri, melainkan marah karena Allah. Dan kemarahan karena Allah tidak akan melahirkan perbuatan mengumpat atau mencela.
+            </p>
+
+            <h2>Mengapa Wali Tidak Mengumpat?</h2>
+
+            <p>
+                Syaikh Abdul Qadir Al-Jilani memberikan beberapa alasan mengapa seorang wali tidak mengumpat:
+            </p>
+
+            <p>
+                <strong>1. Karena ia melihat tangan Allah di balik setiap peristiwa.</strong> Seorang wali memahami bahwa segala sesuatu yang terjadi adalah atas izin dan takdir Allah. Jika seseorang menyakitinya, ia melihat itu sebagai ujian dari Allah, bukan sebagai serangan pribadi.
+            </p>
+
+            <div class="arabic-box">
+                <div class="arabic-label">HIKMAH MELIHAT TAKDIR ALLAH</div>
+                <div class="arabic-text">
+                    مَا أَصَابَكَ لَمْ يَكُنْ لِيُخْطِئَكَ، وَمَا أَخْطَأَكَ لَمْ يَكُنْ لِيُصِيبَكَ
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Apa yang menimpamu tidak akan meleset darimu, dan apa yang meleset darimu tidak akan menimpamu."
+                    <br>— HR. Abu Dawud & Tirmidzi
+                </div>
+            </div>
+
+            <p>
+                <strong>2. Karena ia sibuk dengan aib dirinya sendiri.</strong> Seorang wali senantiasa melakukan muhasabah (introspeksi diri) dan sibuk memperbaiki dirinya sendiri. Ia tidak punya waktu untuk membicarakan keburukan orang lain.
+            </p>
+
+            <div class="arabic-box">
+                <div class="arabic-label">SIBUK DENGAN AIB DIRI SENDIRI</div>
+                <div class="arabic-text">
+                    مَنْ شَغَلَهُ عَيْبُهُ عَنْ عُيُوبِ النَّاسِ، فَقَدْ فَازَ فَوزًا عَظِيمًا
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Barangsiapa yang disibukkan oleh aibnya sendiri dari aib-aib manusia, maka ia telah meraih kemenangan yang besar."
+                </div>
+            </div>
+
+            <p>
+                <strong>3. Karena ia mencintai semua makhluk Allah.</strong> Seorang wali yang telah mencapai maqam mahabbah (cinta) akan mencintai semua makhluk Allah, bahkan orang yang menyakitinya. Ia mendoakan kebaikan untuk semua orang.
+            </p>
+
+            <div class="arabic-box">
+                <div class="arabic-label">DOA UNTUK YANG MENYAKITI</div>
+                <div class="arabic-text">
+                    اللَّهُمَّ اهْدِ قَوْمِي فَإِنَّهُمْ لَا يَعْلَمُونَ
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Ya Allah, berilah petunjuk kepada kaumku, karena sesungguhnya mereka tidak mengetahui."
+                    <br>— QS. Al-An'am: 80 (Doa Nabi Ibrahim)
+                </div>
+            </div>
+
+            <p>
+                <strong>4. Karena ia takut kepada Allah.</strong> Seorang wali senantiasa merasa diawasi oleh Allah (muraqabah). Ia takut jika lisannya digunakan untuk mengumpat, karena mengumpat adalah dosa besar yang dapat menghapus amal shaleh.
+            </p>
+
+            <div class="arabic-box">
+                <div class="arabic-label">BAHAYA MENGUMPAT</div>
+                <div class="arabic-text">
+                    الْغِيبَةُ أَشَدُّ مِنَ الزِّنَا، لِأَنَّ الزَّانِي قَدْ يَتُوبُ فَيَتُوبُ اللَّهُ عَلَيْهِ، وَصَاحِبُ الْغِيبَةِ لَا يُغْفَرُ لَهُ حَتَّىٰ يَغْفِرَ لَهُ صَاحِبُهُ
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Mengumpat itu lebih berat dari zina, karena pezina mungkin bertaubat dan Allah menerima taubatnya, sedangkan pelaku ghibah tidak diampuni hingga orang yang digibahi memaafkannya."
+                    <br>— Syaikh Abdul Qadir Al-Jilani
+                </div>
+            </div>
+
+            <h2>Bagaimana Jika Wali Marah?</h2>
+
+            <p>
+                Syaikh Abdul Qadir Al-Jilani juga menjelaskan tentang kemarahan seorang wali. Seorang wali boleh marah, tetapi kemarahannya bukan karena dirinya sendiri, melainkan karena Allah. Ketika ia melihat kemaksiatan atau pelanggaran terhadap syariat Allah, ia marah karena Allah, bukan karena kepentingan pribadi.
+            </p>
+
+            <div class="arabic-box">
+                <div class="arabic-label">KEMARAHAN KARENA ALLAH</div>
+                <div class="arabic-text">
+                    مَنْ غَضِبَ لِلَّهِ غَضَبَ اللَّهُ لَهُ، وَمَنْ رَضِيَ لِلَّهِ رَضِيَ اللَّهُ عَنْهُ
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Barangsiapa yang marah karena Allah, maka Allah akan marah (membela)nya. Dan barangsiapa yang ridha karena Allah, maka Allah akan ridha kepadanya."
+                </div>
+            </div>
+
+            <p>
+                Kemarahan karena Allah tidak akan melahirkan perbuatan mengumpat atau mencela. Sebaliknya, ia akan menasihati dengan cara yang baik dan bijaksana, atau mendoakan agar orang tersebut mendapat petunjuk.
+            </p>
+
+            <h2>Perbedaan Wali Sejati dan Pura-pura</h2>
+
+            <p>
+                Syaikh Abdul Qadir Al-Jilani juga memberikan penjelasan tentang perbedaan wali sejati dan orang yang pura-pura menjadi wali. Orang yang pura-pura menjadi wali (mutasawwif) mungkin masih mengumpat dan mencela orang lain, karena ia belum mencapai maqam spiritual yang sebenarnya.
+            </p>
+
+            <div class="arabic-box">
+                <div class="arabic-label">TANDA WALI SEJATI</div>
+                <div class="arabic-text">
+                    مِنْ عَلَامَاتِ الْوَلِيِّ الْحَقِيقِيِّ: حِفْظُ اللِّسَانِ، وَطَهَارَةُ الْقَلْبِ، وَحُسْنُ الْخُلُقِ مَعَ النَّاسِ
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Di antara tanda-tanda wali yang sejati adalah: menjaga lisan, sucinya hati, dan berakhlak baik dengan sesama manusia."
+                    <br>— Syaikh Abdul Qadir Al-Jilani
+                </div>
+            </div>
+
+            <p>
+                Wali sejati akan senantiasa menjaga lisannya dari perkataan yang buruk, termasuk mengumpat, mencela, dan berbohong. Hatinya bersih dari dendam dan kebencian, dan perilakunya mencerminkan akhlak Rasulullah SAW.
+            </p>
+
+            <h2>Nasihat Syaikh Abdul Qadir Al-Jilani</h2>
+
+            <p>
+                Syaikh Abdul Qadir Al-Jilani memberikan nasihat berharga kepada para muridnya tentang cara menghadapi orang yang menyakiti:
+            </p>
+
+            <div class="arabic-box">
+                <div class="arabic-label">NASIHAT SYAIKH</div>
+                <div class="arabic-text">
+                    إِذَا آذَاكَ أَحَدٌ، فَادْعُ لَهُ بِالْهِدَايَةِ، وَلَا تَدْعُ عَلَيْهِ بِالْهَلَاكِ، فَإِنَّ الدُّعَاءَ عَلَيْهِ رُبَّمَا يُسْتَجَابُ فَتَكُونُ قَدْ أَهْلَكْتَ نَفْسَكَ
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Jika seseorang menyakitimu, maka doakan ia agar mendapat petunjuk, dan jangan mendoakan kebinasaan atasnya, karena doa atasnya mungkin dikabulkan, sehingga engkau telah membinasakan dirimu sendiri."
+                    <br>— Syaikh Abdul Qadir Al-Jilani
+                </div>
+            </div>
+
+            <p>
+                Nasihat ini sangat berharga karena mengingatkan kita bahwa mendoakan keburukan untuk orang lain dapat berbalik kepada diri kita sendiri. Lebih baik mendoakan kebaikan dan petunjuk untuk orang yang menyakiti kita, karena dengan demikian kita akan mendapatkan pahala dan keridhaan Allah SWT.
+            </p>
+
+            <h2>Penutup</h2>
+
+            <p>
+                Dari penjelasan Syaikh Abdul Qadir Al-Jilani di atas, dapat disimpulkan bahwa seorang wali Allah yang sejati tidak akan mengumpat atau mencela seseorang, meskipun orang tersebut telah menyakitinya. Seorang wali akan memilih untuk mendoakan kebaikan dan petunjuk bagi orang yang menyakitinya, karena ia memahami bahwa segala sesuatu terjadi atas izin Allah.
+            </p>
+
+            <p>
+                Semoga kita dapat meneladani akhlak para wali Allah, khususnya Syaikh Abdul Qadir Al-Jilani, dalam menghadapi orang-orang yang menyakiti kita. Mari kita jaga lisan kita dari mengumpat dan mencela, dan perbanyak doa untuk kebaikan semua orang. Aamiin ya Rabbal 'Alamiin.
+            </p>
+
+            <div class="arabic-box">
+                <div class="arabic-text">
+                    ادْفَعْ بِالَّتِي هِيَ أَحْسَنُ فَإِذَا الَّذِي بَيْنَكَ وَبَيْنَهُ عَدَاوَةٌ كَأَنَّهُ وَلِيٌّ حَمِيمٌ
+                </div>
+                <div class="arabic-translation">
+                    <strong>Artinya:</strong> "Tolaklah (kejahatan itu) dengan cara yang lebih baik, maka tiba-tiba orang yang antara kamu dan antara dia ada permusuhan, seolah-olah telah menjadi teman yang sangat setia."
+                    <br>— QS. Fussilat: 34
+                </div>
+            </div>
+
+            <p>
+                Wallahu a'lam bish-shawab. Dan segala puji bagi Allah, Tuhan semesta alam.
+            </p>
+
+        </div>
+
+        <!-- NAVIGASI 3 TOMBOL -->
+        <div class="article-nav">
+            <div class="nav-group">
+                <a href="artikel5.html" class="article-nav-btn active" title="Artikel Utama">1</a>
+                <div class="nav-btn-label">Artikel Utama</div>
+            </div>
+            <div class="nav-group">
+                <a href="artikel5-cabang.html" class="article-nav-btn" title="Artikel Cabang">2</a>
+                <div class="nav-btn-label">Artikel Cabang</div>
+            </div>
+            <div class="nav-group">
+                <a href="artikel5-lanjutan.html" class="article-nav-btn" title="Artikel Lanjutan">3</a>
+                <div class="nav-btn-label">Artikel Lanjutan</div>
+            </div>
+        </div>
+
+        <a href="index.html" class="kalam-back-btn">
+            KALAM
+            <span class="btn-sub">← Kembali ke Beranda</span>
+        </a>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 <span>KALAM</span>. Semua hak dilindungi.</p>
+    </footer>
+
+    <script>
+        let currentFontSize = 1.05;
+        function changeFontSize(delta) {
+            currentFontSize += delta * 0.1;
+            if (currentFontSize < 0.8) currentFontSize = 0.8;
+            if (currentFontSize > 1.5) currentFontSize = 1.5;
+            document.getElementById('articleContent').style.fontSize = currentFontSize + 'rem';
+        }
+    </script>
+
+</body>
+</html>
