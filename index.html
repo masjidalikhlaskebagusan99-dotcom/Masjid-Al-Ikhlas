@@ -21924,6 +21924,159 @@ setTimeout(init, 1500);
 setTimeout(init, 3000);
 
 })();
+</script><!-- ============================================
+✅ PATCH FINAL TERKONSOLIDASI
+1. Tanggal Hijriyah Real-Time
+2. Sembunyikan Banner Alarm Murattal
+3. Notifikasi 1x & Wake Lock
+============================================ -->
+<style>
+/* Sembunyikan Banner Alarm Murattal (Sesuai Gambar 5.png) */
+div[class*="alarm-murattal"], 
+div[class*="murattal-alarm"],
+div[style*="background: linear-gradient(135deg, #2ecc71"],
+.alarm-notification-banner,
+.murattal-playing-banner {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    max-height: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+    position: absolute !important;
+    z-index: -1 !important;
+}
+</style>
+
+<script>
+(function(){
+    'use strict';
+    console.log(' PATCH FINAL TERKONSOLIDASI: Dimuat...');
+
+    /* ============================================================
+    ✅ 1. PERBAIKAN TANGGAL HIJRIYAH REAL-TIME
+    ============================================================ */
+    function getHijriDateString() {
+        const now = new Date();
+        try {
+            // Gunakan Intl API (Kalender Umm al-Qura)
+            const formatter = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura-nu-latn', {
+                day: 'numeric', month: 'long', year: 'numeric'
+            });
+            const parts = formatter.formatToParts(now);
+            let day = '', month = '', year = '';
+            parts.forEach(p => {
+                if (p.type === 'day') day = p.value;
+                if (p.type === 'month') month = p.value;
+                if (p.type === 'year') year = p.value;
+            });
+            
+            // Mapping ke nama Indonesia
+            const monthMap = {
+                'Muharram': 'Muharram', 'Safar': 'Safar',
+                'Rabi I': 'Rabiul Awal', 'Rabi II': 'Rabiul Akhir',
+                'Jumada I': 'Jumadil Awal', 'Jumada II': 'Jumadil Akhir',
+                'Rajab': 'Rajab', 'Shaban': "Sya'ban",
+                'Ramadan': 'Ramadhan', 'Shawwal': 'Syawal',
+                'Dhu al-Qi\'dah': "Dzulqa'dah", 'Dhu al-Hijjah': 'Dzulhijjah'
+            };
+            return `${day} ${monthMap[month] || month} ${year} H`;
+        } catch (e) {
+            return 'Tanggal Hijriyah'; // Fallback jika browser tidak support
+        }
+    }
+
+    // Override fungsi updateDateTime bawaan
+    window.updateDateTime = function() {
+        const now = new Date();
+        const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+        const months = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+        
+        const dayName = days[now.getDay()];
+        const date = now.getDate();
+        const month = months[now.getMonth()];
+        const year = now.getFullYear();
+        const hours = String(now.getHours()).padStart(2,'0');
+        const minutes = String(now.getMinutes()).padStart(2,'0');
+        
+        // ✅ Panggil fungsi Hijriyah Real-Time
+        const hijriDate = getHijriDateString();
+        
+        const dateStr = `${dayName}, ${date} ${month} ${year} · ${hijriDate} · ${hours}:${minutes} WIB`;
+        const el = document.getElementById('dateTimeDisplay');
+        if (el) el.textContent = dateStr;
+    };
+
+    // Jalankan ulang
+    window.updateDateTime();
+    setInterval(window.updateDateTime, 60000);
+
+
+    /* ============================================================
+    ✅ 2. SEMBUNYIKAN BANNER ALARM MURATTAL (DINAMIS)
+    ============================================================ */
+    function hideMurattalBanner() {
+        // Cari elemen berdasarkan teks "Sedang memutar" atau "Alarm Murattal"
+        const allDivs = document.querySelectorAll('div, section, aside');
+        for (let i = 0; i < allDivs.length; i++) {
+            const el = allDivs[i];
+            const text = el.textContent || '';
+            // Jika mengandung teks khas banner tersebut
+            if (text.includes('Sedang memutar') && text.includes('Hentikan')) {
+                el.style.display = 'none';
+                el.style.visibility = 'hidden';
+                el.style.height = '0';
+                el.style.overflow = 'hidden';
+            }
+        }
+    }
+
+    // Jalankan segera dan pantau perubahan DOM (untuk elemen yang muncul belakangan)
+    hideMurattalBanner();
+    const observer = new MutationObserver(hideMurattalBanner);
+    observer.observe(document.body, { childList: true, subtree: true });
+    setInterval(hideMurattalBanner, 2000); // Backup polling
+
+
+    /* ============================================================
+    ✅ 3. IZIN NOTIFIKASI HANYA 1x & WAKE LOCK
+    ============================================================ */
+    // Notifikasi 1x saja
+    if ('Notification' in window && Notification.permission === 'default' && !sessionStorage.getItem('notif_1x')) {
+        Notification.requestPermission().then(permission => {
+            sessionStorage.setItem('notif_1x', 'true');
+            console.log('✅ Izin notifikasi disimpan (tidak akan minta lagi)');
+        });
+    }
+
+    // Wake Lock (Jaga layar tetap hidup)
+    let wakeLock = null;
+    async function requestWakeLock() {
+        try {
+            if ('wakeLock' in navigator) {
+                wakeLock = await navigator.wakeLock.request('screen');
+                console.log('🔒 Wake Lock aktif');
+                wakeLock.addEventListener('release', () => { wakeLock = null; });
+            }
+        } catch (err) {
+            console.log('⚠️ Wake Lock tidak didukung/ditolak');
+        }
+    }
+
+    // Aktifkan saat halaman dibuka
+    requestWakeLock();
+    
+    // Aktifkan kembali jika tab kembali aktif
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible' && wakeLock === null) {
+            requestWakeLock();
+        }
+    });
+
+    console.log('✅ PATCH FINAL: Semua fitur aktif dan terintegrasi.');
+})();
 </script>
+
 </body>
 </html>
