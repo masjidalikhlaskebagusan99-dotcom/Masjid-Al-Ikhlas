@@ -22077,6 +22077,607 @@ div[style*="background: linear-gradient(135deg, #2ecc71"],
     console.log('✅ PATCH FINAL: Semua fitur aktif dan terintegrasi.');
 })();
 </script>
+<script>
+/* ============================================================
+✅ HASH NAVIGATION HANDLER
+Otomatis membuka halaman Masjid & scroll ke section
+saat URL mengandung hash #section=xxx
+============================================================ */
+(function() {
+  'use strict';
+  
+  function handleHashNavigation() {
+    var hash = window.location.hash;
+    if (!hash || hash.length < 2) return;
+    
+    // Format: #section=profil atau #profil
+    var sectionId = '';
+    
+    if (hash.indexOf('#section=') === 0) {
+      sectionId = hash.substring(9);
+    } else if (hash.indexOf('#') === 0) {
+      sectionId = hash.substring(1);
+    }
+    
+    if (!sectionId) return;
+    
+    // Daftar section yang valid di halaman Masjid
+    var validSections = [
+      'beranda', 'profil', 'donasi', 'majlis-talim', 'majlis-dzikir',
+      'petugas-jumat', 'petugas-rawatib', 'badan-pengembangan',
+      'bidang-ibadah', 'bidang-pendidikan', 'bmt', 'phbi',
+      'kesejahteraan', 'buku-kas', 'buku-kas-phbi', 'buku-kas-santunan',
+      'anggaran', 'kontak', 'share'
+    ];
+    
+    // Cek apakah section valid
+    if (validSections.indexOf(sectionId) === -1) return;
+    
+    console.log('🎯 Hash navigation: menuju section', sectionId);
+    
+    // Tampilkan halaman Masjid
+    if (typeof showPage === 'function') {
+      showPage('tentang-donasi');
+    }
+    
+    // Scroll ke section setelah halaman terbuka
+    setTimeout(function() {
+      var target = document.getElementById(sectionId);
+      if (target) {
+        // Scroll dengan offset untuk navbar
+        var navHeight = 120;
+        var targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+        var offsetPosition = targetPosition - navHeight;
+        
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+        
+        // Highlight section dengan efek visual
+        target.style.transition = 'background-color 0.5s ease';
+        target.style.backgroundColor = 'rgba(201, 162, 39, 0.1)';
+        setTimeout(function() {
+          target.style.backgroundColor = '';
+        }, 2000);
+        
+        console.log('✅ Berhasil scroll ke section:', sectionId);
+      } else {
+        console.warn('️ Section tidak ditemukan:', sectionId);
+      }
+    }, 500);
+  }
+  
+  // Jalankan saat halaman dimuat
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', handleHashNavigation);
+  } else {
+    handleHashNavigation();
+  }
+  
+  // Juga jalankan saat hash berubah (untuk navigasi dalam halaman)
+  window.addEventListener('hashchange', handleHashNavigation);
+  
+  // Retry untuk memastikan (karena SPA mungkin perlu waktu)
+  setTimeout(handleHashNavigation, 1000);
+  setTimeout(handleHashNavigation, 2500);
+  
+  console.log('✅ Hash Navigation Handler aktif');
+})();
+</script>
+<script>
+// ============================================
+// ✅ PATCH: HILANGKAN SCROLL OTOMATIS SAAT NAVIGASI
+// Nonaktifkan scrollTo di semua fungsi navigasi
+// ============================================
+(function(){
+'use strict';
+console.log('🟢 PATCH NO-SCROLL NAVIGATION: dimuat...');
 
+/* ============================================================
+✅ 1. OVERRIDE showPage() - HAPUS SCROLL
+============================================================ */
+var _origShowPage = window.showPage;
+window.showPage = function(pageId){
+// Panggil fungsi asli tapi cegah scroll
+if(_origShowPage){
+try{
+// Simpan posisi scroll saat ini
+var currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+_origShowPage(pageId);
+// Kembalikan ke posisi semula (tanpa smooth)
+window.scrollTo(0, currentScroll);
+}catch(e){
+// Jika error, panggil tanpa scroll
+_origShowPage(pageId);
+}
+}
+};
+
+/* ============================================================
+✅ 2. OVERRIDE showHome() - HAPUS SCROLL
+============================================================ */
+var _origShowHome = window.showHome;
+window.showHome = function(e){
+if(_origShowHome){
+try{
+var currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+_origShowHome(e);
+window.scrollTo(0, currentScroll);
+}catch(e){
+_origShowHome(e);
+}
+}
+return false;
+};
+
+/* ============================================================
+✅ 3. OVERRIDE scrollToTarget() - HAPUS SMOOTH SCROLL
+============================================================ */
+// Cari dan override fungsi scrollToTarget jika ada
+if(typeof scrollToTarget === 'function'){
+var _origScrollToTarget = scrollToTarget;
+window.scrollToTarget = function(targetId){
+var target = document.getElementById(targetId);
+if(!target) return;
+// Scroll langsung tanpa smooth, dengan offset navbar
+var NAV_HEIGHT = 60;
+var EXTRA_OFFSET = 20;
+var targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+var offsetPosition = targetPosition - NAV_HEIGHT - EXTRA_OFFSET;
+window.scrollTo({top: offsetPosition, behavior: 'auto'}); // 'auto' = tanpa animasi
+};
+}
+
+/* ============================================================
+✅ 4. OVERRIDE tampilkanSatu() & tampilkanSemua()
+============================================================ */
+if(typeof window.tampilkanSatu === 'function'){
+var _origTampilkanSatu = window.tampilkanSatu;
+window.tampilkanSatu = function(idSection){
+_origTampilkanSatu(idSection);
+// Hapus scroll ke atas
+// (fungsi asli sudah memanggil scrollTo, kita biarkan tapi tanpa smooth)
+};
+}
+
+if(typeof window.tampilkanSemua === 'function'){
+var _origTampilkanSemua = window.tampilkanSemua;
+window.tampilkanSemua = function(){
+_origTampilkanSemua();
+};
+}
+
+/* ============================================================
+✅ 5. MATIKAN SMOOTH SCROLL GLOBAL
+============================================================ */
+// Override scrollTo untuk memaksa 'auto' (tanpa smooth)
+var _origScrollTo = window.scrollTo;
+window.scrollTo = function(options){
+if(typeof options === 'object'){
+options.behavior = 'auto'; // Paksa tanpa animasi
+}
+_origScrollTo.call(window, options);
+};
+
+// Override scrollIntoView untuk semua elemen
+var _origScrollIntoView = Element.prototype.scrollIntoView;
+Element.prototype.scrollIntoView = function(options){
+if(typeof options === 'object'){
+options.behavior = 'auto';
+} else if(options === true || options === undefined){
+options = {behavior: 'auto', block: 'start'};
+} else {
+options = {behavior: 'auto', block: options};
+}
+_origScrollIntoView.call(this, options);
+};
+
+/* ============================================================
+✅ 6. MATIKAN SMOOTH SCROLL DI CSS
+============================================================ */
+var noSmoothStyle = document.createElement('style');
+noSmoothStyle.textContent = `
+html {
+scroll-behavior: auto !important;
+}
+* {
+scroll-behavior: auto !important;
+}
+`;
+document.head.appendChild(noSmoothStyle);
+
+/* ============================================================
+✅ 7. CEGAH SCROLL SAAT KLIK ANCHOR LINK (#)
+============================================================ */
+document.addEventListener('click', function(e){
+var link = e.target.closest('a[href^="#"]');
+if(!link) return;
+var href = link.getAttribute('href');
+if(href === '#' || href === ''){
+e.preventDefault();
+return;
+}
+var targetId = href.substring(1);
+var targetSection = document.getElementById(targetId);
+// Jika target adalah section di halaman Masjid, cegah scroll
+if(targetSection && targetSection.tagName === 'SECTION'){
+// Biarkan handler asli yang handle, tapi tanpa smooth
+}
+}, true);
+
+console.log('✅ PATCH NO-SCROLL: berhasil dimuat');
+console.log('💡 Scroll otomatis saat navigasi halaman dinonaktifkan');
+console.log('💡 Semua scroll sekarang instant (tanpa animasi smooth)');
+})();
+</script>
+<script>
+// ============================================
+// ✅ PATCH: HILANGKAN SCROLL KE ATAS DI showPage()
+// Mencegah "menghilang sejenak" saat navigasi internal
+// ============================================
+(function(){
+'use strict';
+console.log('🟢 PATCH NO-SCROLL-TOP: dimuat...');
+
+/* ============================================================
+✅ 1. OVERRIDE showPage() - HAPUS scroll ke top:0
+============================================================ */
+var _origShowPage = window.showPage;
+if(_origShowPage){
+    window.showPage = function(pageId){
+        // Simpan posisi scroll saat ini
+        var currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Panggil fungsi asli
+        _origShowPage(pageId);
+        
+        // Kembalikan ke posisi scroll semula (bukan ke atas)
+        window.scrollTo(0, currentScrollY);
+    };
+    console.log('✅ showPage() di-override: tidak scroll ke atas');
+}
+
+/* ============================================================
+✅ 2. OVERRIDE showHome() - HAPUS scroll ke top:0
+============================================================ */
+var _origShowHome = window.showHome;
+if(_origShowHome){
+    window.showHome = function(e){
+        var currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
+        _origShowHome(e);
+        window.scrollTo(0, currentScrollY);
+        if(e && e.preventDefault) e.preventDefault();
+        return false;
+    };
+    console.log('✅ showHome() di-override: tidak scroll ke atas');
+}
+
+/* ============================================================
+✅ 3. OVERRIDE tampilkanSatu() - LANGSUNG KE SECTION
+============================================================ */
+var _origTampilkanSatu = window.tampilkanSatu;
+if(_origTampilkanSatu){
+    window.tampilkanSatu = function(idSection){
+        // Tampilkan section tanpa scroll ke atas
+        var semuaSection = document.querySelectorAll('.m-section');
+        var namaSection = {
+            'beranda':'Beranda','profil':'Profil Masjid',
+            'majlis-talim':'Majlis Ta\'lim','majlis-dzikir':'Majlis Dzikir',
+            'petugas-jumat':'Petugas Jumat','petugas-rawatib':'Petugas Rawatib',
+            'badan-pengembangan':'Badan Pengembangan Masjid',
+            'bidang-ibadah':'Bidang Ibadah','bidang-pendidikan':'Bidang Pendidikan Anak',
+            'bmt':'Baitul Mal Wa Tanwil','phbi':'Panitia PHBI',
+            'kesejahteraan':'Kesejahteraan Masjid',
+            'buku-kas':'📒 Buku Kas Digital Masjid',
+            'buku-kas-phbi':'📗 Buku Kas Digital PHBI',
+            'buku-kas-santunan':'📘 Buku Kas Santunan Yatim & Dhuafa',
+            'anggaran':'Anggaran & Proposal','kontak':'Kontak & Lokasi',
+            'donasi':'Donasi Digital','share':'Bagikan Website'
+        };
+        
+        for(var i=0;i<semuaSection.length;i++){
+            if(semuaSection[i].id===idSection){
+                semuaSection[i].classList.remove('section-hidden');
+                semuaSection[i].classList.add('section-visible');
+            } else {
+                semuaSection[i].classList.add('section-hidden');
+                semuaSection[i].classList.remove('section-visible');
+            }
+        }
+        
+        var showAllBtn = document.getElementById('showAllBtn');
+        var activeLabel = document.getElementById('activeLabel');
+        if(showAllBtn) showAllBtn.classList.add('active');
+        if(activeLabel){
+            var nama = namaSection[idSection] || idSection;
+            activeLabel.innerHTML = '📌 Sedang menampilkan: <strong>'+nama+'</strong>';
+            activeLabel.classList.add('active');
+        }
+        
+        // ✅ LANGSUNG scroll ke section (TIDAK ke top:0 dulu)
+        var target = document.getElementById(idSection);
+        if(target){
+            var navHeight = 120;
+            var targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+            var offsetPosition = targetPosition - navHeight;
+            window.scrollTo({top: offsetPosition, behavior: 'instant'});
+        }
+    };
+    console.log('✅ tampilkanSatu() di-override: langsung ke section');
+}
+
+/* ============================================================
+✅ 4. CSS: INSTANT SCROLL (TANPA ANIMASI)
+============================================================ */
+var instantScrollStyle = document.createElement('style');
+instantScrollStyle.textContent = `
+    html {
+        scroll-behavior: auto !important;
+    }
+    * {
+        scroll-behavior: auto !important;
+    }
+    .m-section {
+        scroll-margin-top: 120px;
+    }
+`;
+document.head.appendChild(instantScrollStyle);
+
+console.log('✅ PATCH NO-SCROLL-TOP: berhasil dimuat');
+console.log('💡 Navigasi sekarang instant tanpa flash');
+})();
+</script>
+<!-- ============================================
+✅ PATCH FINAL: HILANGKAN EFEK BERKEDIP
+Mengganti showPage(), tampilkanSatu(), tampilkanSemua()
+dan smooth scroll handler agar TIDAK scroll ke top:0
+============================================ -->
+<style>
+/* Paksa smooth scroll OFF untuk semua elemen */
+html, body, * {
+  scroll-behavior: auto !important;
+}
+/* Section target: scroll margin untuk navbar */
+.masjid-page .m-section {
+  scroll-margin-top: 130px !important;
+}
+</style>
+<script>
+(function(){
+'use strict';
+console.log('🟢 PATCH FINAL NO-FLICKER: mulai dimuat...');
+
+/* ============================================================
+✅ 1. SIMPAN FUNGSI ASLI
+============================================================ */
+var _origShowPage = window.showPage;
+var _origTampilkanSatu = window.tampilkanSatu;
+var _origTampilkanSemua = window.tampilkanSemua;
+
+/* ============================================================
+✅ 2. OVERRIDE showPage() - TIDAK SCROLL KE TOP
+============================================================ */
+window.showPage = function(pageId){
+  // Simpan posisi scroll SAAT INI
+  var currentScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+  
+  // Panggil fungsi asli (untuk switch halaman)
+  if(_origShowPage) {
+    _origShowPage(pageId);
+  }
+  
+  // KEMBALIKAN ke posisi scroll semula (bukan ke top:0)
+  window.scrollTo(0, currentScrollY);
+  
+  console.log('✅ showPage: tidak scroll ke top, posisi dipertahankan');
+};
+
+/* ============================================================
+✅ 3. OVERRIDE tampilkanSatu() - LANGSUNG KE SECTION
+============================================================ */
+window.tampilkanSatu = function(idSection){
+  var semuaSection = document.querySelectorAll('.m-section');
+  var namaSection = {
+    'beranda':'Beranda','profil':'Profil Masjid',
+    'majlis-talim':'Majlis Ta\'lim','majlis-dzikir':'Majlis Dzikir',
+    'petugas-jumat':'Petugas Jumat','petugas-rawatib':'Petugas Rawatib',
+    'badan-pengembangan':'Badan Pengembangan Masjid',
+    'bidang-ibadah':'Bidang Ibadah','bidang-pendidikan':'Bidang Pendidikan Anak',
+    'bmt':'Baitul Mal Wa Tanwil','phbi':'Panitia PHBI',
+    'kesejahteraan':'Kesejahteraan Masjid',
+    'buku-kas':'📒 Buku Kas Digital Masjid',
+    'buku-kas-phbi':'📗 Buku Kas Digital PHBI',
+    'buku-kas-santunan':'📘 Buku Kas Santunan Yatim & Dhuafa',
+    'anggaran':'Anggaran & Proposal','kontak':'Kontak & Lokasi',
+    'donasi':'Donasi Digital','share':'Bagikan Website'
+  };
+  
+  // Tampilkan/sembunyikan section
+  for(var i=0;i<semuaSection.length;i++){
+    if(semuaSection[i].id===idSection){
+      semuaSection[i].classList.remove('section-hidden');
+      semuaSection[i].classList.add('section-visible');
+    } else {
+      semuaSection[i].classList.add('section-hidden');
+      semuaSection[i].classList.remove('section-visible');
+    }
+  }
+  
+  // Update tombol & label
+  var showAllBtn = document.getElementById('showAllBtn');
+  var activeLabel = document.getElementById('activeLabel');
+  if(showAllBtn) showAllBtn.classList.add('active');
+  if(activeLabel){
+    var nama = namaSection[idSection] || idSection;
+    activeLabel.innerHTML = '📌 Sedang menampilkan: <strong>'+nama+'</strong>';
+    activeLabel.classList.add('active');
+  }
+  
+  // ✅ LANGSUNG scroll ke section (TANPA ke top:0 dulu)
+  var target = document.getElementById(idSection);
+  if(target){
+    var navHeight = 130; // offset untuk navbar
+    var targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+    var offsetPosition = targetPosition - navHeight;
+    
+    // Scroll INSTANT (behavior: 'auto') - tidak ada animasi
+    window.scrollTo({top: offsetPosition, behavior: 'auto'});
+  }
+  
+  console.log('✅ tampilkanSatu: langsung ke section', idSection);
+};
+
+/* ============================================================
+✅ 4. OVERRIDE tampilkanSemua() - TIDAK SCROLL KE TOP
+============================================================ */
+window.tampilkanSemua = function(){
+  var semuaSection = document.querySelectorAll('.m-section');
+  for(var i=0;i<semuaSection.length;i++){
+    semuaSection[i].classList.remove('section-hidden');
+    semuaSection[i].classList.add('section-visible');
+  }
+  var showAllBtn = document.getElementById('showAllBtn');
+  var activeLabel = document.getElementById('activeLabel');
+  if(showAllBtn) showAllBtn.classList.remove('active');
+  if(activeLabel) activeLabel.classList.remove('active');
+  
+  // ✅ TIDAK scroll ke top - pertahankan posisi
+  // window.scrollTo({top:0,behavior:'auto'}); // DIHAPUS
+  
+  console.log('✅ tampilkanSemua: tidak scroll ke top');
+};
+
+/* ============================================================
+✅ 5. OVERRIDE SMOOTH SCROLL HANDLER
+============================================================ */
+(function(){
+  var NAV_HEIGHT = 130;
+  
+  function scrollToTarget(targetId){
+    var target = document.getElementById(targetId);
+    if(!target) return;
+    
+    var targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+    var offsetPosition = targetPosition - NAV_HEIGHT;
+    
+    // ✅ INSTANT scroll (bukan smooth)
+    window.scrollTo({top: offsetPosition, behavior: 'auto'});
+  }
+  
+  // Override handler klik anchor link
+  document.addEventListener('click', function(e){
+    var link = e.target.closest('a[href^="#"]');
+    if(!link) return;
+    
+    var targetId = link.getAttribute('href').substring(1);
+    if(!targetId || targetId === '') return;
+    
+    var targetSection = document.getElementById(targetId);
+    if(targetSection && targetSection.tagName === 'SECTION'){
+      e.preventDefault();
+      scrollToTarget(targetId);
+      history.pushState(null, null, '#'+targetId);
+      
+      // Tutup dropdown & mobile menu
+      var navList = document.getElementById('navList');
+      if(navList) navList.classList.remove('open');
+      var allDropdowns = document.querySelectorAll('.m-dropdown.open');
+      for(var i=0;i<allDropdowns.length;i++){
+        allDropdowns[i].classList.remove('open');
+      }
+    }
+  });
+  
+  // Override tombol hero "Lihat Kegiatan Kami"
+  var btnHero = document.querySelector('.btn-hero[href="#profil"]');
+  if(btnHero){
+    btnHero.addEventListener('click', function(e){
+      e.preventDefault();
+      scrollToTarget('profil');
+    });
+  }
+  
+  // ✅ Handle hash saat halaman dimuat (LANGSUNG ke section)
+  if(window.location.hash){
+    var hash = window.location.hash.substring(1);
+    // Format: #section=buku-kas atau #buku-kas
+    var sectionId = '';
+    if(hash.indexOf('section=') === 0){
+      sectionId = hash.substring(8);
+    } else {
+      sectionId = hash;
+    }
+    
+    // Tunggu halaman Masjid aktif
+    var checkCount = 0;
+    var checkInterval = setInterval(function(){
+      var masjidPage = document.getElementById('page-tentang-donasi');
+      if(masjidPage && masjidPage.classList.contains('active')){
+        clearInterval(checkInterval);
+        
+        // Jika section valid, langsung tampilkan
+        var validSections = [
+          'beranda','profil','donasi','majlis-talim','majlis-dzikir',
+          'petugas-jumat','petugas-rawatib','badan-pengembangan',
+          'bidang-ibadah','bidang-pendidikan','bmt','phbi',
+          'kesejahteraan','buku-kas','buku-kas-phbi','buku-kas-santunan',
+          'anggaran','kontak','share'
+        ];
+        
+        if(validSections.indexOf(sectionId) !== -1){
+          // Tampilkan section tersebut saja
+          if(typeof window.tampilkanSatu === 'function'){
+            window.tampilkanSatu(sectionId);
+          }
+          console.log('✅ Hash navigation: langsung ke section', sectionId);
+        }
+      }
+      checkCount++;
+      if(checkCount > 20) clearInterval(checkInterval); // timeout 10 detik
+    }, 100);
+  }
+})();
+
+/* ============================================================
+✅ 6. MATIKAN SEMUA smooth scroll DI CSS
+============================================================ */
+var noSmoothStyle = document.createElement('style');
+noSmoothStyle.textContent = `
+  html { scroll-behavior: auto !important; }
+  * { scroll-behavior: auto !important; }
+  .m-section { scroll-margin-top: 130px !important; }
+`;
+document.head.appendChild(noSmoothStyle);
+
+/* ============================================================
+✅ 7. CEK & PERBAIKI SETIAP KALI showPage DIPANGGIL
+============================================================ */
+var _origShowPage2 = window.showPage;
+var showPageCallCount = 0;
+
+window.showPage = function(pageId){
+  showPageCallCount++;
+  console.log(' showPage dipanggil #' + showPageCallCount + ':', pageId);
+  
+  // Simpan posisi
+  var currentScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+  
+  // Panggil fungsi yang sudah di-override sebelumnya
+  if(_origShowPage2) _origShowPage2(pageId);
+  
+  // Paksa kembalikan posisi (double protection)
+  setTimeout(function(){
+    window.scrollTo(0, currentScrollY);
+  }, 50);
+};
+
+console.log('✅ PATCH FINAL NO-FLICKER: berhasil dimuat');
+console.log('💡 showPage() tidak lagi scroll ke top:0');
+console.log('💡 tampilkanSatu() langsung ke section target');
+console.log('💡 Smooth scroll dimatikan (instant)');
+console.log('💡 Hash navigation langsung ke section');
+})();
+</script>
 </body>
 </html>
