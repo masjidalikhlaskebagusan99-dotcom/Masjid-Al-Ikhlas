@@ -22612,5 +22612,235 @@ document.head.appendChild(noSmoothStyle);
 console.log('✅ PATCH NO-FLICKER: berhasil dimuat');
 })();
 </script>
+<!-- ============================================
+✅ PATCH FINAL: SKIP BERANDA JIKA ADA HASH
+Langsung tampilkan section target tanpa mampir beranda
+============================================ -->
+<style>
+/* Cegah flicker: sembunyikan semua section saat load jika ada hash */
+html.has-hash-target .m-section {
+  display: none !important;
+}
+html.has-hash-target .m-section.target-section {
+  display: block !important;
+}
+/* Paksa instant scroll */
+html, body, * {
+  scroll-behavior: auto !important;
+}
+.m-section {
+  scroll-margin-top: 130px !important;
+}
+</style>
+
+<script>
+(function(){
+'use strict';
+console.log('🟢 PATCH FINAL SKIP-BERANDA: mulai dimuat...');
+
+/* ============================================================
+✅ 1. DETEKSI HASH SEBELUM HALAMAN LOAD
+============================================================ */
+var targetSectionId = '';
+var hasHashTarget = false;
+
+(function detectHash(){
+  var hash = window.location.hash;
+  if (!hash || hash.length < 2) return;
+  
+  var sectionId = hash.substring(1);
+  
+  // Format: #section=buku-kas atau #buku-kas
+  if (sectionId.indexOf('section=') === 0) {
+    sectionId = sectionId.substring(8);
+  }
+  
+  // Daftar section valid
+  var validSections = [
+    'beranda', 'profil', 'donasi', 'majlis-talim', 'majlis-dzikir',
+    'petugas-jumat', 'petugas-rawatib', 'badan-pengembangan',
+    'bidang-ibadah', 'bidang-pendidikan', 'bmt', 'phbi',
+    'kesejahteraan', 'buku-kas', 'buku-kas-phbi', 'buku-kas-santunan',
+    'anggaran', 'kontak', 'share'
+  ];
+  
+  if (validSections.indexOf(sectionId) !== -1) {
+    targetSectionId = sectionId;
+    hasHashTarget = true;
+    
+    // Tambahkan class ke html untuk hide semua section
+    document.documentElement.classList.add('has-hash-target');
+    
+    console.log(' Hash target terdeteksi:', targetSectionId);
+    console.log(' Beranda akan di-skip, langsung ke section target');
+  }
+})();
+
+/* ============================================================
+✅ 2. OVERRIDE showPage() - SKIP BERANDA JIKA ADA HASH
+============================================================ */
+var _origShowPage = window.showPage;
+window.showPage = function(pageId){
+  console.log('📄 showPage dipanggil:', pageId);
+  
+  if (hasHashTarget && pageId === 'tentang-donasi') {
+    // Panggil fungsi asli untuk activate halaman Masjid
+    if (_origShowPage) {
+      _origShowPage(pageId);
+    }
+    
+    // Tunggu halaman Masjid aktif, lalu langsung ke section target
+    var checkCount = 0;
+    var checkInterval = setInterval(function(){
+      var masjidPage = document.getElementById('page-tentang-donasi');
+      if (masjidPage && masjidPage.classList.contains('active')) {
+        clearInterval(checkInterval);
+        
+        // Tampilkan section target, sembunyikan yang lain
+        var semuaSection = document.querySelectorAll('.m-section');
+        for (var i = 0; i < semuaSection.length; i++) {
+          if (semuaSection[i].id === targetSectionId) {
+            semuaSection[i].classList.remove('section-hidden');
+            semuaSection[i].classList.add('section-visible', 'target-section');
+          } else {
+            semuaSection[i].classList.add('section-hidden');
+            semuaSection[i].classList.remove('section-visible', 'target-section');
+          }
+        }
+        
+        // Update label
+        var activeLabel = document.getElementById('activeLabel');
+        if (activeLabel) {
+          activeLabel.innerHTML = '📌 Sedang menampilkan: <strong>' + targetSectionId + '</strong>';
+          activeLabel.classList.add('active');
+        }
+        
+        // Scroll ke section target
+        var target = document.getElementById(targetSectionId);
+        if (target) {
+          var navHeight = 130;
+          var targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+          var offsetPosition = targetPosition - navHeight;
+          window.scrollTo({top: offsetPosition, behavior: 'auto'});
+          
+          // Highlight section
+          target.style.transition = 'background-color 0.5s ease';
+          target.style.backgroundColor = 'rgba(201, 162, 39, 0.15)';
+          setTimeout(function(){
+            target.style.backgroundColor = '';
+          }, 2000);
+        }
+        
+        console.log('✅ Langsung ke section:', targetSectionId, '(skip beranda)');
+      }
+      
+      checkCount++;
+      if (checkCount > 30) clearInterval(checkInterval);
+    }, 50);
+    
+    return; // Jangan lanjut ke logika normal
+  }
+  
+  // Jika tidak ada hash target, panggil fungsi asli
+  if (_origShowPage) {
+    var currentScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+    _origShowPage(pageId);
+    window.scrollTo(0, currentScrollY);
+  }
+};
+
+/* ============================================================
+✅ 3. OVERRIDE tampilkanSatu() - LANGSUNG KE SECTION
+============================================================ */
+if (typeof window.tampilkanSatu === 'function') {
+  var _origTampilkanSatu = window.tampilkanSatu;
+  window.tampilkanSatu = function(idSection){
+    // Panggil fungsi asli
+    _origTampilkanSatu(idSection);
+    
+    // Scroll langsung ke section (tanpa ke top:0)
+    var target = document.getElementById(idSection);
+    if (target) {
+      var navHeight = 130;
+      var targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+      var offsetPosition = targetPosition - navHeight;
+      window.scrollTo({top: offsetPosition, behavior: 'auto'});
+    }
+  };
+}
+
+/* ============================================================
+✅ 4. HANDLE HASH SAAT HALAMAN SUDAH LOAD
+============================================================ */
+function handleHashAfterLoad(){
+  if (!hasHashTarget) return;
+  
+  var masjidPage = document.getElementById('page-tentang-donasi');
+  if (!masjidPage || !masjidPage.classList.contains('active')) {
+    // Jika halaman Masjid belum aktif, panggil showPage
+    if (typeof showPage === 'function') {
+      showPage('tentang-donasi');
+    }
+    return;
+  }
+  
+  // Halaman sudah aktif, langsung ke section target
+  var semuaSection = document.querySelectorAll('.m-section');
+  for (var i = 0; i < semuaSection.length; i++) {
+    if (semuaSection[i].id === targetSectionId) {
+      semuaSection[i].classList.remove('section-hidden');
+      semuaSection[i].classList.add('section-visible', 'target-section');
+    } else {
+      semuaSection[i].classList.add('section-hidden');
+      semuaSection[i].classList.remove('section-visible', 'target-section');
+    }
+  }
+  
+  var target = document.getElementById(targetSectionId);
+  if (target) {
+    var navHeight = 130;
+    var targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+    var offsetPosition = targetPosition - navHeight;
+    window.scrollTo({top: offsetPosition, behavior: 'auto'});
+    
+    target.style.transition = 'background-color 0.5s ease';
+    target.style.backgroundColor = 'rgba(201, 162, 39, 0.15)';
+    setTimeout(function(){
+      target.style.backgroundColor = '';
+    }, 2000);
+  }
+  
+  console.log('✅ Hash handler: langsung ke section', targetSectionId);
+}
+
+// Jalankan setelah DOM ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', function(){
+    setTimeout(handleHashAfterLoad, 100);
+  });
+} else {
+  setTimeout(handleHashAfterLoad, 100);
+}
+
+// Retry untuk memastikan
+setTimeout(handleHashAfterLoad, 500);
+setTimeout(handleHashAfterLoad, 1500);
+
+/* ============================================================
+✅ 5. MATIKAN SMOOTH SCROLL GLOBAL
+============================================================ */
+var noSmoothStyle = document.createElement('style');
+noSmoothStyle.textContent = `
+  html { scroll-behavior: auto !important; }
+  * { scroll-behavior: auto !important; }
+  .m-section { scroll-margin-top: 130px !important; }
+`;
+document.head.appendChild(noSmoothStyle);
+
+console.log('✅ PATCH FINAL SKIP-BERANDA: berhasil dimuat');
+console.log('💡 Jika ada hash URL, beranda akan di-skip');
+console.log('💡 Langsung tampilkan section target tanpa flicker');
+})();
+</script>
 </body>
 </html>
