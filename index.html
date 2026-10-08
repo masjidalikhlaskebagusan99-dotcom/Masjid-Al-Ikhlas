@@ -22389,5 +22389,195 @@ console.log('💡 Jika ada hash URL, beranda akan di-skip');
 console.log('💡 Langsung tampilkan section target tanpa flicker');
 })();
 </script>
+<!-- ============================================
+✅ PATCH FINAL v4: NAVIGASI TANPA FLICKER
+Menggantikan SEMUA patch navigasi sebelumnya
+- Baca hash di awal
+- Langsung ke section target
+- Tidak scroll ke top:0
+- Tidak ada efek berkedip
+============================================ -->
+<script>
+(function(){
+  'use strict';
+  console.log('🟢 PATCH FINAL v4 NAVIGASI: dimuat...');
+  
+  /* ============================================================
+  ✅ KONFIGURASI
+  ============================================================ */
+  var NAV_HEIGHT = 130;
+  var VALID_SECTIONS = [
+    'beranda','profil','donasi','majlis-talim','majlis-dzikir',
+    'petugas-jumat','petugas-rawatib','badan-pengembangan',
+    'bidang-ibadah','bidang-pendidikan','bmt','phbi',
+    'kesejahteraan','buku-kas','buku-kas-phbi','buku-kas-santunan',
+    'anggaran','kontak','share'
+  ];
+  
+  /* ============================================================
+  ✅ 1. BACA HASH URL (format: #beranda, #profil, #buku-kas)
+  ============================================================ */
+  function getHashTarget() {
+    var hash = window.location.hash || '';
+    if (hash.indexOf('#') === 0) {
+      return hash.substring(1);
+    }
+    return '';
+  }
+  
+  /* ============================================================
+  ✅ 2. FUNGSI UTAMA: Tampilkan section target
+  ============================================================ */
+  function showTargetSection(sectionId) {
+    if (!sectionId || VALID_SECTIONS.indexOf(sectionId) === -1) {
+      console.log('️ Section tidak valid:', sectionId);
+      return;
+    }
+    
+    console.log('🎯 Tampilkan section:', sectionId);
+    
+    // 2a. Sembunyikan beranda
+    var homeSection = document.getElementById('home-section');
+    if (homeSection) homeSection.style.display = 'none';
+    
+    // 2b. Aktifkan halaman Masjid
+    var allPages = document.querySelectorAll('.page-content');
+    for (var i = 0; i < allPages.length; i++) {
+      allPages[i].classList.remove('active');
+    }
+    var masjidPage = document.getElementById('page-tentang-donasi');
+    if (masjidPage) {
+      masjidPage.classList.add('active');
+      masjidPage.style.display = 'block';
+    }
+    
+    // 2c. Tampilkan section target, sembunyikan yang lain
+    var semuaSection = document.querySelectorAll('.m-section');
+    for (var i = 0; i < semuaSection.length; i++) {
+      var sec = semuaSection[i];
+      if (sec.id === sectionId) {
+        sec.classList.remove('section-hidden');
+        sec.classList.add('section-visible');
+        sec.style.display = 'block';
+      } else {
+        sec.classList.add('section-hidden');
+        sec.classList.remove('section-visible');
+        sec.style.display = 'none';
+      }
+    }
+    
+    // 2d. Update label aktif
+    var activeLabel = document.getElementById('activeLabel');
+    if (activeLabel) {
+      var namaSection = {
+        'beranda':'Beranda','profil':'Profil Masjid',
+        'majlis-talim':'Majlis Ta\'lim','majlis-dzikir':'Majlis Dzikir',
+        'petugas-jumat':'Petugas Jumat','petugas-rawatib':'Petugas Rawatib',
+        'badan-pengembangan':'Badan Pengembangan',
+        'bidang-ibadah':'Bidang Ibadah','bidang-pendidikan':'Bidang Pendidikan',
+        'bmt':'Baitul Mal','phbi':'Panitia PHBI',
+        'kesejahteraan':'Kesejahteraan',
+        'buku-kas':'Buku Kas Masjid',
+        'buku-kas-phbi':'Buku Kas PHBI',
+        'buku-kas-santunan':'Buku Kas Santunan',
+        'anggaran':'Anggaran','kontak':'Kontak',
+        'donasi':'Donasi','share':'Bagikan'
+      };
+      activeLabel.innerHTML = '📌 ' + (namaSection[sectionId] || sectionId);
+      activeLabel.classList.add('active');
+    }
+    
+    // 2e. Scroll ke section (instant, tanpa smooth)
+    setTimeout(function() {
+      var target = document.getElementById(sectionId);
+      if (target) {
+        var targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+        var offsetPosition = targetPosition - NAV_HEIGHT;
+        window.scrollTo({top: offsetPosition, behavior: 'auto'});
+        
+        // Highlight 2 detik
+        target.style.transition = 'background-color 0.5s ease';
+        target.style.backgroundColor = 'rgba(201, 162, 39, 0.15)';
+        setTimeout(function() {
+          target.style.backgroundColor = '';
+        }, 2000);
+      }
+    }, 100);
+    
+    console.log('✅ Section ditampilkan:', sectionId);
+  }
+  
+  /* ============================================================
+  ✅ 3. OVERRIDE showPage() - Cegah scroll ke top:0
+  ============================================================ */
+  var _origShowPage = window.showPage;
+  if (_origShowPage) {
+    window.showPage = function(pageId) {
+      var currentScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+      _origShowPage(pageId);
+      window.scrollTo(0, currentScrollY);
+    };
+    console.log('✅ showPage() di-override');
+  }
+  
+  /* ============================================================
+  ✅ 4. OVERRIDE tampilkanSatu() - Langsung ke section
+  ============================================================ */
+  if (typeof window.tampilkanSatu === 'function') {
+    var _origTampilkanSatu = window.tampilkanSatu;
+    window.tampilkanSatu = function(idSection) {
+      _origTampilkanSatu(idSection);
+      var target = document.getElementById(idSection);
+      if (target) {
+        var targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+        var offsetPosition = targetPosition - NAV_HEIGHT;
+        window.scrollTo({top: offsetPosition, behavior: 'auto'});
+      }
+    };
+    console.log('✅ tampilkanSatu() di-override');
+  }
+  
+  /* ============================================================
+  ✅ 5. CSS: Matikan smooth scroll
+  ============================================================ */
+  var style = document.createElement('style');
+  style.textContent = `
+    html { scroll-behavior: auto !important; }
+    * { scroll-behavior: auto !important; }
+    .m-section { scroll-margin-top: ${NAV_HEIGHT}px !important; }
+  `;
+  document.head.appendChild(style);
+  
+  /* ============================================================
+  ✅ 6. HANDLE HASH SAAT LOAD
+  ============================================================ */
+  function handleHashOnLoad() {
+    var target = getHashTarget();
+    if (target) {
+      showTargetSection(target);
+    }
+  }
+  
+  // Jalankan saat DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(handleHashOnLoad, 100);
+    });
+  } else {
+    setTimeout(handleHashOnLoad, 100);
+  }
+  
+  // Handle hash change (navigasi dalam halaman)
+  window.addEventListener('hashchange', function() {
+    var target = getHashTarget();
+    if (target) {
+      showTargetSection(target);
+    }
+  });
+  
+  console.log('✅ PATCH FINAL v4: aktif');
+  console.log('💡 Format URL: #beranda, #profil, #buku-kas, dll');
+})();
+</script>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
 </body>
 </html>
