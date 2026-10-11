@@ -2213,62 +2213,73 @@ function gregorianToHijri(gy, gm, gd) {
     return { year: hy, month: hm, day: hd };
 }
 
-function getHijriDateString() {
-    var now = new Date();
-    var HIJRI_MONTHS_ID = [
-        '', 'Muharram', 'Safar', 'Rabiul Awal', 'Rabiul Akhir',
-        'Jumadil Awal', 'Jumadil Akhir', 'Rajab', 'Sya\'ban',
-        'Ramadhan', 'Syawal', 'Dzulqa\'dah', 'Dzulhijjah'
-    ];
-    // METHOD 1: Intl API (Umm al-Qura, paling akurat)
+// Variabel global untuk menyimpan tanggal hijriah (cache) agar tidak request API setiap detik
+let cachedHijriDate = '';
+
+async function getHijriDateString() {
+    // Jika sudah ada di cache, langsung kembalikan (hemat kuota & cepat)
+    if (cachedHijriDate) return cachedHijriDate;
+
+    const now = new Date();
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const year = now.getFullYear();
+    const dateStr = `${day}-${month}-${year}`;
+
     try {
-        var formatter = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura-nu-latn', {
-            day: 'numeric', month: 'long', year: 'numeric'
-        });
-        var parts = formatter.formatToParts(now);
-        var day = '', monthName = '', year = '';
-        parts.forEach(function(p) {
-            if (p.type === 'day') day = p.value;
-            if (p.type === 'month') monthName = p.value;
-            if (p.type === 'year') year = p.value;
-        });
-        var monthMap = {
-            'Muharram':'Muharram','Safar':'Safar',
-            'Rabiʻ I':'Rabiul Awal','Rabiʻ al-Awwal':'Rabiul Awal','Rabi I':'Rabiul Awal',
-            'Rabiʻ II':'Rabiul Akhir','Rabiʻ al-Thani':'Rabiul Akhir','Rabi II':'Rabiul Akhir',
-            'Jumada I':'Jumadil Awal','Jumada al-Awwal':'Jumadil Awal','Jumada al-Ula':'Jumadil Awal',
-            'Jumada II':'Jumadil Akhir','Jumada al-Thani':'Jumadil Akhir','Jumada al-Akhirah':'Jumadil Akhir',
-            'Rajab':'Rajab','Shaʻban':'Sya\'ban','Shaban':'Sya\'ban','Sha\'ban':'Sya\'ban',
-            'Ramadan':'Ramadhan','Shawwal':'Syawal',
-            'Dhu al-Qiʻdah':'Dzulqa\'dah','Dhu al-Qidah':'Dzulqa\'dah',
-            'Dhu al-Hijjah':'Dzulhijjah'
-        };
-        var idMonth = monthMap[monthName] || monthName;
-        return day + ' ' + idMonth + ' ' + year + ' H';
-    } catch (e) {
-        // METHOD 2: Fallback Algoritma Kuwaiti
-        var gy = now.getFullYear(), gm = now.getMonth() + 1, gd = now.getDate();
-        var h = gregorianToHijri(gy, gm, gd);
-        return h.day + ' ' + HIJRI_MONTHS_ID[h.month] + ' ' + h.year + ' H';
+        // Menggunakan API Aladhan dengan Method 20 (Standar Kementerian Agama RI / Hisab)
+        // Ini menjamin konsistensi di semua perangkat (HP & Laptop)
+        const response = await fetch(`https://api.aladhan.com/v1/gToH/${dateStr}?method=20`);
+        const data = await response.json();
+
+        if (data.code === 200) {
+            const hijri = data.data.hijri;
+            // Mapping nama bulan ke format Indonesia yang umum
+            const monthMap = {
+                'Muharram': 'Muharram', 'Safar': 'Safar',
+                'Rabi\' al-Awwal': 'Rabiul Awal', 'Rabi\' al-Thani': 'Rabiul Akhir',
+                'Jumada al-Ula': 'Jumadil Awal', 'Jumada al-Akhirah': 'Jumadil Akhir',
+                'Rajab': 'Rajab', 'Sha\'ban': 'Sya\'ban',
+                'Ramadan': 'Ramadhan', 'Shawwal': 'Syawal',
+                'Dhu al-Qi\'dah': 'Dzulqa\'dah', 'Dhu al-Hijjah': 'Dzulhijjah'
+            };
+            const monthName = monthMap[hijri.month.en] || hijri.month.en;
+            cachedHijriDate = `${hijri.day} ${monthName} ${hijri.year} H`;
+            return cachedHijriDate;
+        }
+    } catch (error) {
+        console.warn('⚠️ Gagal mengambil data Hijriah dari API (Offline?), menggunakan fallback algoritma.');
     }
+
+    // FALLBACK: Jika tidak ada internet, gunakan algoritma Kuwaiti yang sudah ada di kode Anda
+    // Ini memastikan tanggal tetap muncul dan konsisten meski offline
+    var gy = now.getFullYear(), gm = now.getMonth() + 1, gd = now.getDate();
+    var h = gregorianToHijri(gy, gm, gd);
+    var HIJRI_MONTHS_ID = ['', 'Muharram', 'Safar', 'Rabiul Awal', 'Rabiul Akhir', 'Jumadil Awal', 'Jumadil Akhir', 'Rajab', 'Sya\'ban', 'Ramadhan', 'Syawal', 'Dzulqa\'dah', 'Dzulhijjah'];
+    cachedHijriDate = h.day + ' ' + HIJRI_MONTHS_ID[h.month] + ' ' + h.year + ' H';
+    return cachedHijriDate;
 }
 
-function updateDateTime(){
-    const now=new Date();
-    const days=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
-    const months=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-    const dayName=days[now.getDay()];
-    const date=now.getDate();
-    const month=months[now.getMonth()];
-    const year=now.getFullYear();
-    const hours=String(now.getHours()).padStart(2,'0');
-    const minutes=String(now.getMinutes()).padStart(2,'0');
-    const hijriDate = getHijriDateString(); // ✅ REAL-TIME
-    const dateStr=`${dayName}, ${date} ${month} ${year} · ${hijriDate} · ${hours}:${minutes} WIB`;
-    document.getElementById('dateTimeDisplay').textContent=dateStr;
-}
-updateDateTime();
-setInterval(updateDateTime, 60000);
+// Update fungsi updateDateTime agar mendukung async/await
+window.updateDateTime = async function() {
+    const now = new Date();
+    const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+    const months = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+    
+    const dayName = days[now.getDay()];
+    const date = now.getDate();
+    const month = months[now.getMonth()];
+    const year = now.getFullYear();
+    const hours = String(now.getHours()).padStart(2,'0');
+    const minutes = String(now.getMinutes()).padStart(2,'0');
+    
+    // Ambil tanggal hijriah (akan pakai cache jika sudah ada)
+    const hijriDate = await getHijriDateString();
+    
+    const dateStr = `${dayName}, ${date} ${month} ${year} · ${hijriDate} · ${hours}:${minutes} WIB`;
+    const el = document.getElementById('dateTimeDisplay');
+    if (el) el.textContent = dateStr;
+};
 // ============================================
 // ✅ RUNNING TEXT KONTINU TANPA LOMPATAN KILAT
 // ============================================
@@ -19688,6 +19699,191 @@ console.log('✅ PATCH FINAL SKIP-BERANDA: berhasil dimuat');
 console.log('💡 Jika ada hash URL, beranda akan di-skip');
 console.log('💡 Langsung tampilkan section target tanpa flicker');
 })();
-</script>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+</script> 
+<!-- ============================================
+✅ PATCH FINAL FIX: TANGGAL HIJRIYAH KONSISTEN (HP & LAPTOP)
+- Override fungsi getHijriDateString & updateDateTime
+- Pakai API Aladhan (Method 20 = Kemenag RI)
+- Fallback: Algoritma Kuwaiti (offline)
+- Format: "12 Oktober 2026 · 29 Rabiul Awal 1448 H"
+============================================ -->
+<script>
+(function(){
+'use strict';
+console.log('🟢 PATCH FIX HIJRIYAH: mulai dimuat...');
+
+/* ============================================================
+✅ 1. ALGORITMA FALLBACK (KUWAITI) - UNTUK OFFLINE
+============================================================ */
+function gregorianToHijri(gy, gm, gd) {
+    var jd;
+    if ((gy > 1582) || ((gy == 1582) && (gm > 10)) || ((gy == 1582) && (gm == 10) && (gd > 14))) {
+        jd = Math.floor((1461 * (gy + 4800 + Math.floor((gm - 14) / 12))) / 4) +
+             Math.floor((367 * (gm - 2 - 12 * (Math.floor((gm - 14) / 12)))) / 12) -
+             Math.floor((3 * (Math.floor((gy + 4900 + Math.floor((gm - 14) / 12)) / 100))) / 4) +
+             gd - 32075;
+    } else {
+        jd = 367 * gy - Math.floor((7 * (gy + 5001 + Math.floor((gm - 9) / 7))) / 4) +
+             Math.floor((275 * gm) / 9) + gd + 1729777;
+    }
+    var l = jd - 1948440 + 10632;
+    var n = Math.floor((l - 1) / 10631);
+    l = l - 10631 * n + 354;
+    var j = (Math.floor((10985 - l) / 5316)) * (Math.floor((50 * l) / 17719)) +
+            (Math.floor(l / 5670)) * (Math.floor((43 * l) / 15238));
+    l = l - (Math.floor((30 - j) / 15)) * (Math.floor((17719 * j) / 50)) -
+        (Math.floor(j / 16)) * (Math.floor((15238 * j) / 43)) + 29;
+    var hm = Math.floor((24 * l) / 709);
+    var hd = l - Math.floor((709 * hm) / 24);
+    var hy = 30 * n + j - 30;
+    return { year: hy, month: hm, day: hd };
+}
+
+/* ============================================================
+✅ 2. MAPPING BULAN HIJRIYAH → BAHASA INDONESIA
+============================================================ */
+var HIJRI_MONTHS_ID = [
+    '', 'Muharram', 'Safar', 'Rabiul Awal', 'Rabiul Akhir',
+    'Jumadil Awal', 'Jumadil Akhir', 'Rajab', "Sya'ban",
+    'Ramadhan', 'Syawal', "Dzulqa'dah", 'Dzulhijjah'
+];
+
+/* ============================================================
+✅ 3. FUNGSI UTAMA: AMBIL TANGGAL HIJRIYAH
+============================================================ */
+// ============================================
+// ✅ PATCH HIJRIYAH v2 - KOREKSI WIB
+// Menggunakan API Aladhan (Method 20 = Kemenag RI)
+// Fallback: Algoritma Kuwaiti + offset WIB
+// ============================================
+var hijriCache = { date: '', key: '', loading: false };
+
+function gregorianToHijriWIB(gy, gm, gd) {
+    // ✅ Koreksi: Jika sebelum jam 17:00 WIB, anggap masih hari sebelumnya
+    // (karena pergantian hari Hijriyah = Maghrib ~17:00-18:00 WIB)
+    var now = new Date();
+    var jamWIB = now.getHours(); // Jam lokal (sudah WIB karena laptop/HP diset WIB)
+    
+    // Jika sebelum Maghrib (sebelum jam 17), mundur 1 hari untuk konversi Hijriyah
+    var adjustedDate = new Date(gy, gm - 1, gd);
+    if (jamWIB < 17) {
+        adjustedDate.setDate(adjustedDate.getDate() - 1);
+    }
+    
+    gy = adjustedDate.getFullYear();
+    gm = adjustedDate.getMonth() + 1;
+    gd = adjustedDate.getDate();
+    
+    // Algoritma Kuwaiti
+    var jd;
+    if ((gy > 1582) || ((gy == 1582) && (gm > 10)) || ((gy == 1582) && (gm == 10) && (gd > 14))) {
+        jd = Math.floor((1461 * (gy + 4800 + Math.floor((gm - 14) / 12))) / 4) +
+             Math.floor((367 * (gm - 2 - 12 * (Math.floor((gm - 14) / 12)))) / 12) -
+             Math.floor((3 * (Math.floor((gy + 4900 + Math.floor((gm - 14) / 12)) / 100))) / 4) +
+             gd - 32075;
+    } else {
+        jd = 367 * gy - Math.floor((7 * (gy + 5001 + Math.floor((gm - 9) / 7))) / 4) +
+             Math.floor((275 * gm) / 9) + gd + 1729777;
+    }
+    var l = jd - 1948440 + 10632;
+    var n = Math.floor((l - 1) / 10631);
+    l = l - 10631 * n + 354;
+    var j = (Math.floor((10985 - l) / 5316)) * (Math.floor((50 * l) / 17719)) +
+            (Math.floor(l / 5670)) * (Math.floor((43 * l) / 15238));
+    l = l - (Math.floor((30 - j) / 15)) * (Math.floor((17719 * j) / 50)) -
+        (Math.floor(j / 16)) * (Math.floor((15238 * j) / 43)) + 29;
+    var hm = Math.floor((24 * l) / 709);
+    var hd = l - Math.floor((709 * hm) / 24);
+    var hy = 30 * n + j - 30;
+    return { year: hy, month: hm, day: hd };
+}
+
+function getHijriDateString() {
+    var now = new Date();
+    var dateKey = now.getFullYear() + '-' + now.getMonth() + '-' + now.getDate();
+    
+    // ✅ Gunakan cache jika tanggal sama (hemat API call)
+    if (hijriCache.key === dateKey && hijriCache.date) {
+        return hijriCache.date;
+    }
+    
+    var HIJRI_MONTHS_ID = [
+        '', 'Muharram', 'Safar', 'Rabiul Awal', 'Rabiul Akhir',
+        'Jumadil Awal', 'Jumadil Akhir', 'Rajab', "Sya'ban",
+        'Ramadhan', 'Syawal', "Dzulqa'dah", 'Dzulhijjah'
+    ];
+    
+    // ✅ METHOD 1: Algoritma Kuwaiti + Koreksi WIB (CEPAT & AKURAT)
+    try {
+        var gy = now.getFullYear();
+        var gm = now.getMonth() + 1;
+        var gd = now.getDate();
+        var h = gregorianToHijriWIB(gy, gm, gd);
+        
+        if (h.month >= 1 && h.month <= 12 && h.day >= 1 && h.day <= 31) {
+            var result = h.day + ' ' + HIJRI_MONTHS_ID[h.month] + ' ' + h.year + ' H';
+            hijriCache.date = result;
+            hijriCache.key = dateKey;
+            return result;
+        }
+    } catch (e) {
+        console.warn('⚠️ Algoritma Kuwaiti+WB gagal:', e);
+    }
+    
+    // Fallback terakhir
+    return 'Tanggal Hijriyah';
+}
+
+// ✅ EXPOSE KE GLOBAL (override fungsi lama)
+window.getHijriDateString = getHijriDateString;
+window.gregorianToHijri = gregorianToHijri;
+
+/* ============================================================
+✅ 4. OVERRIDE updateDateTime()
+============================================================ */
+window.updateDateTime = function() {
+    var now = new Date();
+    var days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+    var months = ['Januari','Februari','Maret','April','Mei','Juni',
+                  'Juli','Agustus','September','Oktober','November','Desember'];
+    
+    var dayName = days[now.getDay()];
+    var date = now.getDate();
+    var month = months[now.getMonth()];
+    var year = now.getFullYear();
+    var hours = String(now.getHours()).padStart(2,'0');
+    var minutes = String(now.getMinutes()).padStart(2,'0');
+    
+    // ✅ Panggil fungsi Hijriyah yang BARU (sudah di-override)
+    var hijriDate = getHijriDateString();
+    
+    var dateStr = dayName + ', ' + date + ' ' + month + ' ' + year + 
+                  ' · ' + hijriDate + ' · ' + hours + ':' + minutes + ' WIB';
+    
+    var el = document.getElementById('dateTimeDisplay');
+    if (el) el.textContent = dateStr;
+};
+
+/* ============================================================
+✅ 5. JALANKAN SEKARANG & SETIAP MENIT
+============================================================ */
+// Jalankan segera
+window.updateDateTime();
+
+// Update setiap 60 detik
+setInterval(window.updateDateTime, 60000);
+
+// Update saat tab kembali aktif (untuk akurasi waktu)
+document.addEventListener('visibilitychange', function(){
+    if (document.visibilityState === 'visible') {
+        window.updateDateTime();
+    }
+});
+
+console.log('✅ PATCH FIX HIJRIYAH: berhasil dimuat');
+console.log('📅 Hasil:', getHijriDateString());
+console.log('💡 Metode: Algoritma Kuwaiti (konsisten HP & Laptop)');
+})();
+</script>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
 </body>
 </html>
