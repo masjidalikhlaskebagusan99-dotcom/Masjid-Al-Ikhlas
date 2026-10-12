@@ -20819,6 +20819,33 @@ body .page-content .sub-hero .sub-subtitle {
     console.log('💡 Tidak ada preventDefault - navigasi HP normal');
     console.log('💡 Dropdown tutup otomatis setelah item diklik');
 })();
-</script>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+</script> 
+<!-- ============================================
+✅ PATCH: CENTER KALIGRAFI ARAB HEADER MASJID
+- Memaksa teks Arab "Masjid Jami Al-Ikhlas" jadi center
+- Tidak merusak layout header lainnya
+============================================ -->
+<style>
+.masjid-page .kaligrafi-arab {
+    text-align: center !important;
+    text-align-last: center !important;
+    display: block !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    direction: rtl !important; /* Tetap RTL agar huruf Arab benar */
+}
+
+/* Opsional: Center-kan juga garis pembatas (۞) dan Judul Latin di bawahnya agar simetris */
+.masjid-page .kaligrafi-divider {
+    justify-content: center !important;
+}
+.masjid-page header.m-header h1,
+.masjid-page header.m-header .tagline {
+    text-align: center !important;
+    display: block !important;
+    width: 100% !important;
+}
+</style>
 </body>
 </html>
