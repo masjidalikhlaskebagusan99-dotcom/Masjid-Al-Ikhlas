@@ -1643,6 +1643,275 @@ margin-left:8px;
 background:rgba(155,89,182,0.15);
 color:#bb86fc;
 }
+/* ============================================
+✅ PATCH BONUS: KONTROL UKURAN FONT SIDEBAR
+============================================ */
+.font-size-controls{
+    display:flex;
+    gap:5px;
+    margin-bottom:10px;
+    padding:8px;
+    background:linear-gradient(135deg,rgba(201,168,76,0.08),rgba(45,27,78,0.4));
+    border-radius:10px;
+    border:1px solid rgba(201,168,76,0.25);
+    position:sticky;
+    top:0;
+    z-index:10;
+    backdrop-filter:blur(8px);
+}
+
+.font-size-btn{
+    flex:1;
+    padding:8px 4px;
+    background:rgba(201,168,76,0.12);
+    border:1px solid rgba(201,168,76,0.4);
+    border-radius:8px;
+    color:#e8d48b;
+    font-weight:700;
+    cursor:pointer;
+    font-family:inherit;
+    transition:all 0.2s;
+    touch-action:manipulation;
+    -webkit-tap-highlight-color:transparent;
+    user-select:none;
+    -webkit-user-select:none;
+    min-height:36px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:0.82rem;
+}
+
+.font-size-btn:hover{
+    background:rgba(201,168,76,0.25);
+    transform:translateY(-1px);
+}
+
+.font-size-btn:active{
+    transform:scale(0.95);
+}
+
+.font-size-btn.active{
+    background:linear-gradient(135deg,#c9a84c,#e8d48b);
+    color:#1a0a2e;
+    border-color:#c9a84c;
+    box-shadow:0 3px 10px rgba(201,168,76,0.4);
+}
+
+/* Label ukuran */
+.font-size-controls .fs-label{
+    color:#c9a84c;
+    font-size:0.68rem;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    display:flex;
+    align-items:center;
+    padding:0 6px;
+    flex-shrink:0;
+}
+
+.font-size-controls .fs-label::before{
+    content:'🔤';
+    margin-right:4px;
+}
+
+/* ============================================
+✅ RESPONSIVE: MOBILE
+============================================ */
+@media (max-width:900px){
+    .font-size-controls{
+        padding:6px;
+        gap:4px;
+    }
+    .font-size-btn{
+        padding:6px 3px;
+        font-size:0.72rem;
+        min-height:32px;
+    }
+    .font-size-controls .fs-label{
+        font-size:0.62rem;
+        padding:0 4px;
+    }
+}
+
+@media (max-width:400px){
+    .font-size-btn{
+        padding:5px 2px;
+        font-size:0.68rem;
+    }
+    .font-size-controls .fs-label{
+        display:none;
+    }
+}
+/* ============================================
+✅ PATCH: UBAH TOMBOL FONT SIZE → A, A+, A++, A+++
+============================================ */
+/* Override tombol font size lama */
+.font-size-controls .font-size-btn{
+    padding: 7px 4px !important;
+    font-size: 0.78rem !important;
+    min-height: 34px !important;
+}
+
+/* Style khusus untuk tombol A+++ (level terbesar) */
+.font-size-btn[data-level="XL"]{
+    font-weight: 900 !important;
+    letter-spacing: -0.5px !important;
+}
+/* ============================================
+✅ PATCH: SEMBUNYIKAN TOMBOL "LANGSUNG KE KONTEN"
+- Tombol scroll-to-content-btn disembunyikan
+- Visual cue "↓ Scroll untuk konten" dihilangkan
+- Sticky header sub-hero tetap berfungsi normal
+============================================ */
+.scroll-to-content-btn {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    position: absolute !important;
+    z-index: -1 !important;
+}
+
+.page-content .sub-hero::after {
+    content: none !important;
+    display: none !important;
+}
+/* ============================================
+✅ PATCH: CENTER SUB-HERO (JUDUL HALAMAN)
+- Teks Arab: center
+- Judul h2: center
+- Subtitle: center
+- Berlaku untuk semua halaman split-container
+============================================ */
+.sub-hero {
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Teks Arab di sub-hero */
+.sub-hero .sub-arabic {
+    text-align: center !important;
+    display: block !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/* Judul h2 */
+.sub-hero h2 {
+    text-align: center !important;
+    text-align-last: center !important;
+    display: block !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/* Subtitle */
+.sub-hero .sub-subtitle {
+    text-align: center !important;
+    display: block !important;
+    width: 100% !important;
+    max-width: 800px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/* ============================================
+✅ RESPONSIVE: MOBILE
+============================================ */
+@media (max-width: 900px) {
+    .sub-hero .sub-arabic {
+        font-size: 1.6rem !important;
+    }
+    .sub-hero h2 {
+        font-size: 1.3rem !important;
+    }
+    .sub-hero .sub-subtitle {
+        font-size: 0.82rem !important;
+        padding: 0 10px !important;
+    }
+}
+
+@media (max-width: 400px) {
+    .sub-hero .sub-arabic {
+        font-size: 1.3rem !important;
+    }
+    .sub-hero h2 {
+        font-size: 1.1rem !important;
+    }
+}
+/* ============================================
+✅ PATCH: PERBESAR FONT MENU & DROPDOWN NAVBAR
+============================================ */
+
+/* === DESKTOP: MENU UTAMA (BARIS 2) === */
+.nav-menu > li > a {
+    font-size: 16px !important;        /* Diperbesar dari 14px */
+    padding: 14px 20px !important;     /* Ruang lebih lega */
+    font-weight: 600 !important;       /* Sedikit lebih tebal */
+    letter-spacing: 0.3px !important;
+}
+
+/* === DESKTOP: DROPDOWN MENU === */
+.dropdown li a {
+    font-size: 15px !important;        /* Diperbesar dari 14px */
+    padding: 14px 22px !important;     /* Ruang lebih lega */
+}
+
+/* === ICON DI DALAM DROPDOWN === */
+.dropdown li a .menu-icon {
+    width: 36px !important;
+    height: 36px !important;
+    font-size: 16px !important;
+    margin-right: 4px !important;
+}
+
+/* === PANAH DROPDOWN (▼) === */
+.dropdown-arrow {
+    font-size: 12px !important;
+    margin-left: 4px !important;
+}
+
+/* ============================================
+✅ RESPONSIVE: TABLET & MOBILE (≤ 900px)
+============================================ */
+@media (max-width: 900px) {
+    .nav-menu > li > a {
+        font-size: 14px !important;    /* Diperbesar dari 12px */
+        padding: 10px 14px !important;
+    }
+    .dropdown li a {
+        font-size: 14px !important;    /* Diperbesar dari 14px */
+        padding: 12px 18px !important;
+    }
+    .dropdown li a .menu-icon {
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 15px !important;
+    }
+}
+
+/* ============================================
+✅ RESPONSIVE: HP KECIL (≤ 480px)
+============================================ */
+@media (max-width: 480px) {
+    .nav-menu > li > a {
+        font-size: 16px !important;    /* Diperbesar dari 11px */
+        padding: 9px 12px !important;
+    }
+    .dropdown li a {
+        font-size: 16px !important;
+        padding: 10px 15px !important;
+    }
+}
 </style>
 </head>
 <body>
@@ -19884,6 +20153,672 @@ console.log('✅ PATCH FIX HIJRIYAH: berhasil dimuat');
 console.log('📅 Hasil:', getHijriDateString());
 console.log('💡 Metode: Algoritma Kuwaiti (konsisten HP & Laptop)');
 })();
-</script>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+</script>
+<!-- ============================================
+✅ PATCH BONUS: KONTROL UKURAN FONT SIDEBAR
+- 4 level: S (kecil), M (normal), L (besar), XL (sangat besar)
+- Tersimpan di localStorage (per-device)
+- Berlaku untuk semua sidebar
+============================================ -->
+<script>
+(function(){
+'use strict';
+console.log('🟢 PATCH FONT SIZE CONTROLS: dimuat...');
+
+/* ============================================================
+✅ KONFIGURASI 4 LEVEL UKURAN
+============================================================ */
+var FONT_LEVELS = {
+    S:  { btn: '0.72rem', text: '0.70rem', icon: '0.95rem',  heading: '0.78rem', badge: '0.62rem' },
+    M:  { btn: '0.85rem', text: '0.82rem', icon: '1.10rem',  heading: '0.85rem', badge: '0.72rem' },  // Default
+    L:  { btn: '0.95rem', text: '0.92rem', icon: '1.25rem',  heading: '0.95rem', badge: '0.80rem' },
+    XL: { btn: '1.08rem', text: '1.02rem', icon: '1.40rem',  heading: '1.08rem', badge: '0.88rem' }
+};
+
+var STORAGE_KEY = 'sidebar_font_size_v1';
+var currentLevel = 'M';
+
+/* ============================================================
+✅ FUNGSI: TERAPKAN UKURAN FONT
+============================================================ */
+function applyFontSize(level){
+    var config = FONT_LEVELS[level];
+    if(!config) return;
+    
+    currentLevel = level;
+    
+    // Simpan preferensi
+    try{ localStorage.setItem(STORAGE_KEY, level); }catch(e){}
+    
+    // === Target semua tombol sidebar ===
+    var selectors = [
+        '.split-sidebar .split-btn',
+        '.biografi-sidebar .ulama-button',
+        '.doa-sidebar .doa-button',
+        '.sholat-sidebar .sholat-button',
+        '.kitab-submenu-header',
+        '.kitab-jilid-btn',
+        '.kitab-menu-header'
+    ];
+    
+    var allBtns = document.querySelectorAll(selectors.join(','));
+    for(var i = 0; i < allBtns.length; i++){
+        var btn = allBtns[i];
+        btn.style.setProperty('font-size', config.btn, 'important');
+    }
+    
+    // === Target teks dalam tombol ===
+    var textSelectors = [
+        '.split-btn .btn-text',
+        '.ulama-button .btn-text',
+        '.doa-button .btn-text',
+        '.sholat-button .btn-text',
+        '.kitab-submenu-header .sm-text',
+        '.kitab-jilid-btn .jl-text',
+        '.kitab-menu-header .mm-text',
+        '.kitab-author-small'
+    ];
+    
+    var allTexts = document.querySelectorAll(textSelectors.join(','));
+    for(var j = 0; j < allTexts.length; j++){
+        allTexts[j].style.setProperty('font-size', config.text, 'important');
+    }
+    
+    // === Target icon ===
+    var iconSelectors = [
+        '.split-btn .btn-icon',
+        '.ulama-button .btn-icon',
+        '.doa-button .btn-icon',
+        '.sholat-button .btn-icon',
+        '.kitab-submenu-header .sm-icon',
+        '.kitab-jilid-btn .jl-icon',
+        '.kitab-menu-header .mm-icon'
+    ];
+    
+    var allIcons = document.querySelectorAll(iconSelectors.join(','));
+    for(var k = 0; k < allIcons.length; k++){
+        allIcons[k].style.setProperty('font-size', config.icon, 'important');
+    }
+    
+    // === Target heading (h4 di sidebar) ===
+    var headingSelectors = [
+        '.split-sidebar h4',
+        '.biografi-sidebar h4',
+        '.doa-sidebar h4',
+        '.sholat-sidebar h4'
+    ];
+    
+    var allHeadings = document.querySelectorAll(headingSelectors.join(','));
+    for(var l = 0; l < allHeadings.length; l++){
+        allHeadings[l].style.setProperty('font-size', config.heading, 'important');
+    }
+    
+    // === Target badge (angka jumlah) ===
+    var badgeSelectors = [
+        '.split-btn .btn-count',
+        '.doa-button .btn-count',
+        '.sholat-button .btn-count',
+        '.kitab-jilid-btn .jl-badge'
+    ];
+    
+    var allBadges = document.querySelectorAll(badgeSelectors.join(','));
+    for(var m = 0; m < allBadges.length; m++){
+        allBadges[m].style.setProperty('font-size', config.badge, 'important');
+    }
+    
+    // === Target search input ===
+    var searchInputs = document.querySelectorAll('.sub-search');
+    for(var n = 0; n < searchInputs.length; n++){
+        searchInputs[n].style.setProperty('font-size', config.btn, 'important');
+    }
+    
+    // === Update active state pada tombol kontrol ===
+    var allControlBtns = document.querySelectorAll('.font-size-btn');
+    for(var o = 0; o < allControlBtns.length; o++){
+        allControlBtns[o].classList.remove('active');
+        if(allControlBtns[o].getAttribute('data-level') === level){
+            allControlBtns[o].classList.add('active');
+        }
+    }
+    
+    console.log('✅ Font size diubah ke level:', level);
+}
+
+/* ============================================================
+✅ FUNGSI: BUAT TOMBOL KONTROL
+============================================================ */
+function createControls(){
+    var controls = document.createElement('div');
+    controls.className = 'font-size-controls';
+    controls.innerHTML = 
+        '<span class="fs-label">Ukuran:</span>' +
+        '<button class="font-size-btn" data-level="S" onclick="window.applySidebarFontSize(\'S\')" title="Kecil">A−</button>' +
+        '<button class="font-size-btn active" data-level="M" onclick="window.applySidebarFontSize(\'M\')" title="Normal">A</button>' +
+        '<button class="font-size-btn" data-level="L" onclick="window.applySidebarFontSize(\'L\')" title="Besar">A+</button>' +
+        '<button class="font-size-btn" data-level="XL" onclick="window.applySidebarFontSize(\'XL\')" title="Sangat Besar">A++</button>';
+    return controls;
+}
+
+/* ============================================================
+✅ FUNGSI: SISIPKAN KE SEMUA SIDEBAR
+============================================================ */
+function insertControlsToSidebars(){
+    var sidebarSelectors = [
+        '.split-sidebar',
+        '.biografi-sidebar',
+        '.doa-sidebar',
+        '.sholat-sidebar'
+    ];
+    
+    for(var i = 0; i < sidebarSelectors.length; i++){
+        var sidebars = document.querySelectorAll(sidebarSelectors[i]);
+        for(var j = 0; j < sidebars.length; j++){
+            var sidebar = sidebars[j];
+            
+            // Skip jika sudah ada kontrol
+            if(sidebar.querySelector('.font-size-controls')) continue;
+            
+            var controls = createControls();
+            
+            // Cari search input untuk sisipkan setelahnya
+            var searchInput = sidebar.querySelector('.sub-search');
+            if(searchInput && searchInput.nextSibling){
+                sidebar.insertBefore(controls, searchInput.nextSibling);
+            } else {
+                // Jika tidak ada search, sisipkan di awal
+                sidebar.insertBefore(controls, sidebar.firstChild);
+            }
+        }
+    }
+}
+
+/* ============================================================
+✅ EXPOSE KE GLOBAL
+============================================================ */
+window.applySidebarFontSize = applyFontSize;
+
+/* ============================================================
+✅ INISIALISASI
+============================================================ */
+function init(){
+    // Sisipkan tombol kontrol ke semua sidebar
+    insertControlsToSidebars();
+    
+    // Load preferensi tersimpan
+    var savedLevel = 'M';
+    try{
+        savedLevel = localStorage.getItem(STORAGE_KEY) || 'M';
+    }catch(e){}
+    
+    // Terapkan ukuran font
+    if(FONT_LEVELS[savedLevel]){
+        applyFontSize(savedLevel);
+    }
+    
+    console.log('✅ PATCH FONT SIZE CONTROLS: aktif (level: ' + savedLevel + ')');
+}
+
+// Jalankan saat DOM siap
+if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', function(){
+        setTimeout(init, 300);
+    });
+} else {
+    setTimeout(init, 300);
+}
+
+// Hook ke showPage untuk re-init saat pindah halaman
+var _origShowPage = window.showPage;
+window.showPage = function(pageId){
+    if(_origShowPage) _origShowPage(pageId);
+    setTimeout(function(){
+        insertControlsToSidebars();
+        // Terapkan ulang ukuran font (karena sidebar baru mungkin belum di-style)
+        applyFontSize(currentLevel);
+    }, 200);
+};
+
+// Re-init berkala (untuk sidebar yang muncul belakangan)
+setTimeout(init, 1000);
+setTimeout(init, 2500);
+
+})();
+</script>
+<!-- ============================================
+✅ PATCH: UBAH FONT SIZE CONTROLS → A, A+, A++, A+++
+- Menghilangkan tombol A−
+- Level baru: A (kecil), A+ (normal), A++ (besar), A+++ (sangat besar)
+============================================ -->
+<script>
+(function(){
+'use strict';
+console.log('🟢 PATCH FONT SIZE v2 (A, A+, A++, A+++): dimuat...');
+
+/* ============================================================
+✅ KONFIGURASI 4 LEVEL BARU
+============================================================ */
+var FONT_LEVELS_NEW = {
+    S:  { btn: '0.78rem', text: '0.75rem', icon: '1.00rem',  heading: '0.82rem', badge: '0.65rem' },  // A (kecil)
+    M:  { btn: '0.88rem', text: '0.85rem', icon: '1.15rem',  heading: '0.92rem', badge: '0.75rem' },  // A+ (normal)
+    L:  { btn: '0.98rem', text: '0.95rem', icon: '1.30rem',  heading: '1.02rem', badge: '0.82rem' },  // A++ (besar)
+    XL: { btn: '1.10rem', text: '1.05rem', icon: '1.45rem',  heading: '1.12rem', badge: '0.90rem' }   // A+++ (sangat besar)
+};
+
+var STORAGE_KEY = 'sidebar_font_size_v2';
+var currentLevel = 'M'; // Default: A+
+
+/* ============================================================
+✅ FUNGSI: TERAPKAN UKURAN FONT
+============================================================ */
+function applyFontSize(level){
+    var config = FONT_LEVELS_NEW[level];
+    if(!config) return;
+    
+    currentLevel = level;
+    
+    // Simpan preferensi
+    try{ localStorage.setItem(STORAGE_KEY, level); }catch(e){}
+    
+    // Target semua tombol sidebar
+    var selectors = [
+        '.split-sidebar .split-btn',
+        '.biografi-sidebar .ulama-button',
+        '.doa-sidebar .doa-button',
+        '.sholat-sidebar .sholat-button',
+        '.kitab-submenu-header',
+        '.kitab-jilid-btn',
+        '.kitab-menu-header'
+    ];
+    
+    var allBtns = document.querySelectorAll(selectors.join(','));
+    for(var i = 0; i < allBtns.length; i++){
+        allBtns[i].style.setProperty('font-size', config.btn, 'important');
+    }
+    
+    // Target teks dalam tombol
+    var textSelectors = [
+        '.split-btn .btn-text',
+        '.ulama-button .btn-text',
+        '.doa-button .btn-text',
+        '.sholat-button .btn-text',
+        '.kitab-submenu-header .sm-text',
+        '.kitab-jilid-btn .jl-text',
+        '.kitab-menu-header .mm-text',
+        '.kitab-author-small'
+    ];
+    
+    var allTexts = document.querySelectorAll(textSelectors.join(','));
+    for(var j = 0; j < allTexts.length; j++){
+        allTexts[j].style.setProperty('font-size', config.text, 'important');
+    }
+    
+    // Target icon
+    var iconSelectors = [
+        '.split-btn .btn-icon',
+        '.ulama-button .btn-icon',
+        '.doa-button .btn-icon',
+        '.sholat-button .btn-icon',
+        '.kitab-submenu-header .sm-icon',
+        '.kitab-jilid-btn .jl-icon',
+        '.kitab-menu-header .mm-icon'
+    ];
+    
+    var allIcons = document.querySelectorAll(iconSelectors.join(','));
+    for(var k = 0; k < allIcons.length; k++){
+        allIcons[k].style.setProperty('font-size', config.icon, 'important');
+    }
+    
+    // Target heading
+    var headingSelectors = [
+        '.split-sidebar h4',
+        '.biografi-sidebar h4',
+        '.doa-sidebar h4',
+        '.sholat-sidebar h4'
+    ];
+    
+    var allHeadings = document.querySelectorAll(headingSelectors.join(','));
+    for(var l = 0; l < allHeadings.length; l++){
+        allHeadings[l].style.setProperty('font-size', config.heading, 'important');
+    }
+    
+    // Target badge
+    var badgeSelectors = [
+        '.split-btn .btn-count',
+        '.doa-button .btn-count',
+        '.sholat-button .btn-count',
+        '.kitab-jilid-btn .jl-badge'
+    ];
+    
+    var allBadges = document.querySelectorAll(badgeSelectors.join(','));
+    for(var m = 0; m < allBadges.length; m++){
+        allBadges[m].style.setProperty('font-size', config.badge, 'important');
+    }
+    
+    // Target search input
+    var searchInputs = document.querySelectorAll('.sub-search');
+    for(var n = 0; n < searchInputs.length; n++){
+        searchInputs[n].style.setProperty('font-size', config.btn, 'important');
+    }
+    
+    // Update active state pada tombol kontrol
+    var allControlBtns = document.querySelectorAll('.font-size-btn');
+    for(var o = 0; o < allControlBtns.length; o++){
+        allControlBtns[o].classList.remove('active');
+        if(allControlBtns[o].getAttribute('data-level') === level){
+            allControlBtns[o].classList.add('active');
+        }
+    }
+    
+    console.log('✅ Font size diubah ke level:', level);
+}
+
+/* ============================================================
+✅ FUNGSI: BUAT TOMBOL KONTROL BARU (A, A+, A++, A+++)
+============================================================ */
+function createControlsNew(){
+    var controls = document.createElement('div');
+    controls.className = 'font-size-controls';
+    controls.innerHTML = 
+        '<span class="fs-label">Ukuran:</span>' +
+        '<button class="font-size-btn" data-level="S" onclick="window.applySidebarFontSize(\'S\')" title="Kecil (A)">A</button>' +
+        '<button class="font-size-btn active" data-level="M" onclick="window.applySidebarFontSize(\'M\')" title="Normal (A+)">A+</button>' +
+        '<button class="font-size-btn" data-level="L" onclick="window.applySidebarFontSize(\'L\')" title="Besar (A++)">A++</button>' +
+        '<button class="font-size-btn" data-level="XL" onclick="window.applySidebarFontSize(\'XL\')" title="Sangat Besar (A+++)">A+++</button>';
+    return controls;
+}
+
+/* ============================================================
+✅ FUNGSI: GANTI TOMBOL LAMA DENGAN YANG BARU
+============================================================ */
+function replaceControlsInSidebars(){
+    var sidebarSelectors = [
+        '.split-sidebar',
+        '.biografi-sidebar',
+        '.doa-sidebar',
+        '.sholat-sidebar'
+    ];
+    
+    for(var i = 0; i < sidebarSelectors.length; i++){
+        var sidebars = document.querySelectorAll(sidebarSelectors[i]);
+        for(var j = 0; j < sidebars.length; j++){
+            var sidebar = sidebars[j];
+            
+            // Cari kontrol lama
+            var oldControls = sidebar.querySelector('.font-size-controls');
+            
+            if(oldControls){
+                // Ganti dengan yang baru
+                var newControls = createControlsNew();
+                oldControls.parentNode.replaceChild(newControls, oldControls);
+            } else {
+                // Jika belum ada, sisipkan
+                var searchInput = sidebar.querySelector('.sub-search');
+                var controls = createControlsNew();
+                if(searchInput && searchInput.nextSibling){
+                    sidebar.insertBefore(controls, searchInput.nextSibling);
+                } else {
+                    sidebar.insertBefore(controls, sidebar.firstChild);
+                }
+            }
+        }
+    }
+}
+
+/* ============================================================
+✅ EXPOSE KE GLOBAL
+============================================================ */
+window.applySidebarFontSize = applyFontSize;
+
+/* ============================================================
+✅ INISIALISASI
+============================================================ */
+function init(){
+    // Ganti tombol kontrol di semua sidebar
+    replaceControlsInSidebars();
+    
+    // Load preferensi tersimpan
+    var savedLevel = 'M';
+    try{
+        savedLevel = localStorage.getItem(STORAGE_KEY) || 'M';
+    }catch(e){}
+    
+    // Terapkan ukuran font
+    if(FONT_LEVELS_NEW[savedLevel]){
+        applyFontSize(savedLevel);
+    }
+    
+    console.log('✅ PATCH FONT SIZE v2: aktif (level: ' + savedLevel + ')');
+    console.log('💡 Tombol: A | A+ | A++ | A+++');
+}
+
+// Jalankan saat DOM siap
+if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', function(){
+        setTimeout(init, 300);
+    });
+} else {
+    setTimeout(init, 300);
+}
+
+// Hook ke showPage untuk re-init saat pindah halaman
+var _origShowPage = window.showPage;
+window.showPage = function(pageId){
+    if(_origShowPage) _origShowPage(pageId);
+    setTimeout(function(){
+        replaceControlsInSidebars();
+        applyFontSize(currentLevel);
+    }, 200);
+};
+
+// Re-init berkala
+setTimeout(init, 1000);
+setTimeout(init, 2500);
+
+})();
+</script> 
+<!-- ============================================
+✅ PATCH OVERRIDE: CENTER SUB-HERO JUDUL
+- Mengalahkan PATCH TEXT ALIGNMENT & FINAL v2
+- Selector lebih spesifik + !important
+- Berlaku untuk SEMUA halaman split-container
+============================================ -->
+<style>
+/* === PAKSA CENTER SEMUA JUDUL SUB-HERO === */
+.page-content.active .sub-hero,
+body .page-content .sub-hero {
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Teks Arab */
+.page-content.active .sub-hero .sub-arabic,
+body .page-content .sub-hero .sub-arabic {
+    text-align: center !important;
+    text-align-last: center !important;
+    direction: rtl !important;
+    display: block !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/* Judul h2 */
+.page-content.active .sub-hero h2,
+body .page-content .sub-hero h2 {
+    text-align: center !important;
+    text-align-last: center !important;
+    display: block !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    /* Pertahankan gradient text */
+    background: linear-gradient(135deg,#fff 0%,#e8d48b 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* Subtitle */
+.page-content.active .sub-hero .sub-subtitle,
+body .page-content .sub-hero .sub-subtitle {
+    text-align: center !important;
+    text-align-last: center !important;
+    display: block !important;
+    width: 100% !important;
+    max-width: 800px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/* === PAKSA CENTER SEMUA JUDUL HALAMAN MASJID === */
+.masjid-page .m-hero h2,
+.masjid-page section.m-section h2.section-title {
+    text-align: center !important;
+    text-align-last: center !important;
+    display: block !important;
+    width: 100% !important;
+    border-left: none !important;
+    padding-left: 0 !important;
+}
+
+.masjid-page .subtitle {
+    text-align: center !important;
+    display: block !important;
+    width: 100% !important;
+}
+
+/* === RESPONSIVE MOBILE === */
+@media (max-width: 900px) {
+    .page-content.active .sub-hero h2,
+    body .page-content .sub-hero h2 {
+        font-size: 1.4rem !important;
+    }
+    .page-content.active .sub-hero .sub-arabic,
+    body .page-content .sub-hero .sub-arabic {
+        font-size: 1.5rem !important;
+    }
+    .page-content.active .sub-hero .sub-subtitle,
+    body .page-content .sub-hero .sub-subtitle {
+        font-size: 0.85rem !important;
+        padding: 0 10px !important;
+    }
+}
+
+@media (max-width: 400px) {
+    .page-content.active .sub-hero h2,
+    body .page-content .sub-hero h2 {
+        font-size: 1.2rem !important;
+    }
+    .page-content.active .sub-hero .sub-arabic,
+    body .page-content .sub-hero .sub-arabic {
+        font-size: 1.3rem !important;
+    }
+}
+</style> 
+<!-- ============================================
+✅ PATCH DROPDOWN SENSITIF HP v2 (FINAL)
+- Hanya override showPage() untuk tutup dropdown
+- TIDAK pakai touchend/capture yang bermasalah
+- TIDAK pakai preventDefault yang blokir navigasi
+- Bekerja di semua device (HP & Laptop)
+============================================ -->
+<script>
+(function(){
+    'use strict';
+    console.log('🟢 PATCH DROPDOWN SENSITIF HP v2: dimuat...');
+    
+    /* ============================================================
+    ✅ 1. FUNGSI TUTUP SEMUA DROPDOWN (AMAN)
+    ============================================================ */
+    function tutupSemuaDropdown(){
+        var allLis = document.querySelectorAll('.nav-menu > li.open');
+        for(var i = 0; i < allLis.length; i++){
+            allLis[i].classList.remove('open');
+        }
+        // Hapus juga force-closed jika ada
+        var allForce = document.querySelectorAll('.nav-menu > li.force-closed');
+        for(var i = 0; i < allForce.length; i++){
+            allForce[i].classList.remove('force-closed');
+            allForce[i].removeAttribute('data-force-closed');
+        }
+    }
+    
+    /* ============================================================
+    ✅ 2. OVERRIDE showPage() - TUTUP DROPDOWN SETELAH NAVIGASI
+    ============================================================ */
+    var _origShowPage = window.showPage;
+    window.showPage = function(pageId){
+        // Panggil fungsi asli DULU (biarkan navigasi berjalan normal)
+        if(_origShowPage){
+            _origShowPage(pageId);
+        }
+        
+        // TUTUP dropdown SETELAH navigasi selesai
+        // Delay 100ms agar tidak mengganggu transisi halaman
+        setTimeout(function(){
+            tutupSemuaDropdown();
+        }, 100);
+        
+        console.log('✅ Navigasi ke:', pageId, '| Dropdown ditutup');
+    };
+    
+    /* ============================================================
+    ✅ 3. TAMBAH CLICK HANDLER PADA ITEM DROPDOWN (TANPA PREVENT)
+    ============================================================ */
+    // Tunggu sampai DOM siap, lalu pasang handler
+    function attachDropdownClickHandlers(){
+        var dropdownLinks = document.querySelectorAll('.nav-menu .dropdown li a');
+        for(var i = 0; i < dropdownLinks.length; i++){
+            var link = dropdownLinks[i];
+            
+            // Hindari double-attach
+            if(link.getAttribute('data-dh-attached') === '1') continue;
+            link.setAttribute('data-dh-attached', '1');
+            
+            // ✅ HANYA tambahkan listener, JANGAN preventDefault
+            link.addEventListener('click', function(){
+                // Tutup dropdown setelah klik (delay agar navigasi jalan dulu)
+                setTimeout(function(){
+                    tutupSemuaDropdown();
+                }, 50);
+            });
+        }
+    }
+    
+    /* ============================================================
+    ✅ 4. INIT - Pasang handler & retry untuk SPA
+    ============================================================ */
+    function init(){
+        attachDropdownClickHandlers();
+    }
+    
+    // Jalankan saat DOM ready
+    if(document.readyState === 'loading'){
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+    
+    // Retry untuk memastikan (karena dropdown bisa di-render ulang)
+    setTimeout(init, 500);
+    setTimeout(init, 1500);
+    setTimeout(init, 3000);
+    
+    // Re-init saat halaman berganti (untuk SPA)
+    var _origShowPageForInit = window.showPage;
+    window.showPage = function(pageId){
+        if(_origShowPageForInit) _origShowPageForInit(pageId);
+        // Re-attach handler setelah navigasi
+        setTimeout(attachDropdownClickHandlers, 200);
+    };
+    
+    console.log('✅ PATCH DROPDOWN SENSITIF HP v2: berhasil dimuat');
+    console.log('💡 Tidak ada preventDefault - navigasi HP normal');
+    console.log('💡 Dropdown tutup otomatis setelah item diklik');
+})();
+</script>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 </body>
 </html>
